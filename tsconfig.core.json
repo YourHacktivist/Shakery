@@ -1,0 +1,10 @@
+{
+  "//": "Pure code (core/ and shared/): no DOM, no Node, no Electron. Type-checking fails if one of them leaks in.",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": []
+  },
+  "include": ["src/core/**/*.ts", "src/shared/**/*.ts"],
+  "exclude": ["src/**/*.test.ts"]
+}

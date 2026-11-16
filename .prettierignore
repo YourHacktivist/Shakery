@@ -1,0 +1,13 @@
+out
+dist
+coverage
+test-results
+playwright-report
+node_modules
+package-lock.json
+design
+resources
+build
+docs/SPEC.md
+CLAUDE.md
+src/renderer/src/styles/tokens.css

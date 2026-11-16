@@ -1,0 +1,16 @@
+/**
+ * Closed list of IPC operations, named `domain.operation`.
+ *
+ * This file has no dependency on purpose: the sandboxed preload imports it to build
+ * `window.shakery`, and must stay free of third-party code. The Zod schemas of each
+ * operation live in `contract.ts`, which is checked to cover exactly this list.
+ */
+export const IPC_CHANNELS = ['app.getVersion'] as const
+
+export type IpcChannel = (typeof IPC_CHANNELS)[number]
+
+export const IPC_CHANNEL_PATTERN = /^[a-z][a-zA-Z]*\.[a-z][a-zA-Z]*$/
+
+export function isIpcChannel(value: unknown): value is IpcChannel {
+  return typeof value === 'string' && (IPC_CHANNELS as readonly string[]).includes(value)
+}

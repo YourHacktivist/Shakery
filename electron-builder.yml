@@ -1,0 +1,53 @@
+appId: app.shakery.desktop
+productName: Shakery
+copyright: Shakery
+
+directories:
+  buildResources: build
+  output: dist
+
+files:
+  - out/**
+  - package.json
+  - resources/**
+  - '!**/*.map'
+
+asar: true
+
+# Section 6: fuses applied to the Electron binary at packaging time.
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  onlyLoadAppFromAsar: true
+  enableEmbeddedAsarIntegrityValidation: true
+  enableCookieEncryption: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  # Code signing is prepared but not enabled: the decision belongs to the user (section 13.3).
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  artifactName: ${productName}-${version}-setup.${ext}
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  category: public.app-category.lifestyle
+  hardenedRuntime: true
+  # No signing identity and no notarization until the user decides (section 13.3).
+  identity: null
+  notarize: false
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+publish: null
