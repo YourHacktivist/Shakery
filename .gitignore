@@ -1,0 +1,15 @@
+node_modules/
+out/
+dist/
+coverage/
+test-results/
+playwright-report/
+scripts/seed/.cache/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+
+# Personal data extracted from the MAF notebooks, imported as user data, never committed
+imports/

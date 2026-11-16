@@ -1,0 +1,75 @@
+/*
+ * Shakery : tokens de design (section 11 de docs/SPEC.md), prêts pour Tailwind CSS v4.
+ *
+ * À importer après `@import "tailwindcss";` dans la feuille principale du renderer.
+ *
+ * Attention : dans Tailwind v4, le préfixe `--text-*` est réservé aux tailles de police.
+ * Les couleurs de texte que la spec nomme --text-primary, --text-secondary et --text-muted
+ * sont donc déclarées ici en --color-fg, --color-fg-secondary et --color-fg-muted
+ * (classes text-fg, text-fg-secondary, text-fg-muted).
+ *
+ * Les chemins des polices sont relatifs à ce fichier : à adapter quand les polices
+ * seront copiées dans src/renderer/src/styles/.
+ */
+
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 300; font-display: swap; src: url("./assets/fonts/manrope-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 400; font-display: swap; src: url("./assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 500; font-display: swap; src: url("./assets/fonts/manrope-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 600; font-display: swap; src: url("./assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 700; font-display: swap; src: url("./assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); }
+
+@theme {
+  /* Surfaces */
+  --color-bg-base: #0A0807;
+  --color-surface-1: #120D0B;
+  --color-surface-2: #1A1310;
+  --color-border: rgb(255 235 220 / 0.07);
+  --color-border-strong: rgb(255 235 220 / 0.14);
+  --color-glass-fill: rgb(26 19 16 / 0.72);
+
+  /* Texte (voir l'avertissement en tête de fichier) */
+  --color-fg: #F5EFEA;
+  --color-fg-secondary: #B9ADA5;
+  --color-fg-muted: #8E827A;
+
+  /* Accent unique, issu du logo */
+  --color-accent: #EF782B;
+  --color-accent-soft: #F4B183;
+  --color-accent-deep: #A13817;
+  --color-accent-ink: #1A0B05;
+
+  /* États */
+  --color-status-ok: #3FBF8A;
+  --color-status-warning: #F2C94C;
+  --color-status-danger: #F05252;
+
+  /* Typographie */
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --text-caption: 12px;
+  --text-small: 13px;
+  --text-body: 14px;
+  --text-lead: 16px;
+  --text-heading: 20px;
+  --text-title: 28px;
+  --text-metric: 40px;
+  --text-display: 56px;
+
+  /* Rayons */
+  --radius-field: 10px;
+  --radius-nested: 12px;
+  --radius-card: 16px;
+  --radius-hero: 20px;
+
+  /* Animations : 150 à 250 ms, sans rebond */
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Dégradé de la carte héros, la seule surface en dégradé de l'interface */
+@utility bg-hero {
+  background: radial-gradient(120% 120% at 100% 0%, #A13817 0%, #3C140C 45%, #120D0B 100%);
+}
+
+/* Chiffres tabulaires pour les doses, notes et montants */
+@utility nums {
+  font-variant-numeric: tabular-nums;
+}

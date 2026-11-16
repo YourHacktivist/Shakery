@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Shakery – Kit de composants</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap">
+<style>body{margin:0;background:#0A0807}a{color:#F4B183}a:hover{color:#EF782B}input::placeholder{color:#8E827A}</style>
+</helmet>
+<div style="width: 1440px; height: 1920px; box-sizing: border-box; padding: 64px; overflow: hidden; font-family: 'Manrope', system-ui, sans-serif; background: #0A0807; color: #F5EFEA; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; gap: 40px">
+
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; align-items: center; gap: 20px">
+<div style="width: 64px; height: 64px; border-radius: 16px; background: radial-gradient(circle at 50% 40%, rgba(239,120,43,0.35) 0%, rgba(239,120,43,0) 70%), #120D0B; border: 1px solid rgba(255,235,220,0.07); display: flex; align-items: center; justify-content: center">
+<img src="/_blob/e6e25021283cbe1e1c880abf471e67cb" alt="Logo Shakery" style="width: 52px; height: 52px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 40px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1">Shakery — Kit de composants</h1>
+<p style="margin: 0; font-size: 14px; color: #B9ADA5">Tokens et composants de l'accueil. Valeurs de démonstration fictives.</p>
+</div>
+</div>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Manrope · licence OFL · thème sombre</span>
+</header>
+
+<section style="display: flex; flex-direction: column; gap: 20px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 01 · Tokens</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Couleurs</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); column-gap: 16px; row-gap: 12px">
+<div style="grid-column: span 5; font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Surfaces et bordures</div>
+<div style="grid-column: span 3; font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Texte</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #0A0807; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--bg-base</code><span style="font-size: 12px; color: #B9ADA5">#0A0807</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #120D0B; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--surface-1</code><span style="font-size: 12px; color: #B9ADA5">#120D0B</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--surface-2</code><span style="font-size: 12px; color: #B9ADA5">#1A1310</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #120D0B; border: 3px solid rgba(255,235,220,0.07); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--border</code><span style="font-size: 12px; color: #B9ADA5">rgba(255,235,220,0.07)</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #120D0B; border: 3px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--border-strong</code><span style="font-size: 12px; color: #B9ADA5">rgba(255,235,220,0.14)</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #F5EFEA; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--text-primary</code><span style="font-size: 12px; color: #B9ADA5">#F5EFEA</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #B9ADA5; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--text-secondary</code><span style="font-size: 12px; color: #B9ADA5">#B9ADA5</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #8E827A; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--text-muted</code><span style="font-size: 12px; color: #B9ADA5">#8E827A</span></div>
+</div>
+
+<div style="grid-column: span 4; font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em; padding-top: 8px">Accent</div>
+<div style="grid-column: span 3; font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em; padding-top: 8px">États</div>
+<div style="grid-column: span 1; font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em; padding-top: 8px">Contraste</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #EF782B"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--accent</code><span style="font-size: 12px; color: #B9ADA5">#EF782B</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #F4B183"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--accent-soft</code><span style="font-size: 12px; color: #B9ADA5">#F4B183</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #A13817"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--accent-deep</code><span style="font-size: 12px; color: #B9ADA5">#A13817</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #1A0B05; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--accent-ink</code><span style="font-size: 12px; color: #B9ADA5">#1A0B05</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #3FBF8A"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--status-ok</code><span style="font-size: 12px; color: #B9ADA5">#3FBF8A</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #F2C94C"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--status-warning</code><span style="font-size: 12px; color: #B9ADA5">#F2C94C</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #F05252"></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #F5EFEA">--status-danger</code><span style="font-size: 12px; color: #B9ADA5">#F05252</span></div>
+</div>
+<p style="margin: 0; font-size: 12px; line-height: 1.5; color: #B9ADA5">Texte blanc sur l'accent : environ 2,8:1, refusé. Boutons pleins en #F4B183 avec texte #1A0B05.</p>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1; min-height: 0">
+
+<div style="display: flex; flex-direction: column; gap: 32px; min-width: 0">
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 02 · Manrope</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Typographie</h2>
+</div>
+<div style="display: flex; flex-direction: column">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 4px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 56px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1">Negroni fumé</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">56 · 300 · nom en focus</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 4px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 40px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1">24,6 %</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">40 · 300 · grands chiffres</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 28px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15">Créations en cours</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">28 · 400 · titre d'écran</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 20px; font-weight: 500; line-height: 1.2">Atelier</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">20 · 500 · titre de section</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 16px; font-weight: 600; line-height: 1.25">Sour rhubarbe-estragon</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">16 · 600 · nom de carte</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 14px; font-weight: 400; line-height: 1.3">Ajouter 5 ml de citron vert à la prochaine version.</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">14 · 400 · texte</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 13px; font-weight: 500; color: #B9ADA5; line-height: 1.3">Dernière activité il y a 2 h</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">13 · 500 · texte secondaire</span>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 6px 0; border-bottom: 1px solid rgba(255,235,220,0.07)">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em; line-height: 1.3">Note globale</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">12 · 500 · libellé</span>
+</div>
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 10px 0 0">
+<div style="display: flex; flex-direction: column; align-items: flex-end; font-size: 16px; font-weight: 500; line-height: 1.5; min-width: 96px">
+<span>30,0 ml</span>
+<span>22,5 ml</span>
+<span>7,5 ml</span>
+</div>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; white-space: nowrap">chiffres tabulaires · les doses s'alignent</span>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 03 · Actions</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Boutons</h2>
+</div>
+<div style="display: grid; grid-template-columns: 88px repeat(4, max-content) 40px; column-gap: 12px; row-gap: 12px; align-items: center">
+<span></span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Plein</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Contour</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Discret</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Danger</span>
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Icône</span>
+
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Normal</span>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #F4B183; color: #1A0B05; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Enregistrer</button>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Comparer</button>
+<button type="button" style="height: 44px; padding: 0 14px; border-radius: 10px; border: none; background: transparent; color: #B9ADA5; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Annuler</button>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(240,82,82,0.4); background: transparent; color: #F05252; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Supprimer</button>
+<button type="button" aria-label="Ajouter" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Focus</span>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #F4B183; color: #1A0B05; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 0 0 2px #0A0807, 0 0 0 4px #EF782B">Enregistrer</button>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 0 0 2px #0A0807, 0 0 0 4px #EF782B">Comparer</button>
+<button type="button" style="height: 44px; padding: 0 14px; border-radius: 10px; border: none; background: transparent; color: #B9ADA5; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 0 0 2px #0A0807, 0 0 0 4px #EF782B">Annuler</button>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(240,82,82,0.4); background: transparent; color: #F05252; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 0 0 2px #0A0807, 0 0 0 4px #EF782B">Supprimer</button>
+<button type="button" aria-label="Ajouter" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; box-shadow: 0 0 0 2px #0A0807, 0 0 0 4px #EF782B"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+
+<span style="font-size: 12px; font-weight: 500; color: #8E827A">Désactivé</span>
+<button type="button" disabled="disabled" style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #F4B183; color: #1A0B05; font-family: inherit; font-size: 14px; font-weight: 600; opacity: 0.4">Enregistrer</button>
+<button type="button" disabled="disabled" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; font-family: inherit; font-size: 14px; font-weight: 600; opacity: 0.4">Comparer</button>
+<button type="button" disabled="disabled" style="height: 44px; padding: 0 14px; border-radius: 10px; border: none; background: transparent; color: #B9ADA5; font-family: inherit; font-size: 14px; font-weight: 600; opacity: 0.4">Annuler</button>
+<button type="button" disabled="disabled" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(240,82,82,0.4); background: transparent; color: #F05252; font-family: inherit; font-size: 14px; font-weight: 600; opacity: 0.4">Supprimer</button>
+<button type="button" disabled="disabled" aria-label="Ajouter" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; display: inline-flex; align-items: center; justify-content: center; padding: 0; opacity: 0.4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 04 · Se déplacer</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Navigation et filtres</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start">
+<nav aria-label="Exemple de navigation" style="display: flex; flex-direction: column; gap: 4px">
+<a href="#" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: #1A1310; border: 1px solid rgba(255,235,220,0.07); color: #F5EFEA; font-size: 14px; font-weight: 500; text-decoration: none; box-sizing: border-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF782B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>Accueil<span style="margin-left: auto; font-size: 12px; font-weight: 500; color: #8E827A">actif</span></a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: transparent; border: 1px solid transparent; color: #B9ADA5; font-size: 14px; font-weight: 500; text-decoration: none; box-sizing: border-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 18.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3"></path><path d="M7 15h10"></path></svg>Atelier<span style="margin-left: auto; font-size: 12px; font-weight: 500; color: #8E827A">normal</span></a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: transparent; border: 1px solid transparent; color: #B9ADA5; font-size: 14px; font-weight: 500; text-decoration: none; box-sizing: border-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"></path><path d="M9 9h6M9 13h4"></path></svg>Journal<span style="margin-left: auto; font-size: 12px; font-weight: 500; color: #8E827A">normal</span></a>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); color: #B9ADA5; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer">Toutes les familles<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+<button type="button" style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); color: #B9ADA5; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer">Trier : activité<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+<div role="group" aria-label="Vue des créations" style="display: inline-flex; align-self: flex-start; gap: 4px; padding: 4px; border-radius: 12px; background: #120D0B; border: 1px solid rgba(255,235,220,0.07)">
+<button type="button" aria-pressed="true" style="padding: 8px 14px; border-radius: 9px; background: #1A1310; border: none; color: #F5EFEA; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">En cours</button>
+<button type="button" aria-pressed="false" style="padding: 8px 14px; border-radius: 9px; background: transparent; border: none; color: #8E827A; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Favoris</button>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 12px; border-radius: 10px; background: #120D0B; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E827A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Rechercher</span>
+<input type="search" placeholder="Rechercher une fiche…" style="flex: 1; min-width: 0; height: 100%; background: transparent; border: none; outline: none; color: #F5EFEA; font-family: inherit; font-size: 14px">
+<kbd style="font-family: inherit; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(255,235,220,0.14); color: #B9ADA5">Ctrl K</kbd>
+</label>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 08 · Formes</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Rayons et espacements</h2>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px"><div style="width: 56px; height: 56px; border-radius: 10px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">10 · champs</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><div style="width: 56px; height: 56px; border-radius: 12px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">12 · imbriquées</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><div style="width: 56px; height: 56px; border-radius: 16px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">16 · cartes</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><div style="width: 56px; height: 56px; border-radius: 20px; background: #1A1310; border: 1px solid rgba(239,120,43,0.35); box-sizing: border-box"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">20 · héros</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><div style="width: 96px; height: 32px; border-radius: 999px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); box-sizing: border-box"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">999 · pastilles</span></div>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 20px; padding-top: 4px">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 4px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">4</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 8px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">8</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 12px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">12</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 16px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">16</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 24px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">24</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 32px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">32</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px"><div style="width: 40px; height: 24px; border-radius: 2px; background: rgba(239,120,43,0.45)"></div><span style="font-size: 12px; font-weight: 500; color: #8E827A">40 px · grille de 4</span></div>
+</div>
+</section>
+
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px; min-width: 0">
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 05 · États</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Badges</h2>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; width: 96px">Statut</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(242,201,76,0.12); color: #F2C94C; font-size: 12px; font-weight: 600">Idée</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(255,235,220,0.06); color: #B9ADA5; font-size: 12px; font-weight: 600">Brouillon</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(239,120,43,0.14); color: #F4B183; font-size: 12px; font-weight: 600">En test</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(63,191,138,0.12); color: #3FBF8A; font-size: 12px; font-weight: 600">Finale</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: transparent; border: 1px solid rgba(255,235,220,0.14); color: #8E827A; font-size: 12px; font-weight: 600; box-sizing: border-box">Archivée</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; width: 96px">Version, date limite</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 6px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); color: #B9ADA5; font-size: 12px; font-weight: 600; box-sizing: border-box">v4</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(63,191,138,0.12); color: #3FBF8A; font-size: 12px; font-weight: 600"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>4 jours</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(242,201,76,0.12); color: #F2C94C; font-size: 12px; font-weight: 600"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Expire demain</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(240,82,82,0.12); color: #F05252; font-size: 12px; font-weight: 600"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Expiré depuis 1 jour</span>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 06 · Mesures</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Indicateurs</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+
+<div style="background: #1A1310; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Degré</span>
+<div style="display: flex; align-items: baseline; gap: 4px">
+<span style="font-size: 40px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1">24,6</span>
+<span style="font-size: 20px; font-weight: 300; color: #B9ADA5">%</span>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: #B9ADA5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg>1,2 pt vs v3</span>
+<div role="img" aria-label="Degré 24,6 %, zone de référence de 22 à 27 %, version 3 à 25,8 %" style="position: relative; height: 28px; margin-top: 4px">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 10px; height: 8px; display: flex; justify-content: space-between; align-items: center">
+<span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span>
+</div>
+<div style="position: absolute; top: 10px; height: 8px; left: 35%; width: 25%; border-radius: 999px; background: rgba(239,120,43,0.18); border: 1px solid rgba(239,120,43,0.35); box-sizing: border-box"></div>
+<div style="position: absolute; top: 9px; left: calc(54% - 5px); width: 10px; height: 10px; border-radius: 999px; border: 2px solid #B9ADA5; background: #1A1310; box-sizing: border-box"></div>
+<div style="position: absolute; top: 7px; left: calc(48% - 7px); width: 14px; height: 14px; border-radius: 999px; background: #EF782B; border: 2px solid #120D0B; box-shadow: 0 0 0 3px rgba(239,120,43,0.25); box-sizing: border-box"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 11px; color: #8E827A">
+<span>15 %</span><span>zone 22–27 %</span><span>35 %</span>
+</div>
+</div>
+
+<div style="background: #1A1310; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Jauge de référence, annotée</span>
+<div role="img" aria-label="Jauge : valeur actuelle 24,6 %, zone de référence 22 à 27 %, version 3 à 25,8 %" style="position: relative; height: 28px; margin-top: 8px">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 10px; height: 8px; display: flex; justify-content: space-between; align-items: center">
+<span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span><span style="width: 1px; height: 8px; background: rgba(255,235,220,0.14)"></span>
+</div>
+<div style="position: absolute; top: 10px; height: 8px; left: 35%; width: 25%; border-radius: 999px; background: rgba(239,120,43,0.18); border: 1px solid rgba(239,120,43,0.35); box-sizing: border-box"></div>
+<div style="position: absolute; top: 9px; left: calc(54% - 5px); width: 10px; height: 10px; border-radius: 999px; border: 2px solid #B9ADA5; background: #1A1310; box-sizing: border-box"></div>
+<div style="position: absolute; top: 7px; left: calc(48% - 7px); width: 14px; height: 14px; border-radius: 999px; background: #EF782B; border: 2px solid #120D0B; box-shadow: 0 0 0 3px rgba(239,120,43,0.25); box-sizing: border-box"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #B9ADA5"><span style="width: 24px; height: 8px; border-radius: 999px; background: rgba(239,120,43,0.18); border: 1px solid rgba(239,120,43,0.35); box-sizing: border-box; flex: none"></span>Zone de référence 22–27 % (5 fiches)</div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #B9ADA5"><span style="width: 14px; height: 14px; border-radius: 999px; background: #EF782B; border: 2px solid #120D0B; box-shadow: 0 0 0 3px rgba(239,120,43,0.25); box-sizing: border-box; flex: none; margin: 0 5px"></span>Valeur actuelle 24,6 %</div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #B9ADA5"><span style="width: 10px; height: 10px; border-radius: 999px; border: 2px solid #B9ADA5; box-sizing: border-box; flex: none; margin: 0 7px"></span>Version précédente (v3) 25,8 %</div>
+</div>
+</div>
+
+<div style="background: #1A1310; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Note par version</span>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #3FBF8A"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg>+0,6</span>
+</div>
+<svg viewBox="0 0 240 72" width="100%" height="72" role="img" aria-label="Note par version : 2,8, puis 3,1, 3,6 et 4,2 sur 5">
+<defs><linearGradient id="kitSparkPos" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EF782B" stop-opacity="0.18"></stop><stop offset="1" stop-color="#EF782B" stop-opacity="0"></stop></linearGradient></defs>
+<line x1="0" y1="40" x2="240" y2="40" stroke="rgba(255,235,220,0.10)" stroke-dasharray="3 4"></line>
+<path d="M12 54.2 L84 46.4 L156 33.4 L228 17.8 L228 72 L12 72 Z" fill="url(#kitSparkPos)"></path>
+<polyline points="12,54.2 84,46.4 156,33.4 228,17.8" fill="none" stroke="#EF782B" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter: drop-shadow(0 0 6px rgba(239,120,43,0.45))"></polyline>
+<circle cx="12" cy="54.2" r="3" fill="#1A1310" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="84" cy="46.4" r="3" fill="#1A1310" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="156" cy="33.4" r="3" fill="#1A1310" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="228" cy="17.8" r="3" fill="#1A1310" stroke="#EF782B" stroke-width="1.5"></circle>
+</svg>
+</div>
+
+<div style="background: #1A1310; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Variante en baisse</span>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #F05252"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg>−0,9</span>
+</div>
+<svg viewBox="0 0 240 72" width="100%" height="72" role="img" aria-label="Exemple de baisse : 4,1, puis 3,8, 3,5 et 3,2 sur 5">
+<defs><linearGradient id="kitSparkNeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F05252" stop-opacity="0.16"></stop><stop offset="1" stop-color="#F05252" stop-opacity="0"></stop></linearGradient></defs>
+<line x1="0" y1="40" x2="240" y2="40" stroke="rgba(255,235,220,0.10)" stroke-dasharray="3 4"></line>
+<path d="M12 20.4 L84 28.2 L156 36 L228 43.8 L228 72 L12 72 Z" fill="url(#kitSparkNeg)"></path>
+<polyline points="12,20.4 84,28.2 156,36 228,43.8" fill="none" stroke="#F05252" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter: drop-shadow(0 0 6px rgba(240,82,82,0.45))"></polyline>
+<circle cx="12" cy="20.4" r="3" fill="#1A1310" stroke="#F05252" stroke-width="1.5"></circle>
+<circle cx="84" cy="28.2" r="3" fill="#1A1310" stroke="#F05252" stroke-width="1.5"></circle>
+<circle cx="156" cy="36" r="3" fill="#1A1310" stroke="#F05252" stroke-width="1.5"></circle>
+<circle cx="228" cy="43.8" r="3" fill="#1A1310" stroke="#F05252" stroke-width="1.5"></circle>
+</svg>
+</div>
+
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid rgba(255,235,220,0.07); padding-top: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.08em; text-transform: uppercase">Section 07 · Conteneurs</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 500">Cartes</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: stretch">
+
+<div style="background: radial-gradient(120% 120% at 100% 0%, #A13817 0%, #3C140C 45%, #120D0B 100%); border: 1px solid rgba(239,120,43,0.35); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 600; color: #F4B183; letter-spacing: 0.01em">Atelier</span>
+<h3 style="margin: 0; font-size: 22px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.2">Crée, ajuste, goûte.</h3>
+</div>
+<img src="/_blob/ac358c43094988895d98b84ca55d1fcd" alt="Logo Shakery" style="width: 88px; height: 88px; flex: none">
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #F5EFEA">Ouvre une fiche et vois le degré, le sucre et l'acidité bouger avec chaque dose.</p>
+<div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto">
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #F4B183; color: #1A0B05; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Ouvrir l'atelier</button>
+<button type="button" style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.24); background: rgba(10,8,7,0.25); color: #F5EFEA; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Noter une idée</button>
+</div>
+</div>
+
+<div style="background: #120D0B; border: 1px solid rgba(255,235,220,0.07); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(239,120,43,0.14); color: #F4B183; font-size: 12px; font-weight: 600">En test</span>
+<span style="display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 6px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); color: #B9ADA5; font-size: 12px; font-weight: 600; box-sizing: border-box">v4</span>
+<a href="#" aria-label="Ouvrir la fiche Negroni fumé" style="margin-left: auto; width: 32px; height: 32px; border-radius: 999px; border: 1px solid rgba(255,235,220,0.14); color: #F5EFEA; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Spirit-forward</span>
+<span style="font-size: 16px; font-weight: 600">Negroni fumé</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Note globale</span>
+<div style="display: flex; align-items: baseline; gap: 6px">
+<span style="font-size: 40px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1">4,2</span>
+<span style="font-size: 16px; font-weight: 400; color: #8E827A">/5</span>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #3FBF8A"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg>+0,6 vs v3</span>
+</div>
+<svg viewBox="0 0 240 72" width="100%" height="72" role="img" aria-label="Note de Negroni fumé par version : 2,8, puis 3,1, 3,6 et 4,2 sur 5">
+<defs><linearGradient id="kitSparkCard" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EF782B" stop-opacity="0.18"></stop><stop offset="1" stop-color="#EF782B" stop-opacity="0"></stop></linearGradient></defs>
+<line x1="0" y1="40" x2="240" y2="40" stroke="rgba(255,235,220,0.10)" stroke-dasharray="3 4"></line>
+<path d="M12 54.2 L84 46.4 L156 33.4 L228 17.8 L228 72 L12 72 Z" fill="url(#kitSparkCard)"></path>
+<polyline points="12,54.2 84,46.4 156,33.4 228,17.8" fill="none" stroke="#EF782B" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter: drop-shadow(0 0 6px rgba(239,120,43,0.45))"></polyline>
+<circle cx="12" cy="54.2" r="3" fill="#120D0B" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="84" cy="46.4" r="3" fill="#120D0B" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="156" cy="33.4" r="3" fill="#120D0B" stroke="#EF782B" stroke-width="1.5"></circle>
+<circle cx="228" cy="17.8" r="3" fill="#120D0B" stroke="#EF782B" stroke-width="1.5"></circle>
+</svg>
+</div>
+
+<div style="background: #120D0B; border: 1px solid rgba(255,235,220,0.07); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Carte · surface-1</span>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #B9ADA5">Fond #120D0B, bordure de 1 px, rayon de 16 px, marge de 24 px.</p>
+<div style="background: #1A1310; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 500; color: #8E827A; letter-spacing: 0.01em">Carte imbriquée · surface-2</span>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #B9ADA5">Fond #1A1310, rayon de 12 px, marge de 16 px.</p>
+</div>
+</div>
+
+<div style="border: 1px dashed rgba(255,235,220,0.14); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; box-sizing: border-box">
+<div style="width: 40px; height: 40px; border-radius: 999px; background: #1A1310; border: 1px solid rgba(255,235,220,0.14); color: #F4B183; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></div>
+<span style="font-size: 14px; font-weight: 600">Aucune création en cours</span>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #B9ADA5">Note ta première idée avec Ctrl+N.</p>
+<button type="button" style="height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(255,235,220,0.14); background: transparent; color: #F5EFEA; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Noter une idée</button>
+</div>
+
+</div>
+</section>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1920}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
