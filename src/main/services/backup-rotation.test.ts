@@ -89,11 +89,20 @@ describe('selectBackupsToKeep', () => {
     expect(selectBackupsToKeep(entries)).toEqual(new Set(['close', 'pm1', 'pr1']))
   })
 
+  it('keeps recent manual backups, even several on the same day', () => {
+    const entries = [
+      entry('m1', local(2026, 11, 17, 9), 'manual'),
+      entry('m2', local(2026, 11, 17, 10), 'manual'),
+      entry('close', local(2026, 11, 17, 23), 'shutdown'),
+    ]
+    expect(selectBackupsToKeep(entries)).toEqual(new Set(['m1', 'm2', 'close']))
+  })
+
   it('limits safety backups to the policy', () => {
     const entries = Array.from({ length: 6 }, (_, i) =>
       entry(`pm${i}`, local(2026, 1, 1 + i * 30), 'pre-migration'),
     )
-    const kept = selectBackupsToKeep(entries, { daily: 0, weekly: 0, safety: 3 })
+    const kept = selectBackupsToKeep(entries, { daily: 0, weekly: 0, safety: 3, manual: 0 })
     expect(kept).toEqual(new Set(['pm5', 'pm4', 'pm3']))
   })
 

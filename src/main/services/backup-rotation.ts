@@ -3,7 +3,8 @@
  *
  * Kept: the newest backup of each of the `daily` most recent days that have one, the
  * newest of each of the `weekly` most recent ISO weeks that have one, and the
- * `safety` most recent backups taken before a migration or a restore (they protect
+ * `manual` most recent backups made on request, and the `safety` most recent
+ * backups taken before a migration or a restore (they protect
  * against a bad update or a wrong restore, whatever the day). Days and weeks are local
  * to the user's time zone.
  */
@@ -19,9 +20,10 @@ export type RotationPolicy = {
   readonly daily: number
   readonly weekly: number
   readonly safety: number
+  readonly manual: number
 }
 
-export const DEFAULT_ROTATION: RotationPolicy = { daily: 14, weekly: 8, safety: 3 }
+export const DEFAULT_ROTATION: RotationPolicy = { daily: 14, weekly: 8, safety: 3, manual: 5 }
 
 /** Local calendar day, e.g. "2026-11-17". */
 export function localDayKey(epochMs: number): string {
@@ -74,10 +76,14 @@ export function selectBackupsToKeep(
     ...newestPerKey(newestFirst, (e) => localDayKey(e.createdAt), policy.daily),
     ...newestPerKey(newestFirst, (e) => localIsoWeekKey(e.createdAt), policy.weekly),
   ])
-  for (const reason of ['pre-migration', 'pre-restore'] as const) {
+  for (const [reason, limit] of [
+    ['pre-migration', policy.safety],
+    ['pre-restore', policy.safety],
+    ['manual', policy.manual],
+  ] as const) {
     newestFirst
       .filter((e) => e.reason === reason)
-      .slice(0, policy.safety)
+      .slice(0, limit)
       .forEach((e) => keep.add(e.id))
   }
   return keep

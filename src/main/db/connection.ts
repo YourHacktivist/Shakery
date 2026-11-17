@@ -11,13 +11,20 @@ export function openDatabase(file: string, options: { readonly?: boolean } = {})
     readonly: options.readonly ?? false,
     fileMustExist: options.readonly ?? false,
   })
-  if (!options.readonly) {
-    sqlite.pragma('journal_mode = WAL')
-    sqlite.pragma('synchronous = NORMAL')
+  try {
+    if (!options.readonly) {
+      sqlite.pragma('journal_mode = WAL')
+      sqlite.pragma('synchronous = NORMAL')
+    }
+    sqlite.pragma('foreign_keys = ON')
+    sqlite.pragma('busy_timeout = 5000')
+    return sqlite
+  } catch (error) {
+    // A damaged file fails here. Close the handle, or Windows keeps the file locked and a
+    // restore could not replace it.
+    sqlite.close()
+    throw error
   }
-  sqlite.pragma('foreign_keys = ON')
-  sqlite.pragma('busy_timeout = 5000')
-  return sqlite
 }
 
 export type IntegrityResult = { readonly ok: true } | { readonly ok: false; readonly messages: string[] }

@@ -122,7 +122,7 @@ describe('BackupService', () => {
       mediaRoot,
       appVersion: '0.1.0',
       now: () => clock,
-      policy: { daily: 2, weekly: 0, safety: 0 },
+      policy: { daily: 2, weekly: 0, safety: 0, manual: 0 },
     })
     await backups.create(sqlite, 'daily')
     await rm(path.join(mediaRoot, 'recipes', 'r2.webp'))

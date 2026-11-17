@@ -139,7 +139,15 @@ export class BackupService {
   }
 
   /** Copies the database and its photos, checks the copy, then rotates. */
-  async create(sqlite: Sqlite, reason: BackupReason): Promise<BackupManifest> {
+  /**
+   * @param protect backups the rotation that follows must keep, whatever their age
+   *   (the one about to be restored).
+   */
+  async create(
+    sqlite: Sqlite,
+    reason: BackupReason,
+    options: { readonly protect?: readonly string[] } = {},
+  ): Promise<BackupManifest> {
     try {
       await mkdir(path.join(this.directory, MEDIA_STORE), { recursive: true })
     } catch (error) {
@@ -190,7 +198,7 @@ export class BackupService {
       media,
     }
     await writeFile(path.join(folder, MANIFEST_NAME), JSON.stringify(manifest, null, 2), 'utf8')
-    await this.rotate()
+    await this.rotate(options.protect)
     return manifest
   }
 
@@ -277,9 +285,10 @@ export class BackupService {
   }
 
   /** Deletes the backups outside the retention policy and the photos no one references. */
-  async rotate(): Promise<{ deleted: string[] }> {
+  async rotate(protect: readonly string[] = []): Promise<{ deleted: string[] }> {
     const manifests = await this.list()
     const keep = selectBackupsToKeep(manifests, this.policy)
+    for (const id of protect) keep.add(id)
     const deleted: string[] = []
     for (const manifest of manifests) {
       if (keep.has(manifest.id)) continue
