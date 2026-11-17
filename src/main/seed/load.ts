@@ -5,7 +5,7 @@
  * overwritten, and an entry the user deleted (soft delete) is never recreated, because
  * its seed_key is still in the table.
  */
-import { isNotNull } from 'drizzle-orm'
+import { isNotNull, isNull } from 'drizzle-orm'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
 import { BATCH_HINT_VALUES } from '../../shared/domain/reference'
@@ -127,6 +127,23 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
         .all()
         .map((row) => [row.seedKey ?? '', row.id] as const),
     )
+    // A user category may already hold the slug of a new seed entry: suffix the slug
+    // instead of failing the whole transaction on the unique index.
+    const liveSlugs = new Set(
+      tx
+        .select({ slug: categories.slug })
+        .from(categories)
+        .where(isNull(categories.deletedAt))
+        .all()
+        .map((row) => row.slug),
+    )
+    const freeSlug = (slug: string): string => {
+      let candidate = slug
+      for (let n = 2; liveSlugs.has(candidate); n += 1) candidate = `${slug}-${n}`
+      liveSlugs.add(candidate)
+      return candidate
+    }
+
     const pending = [...checked.categories]
     let progressed = true
     while (pending.length > 0 && progressed) {
@@ -151,7 +168,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
             createdAt: now,
             updatedAt: now,
             name: cat.name,
-            slug: cat.slug,
+            slug: freeSlug(cat.slug),
             parentId,
             sortOrder: cat.sort_order,
             batchHint: cat.batch_hint,

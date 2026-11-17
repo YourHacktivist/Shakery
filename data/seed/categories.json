@@ -1,0 +1,762 @@
+[
+  {
+    "seed_key": "cat.spirits",
+    "name": "Spiritueux",
+    "slug": "spiritueux",
+    "parent": null,
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.whisky",
+    "name": "Whiskies",
+    "slug": "whiskies",
+    "parent": "cat.spirits",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.whisky.scotch",
+    "name": "Scotch whisky",
+    "slug": "scotch-whisky",
+    "parent": "cat.spirits.whisky",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.whisky.american",
+    "name": "Whiskeys américains",
+    "slug": "whiskeys-americains",
+    "parent": "cat.spirits.whisky",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.whisky.irish",
+    "name": "Irish whiskey",
+    "slug": "irish-whiskey",
+    "parent": "cat.spirits.whisky",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.whisky.world",
+    "name": "Whiskies du monde",
+    "slug": "whiskies-du-monde",
+    "parent": "cat.spirits.whisky",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.rum",
+    "name": "Rhums",
+    "slug": "rhums",
+    "parent": "cat.spirits",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.rum.agricole",
+    "name": "Rhum agricole",
+    "slug": "rhum-agricole",
+    "parent": "cat.spirits.rum",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.rum.molasses",
+    "name": "Rhum de mélasse",
+    "slug": "rhum-de-melasse",
+    "parent": "cat.spirits.rum",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.cachaca",
+    "name": "Cachaça",
+    "slug": "cachaca",
+    "parent": "cat.spirits",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.tequila",
+    "name": "Tequila",
+    "slug": "tequila",
+    "parent": "cat.spirits",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.mezcal",
+    "name": "Mezcal et autres agaves",
+    "slug": "mezcal-et-autres-agaves",
+    "parent": "cat.spirits",
+    "sort_order": 5,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.vodka",
+    "name": "Vodka",
+    "slug": "vodka",
+    "parent": "cat.spirits",
+    "sort_order": 6,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.gin",
+    "name": "Gin et genièvre",
+    "slug": "gin-et-genievre",
+    "parent": "cat.spirits",
+    "sort_order": 7,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.cognac",
+    "name": "Cognac",
+    "slug": "cognac",
+    "parent": "cat.spirits",
+    "sort_order": 8,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.armagnac",
+    "name": "Armagnac",
+    "slug": "armagnac",
+    "parent": "cat.spirits",
+    "sort_order": 9,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.calvados",
+    "name": "Calvados et eaux-de-vie de cidre",
+    "slug": "calvados-et-eaux-de-vie-de-cidre",
+    "parent": "cat.spirits",
+    "sort_order": 10,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.brandy",
+    "name": "Brandies et pisco",
+    "slug": "brandies-et-pisco",
+    "parent": "cat.spirits",
+    "sort_order": 11,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.fruit_brandy",
+    "name": "Eaux-de-vie de fruits et marcs",
+    "slug": "eaux-de-vie-de-fruits-et-marcs",
+    "parent": "cat.spirits",
+    "sort_order": 12,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.anise",
+    "name": "Anisés et absinthe",
+    "slug": "anises-et-absinthe",
+    "parent": "cat.spirits",
+    "sort_order": 13,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.spirits.world",
+    "name": "Spiritueux du monde",
+    "slug": "spiritueux-du-monde",
+    "parent": "cat.spirits",
+    "sort_order": 14,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs",
+    "name": "Liqueurs et crèmes",
+    "slug": "liqueurs-et-cremes",
+    "parent": null,
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.orange",
+    "name": "Liqueurs d'orange et d'agrumes",
+    "slug": "liqueurs-d-orange-et-d-agrumes",
+    "parent": "cat.liqueurs",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.cherry_violet",
+    "name": "Marasquin, cerise et violette",
+    "slug": "marasquin-cerise-et-violette",
+    "parent": "cat.liqueurs",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.fruit",
+    "name": "Crèmes et liqueurs de fruits",
+    "slug": "cremes-et-liqueurs-de-fruits",
+    "parent": "cat.liqueurs",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.exotic",
+    "name": "Liqueurs exotiques",
+    "slug": "liqueurs-exotiques",
+    "parent": "cat.liqueurs",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.herbal",
+    "name": "Liqueurs de plantes",
+    "slug": "liqueurs-de-plantes",
+    "parent": "cat.liqueurs",
+    "sort_order": 5,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.spice_honey",
+    "name": "Liqueurs d'épices, de miel et de fleurs",
+    "slug": "liqueurs-d-epices-de-miel-et-de-fleurs",
+    "parent": "cat.liqueurs",
+    "sort_order": 6,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.coffee_cream",
+    "name": "Liqueurs de café, de cacao et à la crème",
+    "slug": "liqueurs-de-cafe-de-cacao-et-a-la-creme",
+    "parent": "cat.liqueurs",
+    "sort_order": 7,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.liqueurs.nut",
+    "name": "Liqueurs d'amande, de noix et de noisette",
+    "slug": "liqueurs-d-amande-de-noix-et-de-noisette",
+    "parent": "cat.liqueurs",
+    "sort_order": 8,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.bitters",
+    "name": "Amers et bitters",
+    "slug": "amers-et-bitters",
+    "parent": null,
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.bitters.aperitif",
+    "name": "Bitters apéritifs",
+    "slug": "bitters-aperitifs",
+    "parent": "cat.bitters",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.bitters.gentian",
+    "name": "Gentiane et amers français",
+    "slug": "gentiane-et-amers-francais",
+    "parent": "cat.bitters",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.bitters.amari",
+    "name": "Amari et liqueurs amères",
+    "slug": "amari-et-liqueurs-ameres",
+    "parent": "cat.bitters",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.bitters.aromatic",
+    "name": "Bitters cocktail",
+    "slug": "bitters-cocktail",
+    "parent": "cat.bitters",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines",
+    "name": "Vins, vins mutés et aromatisés",
+    "slug": "vins-vins-mutes-et-aromatises",
+    "parent": null,
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.vermouth",
+    "name": "Vermouths",
+    "slug": "vermouths",
+    "parent": "cat.wines",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.quinquina",
+    "name": "Quinquinas et apéritifs à base de vin",
+    "slug": "quinquinas-et-aperitifs-a-base-de-vin",
+    "parent": "cat.wines",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.sherry",
+    "name": "Xérès",
+    "slug": "xeres",
+    "parent": "cat.wines",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.port",
+    "name": "Porto, madère et marsala",
+    "slug": "porto-madere-et-marsala",
+    "parent": "cat.wines",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.vdn",
+    "name": "Vins doux naturels et vins de liqueur",
+    "slug": "vins-doux-naturels-et-vins-de-liqueur",
+    "parent": "cat.wines",
+    "sort_order": 5,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.wines.still",
+    "name": "Vins tranquilles",
+    "slug": "vins-tranquilles",
+    "parent": "cat.wines",
+    "sort_order": 6,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.sparkling",
+    "name": "Vins effervescents",
+    "slug": "vins-effervescents",
+    "parent": null,
+    "sort_order": 5,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.sparkling.champagne",
+    "name": "Champagne",
+    "slug": "champagne",
+    "parent": "cat.sparkling",
+    "sort_order": 1,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.sparkling.other",
+    "name": "Autres effervescents",
+    "slug": "autres-effervescents",
+    "parent": "cat.sparkling",
+    "sort_order": 2,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.beer_cider",
+    "name": "Bières, cidres et saké",
+    "slug": "bieres-cidres-et-sake",
+    "parent": null,
+    "sort_order": 6,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.beer_cider.beer",
+    "name": "Bières",
+    "slug": "bieres",
+    "parent": "cat.beer_cider",
+    "sort_order": 1,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.beer_cider.cider",
+    "name": "Cidres et poirés",
+    "slug": "cidres-et-poires",
+    "parent": "cat.beer_cider",
+    "sort_order": 2,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.beer_cider.sake",
+    "name": "Saké",
+    "slug": "sake",
+    "parent": "cat.beer_cider",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.alcohol_free",
+    "name": "Alternatives sans alcool",
+    "slug": "alternatives-sans-alcool",
+    "parent": null,
+    "sort_order": 7,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.alcohol_free.spirits",
+    "name": "Spiritueux sans alcool",
+    "slug": "spiritueux-sans-alcool",
+    "parent": "cat.alcohol_free",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.alcohol_free.aperitifs",
+    "name": "Apéritifs et amers sans alcool",
+    "slug": "aperitifs-et-amers-sans-alcool",
+    "parent": "cat.alcohol_free",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.sweeteners",
+    "name": "Sirops et sucres",
+    "slug": "sirops-et-sucres",
+    "parent": null,
+    "sort_order": 8,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.sweeteners.syrups",
+    "name": "Sirops et cordiaux du commerce",
+    "slug": "sirops-et-cordiaux-du-commerce",
+    "parent": "cat.sweeteners",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.sweeteners.sugars",
+    "name": "Sucres",
+    "slug": "sucres",
+    "parent": "cat.sweeteners",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.sweeteners.honey",
+    "name": "Miels",
+    "slug": "miels",
+    "parent": "cat.sweeteners",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.juices",
+    "name": "Jus et nectars",
+    "slug": "jus-et-nectars",
+    "parent": null,
+    "sort_order": 9,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.juices.citrus",
+    "name": "Jus d'agrumes frais",
+    "slug": "jus-d-agrumes-frais",
+    "parent": "cat.juices",
+    "sort_order": 1,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.juices.fresh",
+    "name": "Autres jus frais",
+    "slug": "autres-jus-frais",
+    "parent": "cat.juices",
+    "sort_order": 2,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.juices.bottled",
+    "name": "Jus et nectars en bouteille",
+    "slug": "jus-et-nectars-en-bouteille",
+    "parent": "cat.juices",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.fruits",
+    "name": "Fruits, légumes et purées",
+    "slug": "fruits-legumes-et-purees",
+    "parent": null,
+    "sort_order": 10,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.fruits.fresh",
+    "name": "Fruits et légumes frais",
+    "slug": "fruits-et-legumes-frais",
+    "parent": "cat.fruits",
+    "sort_order": 1,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.fruits.puree",
+    "name": "Purées et coulis",
+    "slug": "purees-et-coulis",
+    "parent": "cat.fruits",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.fruits.coconut",
+    "name": "Coco",
+    "slug": "coco",
+    "parent": "cat.fruits",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.dairy",
+    "name": "Œufs, laitages et émulsifiants",
+    "slug": "oeufs-laitages-et-emulsifiants",
+    "parent": null,
+    "sort_order": 11,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.dairy.eggs",
+    "name": "Œufs",
+    "slug": "oeufs",
+    "parent": "cat.dairy",
+    "sort_order": 1,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.dairy.milk",
+    "name": "Lait, crème et boissons végétales",
+    "slug": "lait-creme-et-boissons-vegetales",
+    "parent": "cat.dairy",
+    "sort_order": 2,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.dairy.emulsifiers",
+    "name": "Émulsifiants",
+    "slug": "emulsifiants",
+    "parent": "cat.dairy",
+    "sort_order": 3,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.mixers",
+    "name": "Eaux, sodas et tonics",
+    "slug": "eaux-sodas-et-tonics",
+    "parent": null,
+    "sort_order": 12,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.mixers.water",
+    "name": "Eau plate",
+    "slug": "eau-plate",
+    "parent": "cat.mixers",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.mixers.sparkling_water",
+    "name": "Eaux gazeuses",
+    "slug": "eaux-gazeuses",
+    "parent": "cat.mixers",
+    "sort_order": 2,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.mixers.tonic",
+    "name": "Tonics",
+    "slug": "tonics",
+    "parent": "cat.mixers",
+    "sort_order": 3,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.mixers.ginger",
+    "name": "Ginger beer et ginger ale",
+    "slug": "ginger-beer-et-ginger-ale",
+    "parent": "cat.mixers",
+    "sort_order": 4,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.mixers.sodas",
+    "name": "Sodas",
+    "slug": "sodas",
+    "parent": "cat.mixers",
+    "sort_order": 5,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.coffee_tea",
+    "name": "Café, thé et infusions",
+    "slug": "cafe-the-et-infusions",
+    "parent": null,
+    "sort_order": 13,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.coffee_tea.coffee",
+    "name": "Café",
+    "slug": "cafe",
+    "parent": "cat.coffee_tea",
+    "sort_order": 1,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.coffee_tea.cold_brew",
+    "name": "Café froid et cold brew",
+    "slug": "cafe-froid-et-cold-brew",
+    "parent": "cat.coffee_tea",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.coffee_tea.tea",
+    "name": "Thés et infusions",
+    "slug": "thes-et-infusions",
+    "parent": "cat.coffee_tea",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.seasonings",
+    "name": "Herbes, épices et assaisonnements",
+    "slug": "herbes-epices-et-assaisonnements",
+    "parent": null,
+    "sort_order": 14,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.seasonings.herbs",
+    "name": "Herbes et fleurs fraîches",
+    "slug": "herbes-et-fleurs-fraiches",
+    "parent": "cat.seasonings",
+    "sort_order": 1,
+    "batch_hint": "fresh"
+  },
+  {
+    "seed_key": "cat.seasonings.spices",
+    "name": "Épices",
+    "slug": "epices",
+    "parent": "cat.seasonings",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.seasonings.condiments",
+    "name": "Sel, sauces et condiments",
+    "slug": "sel-sauces-et-condiments",
+    "parent": "cat.seasonings",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.seasonings.extracts",
+    "name": "Arômes, extraits et eaux florales",
+    "slug": "aromes-extraits-et-eaux-florales",
+    "parent": "cat.seasonings",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.seasonings.acids",
+    "name": "Acides et texturants",
+    "slug": "acides-et-texturants",
+    "parent": "cat.seasonings",
+    "sort_order": 5,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.preps",
+    "name": "Préparations maison",
+    "slug": "preparations-maison",
+    "parent": null,
+    "sort_order": 15,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.preps.syrups",
+    "name": "Sirops maison",
+    "slug": "sirops-maison",
+    "parent": "cat.preps",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.preps.cordials",
+    "name": "Cordiaux et oleo saccharum",
+    "slug": "cordiaux-et-oleo-saccharum",
+    "parent": "cat.preps",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.preps.infusions",
+    "name": "Spiritueux infusés et macérations",
+    "slug": "spiritueux-infuses-et-macerations",
+    "parent": "cat.preps",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.preps.solutions",
+    "name": "Solutions salines et acides",
+    "slug": "solutions-salines-et-acides",
+    "parent": "cat.preps",
+    "sort_order": 4,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.preps.sodas",
+    "name": "Sodas et fermentés maison",
+    "slug": "sodas-et-fermentes-maison",
+    "parent": "cat.preps",
+    "sort_order": 5,
+    "batch_hint": "add_at_service"
+  },
+  {
+    "seed_key": "cat.preps.batches",
+    "name": "Pré-mélanges et clarifications",
+    "slug": "pre-melanges-et-clarifications",
+    "parent": "cat.preps",
+    "sort_order": 6,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.garnishes",
+    "name": "Garnitures",
+    "slug": "garnitures",
+    "parent": null,
+    "sort_order": 16,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.garnishes.cherries",
+    "name": "Cerises, fruits confits et séchés",
+    "slug": "cerises-fruits-confits-et-seches",
+    "parent": "cat.garnishes",
+    "sort_order": 1,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.garnishes.savory",
+    "name": "Olives, pickles et saumures",
+    "slug": "olives-pickles-et-saumures",
+    "parent": "cat.garnishes",
+    "sort_order": 2,
+    "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.garnishes.rims",
+    "name": "Givrages",
+    "slug": "givrages",
+    "parent": "cat.garnishes",
+    "sort_order": 3,
+    "batch_hint": "ok"
+  }
+]

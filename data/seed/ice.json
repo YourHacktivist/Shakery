@@ -1,0 +1,42 @@
+[
+  {
+    "seed_key": "ice.none",
+    "name": "Sans glace",
+    "sort_order": 1
+  },
+  {
+    "seed_key": "ice.cubes",
+    "name": "Glaçons",
+    "sort_order": 2
+  },
+  {
+    "seed_key": "ice.large_cube",
+    "name": "Gros glaçon",
+    "sort_order": 3
+  },
+  {
+    "seed_key": "ice.sphere",
+    "name": "Sphère de glace",
+    "sort_order": 4
+  },
+  {
+    "seed_key": "ice.spear",
+    "name": "Colonne de glace",
+    "sort_order": 5
+  },
+  {
+    "seed_key": "ice.cracked",
+    "name": "Glace concassée",
+    "sort_order": 6
+  },
+  {
+    "seed_key": "ice.crushed",
+    "name": "Glace pilée",
+    "sort_order": 7
+  },
+  {
+    "seed_key": "ice.block",
+    "name": "Bloc de glace",
+    "sort_order": 8
+  }
+]

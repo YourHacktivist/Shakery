@@ -1,0 +1,146 @@
+[
+  {
+    "seed_key": "glass.coupe",
+    "name": "Coupe",
+    "capacity_ml": null,
+    "sort_order": 1
+  },
+  {
+    "seed_key": "glass.nick_nora",
+    "name": "Nick & Nora",
+    "capacity_ml": null,
+    "sort_order": 2
+  },
+  {
+    "seed_key": "glass.martini",
+    "name": "Verre à martini",
+    "capacity_ml": null,
+    "sort_order": 3
+  },
+  {
+    "seed_key": "glass.rocks",
+    "name": "Rocks",
+    "capacity_ml": null,
+    "sort_order": 4
+  },
+  {
+    "seed_key": "glass.highball",
+    "name": "Highball",
+    "capacity_ml": null,
+    "sort_order": 5
+  },
+  {
+    "seed_key": "glass.collins",
+    "name": "Collins",
+    "capacity_ml": null,
+    "sort_order": 6
+  },
+  {
+    "seed_key": "glass.flute",
+    "name": "Flûte",
+    "capacity_ml": null,
+    "sort_order": 7
+  },
+  {
+    "seed_key": "glass.wine",
+    "name": "Verre à vin",
+    "capacity_ml": null,
+    "sort_order": 8
+  },
+  {
+    "seed_key": "glass.copa",
+    "name": "Copa",
+    "capacity_ml": null,
+    "sort_order": 9
+  },
+  {
+    "seed_key": "glass.julep",
+    "name": "Timbale julep",
+    "capacity_ml": null,
+    "sort_order": 10
+  },
+  {
+    "seed_key": "glass.mule",
+    "name": "Mug en cuivre",
+    "capacity_ml": null,
+    "sort_order": 11
+  },
+  {
+    "seed_key": "glass.shot",
+    "name": "Verre à shot",
+    "capacity_ml": null,
+    "sort_order": 12
+  },
+  {
+    "seed_key": "glass.liqueur",
+    "name": "Verre à liqueur",
+    "capacity_ml": null,
+    "sort_order": 13
+  },
+  {
+    "seed_key": "glass.tasting",
+    "name": "Verre de dégustation",
+    "capacity_ml": null,
+    "sort_order": 14
+  },
+  {
+    "seed_key": "glass.snifter",
+    "name": "Verre à cognac (ballon)",
+    "capacity_ml": null,
+    "sort_order": 15
+  },
+  {
+    "seed_key": "glass.toddy",
+    "name": "Verre à grog (Irish coffee)",
+    "capacity_ml": null,
+    "sort_order": 16
+  },
+  {
+    "seed_key": "glass.absinthe",
+    "name": "Verre à absinthe",
+    "capacity_ml": null,
+    "sort_order": 17
+  },
+  {
+    "seed_key": "glass.pastis",
+    "name": "Verre à pastis",
+    "capacity_ml": null,
+    "sort_order": 18
+  },
+  {
+    "seed_key": "glass.tiki",
+    "name": "Mug tiki",
+    "capacity_ml": null,
+    "sort_order": 19
+  },
+  {
+    "seed_key": "glass.hurricane",
+    "name": "Hurricane",
+    "capacity_ml": null,
+    "sort_order": 20
+  },
+  {
+    "seed_key": "glass.beer",
+    "name": "Verre à bière",
+    "capacity_ml": null,
+    "sort_order": 21
+  },
+  {
+    "seed_key": "glass.bolee",
+    "name": "Bolée",
+    "capacity_ml": null,
+    "sort_order": 22
+  },
+  {
+    "seed_key": "glass.punch_bowl",
+    "name": "Bol à punch",
+    "capacity_ml": null,
+    "sort_order": 23
+  },
+  {
+    "seed_key": "glass.pitcher",
+    "name": "Pichet",
+    "capacity_ml": null,
+    "sort_order": 24
+  }
+]
