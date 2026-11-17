@@ -13,6 +13,11 @@ files:
   - '!**/*.map'
 
 asar: true
+# better-sqlite3 ships Node-API prebuilds that load in Node and Electron alike: no rebuild
+# for Electron's ABI (see docs/DECISIONS.md). Native binaries cannot load from inside the asar.
+npmRebuild: false
+asarUnpack:
+  - '**/*.node'
 
 # Section 6: fuses applied to the Electron binary at packaging time.
 electronFuses:
