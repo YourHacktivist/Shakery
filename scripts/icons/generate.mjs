@@ -1,18 +1,20 @@
 /**
- * Generates the application icons from the logo (section 11).
+ * Generates the application icons from the logo provided by the user, at every size.
  *
- * Run with Electron, which provides the image scaling and SVG rendering used here:
+ * Run with Electron, which provides the image scaling used here:
  *   npx electron scripts/icons/generate.mjs
  *
- * Inputs:  design/assets/logo/shakery-logo-master-1024.png (full logo, 48 px and above)
- *          build/icon-small.svg (simplified mark, 16 to 32 px)
+ * Input:   design/assets/logo/shakery-logo-master-1024.png
  * Outputs: build/icon.ico (Windows: 16, 24, 32, 48, 64, 128, 256)
  *          build/icon.icns (macOS: 16 to 1024, retina variants included)
  *          build/icon.png (1024 px master), resources/icon.png (512 px, window icon in development)
  *          build/icon-preview/*.png (every size, to review the result)
+ *
+ * The logo itself is never redrawn (decision D-025). For 32 px and below, the transparent
+ * margin around it is cropped so the logo fills the icon.
  */
-import { app, BrowserWindow, nativeImage } from 'electron'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { app, nativeImage } from 'electron'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -20,37 +22,40 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const master = nativeImage.createFromPath(
   join(root, 'design', 'assets', 'logo', 'shakery-logo-master-1024.png'),
 )
-const smallSvg = readFileSync(join(root, 'build', 'icon-small.svg'), 'utf8')
-const SMALL_SIZES = new Set([16, 24, 32])
 
-function fromMaster(size) {
-  return master.resize({ width: size, height: size, quality: 'best' }).toPNG()
+/** Square crop around the visible pixels of the logo, with a small margin. */
+function tightCrop(image) {
+  const { width, height } = image.getSize()
+  const bitmap = image.toBitmap() // BGRA
+  let left = width
+  let top = height
+  let right = -1
+  let bottom = -1
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (bitmap[(y * width + x) * 4 + 3] > 16) {
+        if (x < left) left = x
+        if (x > right) right = x
+        if (y < top) top = y
+        if (y > bottom) bottom = y
+      }
+    }
+  }
+  const side = Math.max(right - left, bottom - top) + 1
+  const margin = Math.round(side * 0.03)
+  const size = Math.min(width, height, side + 2 * margin)
+  const cx = Math.round((left + right) / 2)
+  const cy = Math.round((top + bottom) / 2)
+  const x = Math.max(0, Math.min(width - size, cx - Math.floor(size / 2)))
+  const y = Math.max(0, Math.min(height - size, cy - Math.floor(size / 2)))
+  return image.crop({ x, y, width: size, height: size })
 }
 
-/** Renders the simplified SVG at the exact pixel size in a hidden window (no file written). */
-async function renderSmall(sizes) {
-  const win = new BrowserWindow({ show: false, webPreferences: { offscreen: true, sandbox: true } })
-  await win.loadURL('data:text/html,<!doctype html><title>icons</title>')
-  const svgUrl = `data:image/svg+xml;base64,${Buffer.from(smallSvg).toString('base64')}`
-  const result = await win.webContents.executeJavaScript(`(async () => {
-    const img = new Image();
-    img.src = ${JSON.stringify(svgUrl)};
-    await img.decode();
-    const out = {};
-    for (const size of ${JSON.stringify(sizes)}) {
-      const canvas = document.createElement('canvas');
-      canvas.width = size; canvas.height = size;
-      const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, 0, 0, size, size);
-      out[size] = canvas.toDataURL('image/png').split(',')[1];
-    }
-    return out;
-  })()`)
-  win.destroy()
-  return Object.fromEntries(
-    Object.entries(result).map(([size, b64]) => [Number(size), Buffer.from(b64, 'base64')]),
-  )
+const tight = tightCrop(master)
+
+function png(size) {
+  const source = size <= 32 ? tight : master
+  return source.resize({ width: size, height: size, quality: 'best' }).toPNG()
 }
 
 /** ICO with PNG-compressed entries (supported since Windows Vista). */
@@ -61,7 +66,7 @@ function buildIco(entries) {
   header.writeUInt16LE(entries.length, 4)
   const directory = Buffer.alloc(16 * entries.length)
   let offset = 6 + directory.length
-  entries.forEach(({ size, png }, i) => {
+  entries.forEach(({ size, data }, i) => {
     const base = i * 16
     directory.writeUInt8(size >= 256 ? 0 : size, base)
     directory.writeUInt8(size >= 256 ? 0 : size, base + 1)
@@ -69,20 +74,20 @@ function buildIco(entries) {
     directory.writeUInt8(0, base + 3)
     directory.writeUInt16LE(1, base + 4)
     directory.writeUInt16LE(32, base + 6)
-    directory.writeUInt32LE(png.length, base + 8)
+    directory.writeUInt32LE(data.length, base + 8)
     directory.writeUInt32LE(offset, base + 12)
-    offset += png.length
+    offset += data.length
   })
-  return Buffer.concat([header, directory, ...entries.map((e) => e.png)])
+  return Buffer.concat([header, directory, ...entries.map((e) => e.data)])
 }
 
 /** ICNS with PNG chunks. */
 function buildIcns(chunks) {
-  const parts = chunks.map(({ type, png }) => {
+  const parts = chunks.map(({ type, data }) => {
     const head = Buffer.alloc(8)
     head.write(type, 0, 'ascii')
-    head.writeUInt32BE(png.length + 8, 4)
-    return Buffer.concat([head, png])
+    head.writeUInt32BE(data.length + 8, 4)
+    return Buffer.concat([head, data])
   })
   const body = Buffer.concat(parts)
   const head = Buffer.alloc(8)
@@ -91,38 +96,37 @@ function buildIcns(chunks) {
   return Buffer.concat([head, body])
 }
 
-app.whenReady().then(async () => {
-  const small = await renderSmall([16, 24, 32, 64])
-  const png = (size) => (SMALL_SIZES.has(size) ? small[size] : fromMaster(size))
-
+app.whenReady().then(() => {
   const icoSizes = [16, 24, 32, 48, 64, 128, 256]
-  writeFileSync(join(root, 'build', 'icon.ico'), buildIco(icoSizes.map((size) => ({ size, png: png(size) }))))
+  writeFileSync(
+    join(root, 'build', 'icon.ico'),
+    buildIco(icoSizes.map((size) => ({ size, data: png(size) }))),
+  )
 
-  // icp4 16, icp5 32, ic11 16@2x, ic12 32@2x (simplified mark: these appear at small sizes);
-  // ic07 128, ic08 256, ic09 512, ic10 512@2x, ic13 128@2x, ic14 256@2x (full logo).
+  // icp4 16, icp5 32, ic11 16@2x, ic12 32@2x, ic07 128, ic08 256, ic13 128@2x,
+  // ic09 512, ic14 256@2x, ic10 512@2x (1024).
   writeFileSync(
     join(root, 'build', 'icon.icns'),
     buildIcns([
-      { type: 'icp4', png: small[16] },
-      { type: 'icp5', png: small[32] },
-      { type: 'ic11', png: small[32] },
-      { type: 'ic12', png: small[64] },
-      { type: 'ic07', png: fromMaster(128) },
-      { type: 'ic08', png: fromMaster(256) },
-      { type: 'ic13', png: fromMaster(256) },
-      { type: 'ic09', png: fromMaster(512) },
-      { type: 'ic14', png: fromMaster(512) },
-      { type: 'ic10', png: fromMaster(1024) },
+      { type: 'icp4', data: png(16) },
+      { type: 'icp5', data: png(32) },
+      { type: 'ic11', data: png(32) },
+      { type: 'ic12', data: png(64) },
+      { type: 'ic07', data: png(128) },
+      { type: 'ic08', data: png(256) },
+      { type: 'ic13', data: png(256) },
+      { type: 'ic09', data: png(512) },
+      { type: 'ic14', data: png(512) },
+      { type: 'ic10', data: png(1024) },
     ]),
   )
 
-  writeFileSync(join(root, 'build', 'icon.png'), fromMaster(1024))
-  writeFileSync(join(root, 'resources', 'icon.png'), fromMaster(512))
+  writeFileSync(join(root, 'build', 'icon.png'), png(1024))
+  writeFileSync(join(root, 'resources', 'icon.png'), png(512))
 
   const preview = join(root, 'build', 'icon-preview')
   mkdirSync(preview, { recursive: true })
   for (const size of icoSizes) writeFileSync(join(preview, `icon-${size}.png`), png(size))
-  writeFileSync(join(preview, 'small-64.png'), small[64])
 
   console.log('Icons written to build/ and resources/')
   app.quit()

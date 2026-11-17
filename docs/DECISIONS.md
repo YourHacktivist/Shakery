@@ -200,6 +200,13 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Choix** : arbre de 95 catégories d'ingrédients génériques sur 3 niveaux (77 feuilles), 24 verres et contenants, 8 types de glace, dans `data/seed/` (format, règles de rangement et de chargement dans `data/seed/README.md` ; correspondance avec les carnets MAF dans `docs/maf-mapping.md`). Version revue par un relecteur indépendant (24 remarques, aucune bloquante, toutes traitées avant la première publication : alternatives sans alcool, préparations maison salines, gazeuses et en bouteille, arômes, acides, légumes, libellés sans ambiguïté). Aucune contenance de verre n'est renseignée : elles varient d'un modèle à l'autre et aucune n'est sourcée (règle 9). Règles : un ingrédient se range dans une feuille ; un parent porte l'indication de batch la plus restrictive de ses enfants ; une nouvelle entrée dont le slug est pris par une catégorie de l'utilisateur reçoit un suffixe. Les fichiers sont embarqués dans le processus principal à la compilation et revalidés par Zod au chargement ; une entrée encore marquée `needs_review` bloque le chargement.
 - **Validation** : relecture de l'arbre par l'utilisateur avant l'import massif de la phase 4 (section 9).
 
+### D-025 Le logo fourni à toutes les tailles
+
+- **Date** : 2026-11-17
+- **Contexte** : la section 11 prévoit une variante simplifiée du logo pour les icônes de 16 à 32 px. Une variante redessinée a été proposée.
+- **Choix** : refusée par l'utilisateur. Le logo fourni est utilisé partout et à toutes les tailles, jamais redessiné. Pour 32 px et moins, seule la marge transparente autour du logo est recadrée pour qu'il remplisse l'icône (`scripts/icons/generate.mjs`).
+- **Validation** : oui, par l'utilisateur.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                                                                           | Échéance              |
@@ -208,7 +215,6 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 | Taux de dilution par méthode   | Valeurs initiales proposées avec leurs sources dans `DATA_SOURCES.md`.                                                                                                | Fin de phase 3        |
 | Équivalences d'unités          | Trait, goutte, cuillère de bar, cuillère à café, once (30 ml ou 29,57 ml). Le carnet MAF compte un trait à 0,25 ml.                                                   | Fin de phase 3        |
 | Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                                                                           | Phase 2               |
-| Variante simplifiée du logo    | Silhouette du shaker et un trait de ruban, pour les icônes de 16 à 32 px.                                                                                             | Phase 2               |
 | Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée.                                                      | Phase de la corbeille |
 | Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                                                                       | Avant diffusion       |
 | Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                                                                                 | Avant diffusion       |
