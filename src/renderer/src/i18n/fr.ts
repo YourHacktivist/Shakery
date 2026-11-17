@@ -21,8 +21,7 @@ export const fr = {
     INVALID_INPUT: 'Les données envoyées sont invalides.',
     NOT_FOUND: 'Élément introuvable.',
     CONFLICT: 'Cette modification entre en conflit avec une donnée existante.',
-    UNAVAILABLE:
-      'Le carnet n’est pas disponible pour le moment. Son état est indiqué dans les paramètres.',
+    UNAVAILABLE: 'Le carnet n’est pas disponible pour le moment. Son état est indiqué dans les paramètres.',
     INTERNAL: 'Une erreur interne est survenue. Le détail est dans le journal.',
   } satisfies Record<IpcErrorCode, string>,
 } as const
