@@ -10,7 +10,8 @@
     "src/shared/**/*.ts",
     "src/core/**/*.ts",
     "electron.vite.config.ts",
-    "vitest.config.ts",
+    "vitest.config.mts",
+    "drizzle.config.ts",
     "playwright.config.ts"
   ]
 }
