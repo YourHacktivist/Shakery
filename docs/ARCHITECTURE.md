@@ -25,7 +25,7 @@ shakery/
 ├─ electron-builder.yml         installeurs NSIS et DMG, fuses
 ├─ eslint.config.mjs            lint typé et règles de frontière
 ├─ playwright.config.ts         tests de bout en bout sur Electron
-├─ vitest.config.ts             tests unitaires
+├─ vitest.config.mts            tests unitaires (fuseau Europe/Paris)
 ├─ tsconfig*.json               quatre projets TypeScript (voir plus bas)
 ├─ build/                       ressources de packaging (icône maître)
 ├─ resources/                   icône de fenêtre en développement
@@ -113,3 +113,31 @@ Définies dans `eslint.config.mjs`, en plus du jeu `strictTypeChecked` de typesc
 - En développement (`npm run dev`), le main charge l'URL du serveur Vite (`ELECTRON_RENDERER_URL`).
 - Sinon, il charge `out/renderer/index.html` en `file://`. Le routage par hash (phase 2) reste compatible avec ce mode.
 - La CSP est appliquée par en-tête et par balise meta (voir `docs/DECISIONS.md`, D-007 et D-008).
+
+## Couche de données (phase 1)
+
+| Fichier                       | Rôle                                                                                                           |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `src/main/db/schema.ts`       | Schéma Drizzle : tables de la section 7 et extension MAF (D-016), énumérations en contraintes `CHECK`          |
+| `resources/migrations/`       | Migrations générées par `npx drizzle-kit generate`, plus `0001_search_index.sql` écrite à la main (table FTS5) |
+| `src/main/db/connection.ts`   | Ouverture de la base (WAL, clés étrangères, `busy_timeout`), `quick_check`                                     |
+| `src/main/db/migrate.ts`      | Migrations en attente, application avec contrôle des clés étrangères                                           |
+| `src/main/db/manager.ts`      | Cycle de vie : démarrage, sauvegardes, restauration, état de santé                                             |
+| `src/main/db/repositories/`   | Seul code qui exécute du SQL ; implémente les interfaces de `src/shared/`                                      |
+| `src/main/seed/`              | Validation et chargement des référentiels de `data/seed/`                                                      |
+| `src/main/services/backup.ts` | Sauvegardes : copie cohérente, manifeste, magasin de photos, rotation (D-022)                                  |
+
+Le carnet est `userData/shakery.db`, les photos sont dans `userData/media/` et les sauvegardes dans `userData/backups/` (ou le dossier choisi dans les réglages).
+
+**Démarrage** (`DatabaseManager.open`) :
+
+1. ouverture du fichier et `PRAGMA quick_check`. En cas d'échec, rien n'est migré ni écrit : l'application démarre en état « corrompu » et les opérations qui lisent le carnet renvoient `UNAVAILABLE` ;
+2. si le fichier contient déjà un carnet et que des migrations attendent, sauvegarde `pre-migration` ;
+3. migrations, dans une transaction ;
+4. ajout des entrées de départ absentes (une entrée supprimée par l'utilisateur n'est jamais recréée).
+
+Une fois la fenêtre ouverte, une sauvegarde quotidienne est faite si la dernière date de plus de 24 heures. Une autre est faite à la fermeture.
+
+**Ajouter une table ou une colonne** : modifier `schema.ts`, lancer `npx drizzle-kit generate --name <nom>`, relire le SQL produit, compléter les tests de `src/main/db/migrate.test.ts`. Une migration ne supprime jamais de données utilisateur sans étape de conversion (section 7).
+
+**Tests du module natif** : better-sqlite3 est compilé en Node-API et se charge aussi bien sous Node que sous Electron (D-021). Les tests qui touchent la base tournent donc sous Vitest, sur des bases en mémoire ou dans un dossier temporaire.

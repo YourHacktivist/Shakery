@@ -128,30 +128,105 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Alternatives écartées** : forcer le correctif.
 - **Validation** : non requise. À recontrôler à chaque mise à jour des dépendances.
 
+## Décisions de la phase 1
+
+### D-016 Extension du modèle de données pour les carnets MAF
+
+- **Date** : 2026-11-17
+- **Contexte** : D-003 demande un contenu « culture » structuré. La proposition complète, avec la correspondance champ par champ des fichiers de `imports/maf/`, est dans `docs/proposals/2026-11-17-modele-donnees-maf.md`. Elle a été conçue par trois propositions indépendantes puis arbitrée.
+- **Choix** : fiches culture découpées en sections et en éléments typés (`knowledge_sheets`, `knowledge_sections`, `knowledge_items`, `knowledge_links`), carnets avec leurs sources et citations (`study_guides`, `guide_sources`, `source_citations`), copie figée du socle imprimé et de la spécification IBA à côté de la recette de travail (`reference_specs`, `reference_spec_lines`), tableaux récapitulatifs (`study_tables`, `study_table_rows`) et journal de révision en ajout seul (`practice_answers`). Colonnes ajoutées à `recipes` (longueur, moment, profil, coût de garniture), `products` (articles comptés, base de prix HT ou TTC, produit de référence d'un carnet), `collection_items` (fiche culture possible, taux de TVA propre) et `practice_sessions` (mode).
+- **Alternatives écartées** : une table par type de bloc (une migration par nouveau bloc), un document JSON par fiche (contraire à D-003), la recette seule sans socle figé (perte des libellés du jury, des TAV retenus et des coûts imprimés dès la première modification).
+- **Validation** : oui, par l'utilisateur.
+
+### D-017 Détail du prix de vente (suite de D-002)
+
+- **Date** : 2026-11-17
+- **Choix** : `collection_items.sale_price_cents` est un prix carte TTC. Taux de TVA en points de base entiers (2000 = 20 %), réglable globalement et par élément de collection (boissons sans alcool servies sur place). Les règles d'un carnet (coefficient 5, TVA 20 %, arrondi au 0,50 € supérieur, trait à 0,25 ml) sont portées par le carnet (`study_guides`) et ne s'appliquent qu'à ses fiches ; les réglages globaux s'appliquent ailleurs. Un prix d'achat a une base HT ou TTC et n'est jamais converti : un coût qui mélange les deux est signalé incomplet, avec les lignes en cause.
+- **Alternatives écartées** : réglages globaux seulement.
+- **Validation** : oui, par l'utilisateur.
+
+### D-018 Import `.shakery` avancé à la fin de la phase 3
+
+- **Date** : 2026-11-17
+- **Contexte** : la spec place l'import en phase 10 et la révision en phase 8.
+- **Choix** : l'import `.shakery` de base (validations de la section 6, aperçu, rapprochement, une seule transaction) est livré à la fin de la phase 3. Un script de développement non livré (`scripts/maf-import/`) convertit `imports/maf/` en archive `.shakery` avec des UUIDv7 déterministes. Aucun code propre au MAF dans l'application. L'export partiel et Open Food Facts restent en phase 10.
+- **Validation** : oui, par l'utilisateur.
+
+### D-019 Deux collections pour les carnets MAF (modifie D-004)
+
+- **Date** : 2026-11-17
+- **Choix** : « MAF 2025 : socle des cocktails » (36 fiches) et « MAF 2025 : fiches produits » (48 fiches), au lieu d'une collection unique.
+- **Validation** : oui, par l'utilisateur.
+
+### D-020 Marques en éléments de fiche, familles inchangées
+
+- **Date** : 2026-11-17
+- **Choix** : le répertoire des marques reste fait d'éléments de fiche (`knowledge_items` de type `brand`), avec un lien facultatif vers une bouteille. Les entrées sont contextuelles (Giffard trois fois avec trois notes) et les propriétaires ne sont pas normalisés (65 libellés). L'énumération `recipes.family` de la spec ne change pas : le libellé du socle est gardé mot pour mot dans `reference_specs.family_label`, et `other` est exclu du calcul des zones de référence.
+- **Alternatives écartées** : tables `brands` et `brand_owners` normalisées (dérivables plus tard sans perte), ajout de `sparkling` et `julep_smash` à l'énumération (migration simple si `other` gêne à l'usage).
+- **Validation** : recommandations de la proposition D-016, appliquées telles quelles ; réversibles par une migration.
+
+### D-021 better-sqlite3 sans recompilation pour Electron
+
+- **Date** : 2026-11-17
+- **Contexte** : la section 4 prévient que better-sqlite3, module natif, doit être recompilé pour Electron, et que le binaire recompilé ne se charge plus sous Node, ce qui casserait les tests Vitest.
+- **Constat** : better-sqlite3 13.2.0 est compilé en Node-API (`NAPI_VERSION=10`) et livre des binaires précompilés par plateforme. Le même binaire se charge sous Node 24 (ABI 137) et sous Electron 45 (ABI 150), FTS5 avec le tokenizer `trigram` et `backup()` compris (vérifié le 17 novembre 2026).
+- **Choix** : aucune recompilation. Les tests qui touchent la base tournent sous Vitest et Node, sans `ELECTRON_RUN_AS_NODE`. electron-builder : `npmRebuild: false`, binaires `.node` sortis de l'asar (`asarUnpack`).
+- **Alternatives écartées** : `electron-builder install-app-deps` en `postinstall` avec une compilation dédiée aux tests (inutile avec Node-API), `node:sqlite` (contraire à la section 4, et Drizzle n'a pas de pilote stable pour lui).
+- **Validation** : non requise (pas d'écart avec la stack).
+
+### D-022 Sauvegardes : magasin de photos partagé et règles de rotation
+
+- **Date** : 2026-11-17
+- **Contexte** : la section 12.3 demande de copier les photos avec la base, et de garder 14 sauvegardes quotidiennes et 8 hebdomadaires. Copier tout le dossier médias dans chacune des sauvegardes multiplierait l'espace disque d'autant.
+- **Choix** :
+  - Chaque sauvegarde est un dossier : `shakery.db`, copiée par l'API de sauvegarde de SQLite, puis `manifest.json`, écrit en dernier, avec la liste des photos. Un dossier sans manifeste est une sauvegarde inachevée, ignorée.
+  - Les photos sont copiées une seule fois dans un magasin partagé (`<dossier>/media/`) : une photo n'est jamais modifiée sur place, puisqu'une nouvelle photo reçoit un nouveau nom UUID. Les photos que plus aucune sauvegarde ne cite sont supprimées.
+  - Rotation : la plus récente de chacun des 14 derniers jours et des 8 dernières semaines ISO (jours et semaines locaux), plus les 3 plus récentes faites avant une migration, les 3 plus récentes faites avant une restauration, et les 5 dernières sauvegardes manuelles, quel que soit leur jour.
+  - La sauvegarde visée par une restauration est protégée de la rotation que déclenche la sauvegarde de sécurité prise juste avant. Sans cette règle, restaurer une sauvegarde du jour la supprimait (bug trouvé par les tests de bout en bout).
+  - Une base corrompue n'est pas sauvegardée par SQLite : ses fichiers bruts sont copiés dans `<dossier>/damaged-<date>/` avant la restauration.
+- **Alternatives écartées** : copie complète du dossier médias à chaque sauvegarde ; sauvegardes manuelles soumises à la règle « une par jour ».
+- **Validation** : non requise (détail d'implémentation de la section 12.3).
+
+### D-023 Code d'erreur IPC `UNAVAILABLE`
+
+- **Date** : 2026-11-17
+- **Contexte** : quand la base a échoué à son contrôle d'intégrité, l'application démarre quand même pour proposer une restauration. Les opérations qui lisent le carnet ne peuvent pas répondre.
+- **Choix** : un code d'erreur `UNAVAILABLE` (« Le carnet n'est pas disponible pour le moment »), distinct de `INTERNAL`, renvoyé tant que la base n'est pas prête ou que le dossier de sauvegarde est inaccessible.
+- **Validation** : non requise.
+
+### D-024 Référentiels fixes de départ
+
+- **Date** : 2026-11-17
+- **Choix** : arbre de 95 catégories d'ingrédients génériques sur 3 niveaux (77 feuilles), 24 verres et contenants, 8 types de glace, dans `data/seed/` (format, règles de rangement et de chargement dans `data/seed/README.md` ; correspondance avec les carnets MAF dans `docs/maf-mapping.md`). Version revue par un relecteur indépendant (24 remarques, aucune bloquante, toutes traitées avant la première publication : alternatives sans alcool, préparations maison salines, gazeuses et en bouteille, arômes, acides, légumes, libellés sans ambiguïté). Aucune contenance de verre n'est renseignée : elles varient d'un modèle à l'autre et aucune n'est sourcée (règle 9). Règles : un ingrédient se range dans une feuille ; un parent porte l'indication de batch la plus restrictive de ses enfants ; une nouvelle entrée dont le slug est pris par une catégorie de l'utilisateur reçoit un suffixe. Les fichiers sont embarqués dans le processus principal à la compilation et revalidés par Zod au chargement ; une entrée encore marquée `needs_review` bloque le chargement.
+- **Validation** : relecture de l'arbre par l'utilisateur avant l'import massif de la phase 4 (section 9).
+
 ## À valider plus tard
 
-| Sujet                        | Proposition                                                                                                                                                           | Échéance        |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| TAV « méthode socle »        | Afficher le TAV théorique selon la méthode du socle MAF (sans dilution, traits, poudres et herbes non comptés) à côté du TAV servi estimé de la spec (avec dilution). | Fin de phase 3  |
-| Taux de dilution par méthode | Valeurs initiales proposées avec leurs sources dans `DATA_SOURCES.md`.                                                                                                | Fin de phase 3  |
-| Équivalences d'unités        | Trait, goutte, cuillère de bar, cuillère à café, once (30 ml ou 29,57 ml). Le carnet MAF compte un trait à 0,25 ml.                                                   | Fin de phase 3  |
-| Police définitive            | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                                                                           | Phase 2         |
-| Variante simplifiée du logo  | Silhouette du shaker et un trait de ruban, pour les icônes de 16 à 32 px.                                                                                             | Phase 2         |
-| Licence du code source       | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                                                                       | Avant diffusion |
-| Signature de code            | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                                                                                 | Avant diffusion |
+| Sujet                          | Proposition                                                                                                                                                           | Échéance              |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| TAV « méthode socle »          | Afficher le TAV théorique selon la méthode du socle MAF (sans dilution, traits, poudres et herbes non comptés) à côté du TAV servi estimé de la spec (avec dilution). | Fin de phase 3        |
+| Taux de dilution par méthode   | Valeurs initiales proposées avec leurs sources dans `DATA_SOURCES.md`.                                                                                                | Fin de phase 3        |
+| Équivalences d'unités          | Trait, goutte, cuillère de bar, cuillère à café, once (30 ml ou 29,57 ml). Le carnet MAF compte un trait à 0,25 ml.                                                   | Fin de phase 3        |
+| Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                                                                           | Phase 2               |
+| Variante simplifiée du logo    | Silhouette du shaker et un trait de ruban, pour les icônes de 16 à 32 px.                                                                                             | Phase 2               |
+| Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée.                                                      | Phase de la corbeille |
+| Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                                                                       | Avant diffusion       |
+| Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                                                                                 | Avant diffusion       |
 
-## Dépendances de la phase 0
+## Dépendances (phases 0 et 1)
 
 Versions exactes verrouillées dans `package.json` et `package-lock.json`. La plupart sont imposées par la section 4 de la spec.
 
 ### Embarquées dans l'application
 
-| Paquet       | Version | Licence | Rôle et justification                                                      |
-| ------------ | ------- | ------- | -------------------------------------------------------------------------- |
-| react        | 19.3.1  | MIT     | Interface (section 4).                                                     |
-| react-dom    | 19.3.1  | MIT     | Rendu de React dans le renderer.                                           |
-| zod          | 4.6.7   | MIT     | Schémas du contrat IPC, partagés entre main et renderer (sections 4 et 6). |
-| electron-log | 5.4.4   | MIT     | Journal local avec rotation (section 4). Canal IPC retiré, voir D-009.     |
+| Paquet         | Version | Licence    | Rôle et justification                                                                              |
+| -------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| react          | 19.3.1  | MIT        | Interface (section 4).                                                                             |
+| react-dom      | 19.3.1  | MIT        | Rendu de React dans le renderer.                                                                   |
+| zod            | 4.6.7   | MIT        | Schémas du contrat IPC, partagés entre main et renderer (sections 4 et 6).                         |
+| electron-log   | 5.4.4   | MIT        | Journal local avec rotation (section 4). Canal IPC retiré, voir D-009.                             |
+| better-sqlite3 | 13.2.0  | MIT        | Base SQLite, accès exclusif depuis le main (section 4). Node-API, sans recompilation : voir D-021. |
+| drizzle-orm    | 0.45.4  | Apache-2.0 | Schéma typé, requêtes paramétrées et migrations au démarrage (sections 4 et 6).                    |
 
 ### Outillage de développement
 
@@ -176,3 +251,5 @@ Versions exactes verrouillées dans `package.json` et `package-lock.json`. La pl
 | @types/node               | 26.6.6  | MIT        | Types de Node pour main, preload et tests.                                                         |
 | @types/react              | 19.3.0  | MIT        | Types de React.                                                                                    |
 | @types/react-dom          | 19.3.0  | MIT        | Types de React DOM.                                                                                |
+| drizzle-kit               | 0.31.11 | MIT        | Génération des migrations versionnées (section 4). Outil de développement, non livré.              |
+| @types/better-sqlite3     | 9.6.0   | MIT        | Types de better-sqlite3.                                                                           |

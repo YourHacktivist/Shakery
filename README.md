@@ -6,10 +6,11 @@ Application de bureau Electron, React, Tailwind CSS v4 et TypeScript. Le cahier 
 
 ## État d'avancement
 
-| Phase  | Contenu                                                                                                      | État                                   |
-| ------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| 0      | Fondations : projet, durcissement Electron, contrat IPC, CI, instance unique, journaux                       | livrée, en attente de validation       |
-| 1 à 11 | Données, design system, fiches, base de départ, recherche, atelier, journal, bar, accueil, export, finitions | à venir, dans l'ordre de la section 14 |
+| Phase  | Contenu                                                                                                    | État                                   |
+| ------ | ---------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 0      | Fondations : projet, durcissement Electron, contrat IPC, CI, instance unique, journaux                     | livrée, validée                        |
+| 1      | Données et sauvegarde : SQLite, schéma complet avec l'extension MAF, migrations, référentiels, sauvegardes | livrée                                 |
+| 2 à 11 | Design system, fiches, base de départ, recherche, atelier, journal, bar, accueil, export, finitions        | à venir, dans l'ordre de la section 14 |
 
 La phase 0 affiche une page provisoire (logo, nom, version lue par IPC). Les écrans arrivent avec les phases suivantes.
 
