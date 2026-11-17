@@ -4,11 +4,15 @@ import { fail } from '../../shared/ipc/result'
 import { log } from '../logger'
 import { isTrustedRendererUrl, type RendererTarget } from '../security-policy'
 import { appHandlers } from './app'
+import { createDatabaseHandlers, type DatabaseHandlerDeps } from './database'
 import { dispatch, type IpcHandlers } from './dispatch'
 
-export function createHandlers(): IpcHandlers {
+export type HandlerDeps = DatabaseHandlerDeps
+
+export function createHandlers(deps: HandlerDeps): IpcHandlers {
   return {
     ...appHandlers,
+    ...createDatabaseHandlers(deps),
   }
 }
 

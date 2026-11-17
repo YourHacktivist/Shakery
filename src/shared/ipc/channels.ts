@@ -5,7 +5,16 @@
  * `window.shakery`, and must stay free of third-party code. The Zod schemas of each
  * operation live in `contract.ts`, which is checked to cover exactly this list.
  */
-export const IPC_CHANNELS = ['app.getVersion'] as const
+export const IPC_CHANNELS = [
+  'app.getVersion',
+  'database.getHealth',
+  'backups.list',
+  'backups.create',
+  'backups.restore',
+  'reference.listGlasses',
+  'reference.listIceTypes',
+  'reference.listCategories',
+] as const
 
 export type IpcChannel = (typeof IPC_CHANNELS)[number]
 

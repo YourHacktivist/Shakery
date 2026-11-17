@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
+import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import type { IpcChannel } from './channels'
 
 /**
@@ -25,6 +27,16 @@ export type ContractEntry = {
 
 export const ipcContract = {
   'app.getVersion': { input: noInput, output: appVersionSchema },
+  'database.getHealth': { input: noInput, output: databaseHealthSchema },
+  'backups.list': { input: noInput, output: z.array(backupSummarySchema).max(1000) },
+  'backups.create': { input: noInput, output: backupSummarySchema },
+  'backups.restore': {
+    input: z.object({ id: z.string().max(64).regex(BACKUP_ID_PATTERN) }).strict(),
+    output: backupSummarySchema,
+  },
+  'reference.listGlasses': { input: noInput, output: z.array(glassSchema).max(500) },
+  'reference.listIceTypes': { input: noInput, output: z.array(iceTypeSchema).max(200) },
+  'reference.listCategories': { input: noInput, output: z.array(categorySchema).max(2000) },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract

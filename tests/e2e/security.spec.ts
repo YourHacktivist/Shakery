@@ -53,6 +53,7 @@ test('window.shakery exposes the contract and nothing else', async () => {
     const [domain, operation] = channel.split('.') as [string, string]
     ;(expected[domain] ??= []).push(operation)
   }
+  for (const operations of Object.values(expected)) operations.sort()
   expect(shape).toEqual(expected)
 })
 

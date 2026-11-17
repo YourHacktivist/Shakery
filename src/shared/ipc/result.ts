@@ -9,6 +9,7 @@ export const IPC_ERROR_CODES = [
   'INVALID_INPUT',
   'NOT_FOUND',
   'CONFLICT',
+  'UNAVAILABLE',
   'INTERNAL',
 ] as const
 

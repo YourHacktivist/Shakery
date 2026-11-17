@@ -4,9 +4,18 @@ import { ipcContract } from '../../shared/ipc/contract'
 import { DomainError } from '../errors'
 import { dispatch, type IpcHandlers } from './dispatch'
 
-const handlers: IpcHandlers = {
-  'app.getVersion': () => ({ version: '1.2.3' }),
+/** Every handler of the contract, failing if called; tests override the ones they use. */
+function handlersWith(overrides: Partial<IpcHandlers>): IpcHandlers {
+  const unexpected = (): never => {
+    throw new Error('unexpected call')
+  }
+  const base = Object.fromEntries(
+    IPC_CHANNELS.map((channel) => [channel, unexpected]),
+  ) as unknown as IpcHandlers
+  return { ...base, ...overrides }
 }
+
+const handlers = handlersWith({ 'app.getVersion': () => ({ version: '1.2.3' }) })
 
 describe('IPC contract', () => {
   it('declares exactly the channels of the closed list, all well named', () => {
@@ -50,17 +59,21 @@ describe('dispatch', () => {
 
   it('refuses invalid input before reaching the handler', async () => {
     const spy = vi.fn(() => ({ version: 'never' }))
-    const result = await dispatch('app.getVersion', { injected: true }, { 'app.getVersion': spy })
+    const result = await dispatch(
+      'app.getVersion',
+      { injected: true },
+      handlersWith({ 'app.getVersion': spy }),
+    )
     expect(result).toMatchObject({ ok: false, code: 'INVALID_INPUT' })
     expect(spy).not.toHaveBeenCalled()
   })
 
   it('passes expected domain errors through', async () => {
-    const failing: IpcHandlers = {
+    const failing = handlersWith({
       'app.getVersion': () => {
         throw new DomainError('NOT_FOUND', 'Recipe not found')
       },
-    }
+    })
     await expect(dispatch('app.getVersion', undefined, failing)).resolves.toEqual({
       ok: false,
       code: 'NOT_FOUND',
@@ -70,11 +83,11 @@ describe('dispatch', () => {
 
   it('hides unexpected errors behind INTERNAL and reports them', async () => {
     const onError = vi.fn()
-    const failing: IpcHandlers = {
+    const failing = handlersWith({
       'app.getVersion': () => {
         throw new Error('SQLITE_CORRUPT at C:\\Users\\me\\secret.db')
       },
-    }
+    })
     const result = await dispatch('app.getVersion', undefined, failing, onError)
     expect(result).toEqual({ ok: false, code: 'INTERNAL', message: 'Internal error' })
     expect(JSON.stringify(result)).not.toContain('secret')

@@ -1,9 +1,21 @@
 import { app, BrowserWindow, Menu, session } from 'electron'
+import { systemIds } from './db/client'
+import { DatabaseManager } from './db/manager'
 import { createHandlers, registerIpcHandlers } from './ipc'
 import { log, setupLogging } from './logger'
-import { applyUserDataOverride, devServerUrl, mediaRoot, rendererTarget } from './paths'
+import {
+  applyUserDataOverride,
+  databaseFile,
+  defaultBackupDirectory,
+  devServerUrl,
+  mediaRoot,
+  migrationsFolder,
+  rendererTarget,
+} from './paths'
 import { handleMediaProtocol, registerMediaScheme } from './protocol'
 import { hardenAllWebContents, hardenSession } from './security'
+import { BUNDLED_SEED } from './seed/bundled'
+import { loadSeedData } from './seed/load'
 import { createMainWindow } from './window'
 
 // The data folder must be fixed before the single instance lock, which is tied to it.
@@ -18,6 +30,20 @@ if (!app.requestSingleInstanceLock()) {
 
   const target = rendererTarget()
   hardenAllWebContents(target)
+
+  const database = new DatabaseManager({
+    dbFile: databaseFile(),
+    mediaRoot: mediaRoot(),
+    migrationsFolder: migrationsFolder(),
+    defaultBackupDirectory: defaultBackupDirectory(),
+    appVersion: app.getVersion(),
+    ids: systemIds(),
+    log,
+    seed: (db, ids) => {
+      const added = loadSeedData(db, ids, BUNDLED_SEED)
+      log.info(`Seed data added: ${JSON.stringify(added)}`)
+    },
+  })
 
   let mainWindow: BrowserWindow | null = null
 
@@ -42,6 +68,25 @@ if (!app.requestSingleInstanceLock()) {
     if (app.isReady() && BrowserWindow.getAllWindows().length === 0) openMainWindow()
   })
 
+  // Backup at shutdown (section 12.3), then close the database cleanly.
+  let shuttingDown = false
+  app.on('before-quit', (event) => {
+    if (shuttingDown) return
+    shuttingDown = true
+    if (database.status !== 'ready') {
+      database.close()
+      return
+    }
+    event.preventDefault()
+    database
+      .backup('shutdown')
+      .catch(() => undefined) // already logged and reported by the manager
+      .finally(() => {
+        database.close()
+        app.quit()
+      })
+  })
+
   app
     .whenReady()
     .then(async () => {
@@ -49,8 +94,19 @@ if (!app.requestSingleInstanceLock()) {
       Menu.setApplicationMenu(null)
       hardenSession(session.defaultSession, devServerUrl())
       await handleMediaProtocol(mediaRoot())
-      registerIpcHandlers(target, createHandlers())
+      await database.open()
+      registerIpcHandlers(
+        target,
+        createHandlers({
+          manager: database,
+          onRestored: () => {
+            setImmediate(() => mainWindow?.webContents.reload())
+          },
+        }),
+      )
       openMainWindow()
+      // Daily backup once the window is up, so it never delays startup.
+      database.backupIfDue().catch(() => undefined)
     })
     .catch((error: unknown) => {
       log.error('Startup failed', error)

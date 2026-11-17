@@ -39,6 +39,19 @@ export function mediaRoot(): string {
   return join(app.getPath('userData'), 'media')
 }
 
+export function databaseFile(): string {
+  return join(app.getPath('userData'), 'shakery.db')
+}
+
+export function defaultBackupDirectory(): string {
+  return join(app.getPath('userData'), 'backups')
+}
+
+/** Shipped migrations (inside the asar archive once packaged). */
+export function migrationsFolder(): string {
+  return join(app.getAppPath(), 'resources', 'migrations')
+}
+
 export function windowIconFile(): string | undefined {
   return app.isPackaged ? undefined : join(app.getAppPath(), 'resources', 'icon.png')
 }
