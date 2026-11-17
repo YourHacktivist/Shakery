@@ -13,3 +13,6 @@ Thumbs.db
 
 # Personal data extracted from the MAF notebooks, imported as user data, never committed
 imports/
+
+# Generated icon previews (npx electron scripts/icons/generate.mjs)
+build/icon-preview/
