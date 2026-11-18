@@ -15,6 +15,7 @@ import {
 } from '../domain/catalog'
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import { searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
+import { referenceZonesSchema } from '../domain/zones'
 import type { IpcChannel } from './channels'
 
 /**
@@ -168,6 +169,15 @@ export const ipcContract = {
   },
   /** Preparation mode (section 10.12): full screen and screen kept awake, or back to normal. */
   'app.setPrepMode': { input: z.object({ active: z.boolean() }).strict(), output: done },
+  /** Snapshot of a past version, for the lab comparison (section 10.5). */
+  'recipes.getVersion': {
+    input: z
+      .object({ id: z.string().min(1).max(36), version: z.number().int().min(1).max(100_000) })
+      .strict(),
+    output: recipeDetailSchema,
+  },
+  /** Reference zones of each family (section 8), cached until a recipe or an ingredient changes. */
+  'recipes.referenceZones': { input: noInput, output: referenceZonesSchema },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract

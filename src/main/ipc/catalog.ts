@@ -7,6 +7,7 @@ import { IngredientRepository } from '../db/repositories/ingredients'
 import { ProductRepository } from '../db/repositories/products'
 import { RecipeRepository } from '../db/repositories/recipes'
 import { DomainError } from '../errors'
+import { createZonesCache } from '../services/zones'
 import type { IpcHandlers } from './dispatch'
 
 type CatalogChannels = Extract<
@@ -24,6 +25,7 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
   const ingredientsRepo = () => new IngredientRepository(db(), ids)
   const productsRepo = () => new ProductRepository(db(), ids)
   const recipesRepo = () => new RecipeRepository(db(), ids, ingredientsRepo())
+  const zonesCache = createZonesCache()
 
   return {
     'ingredients.list': () => ingredientsRepo().list(),
@@ -63,5 +65,7 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
     'recipes.quickIdea': (data) => recipesRepo().quickIdea(data),
     'recipes.compute': ({ data }) =>
       computeRecipe(db(), { id: 'draft', data: recipeInputSchema.parse(data) }),
+    'recipes.getVersion': ({ id, version }) => recipesRepo().getVersion(id, version),
+    'recipes.referenceZones': () => zonesCache.get(db(), recipesRepo()),
   }
 }

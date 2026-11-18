@@ -14,6 +14,7 @@ import {
   type RecipeInput,
   type RecipeInputParsed,
   type RecipeSummary,
+  recipeDetailSchema,
 } from '../../../shared/domain/catalog'
 import { DomainError } from '../../errors'
 import type { Db, Ids } from '../client'
@@ -292,6 +293,25 @@ export class RecipeRepository {
   }
 
   /** Full snapshot of a version, as stored in recipe_history. */
+  /** The snapshot saved for a version; refused when the version does not exist. */
+  getVersion(id: string, version: number): RecipeDetail {
+    const row = this.db
+      .select({ snapshot: recipeHistory.snapshot })
+      .from(recipeHistory)
+      .where(
+        and(
+          eq(recipeHistory.recipeId, id),
+          eq(recipeHistory.version, version),
+          isNull(recipeHistory.deletedAt),
+        ),
+      )
+      .get()
+    if (!row) throw new DomainError('NOT_FOUND', 'Unknown version')
+    const parsed = recipeDetailSchema.safeParse(row.snapshot)
+    if (!parsed.success) throw new DomainError('NOT_FOUND', 'Unreadable version')
+    return parsed.data
+  }
+
   snapshotOf(id: string): RecipeDetail {
     return this.get(id)
   }

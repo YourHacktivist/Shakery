@@ -60,6 +60,14 @@ export function useGlobalShortcuts(): void {
           event.preventDefault()
           overlays.open('shortcuts')
           return
+        case 'openInLab': {
+          // Ctrl+E opens the recipe on screen in the lab (section 10.1).
+          const shown = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]
+          if (!shown || shown === 'new' || isModalOpen()) return
+          event.preventDefault()
+          void navigate(`/lab/${shown}`)
+          return
+        }
         case 'prepMode': {
           // From an open recipe only (section 10.12).
           const recipe = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]

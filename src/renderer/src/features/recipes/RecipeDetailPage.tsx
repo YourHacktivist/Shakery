@@ -85,7 +85,6 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   const setFavorite = useSetRecipeFavorite()
   const deleteRecipe = useDeleteRecipe()
   const [variantOpen, setVariantOpen] = useState(false)
-  const labHintId = useId()
   const tasteHintId = useId()
 
   const names = useMemo(
@@ -221,14 +220,14 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
               )
             }}
           />
-          <SoonButton
+          <Button
+            variant="outline"
             icon={<FlaskConical size={16} aria-hidden="true" />}
-            phase={td.labPhase}
-            hint={td.labSoon}
-            hintId={labHintId}
+            aria-keyshortcuts="Control+E"
+            onClick={() => void navigate(`/lab/${recipe.id}`)}
           >
             {td.lab}
-          </SoonButton>
+          </Button>
           <SoonButton
             icon={<NotebookPen size={16} aria-hidden="true" />}
             phase={td.tastePhase}

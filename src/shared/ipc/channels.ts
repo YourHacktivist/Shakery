@@ -38,6 +38,8 @@ export const IPC_CHANNELS = [
   'recipes.restore',
   'recipes.quickIdea',
   'recipes.compute',
+  'recipes.getVersion',
+  'recipes.referenceZones',
   'import.choose',
   'import.apply',
   'search.query',

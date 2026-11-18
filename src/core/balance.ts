@@ -21,7 +21,7 @@ export type ZoneSource = {
 export type Zone = {
   readonly from: number
   readonly to: number
-  readonly recipeIds: readonly string[]
+  readonly recipeIds: string[]
 }
 
 export type FamilyZones = Partial<Record<ZoneMetric, Zone>>

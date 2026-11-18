@@ -42,6 +42,14 @@ test('screens', async () => {
     await expect(page.getByRole('heading', { name: 'Negroni', level: 1 })).toBeVisible()
     await page.waitForTimeout(400)
     await page.screenshot({ path: `${OUT}/detail.png` })
+    await page.keyboard.press('Control+E')
+    await expect(page.getByText(/^Atelier ·/)).toBeVisible()
+    await page.waitForTimeout(400)
+    await page.screenshot({ path: `${OUT}/lab.png` })
+    await page.getByRole('radio', { name: 'Comparer' }).click()
+    await page.waitForTimeout(400)
+    await page.screenshot({ path: `${OUT}/lab-compare.png` })
+    await page.getByRole('radio', { name: 'Atelier' }).click()
     const sidebar = page.getByRole('complementary', { name: 'Barre latérale' })
     for (const [link, file] of [
       ['Fiches', 'recipes'],

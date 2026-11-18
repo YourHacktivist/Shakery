@@ -20,7 +20,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## État au 18 novembre 2026 (fin de journée)
 
-Phases 0 à 3 et 5 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
+Phases 0 à 3, 5 et 6 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
 
 Changements de cette session :
 
@@ -76,9 +76,18 @@ En attente de l'utilisateur (ne pas bloquer la suite) :
 
 Reste de la section 10.4 non fait (à reprendre avec les phases concernées) : filtres par spiritueux de base, verre, collection, tags, profil aromatique et exclusion d'un allergène ; actions de palette « Ouvrir dans l'atelier », « Noter une dégustation », « Comparer avec… » (phases 6 et 7). Démarrage en moins de 3 s et défilement à 60 images par seconde non mesurés automatiquement.
 
+## Phase 6 livrée (atelier)
+
+- `src/core/compare.ts` (diff de deux versions : lignes rapprochées par ingrédient dans l'ordre, écarts de dose, méthode, verre, réordonnancement seul sans changement) et `src/core/balance.ts` (zones P25 à P75 par famille, fiches `final` ou classiques, valeur complète, à partir de 5 fiches, liste des fiches). Tests dans `src/core/lab.test.ts`.
+- IPC `recipes.getVersion` (instantané d'une version) et `recipes.referenceZones` (calcul dans `src/main/services/zones.ts`, mis en cache tant que recettes, lignes, ingrédients et bouteilles n'ont pas changé).
+- Écran `features/lab/` : `/lab` choix d'une fiche ou départ de zéro, `/lab/:id` et `/lab/new`. Copie en mémoire (`labState.ts`, annuler et rétablir illimités, Ctrl+Z, Ctrl+Y), lignes désactivables (non enregistrées), réglage par pas (2,5 ml, 1/4 oz…), indicateurs en direct avec jauge, zone de la famille (infobulle des fiches) et repère de la version enregistrée, enregistrement en nouvelle version (nom facultatif) ou en variante, abandon, confirmation en quittant. Mode comparaison (`CompareView.tsx`) : jusqu'à trois versions dont le brouillon, écarts chiffrés, `VersionDiff`.
+- Ctrl+E ouvre la fiche affichée dans l'atelier ; le bouton « Atelier » de la fiche est actif.
+- E2e `tests/e2e/lab.spec.ts` : dose modifiée, volume recalculé, annuler et rétablir, rien en base avant l'enregistrement, version 2 enregistrée, comparaison.
+
+Limites connues : les zones n'apparaissent qu'une fois les degrés et compositions renseignés (les spiritueux génériques de départ n'ont pas de degré, voir D-030) ; « Noter une dégustation » attend la phase 7.
+
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 6 : atelier.
 - Phase 7 : journal de dégustation et carnet.
 - Phase 8 : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).

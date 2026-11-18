@@ -40,7 +40,14 @@ export const queryKeys = {
   iceTypes: ['reference', 'iceTypes'] as const,
 }
 
-const CATALOG_KEYS: QueryKey[] = [['recipes'], ['ingredients'], ['products'], ['computation']]
+const CATALOG_KEYS: QueryKey[] = [
+  ['recipes'],
+  ['ingredients'],
+  ['products'],
+  ['computation'],
+  ['zones'],
+  ['search'],
+]
 
 export function invalidateCatalog(client: QueryClient): Promise<void> {
   return Promise.all(CATALOG_KEYS.map((queryKey) => client.invalidateQueries({ queryKey }))).then(
@@ -69,6 +76,21 @@ export function recordView(entityType: 'recipe' | 'ingredient' | 'product', enti
   void api()
     .recentViews.record({ entityType, entityId })
     .catch(() => undefined)
+}
+
+/** Reference zones by family, for the lab gauges (section 8). */
+export function useReferenceZones() {
+  return useQuery({ queryKey: ['zones'], queryFn: () => unwrap(api().recipes.referenceZones()) })
+}
+
+/** Snapshot of a past version of a recipe. */
+export function useRecipeVersion(id: string, version: number | null) {
+  return useQuery({
+    queryKey: ['recipe-version', id, version],
+    queryFn: () => unwrap(api().recipes.getVersion({ id, version: version ?? 1 })),
+    enabled: version !== null,
+    staleTime: Infinity,
+  })
 }
 
 export function useRecipes() {

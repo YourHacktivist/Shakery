@@ -14,7 +14,8 @@ Application de bureau Electron, React, Tailwind CSS v4 et TypeScript. Le cahier 
 | 3      | Ingrédients, bouteilles et fiches : éditeur, versions, variantes, idée rapide, calculs, import `.shakery`  | livrée                                 |
 | 4      | Base de départ : 308 ingrédients (Wikidata, Ciqual, rédaction), 102 cocktails IBA, 10 préparations         | livrée, relecture à faire              |
 | 5      | Recherche Ctrl+K (plein texte et approchée), fiches réalisables, mode préparation                          | livrée                                 |
-| 6 à 11 | Atelier, journal, bar, accueil, export, finitions                                                          | à venir, dans l'ordre de la section 14 |
+| 6      | Atelier : doses en direct, zones de référence, versions, variantes, comparaison                            | livrée                                 |
+| 7 à 11 | Journal, bar, accueil, export, finitions                                                                   | à venir, dans l'ordre de la section 14 |
 
 L'application gère les ingrédients, les bouteilles et les fiches (création, édition, statuts, versions, variantes, idée rapide), calcule volume, degré, sucre, acidité, coût et allergènes, et importe un carnet `.shakery` depuis les paramètres.
 

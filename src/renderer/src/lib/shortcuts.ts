@@ -32,7 +32,7 @@ export const SHORTCUTS: readonly Shortcut[] = [
   { id: 'quickIdea', keys: ['mod', 'N'], available: true },
   { id: 'newRecipe', keys: ['mod', 'shift', 'N'], available: true },
   { id: 'tastingNote', keys: ['mod', 'J'], available: false },
-  { id: 'openInLab', keys: ['mod', 'E'], available: false },
+  { id: 'openInLab', keys: ['mod', 'E'], available: true },
   { id: 'print', keys: ['mod', 'P'], available: false },
   { id: 'prepMode', keys: ['F11'], available: true },
   { id: 'back', keys: ['escape'], available: true },

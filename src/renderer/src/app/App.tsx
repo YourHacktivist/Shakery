@@ -34,6 +34,7 @@ const SCREENS: RouteObject[] = [
   { path: '/recipes/:id', element: <RecipeDetailPage /> },
   { path: '/recipes/:id/edit', element: <RecipeEditorPage /> },
   { path: '/lab', element: <LabPage /> },
+  { path: '/lab/:id', element: <LabPage /> },
   { path: '/journal', element: <JournalPage /> },
   { path: '/notebook', element: <NotebookPage /> },
   { path: '/bar', element: <BarPage /> },
