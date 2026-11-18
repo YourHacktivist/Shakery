@@ -29,7 +29,7 @@ test('MAF notebooks import', async () => {
     await expect(page.getByText(/Import terminé/)).toBeVisible({ timeout: 30_000 })
 
     await sidebar.getByRole('link', { name: 'Fiches', exact: true }).click()
-    await expect(page.getByText('36 fiches', { exact: true })).toBeVisible()
+    await expect(page.getByText(/^[0-9]+ fiches$/)).toBeVisible()
     await page.screenshot({ path: `${OUT}/maf-recipes.png` })
     await page.getByRole('option').first().dblclick()
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

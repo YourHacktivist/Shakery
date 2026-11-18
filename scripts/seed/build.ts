@@ -3,7 +3,9 @@
  *
  * - Wikidata candidates kept by review/decisions.json (source wikidata, QID in external_ref);
  * - hand-written ingredients of hand-ingredients.json (source seed);
- * - sugar and acid from review/ciqual-values.json (composition_source ciqual).
+ * - sugar and acid from review/ciqual-values.json (composition_source ciqual);
+ * then data/seed/recipes.json: the classic preparations of preps.json, then the IBA cocktails
+ * (review/iba-raw.json read through iba-map.json, French texts of iba-fr.json).
  *
  * Fails on an unknown category, a duplicate normalised name in a category, an alias that is
  * the name of another ingredient, a decision that matches no candidate, or `needs_review`.
@@ -13,7 +15,9 @@
 import path from 'node:path'
 import { normalizeName } from '../../src/core/normalize'
 import type { CiqualValue } from './ciqual'
+import type { IbaCocktail } from './iba'
 import { DATA_DIR, readJson, REVIEW_DIR, SEED_DIR, slugify, writeJson } from './lib'
+import { buildRecipes, type IbaFrench, type IbaMap, type RecipeSeed, type SeedUnit } from './recipes'
 import type { Candidate } from './wikidata'
 
 type Decision = string | { category: string; name: string }
@@ -163,6 +167,68 @@ async function main(): Promise<void> {
   console.log(
     `${out.length} ingredients written, ${out.filter((i) => i.composition_source).length} with Ciqual values`,
   )
+
+  // Recipes: preparations first, each one becoming an ingredient the next ones can use.
+  const byName = new Map(out.map((ingredient) => [normalizeName(ingredient.name), ingredient.seed_key]))
+  const { preps } = await readJson<{ preps: PrepEntry[] }>(path.join(SEED_DIR, 'preps.json'))
+  const recipes: RecipeSeed[] = []
+  for (const prep of preps) {
+    if (!leaves.has(prep.category)) throw new Error(`${prep.name}: ${prep.category} is not a leaf`)
+    const ingredientKey = `ing.prep.${slugify(prep.name)}`
+    recipes.push({
+      seed_key: `prep.${slugify(prep.name)}`,
+      name: prep.name,
+      kind: 'prep',
+      source: 'seed',
+      family: null,
+      method: null,
+      glass: null,
+      ice: null,
+      garnish: null,
+      steps: prep.steps,
+      notes: prep.notes ?? null,
+      credit: null,
+      yield_ml: null,
+      ingredient_key: ingredientKey,
+      category: prep.category,
+      lines: prep.lines.map((line) => {
+        const key = byName.get(normalizeName(line.ingredient))
+        if (!key) throw new Error(`${prep.name}: unknown ingredient ${line.ingredient}`)
+        return {
+          ingredient: key,
+          quantity: line.quantity,
+          unit: line.unit,
+          is_optional: line.optional ?? false,
+          is_garnish: false,
+          note: line.note ?? null,
+        }
+      }),
+    })
+    byName.set(normalizeName(prep.name), ingredientKey)
+  }
+
+  const raw = await readJson<IbaCocktail[]>(path.join(REVIEW_DIR, 'iba-raw.json'))
+  const map = await readJson<IbaMap>(path.join(SEED_DIR, 'iba-map.json'))
+  const french = await readJson<Record<string, IbaFrench>>(path.join(SEED_DIR, 'iba-fr.json'))
+  const iba = buildRecipes(raw, map, french, byName)
+  if (iba.unknownLines.length > 0 || iba.missingFrench.length > 0) {
+    throw new Error(
+      `IBA lines to read by hand:\n${iba.unknownLines.join('\n')}\nWithout French text: ${iba.missingFrench.join(', ')}`,
+    )
+  }
+  const empty = iba.recipes.filter((recipe) => recipe.lines.length === 0).map((recipe) => recipe.name)
+  if (empty.length > 0) throw new Error(`IBA recipes without lines: ${empty.join(', ')}`)
+  recipes.push(...iba.recipes.sort((a, b) => a.name.localeCompare(b.name, 'fr')))
+  await writeJson(path.join(DATA_DIR, 'recipes.json'), recipes)
+  console.log(`${preps.length} preparations and ${iba.recipes.length} IBA cocktails written`)
+}
+
+type PrepEntry = {
+  name: string
+  category: string
+  steps: string[]
+  notes?: string
+  lines: { ingredient: string; quantity: number | null; unit: SeedUnit; note?: string; optional?: boolean }[]
 }
 
 void main()

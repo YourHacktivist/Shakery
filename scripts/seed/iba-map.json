@@ -1,0 +1,467 @@
+{
+  "_comment": "Lecture des lignes d'ingrédients du site de l'IBA. ingredients : libellé IBA en minuscules vers le nom d'un ingrédient de départ. units : mots d'unité. lines : lignes lues à la main, par texte exact (quantité sans unité, lignes fusionnées par le site, mesures approximatives). Les marques citées par l'IBA vont dans la note de la ligne quand elles précisent un style.",
+  "units": {
+    "ml": "ml",
+    "dash": "dash",
+    "dashes": "dash",
+    "drop": "drop",
+    "drops": "drop",
+    "bar spoon": "barspoon",
+    "bar spoons": "barspoon",
+    "teaspoon": "tsp",
+    "teaspoons": "tsp",
+    "tsp": "tsp",
+    "pc": "piece",
+    "pcs": "piece",
+    "fresh": "piece",
+    "thin slices": "slice",
+    "top up with": "top",
+    "top up": "top",
+    "top with": "top",
+    "fill up with": "top"
+  },
+  "ingredients": {
+    "cognac": "Cognac",
+    "brandy": "Brandy",
+    "calvados": "Calvados",
+    "pisco": "Pisco",
+    "cachaça": "Cachaça",
+    "cachaca": "Cachaça",
+    "white smooth grappa": "Grappa",
+    "gin": "Gin",
+    "dry gin": "Gin",
+    "london dry gin": "Gin London Dry",
+    "old tom gin": "Old Tom Gin",
+    "vodka": "Vodka",
+    "smirnoff vodka": "Vodka",
+    "vodka citron": "Vodka aromatisée au citron",
+    "vodka vanilla": "Vodka aromatisée à la vanille",
+    "vanilla vodka": "Vodka aromatisée à la vanille",
+    "tequila": "Tequila",
+    "tequila 100% agave": "Tequila",
+    "100% agave tequila": "Tequila",
+    "mezcal": "Mezcal",
+    "espadin mezcal": "Mezcal",
+    "rum": "Rhum",
+    "white rum": "Rhum blanc",
+    "white cuban ron": "Rhum blanc",
+    "cuban rum": "Rhum blanc",
+    "aged rum": "Rhum vieux",
+    "blended aged rum": "Rhum vieux",
+    "gold jamaican rum": "Rhum de la Jamaïque",
+    "amber jamaican rum": "Rhum de la Jamaïque",
+    "jamaican rum": "Rhum de la Jamaïque",
+    "jamaican dark rum": "Rhum de la Jamaïque",
+    "jamaica overproof white rum": "Rhum blanc overproof",
+    "gold puerto rican rum": "Rhum ambré",
+    "demerara rum": "Rhum Demerara",
+    "goslings rum": "Rhum brun",
+    "blackstrap rum": "Rhum brun",
+    "martinique molasses rhum*": "Rhum",
+    "rhum martinique agricole": "Rhum de la Martinique",
+    "ron profundo havana club": "Rhum vieux",
+    "ron smoky havana club": "Rhum vieux",
+    "cuban aguardiente": "Aguardiente de Cuba",
+    "bourbon whiskey": "Bourbon",
+    "bourbon or rye whiskey": "Bourbon",
+    "rye whiskey": "Rye whisky",
+    "rye whiskey or bourbon": "Rye whisky",
+    "irish whiskey": "Whiskey irlandais",
+    "scotch whisky": "Whisky écossais",
+    "blended scotch whisky": "Whisky écossais",
+    "lagavulin 16y": "Whisky d'Islay",
+    "absinthe": "Absinthe",
+    "pernod": "Pastis",
+    "bitter campari": "Campari",
+    "campari": "Campari",
+    "aperol": "Aperol",
+    "cynar": "Cynar",
+    "fernet": "Fernet-Branca",
+    "fernet branca": "Fernet-Branca",
+    "amaro nonino": "Amaro",
+    "sweet red vermouth": "Vermouth rouge",
+    "sweet vermouth": "Vermouth rouge",
+    "sweet vermouth cinzano rosso": "Vermouth rouge",
+    "dry vermouth": "Vermouth sec",
+    "lillet blanc": "Lillet blanc",
+    "red tawny port wine": "Porto",
+    "amontillado sherry": "Amontillado",
+    "palo cortado": "Palo Cortado",
+    "dry white wine": "Vin blanc sec",
+    "red wine (shiraz or malbech)": "Vin rouge",
+    "prosecco": "Prosecco",
+    "champagne": "Champagne",
+    "chilled champagne": "Champagne",
+    "brut champagne or prosecco": "Champagne",
+    "sparkling wine": "Vin mousseux",
+    "apricot brandy": "Apricot brandy",
+    "cherry brandy luxardo": "Cherry brandy",
+    "cherry sangue morlacco": "Cherry brandy",
+    "maraschino luxardo": "Marasquin",
+    "crème de violette": "Crème de violette",
+    "curacao": "Curaçao",
+    "orange curacao": "Curaçao",
+    "triple sec": "Triple sec",
+    "cointreau": "Triple sec",
+    "grand marnier": "Liqueur d'orange",
+    "coffee liqueur": "Liqueur de café",
+    "kahlúa": "Liqueur de café",
+    "crème de cacao (brown)": "Crème de cacao brun",
+    "crème de cacao (white)": "Crème de cacao blanc",
+    "crème de menthe (green)": "Crème de menthe",
+    "white crème de menthe": "Crème de menthe",
+    "crème de mûre": "Crème de mûre",
+    "crème de cassis": "Crème de cassis",
+    "creme de cassis": "Crème de cassis",
+    "raspberry liqueur": "Crème de framboise",
+    "peach brandy": "Crème de pêche",
+    "peach schnapps": "Schnapps à la pêche",
+    "passion fruit liqueur": "Liqueur de fruit de la passion",
+    "drambuie": "Drambuie",
+    "bénédictine": "Bénédictine",
+    "dom bénédictine": "Bénédictine",
+    "green chartreuse": "Chartreuse verte",
+    "yellow chartreuse": "Chartreuse jaune",
+    "falernum": "Falernum",
+    "amaretto": "Amaretto",
+    "licor amaretto": "Amaretto",
+    "licor frangelico": "Liqueur de noisette",
+    "angostura bitters": "Angostura bitters",
+    "aromatic bitters": "Angostura bitters",
+    "orange bitters": "Orange bitters",
+    "peychaud’s bitters": "Bitters Peychaud",
+    "fresh lemon juice": "Jus de citron",
+    "fresh squeezed lemon juice": "Jus de citron",
+    "freshly squeezed lemon juice": "Jus de citron",
+    "lemon juice": "Jus de citron",
+    "fresh lime juice": "Jus de citron vert",
+    "fresh squeezed lime juice": "Jus de citron vert",
+    "freshly squeezed lime juice": "Jus de citron vert",
+    "lime juice": "Jus de citron vert",
+    "fresh lime": "Jus de citron vert",
+    "fresh orange juice": "Jus d'orange",
+    "freshly squeezed orange juice": "Jus d'orange",
+    "fresh pineapple juice": "Jus d'ananas",
+    "pineapple juice": "Jus d'ananas",
+    "grapefruit juice": "Jus de pamplemousse",
+    "cranberry juice": "Jus de canneberge",
+    "tomato juice": "Jus de tomate",
+    "sugar cane juice": "Jus de canne à sucre",
+    "white peach puree": "Purée de pêche blanche",
+    "passion fruit puree": "Purée de fruit de la passion",
+    "coconut cream": "Crème de coco",
+    "soda water": "Eau gazeuse",
+    "cola": "Cola",
+    "ginger beer": "Ginger beer",
+    "ginger ale": "Ginger ale",
+    "pink grapefruit soda": "Soda au pamplemousse",
+    "water": "Eau plate",
+    "hot coffee": "Café chaud",
+    "strong espresso": "Café expresso",
+    "cream": "Crème liquide",
+    "fresh cream": "Crème liquide",
+    "fresh cream (chilled)": "Crème liquide",
+    "egg white": "Blanc d'œuf",
+    "egg yolk": "Jaune d'œuf",
+    "simple syrup": "Sirop simple",
+    "sugar syrup": "Sirop simple",
+    "demerara sugar syrup": "Sirop de sucre demerara",
+    "honey syrup": "Sirop de miel",
+    "honey mix": "Sirop de miel",
+    "monin honey syrup": "Sirop de miel",
+    "raw honey": "Miel",
+    "agave nectar": "Sirop d'agave",
+    "grenadine syrup": "Sirop de grenadine",
+    "orgeat syrup": "Sirop d'orgeat",
+    "orgeat syrup (almond)": "Sirop d'orgeat",
+    "raspberry syrup": "Sirop de framboise",
+    "passion fruit syrup": "Sirop de fruit de la passion",
+    "elderflower cordial": "Sirop de fleur de sureau",
+    "chamomile cordial": "Cordial de camomille",
+    "donn’s mix*": "Donn's mix",
+    "sugar": "Sucre blanc",
+    "white cane sugar": "Sucre blanc",
+    "superfine sugar": "Sucre blanc",
+    "superfine sugar (or granulated)": "Sucre blanc",
+    "powdered sugar": "Sucre glace",
+    "vanilla sugar": "Sucre vanillé",
+    "sugar cube": "Sucre en morceaux",
+    "worcestershire sauce": "Sauce Worcestershire",
+    "orange flower water": "Eau de fleur d'oranger",
+    "vanilla extract": "Extrait de vanille",
+    "cloves": "Clou de girofle",
+    "italian basil leaves": "Basilic",
+    "mint leaves": "Menthe verte",
+    "mint sprigs": "Menthe verte",
+    "mint sprigs*": "Menthe verte",
+    "gengibre slice": "Gingembre",
+    "red chili pepper": "Piment rouge frais",
+    "cognac or brandy": "Cognac"
+  },
+  "lines": {
+    "A splash of Soda Water": {
+      "quantity": null,
+      "unit": "top",
+      "ingredient": "Eau gazeuse",
+      "note": "un trait"
+    },
+    "Splash of Soda Water": {
+      "quantity": null,
+      "unit": "top",
+      "ingredient": "Eau gazeuse",
+      "note": "un trait"
+    },
+    "Splash of Soda water": {
+      "quantity": null,
+      "unit": "top",
+      "ingredient": "Eau gazeuse",
+      "note": "un trait"
+    },
+    "Soda Water": {
+      "quantity": null,
+      "unit": "top",
+      "ingredient": "Eau gazeuse"
+    },
+    "Tabasco, Celery Salt, Pepper (Up to taste)": [
+      {
+        "quantity": null,
+        "unit": "to_taste",
+        "ingredient": "Sauce pimentée"
+      },
+      {
+        "quantity": null,
+        "unit": "to_taste",
+        "ingredient": "Sel de céleri"
+      },
+      {
+        "quantity": null,
+        "unit": "to_taste",
+        "ingredient": "Poivre noir"
+      }
+    ],
+    "1 Lime cut into small wedges": {
+      "quantity": 1,
+      "unit": "piece",
+      "ingredient": "Citron vert",
+      "note": "coupé en petits quartiers"
+    },
+    "Few Drops of Egg White": {
+      "quantity": null,
+      "unit": "to_taste",
+      "ingredient": "Blanc d'œuf",
+      "note": "quelques gouttes"
+    },
+    "Few Drops of Egg White (Optional)": {
+      "quantity": null,
+      "unit": "to_taste",
+      "ingredient": "Blanc d'œuf",
+      "note": "quelques gouttes",
+      "optional": true
+    },
+    "Few drops Egg white (Optional)": {
+      "quantity": null,
+      "unit": "to_taste",
+      "ingredient": "Blanc d'œuf",
+      "note": "quelques gouttes",
+      "optional": true
+    },
+    "1 Raw whole Egg White": {
+      "quantity": 1,
+      "unit": "piece",
+      "ingredient": "Blanc d'œuf"
+    },
+    "30ml Egg white": {
+      "quantity": 30,
+      "unit": "ml",
+      "ingredient": "Blanc d'œuf"
+    },
+    "60ml Gin": {
+      "quantity": 60,
+      "unit": "ml",
+      "ingredient": "Gin"
+    },
+    "90 Fresh Pineapple Juice": {
+      "quantity": 90,
+      "unit": "ml",
+      "ingredient": "Jus d'ananas"
+    },
+    "30 Fresh Lime Juice": {
+      "quantity": 30,
+      "unit": "ml",
+      "ingredient": "Jus de citron vert"
+    },
+    "Few drops of Grand Marnier (optional)": {
+      "quantity": null,
+      "unit": "drop",
+      "ingredient": "Liqueur d'orange",
+      "note": "quelques gouttes de Grand Marnier",
+      "optional": true
+    },
+    "Dash of Angostura Bitters (optional)": {
+      "quantity": 1,
+      "unit": "dash",
+      "ingredient": "Angostura bitters",
+      "optional": true
+    },
+    "A dash of Angostura bitters": {
+      "quantity": 1,
+      "unit": "dash",
+      "ingredient": "Angostura bitters"
+    },
+    "Few Dashes Angostura Bitters": {
+      "quantity": null,
+      "unit": "dash",
+      "ingredient": "Angostura bitters",
+      "note": "quelques traits"
+    },
+    "Few Dashes Plain Water": {
+      "quantity": null,
+      "unit": "dash",
+      "ingredient": "Eau plate",
+      "note": "quelques traits"
+    },
+    "2 Drops Angostura (Optional)": {
+      "quantity": 2,
+      "unit": "drop",
+      "ingredient": "Angostura bitters",
+      "optional": true
+    },
+    "A pinch of Salt": {
+      "quantity": null,
+      "unit": "to_taste",
+      "ingredient": "Sel fin",
+      "note": "une pincée"
+    },
+    "1 Tablespoon Absinthe": {
+      "quantity": 15,
+      "unit": "ml",
+      "ingredient": "Absinthe",
+      "note": "une cuillère à soupe"
+    },
+    "1 Tablespoon Grenadine Syrup": {
+      "quantity": 15,
+      "unit": "ml",
+      "ingredient": "Sirop de grenadine",
+      "note": "une cuillère à soupe"
+    },
+    "1/4 Bar Spoon of Absinthe": {
+      "quantity": 0.25,
+      "unit": "barspoon",
+      "ingredient": "Absinthe"
+    },
+    "6/8 pcs Mint Leaves": {
+      "quantity": 6,
+      "unit": "leaf",
+      "ingredient": "Menthe verte",
+      "note": "6 à 8 feuilles"
+    },
+    "5/6 Mint leaves": {
+      "quantity": 5,
+      "unit": "leaf",
+      "ingredient": "Menthe verte",
+      "note": "5 ou 6 feuilles"
+    },
+    "10 pcs Mint Leaves": {
+      "quantity": 10,
+      "unit": "leaf",
+      "ingredient": "Menthe verte"
+    },
+    "10 pcs Italian Basil leaves": {
+      "quantity": 10,
+      "unit": "leaf",
+      "ingredient": "Basilic"
+    },
+    "6 pcs Mint Sprigs": {
+      "quantity": 6,
+      "unit": "piece",
+      "ingredient": "Menthe verte",
+      "note": "brins"
+    },
+    "4 fresh Mint sprigs": {
+      "quantity": 4,
+      "unit": "piece",
+      "ingredient": "Menthe verte",
+      "note": "brins"
+    },
+    "3 to 4 pcs Pineapple Chunks": {
+      "quantity": 3,
+      "unit": "piece",
+      "ingredient": "Ananas",
+      "note": "3 ou 4 morceaux"
+    },
+    "2-3 quarter size sliced fresh ginger": {
+      "quantity": 2,
+      "unit": "slice",
+      "ingredient": "Gingembre",
+      "note": "2 ou 3 fines tranches, frais"
+    },
+    "1 pc Gengibre Slice": {
+      "quantity": 1,
+      "unit": "slice",
+      "ingredient": "Gingembre",
+      "note": "frais"
+    },
+    "3 pcs Cloves": {
+      "quantity": 3,
+      "unit": "piece",
+      "ingredient": "Clou de girofle"
+    },
+    "1/2 Orange Wheel": {
+      "quantity": 0.5,
+      "unit": "slice",
+      "ingredient": "Orange"
+    },
+    "1/2 Lemon Wheel": {
+      "quantity": 0.5,
+      "unit": "slice",
+      "ingredient": "Citron"
+    },
+    "7.5 ml Allspice Saint Elizabeth15 ml Fresh Lime Juice": [
+      {
+        "quantity": 7.5,
+        "unit": "ml",
+        "ingredient": "Liqueur de piment de la Jamaïque"
+      },
+      {
+        "quantity": 15,
+        "unit": "ml",
+        "ingredient": "Jus de citron vert"
+      }
+    ],
+    "50 ml Champagne to serve on the side": {
+      "quantity": 50,
+      "unit": "ml",
+      "ingredient": "Champagne",
+      "note": "servi à part",
+      "optional": true
+    },
+    "15 ml Honey mix (replace water with chamomile)*": {
+      "quantity": 15,
+      "unit": "ml",
+      "ingredient": "Sirop de miel",
+      "note": "l'eau peut être remplacée par une infusion de camomille"
+    },
+    "1 strong Espresso": {
+      "quantity": 1,
+      "unit": "piece",
+      "ingredient": "Café expresso",
+      "note": "serré"
+    },
+    "1 sugar cube": {
+      "quantity": 1,
+      "unit": "piece",
+      "ingredient": "Sucre en morceaux"
+    },
+    "1 Sugar Cube": {
+      "quantity": 1,
+      "unit": "piece",
+      "ingredient": "Sucre en morceaux"
+    },
+    "2 thin Slices Red Chili Pepper": {
+      "quantity": 2,
+      "unit": "slice",
+      "ingredient": "Piment rouge frais",
+      "note": "fines"
+    }
+  }
+}

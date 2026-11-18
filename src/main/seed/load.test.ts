@@ -25,6 +25,7 @@ const base: SeedData = {
       external_ref: 'Q1',
     },
   ],
+  recipes: [],
 }
 
 describe('validateSeedData', () => {

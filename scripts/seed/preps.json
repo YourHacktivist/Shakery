@@ -1,0 +1,146 @@
+{
+  "_comment": "Préparations classiques rédigées à la main (section 9). Proportions d'usage courant, données comme recettes et non comme valeurs mesurées. Aucune durée de conservation : elle est fixée par l'utilisateur. Le rendement n'est pas renseigné : il se mesure à la fabrication. Les lignes désignent les ingrédients par leur nom ; une préparation peut utiliser une préparation listée avant elle.",
+  "preps": [
+    {
+      "name": "Sirop simple",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Sucre blanc", "quantity": 500, "unit": "g" },
+        { "ingredient": "Eau plate", "quantity": 500, "unit": "ml" }
+      ],
+      "steps": [
+        "Chauffer l'eau sans la porter à ébullition.",
+        "Ajouter le sucre et remuer jusqu'à ce qu'il soit entièrement dissous.",
+        "Laisser refroidir, puis mettre en bouteille propre et fermée."
+      ],
+      "notes": "Une part de sucre pour une part d'eau, en poids."
+    },
+    {
+      "name": "Sirop riche",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Sucre blanc", "quantity": 1000, "unit": "g" },
+        { "ingredient": "Eau plate", "quantity": 500, "unit": "ml" }
+      ],
+      "steps": [
+        "Chauffer l'eau à feu doux.",
+        "Verser le sucre en plusieurs fois en remuant, sans faire bouillir, jusqu'à dissolution complète.",
+        "Laisser refroidir, puis mettre en bouteille propre et fermée."
+      ],
+      "notes": "Deux parts de sucre pour une part d'eau, en poids."
+    },
+    {
+      "name": "Sirop de miel",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Miel", "quantity": 200, "unit": "ml" },
+        { "ingredient": "Eau plate", "quantity": 100, "unit": "ml" }
+      ],
+      "steps": [
+        "Tiédir l'eau.",
+        "Ajouter le miel et remuer jusqu'à obtenir un sirop homogène.",
+        "Laisser refroidir, puis mettre en bouteille."
+      ],
+      "notes": "Deux volumes de miel pour un volume d'eau : le miel se mélange ainsi à froid dans un cocktail."
+    },
+    {
+      "name": "Grenadine maison",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Jus de grenade", "quantity": 500, "unit": "ml" },
+        { "ingredient": "Sucre blanc", "quantity": 500, "unit": "g" },
+        { "ingredient": "Eau de fleur d'oranger", "quantity": 2, "unit": "dash", "optional": true }
+      ],
+      "steps": [
+        "Chauffer doucement le jus de grenade sans le faire bouillir.",
+        "Ajouter le sucre et remuer jusqu'à dissolution complète.",
+        "Hors du feu, ajouter l'eau de fleur d'oranger si souhaité.",
+        "Laisser refroidir, puis mettre en bouteille."
+      ]
+    },
+    {
+      "name": "Sirop d'orgeat maison",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Amande", "quantity": 250, "unit": "g", "note": "émondées" },
+        { "ingredient": "Eau plate", "quantity": 500, "unit": "ml" },
+        { "ingredient": "Sucre blanc", "quantity": 300, "unit": "g" },
+        { "ingredient": "Eau de fleur d'oranger", "quantity": 1, "unit": "tsp" }
+      ],
+      "steps": [
+        "Torréfier légèrement les amandes à sec, puis les laisser refroidir.",
+        "Les mixer finement avec l'eau et laisser reposer une heure.",
+        "Filtrer à travers une étamine en pressant bien la pulpe.",
+        "Dissoudre le sucre dans le lait d'amande à feu doux, sans bouillir.",
+        "Hors du feu, ajouter l'eau de fleur d'oranger, laisser refroidir et mettre en bouteille."
+      ]
+    },
+    {
+      "name": "Oleo saccharum citron",
+      "category": "cat.preps.cordials",
+      "lines": [
+        { "ingredient": "Citron", "quantity": 6, "unit": "piece", "note": "zestes seulement, sans le blanc" },
+        { "ingredient": "Sucre blanc", "quantity": 150, "unit": "g" }
+      ],
+      "steps": [
+        "Prélever les zestes des citrons en évitant la partie blanche.",
+        "Les mélanger au sucre et les presser légèrement pour en libérer les huiles.",
+        "Couvrir et laisser reposer plusieurs heures, jusqu'à ce que le sucre ait fondu dans les huiles.",
+        "Retirer les zestes en les pressant."
+      ]
+    },
+    {
+      "name": "Cordial citron vert",
+      "category": "cat.preps.cordials",
+      "lines": [
+        { "ingredient": "Jus de citron vert", "quantity": 250, "unit": "ml" },
+        { "ingredient": "Sucre blanc", "quantity": 250, "unit": "g" },
+        { "ingredient": "Citron vert", "quantity": 2, "unit": "piece", "note": "zestes" }
+      ],
+      "steps": [
+        "Prélever les zestes des citrons verts.",
+        "Mélanger le jus, le sucre et les zestes, puis remuer jusqu'à dissolution complète du sucre, à froid ou à feu très doux.",
+        "Laisser infuser une heure, filtrer et mettre en bouteille."
+      ]
+    },
+    {
+      "name": "Sirop de gingembre",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Gingembre", "quantity": 200, "unit": "g", "note": "frais, épluché et tranché" },
+        { "ingredient": "Eau plate", "quantity": 250, "unit": "ml" },
+        { "ingredient": "Sucre blanc", "quantity": 250, "unit": "g" }
+      ],
+      "steps": [
+        "Mixer le gingembre avec l'eau.",
+        "Filtrer en pressant bien la pulpe.",
+        "Dissoudre le sucre dans le jus obtenu, à froid ou à feu doux.",
+        "Mettre en bouteille."
+      ]
+    },
+    {
+      "name": "Sirop de cannelle",
+      "category": "cat.preps.syrups",
+      "lines": [
+        { "ingredient": "Cannelle", "quantity": 4, "unit": "piece", "note": "bâtons concassés" },
+        { "ingredient": "Eau plate", "quantity": 500, "unit": "ml" },
+        { "ingredient": "Sucre blanc", "quantity": 500, "unit": "g" }
+      ],
+      "steps": [
+        "Porter l'eau et la cannelle à frémissement, puis laisser infuser hors du feu.",
+        "Ajouter le sucre et remuer jusqu'à dissolution complète.",
+        "Laisser refroidir avec la cannelle, filtrer et mettre en bouteille."
+      ]
+    },
+    {
+      "name": "Donn's mix",
+      "category": "cat.preps.batches",
+      "lines": [
+        { "ingredient": "Jus de pamplemousse", "quantity": 200, "unit": "ml" },
+        { "ingredient": "Sirop de cannelle", "quantity": 100, "unit": "ml" }
+      ],
+      "steps": ["Mélanger le jus de pamplemousse et le sirop de cannelle juste avant le service."],
+      "notes": "Deux parts de jus de pamplemousse pour une part de sirop de cannelle, d'après Donn Beach."
+    }
+  ]
+}

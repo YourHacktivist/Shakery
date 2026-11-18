@@ -9,10 +9,13 @@ import { and, eq, isNotNull, isNull } from 'drizzle-orm'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
 import { ALLERGEN_CODES } from '../../shared/domain/allergens'
+import { FAMILY_VALUES, METHOD_VALUES, UNIT_VALUES } from '../../shared/domain/catalog'
 import { BATCH_HINT_VALUES } from '../../shared/domain/reference'
 import type { Db, Ids } from '../db/client'
+import { IngredientRepository } from '../db/repositories/ingredients'
+import { RecipeRepository } from '../db/repositories/recipes'
 import { indexEntity } from '../db/repositories/search-index'
-import { categories, glasses, iceTypes, ingredientAliases, ingredients } from '../db/schema'
+import { categories, glasses, iceTypes, ingredientAliases, ingredients, recipes } from '../db/schema'
 
 const seedKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,80}$/)
 const label = z.string().trim().min(1).max(120)
@@ -71,11 +74,50 @@ export const ingredientSeedSchema = z
   })
   .strict()
 
+const recipeLineSeedSchema = z
+  .object({
+    ingredient: seedKey,
+    quantity: z.number().min(0).max(100_000).nullable(),
+    unit: z.enum(UNIT_VALUES),
+    is_optional: z.boolean(),
+    is_garnish: z.boolean(),
+    note: z.string().max(500).nullable(),
+  })
+  .strict()
+
+/**
+ * A classic cocktail (IBA) or a classic homemade preparation. A preparation is also an
+ * ingredient: `ingredient_key` is the seed_key given to it, `category` its leaf category.
+ */
+export const recipeSeedSchema = z
+  .object({
+    seed_key: seedKey,
+    name: label,
+    kind: z.enum(['cocktail', 'prep']),
+    source: z.enum(['seed_iba', 'seed']),
+    family: z.enum(FAMILY_VALUES).nullable(),
+    method: z.enum(METHOD_VALUES).nullable(),
+    glass: seedKey.nullable(),
+    ice: seedKey.nullable(),
+    garnish: z.string().max(300).nullable(),
+    steps: z.array(z.string().min(1).max(1000)).max(30),
+    notes: z.string().max(4000).nullable(),
+    credit: z.string().max(200).nullable(),
+    yield_ml: z.number().int().positive().nullable(),
+    ingredient_key: seedKey.nullable(),
+    category: seedKey.nullable(),
+    lines: z.array(recipeLineSeedSchema).min(1).max(60),
+    needs_review: z.literal(false).optional(),
+  })
+  .strict()
+
 export type SeedData = {
   readonly categories: ReadonlyArray<z.input<typeof categorySeedSchema>>
   readonly glasses: ReadonlyArray<z.input<typeof glassSeedSchema>>
   readonly ice: ReadonlyArray<z.input<typeof iceSeedSchema>>
   readonly ingredients: ReadonlyArray<z.input<typeof ingredientSeedSchema>>
+  /** Preparations first: a cocktail may use one of them. */
+  readonly recipes: ReadonlyArray<z.input<typeof recipeSeedSchema>>
 }
 
 export type SeedReport = {
@@ -83,6 +125,7 @@ export type SeedReport = {
   readonly glasses: number
   readonly ice: number
   readonly ingredients: number
+  readonly recipes: number
 }
 
 function uniqueOrThrow(values: string[], what: string): void {
@@ -102,11 +145,13 @@ export function validateSeedData(data: SeedData): {
   glasses: Array<z.output<typeof glassSeedSchema>>
   ice: Array<z.output<typeof iceSeedSchema>>
   ingredients: Array<z.output<typeof ingredientSeedSchema>>
+  recipes: Array<z.output<typeof recipeSeedSchema>>
 } {
   const cats = z.array(categorySeedSchema).max(500).parse(data.categories)
   const gls = z.array(glassSeedSchema).max(200).parse(data.glasses)
   const ice = z.array(iceSeedSchema).max(100).parse(data.ice)
   const ings = z.array(ingredientSeedSchema).max(5000).parse(data.ingredients)
+  const recs = z.array(recipeSeedSchema).max(2000).parse(data.recipes)
 
   uniqueOrThrow(
     cats.map((c) => c.seed_key),
@@ -155,15 +200,38 @@ export function validateSeedData(data: SeedData): {
       throw new Error(`Ingredient ${ingredient.seed_key} is not in a leaf category`)
     }
   }
-  return { categories: cats, glasses: gls, ice, ingredients: ings }
+  uniqueOrThrow(
+    recs.map((r) => r.seed_key),
+    'recipe seed_key',
+  )
+  // Every line points to a seed ingredient or to a preparation listed before it.
+  const known = new Set(ings.map((i) => i.seed_key))
+  const glassKeys = new Set(gls.map((g) => g.seed_key))
+  const iceKeys = new Set(ice.map((i) => i.seed_key))
+  for (const recipe of recs) {
+    for (const line of recipe.lines) {
+      if (!known.has(line.ingredient))
+        throw new Error(`${recipe.seed_key}: unknown ingredient ${line.ingredient}`)
+    }
+    if (recipe.glass !== null && !glassKeys.has(recipe.glass))
+      throw new Error(`${recipe.seed_key}: unknown glass`)
+    if (recipe.ice !== null && !iceKeys.has(recipe.ice)) throw new Error(`${recipe.seed_key}: unknown ice`)
+    if (recipe.kind === 'prep') {
+      if (recipe.ingredient_key === null || recipe.category === null) {
+        throw new Error(`${recipe.seed_key}: a preparation needs its ingredient key and category`)
+      }
+      known.add(recipe.ingredient_key)
+    }
+  }
+  return { categories: cats, glasses: gls, ice, ingredients: ings, recipes: recs }
 }
 
 /** Adds the missing seed entries, in one transaction. */
 export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
   const checked = validateSeedData(data)
-  return db.transaction((tx) => {
+  const report = db.transaction((tx) => {
     const now = ids.now()
-    const report = { categories: 0, glasses: 0, ice: 0, ingredients: 0 }
+    const report = { categories: 0, glasses: 0, ice: 0, ingredients: 0, recipes: 0 }
 
     // Categories: parents first, so a child can resolve its parent's id.
     const existing = new Map(
@@ -341,4 +409,84 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
     }
     return report
   })
+  report.recipes = loadSeedRecipes(db, ids, checked.recipes)
+  return report
+}
+
+/** seed_key to id of a table, deleted rows included: a deleted entry is never recreated. */
+function seedKeys(rows: Array<{ id: string; seedKey: string | null }>): Map<string, string> {
+  return new Map(
+    rows.filter((row) => row.seedKey !== null).map((row) => [row.seedKey ?? '', row.id] as const),
+  )
+}
+
+/**
+ * Recipes go through the repository, which writes lines, the first snapshot, the search index
+ * and, for a preparation, its ingredient. One transaction per recipe.
+ */
+function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof recipeSeedSchema>>): number {
+  const repository = new RecipeRepository(db, ids, new IngredientRepository(db, ids))
+  const recipeKeys = seedKeys(db.select({ id: recipes.id, seedKey: recipes.seedKey }).from(recipes).all())
+  const ingredientKeys = seedKeys(
+    db
+      .select({ id: ingredients.id, seedKey: ingredients.seedKey })
+      .from(ingredients)
+      .where(isNull(ingredients.deletedAt))
+      .all(),
+  )
+  const categoryKeys = seedKeys(
+    db.select({ id: categories.id, seedKey: categories.seedKey }).from(categories).all(),
+  )
+  const glassKeys = seedKeys(db.select({ id: glasses.id, seedKey: glasses.seedKey }).from(glasses).all())
+  const iceKeys = seedKeys(db.select({ id: iceTypes.id, seedKey: iceTypes.seedKey }).from(iceTypes).all())
+  let added = 0
+  for (const seed of seeds) {
+    if (recipeKeys.has(seed.seed_key)) continue
+    const lines = seed.lines.map((line) => ({
+      ingredientId: ingredientKeys.get(line.ingredient) ?? '',
+      quantity: line.quantity,
+      unit: line.unit,
+      isOptional: line.is_optional,
+      isGarnish: line.is_garnish,
+      note: line.note,
+    }))
+    // An ingredient the user deleted (or merged away) leaves the recipe out.
+    if (lines.some((line) => line.ingredientId === '')) continue
+    const detail = repository.create({
+      name: seed.name,
+      kind: seed.kind,
+      status: 'final',
+      origin: 'classic',
+      credit: seed.credit,
+      family: seed.family,
+      method: seed.method,
+      glassId: seed.glass === null ? null : (glassKeys.get(seed.glass) ?? null),
+      iceId: seed.ice === null ? null : (iceKeys.get(seed.ice) ?? null),
+      garnish: seed.garnish,
+      steps: seed.steps,
+      notes: seed.notes,
+      yieldMl: seed.yield_ml,
+      prepCategoryId: seed.category === null ? null : (categoryKeys.get(seed.category) ?? null),
+      lines,
+    })
+    db.update(recipes)
+      .set({ seedKey: seed.seed_key, source: seed.source })
+      .where(eq(recipes.id, detail.id))
+      .run()
+    if (seed.kind === 'prep' && seed.ingredient_key !== null) {
+      db.update(ingredients)
+        .set({ seedKey: seed.ingredient_key, source: 'seed' })
+        .where(eq(ingredients.prepRecipeId, detail.id))
+        .run()
+      const prep = db
+        .select({ id: ingredients.id })
+        .from(ingredients)
+        .where(eq(ingredients.prepRecipeId, detail.id))
+        .get()
+      if (prep) ingredientKeys.set(seed.ingredient_key, prep.id)
+    }
+    recipeKeys.set(seed.seed_key, detail.id)
+    added += 1
+  }
+  return added
 }

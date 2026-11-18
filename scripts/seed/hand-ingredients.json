@@ -240,6 +240,91 @@
       "name": "Olive verte",
       "category": "cat.garnishes.savory",
       "aliases": ["Olive"]
+    },
+    {
+      "name": "Rhum ambré",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Rhum doré", "Gold rum"]
+    },
+    {
+      "name": "Rhum vieux",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Aged rum"]
+    },
+    {
+      "name": "Rhum de la Jamaïque",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Jamaican rum"]
+    },
+    {
+      "name": "Rhum blanc overproof",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Overproof"]
+    },
+    {
+      "name": "Rhum Demerara",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Demerara rum"]
+    },
+    {
+      "name": "Aguardiente de Cuba",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Aguardiente cubain"]
+    },
+    {
+      "name": "Amontillado",
+      "category": "cat.wines.sherry",
+      "aliases": []
+    },
+    {
+      "name": "Liqueur de noisette",
+      "category": "cat.liqueurs.nut",
+      "aliases": []
+    },
+    {
+      "name": "Liqueur de fruit de la passion",
+      "category": "cat.liqueurs.exotic",
+      "aliases": []
+    },
+    {
+      "name": "Schnapps à la pêche",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Peach schnapps"]
+    },
+    {
+      "name": "Liqueur de piment de la Jamaïque",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Allspice dram", "Pimento dram"]
+    },
+    {
+      "name": "Purée de fruit de la passion",
+      "category": "cat.fruits.puree",
+      "aliases": []
+    },
+    {
+      "name": "Sirop de fruit de la passion",
+      "category": "cat.sweeteners.syrups",
+      "aliases": []
+    },
+    {
+      "name": "Sirop de framboise",
+      "category": "cat.sweeteners.syrups",
+      "aliases": []
+    },
+    {
+      "name": "Sirop de sucre demerara",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Sirop demerara"]
+    },
+    {
+      "name": "Cordial de camomille",
+      "category": "cat.sweeteners.syrups",
+      "aliases": []
+    },
+    {
+      "name": "Piment rouge frais",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Piment rouge"]
     }
   ]
 }

@@ -52,15 +52,36 @@ describe('bundled seed data', () => {
       glasses: BUNDLED_SEED.glasses.length,
       ice: BUNDLED_SEED.ice.length,
       ingredients: BUNDLED_SEED.ingredients.length,
+      recipes: BUNDLED_SEED.recipes.length,
     })
-    expect(loadSeedData(db, ids, BUNDLED_SEED)).toEqual({ categories: 0, glasses: 0, ice: 0, ingredients: 0 })
+    expect(loadSeedData(db, ids, BUNDLED_SEED)).toEqual({
+      categories: 0,
+      glasses: 0,
+      ice: 0,
+      ingredients: 0,
+      recipes: 0,
+    })
     // Aliases are written and the ingredients can be found by the search index.
     const aliases = sqlite.prepare('SELECT COUNT(*) AS n FROM ingredient_aliases').get() as { n: number }
     expect(aliases.n).toBe(BUNDLED_SEED.ingredients.reduce((sum, item) => sum + item.aliases.length, 0))
     const indexed = sqlite
       .prepare("SELECT COUNT(*) AS n FROM search_index WHERE entity_type = 'ingredient'")
       .get() as { n: number }
-    expect(indexed.n).toBe(BUNDLED_SEED.ingredients.length)
+    const preps = BUNDLED_SEED.recipes.filter((recipe) => recipe.kind === 'prep').length
+    expect(indexed.n).toBe(BUNDLED_SEED.ingredients.length + preps)
+    // Classic recipes are final, marked as IBA, and a cocktail can use a seed preparation.
+    const negroni = sqlite
+      .prepare(
+        "SELECT r.status, r.origin, r.source, COUNT(l.id) AS lines FROM recipes r JOIN recipe_lines l ON l.recipe_id = r.id WHERE r.seed_key = 'iba.negroni' GROUP BY r.id",
+      )
+      .get() as { status: string; origin: string; source: string; lines: number }
+    expect(negroni).toEqual({ status: 'final', origin: 'classic', source: 'seed_iba', lines: 3 })
+    const zombie = sqlite
+      .prepare(
+        "SELECT COUNT(*) AS n FROM recipe_lines l JOIN ingredients i ON i.id = l.ingredient_id JOIN recipes r ON r.id = l.recipe_id WHERE r.seed_key = 'iba.zombie' AND i.prep_recipe_id IS NOT NULL",
+      )
+      .get() as { n: number }
+    expect(zombie.n).toBe(1)
     const tree = new SqliteReferenceRepository(db).listCategories()
     expect(tree).toHaveLength(BUNDLED_SEED.categories.length)
     sqlite.close()
@@ -79,7 +100,7 @@ describe('bundled seed data', () => {
     }
     const [first, second] = BUNDLED_SEED.ingredients
     if (!first || !second) throw new Error('fixture')
-    loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: [first] })
+    loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: [first], recipes: [] })
     sqlite.prepare('UPDATE ingredients SET deleted_at = 5 WHERE seed_key = ?').run(first.seed_key)
     const category = sqlite
       .prepare('SELECT category_id AS id FROM ingredients WHERE seed_key = ?')

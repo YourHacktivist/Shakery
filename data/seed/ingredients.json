@@ -1155,6 +1155,21 @@
     "external_ref": null
   },
   {
+    "seed_key": "ing.puree-de-fruit-de-la-passion",
+    "name": "Purée de fruit de la passion",
+    "category": "cat.fruits.puree",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.puree-de-peche-blanche",
     "name": "Purée de pêche blanche",
     "category": "cat.fruits.puree",
@@ -1755,6 +1770,21 @@
     "external_ref": "Q5191464"
   },
   {
+    "seed_key": "ing.liqueur-de-fruit-de-la-passion",
+    "name": "Liqueur de fruit de la passion",
+    "category": "cat.liqueurs.exotic",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q730143",
     "name": "Apricot brandy",
     "category": "cat.liqueurs.fruit",
@@ -1858,6 +1888,21 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1500295"
+  },
+  {
+    "seed_key": "ing.schnapps-a-la-peche",
+    "name": "Schnapps à la pêche",
+    "category": "cat.liqueurs.fruit",
+    "aliases": ["Peach schnapps"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.q1972926",
@@ -2055,6 +2100,21 @@
     "external_ref": "Q455045"
   },
   {
+    "seed_key": "ing.liqueur-de-noisette",
+    "name": "Liqueur de noisette",
+    "category": "cat.liqueurs.nut",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q290493",
     "name": "Nocino",
     "category": "cat.liqueurs.nut",
@@ -2164,6 +2224,21 @@
     "name": "Falernum",
     "category": "cat.liqueurs.spice_honey",
     "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
+    "seed_key": "ing.liqueur-de-piment-de-la-jamaique",
+    "name": "Liqueur de piment de la Jamaïque",
+    "category": "cat.liqueurs.spice_honey",
+    "aliases": ["Allspice dram", "Pimento dram"],
     "default_abv": null,
     "sugar_g_per_l": null,
     "acid_g_per_l": null,
@@ -2897,12 +2972,7 @@
     "seed_key": "ing.q6598",
     "name": "Piment de Cayenne",
     "category": "cat.seasonings.spices",
-    "aliases": [
-      "Capsicum annuum 'Cayenne'",
-      "Capsicum annuum var. acuminatum",
-      "piment d'oiseau",
-      "piment rouge"
-    ],
+    "aliases": ["Capsicum annuum 'Cayenne'", "Capsicum annuum var. acuminatum", "piment d'oiseau"],
     "default_abv": null,
     "sugar_g_per_l": null,
     "acid_g_per_l": null,
@@ -2957,6 +3027,21 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q504133"
+  },
+  {
+    "seed_key": "ing.piment-rouge-frais",
+    "name": "Piment rouge frais",
+    "category": "cat.seasonings.spices",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.q744814",
@@ -3574,6 +3659,21 @@
     "external_ref": "Q43013869"
   },
   {
+    "seed_key": "ing.aguardiente-de-cuba",
+    "name": "Aguardiente de Cuba",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Aguardiente cubain"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q83376",
     "name": "Rhum",
     "category": "cat.spirits.rum.molasses",
@@ -3587,6 +3687,21 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q83376"
+  },
+  {
+    "seed_key": "ing.rhum-ambre",
+    "name": "Rhum ambré",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Rhum doré", "Gold rum"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.q3942613",
@@ -3604,6 +3719,21 @@
     "external_ref": "Q3942613"
   },
   {
+    "seed_key": "ing.rhum-blanc-overproof",
+    "name": "Rhum blanc overproof",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Overproof"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q26869771",
     "name": "Rhum brun",
     "category": "cat.spirits.rum.molasses",
@@ -3617,6 +3747,51 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q26869771"
+  },
+  {
+    "seed_key": "ing.rhum-de-la-jamaique",
+    "name": "Rhum de la Jamaïque",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Jamaican rum"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
+    "seed_key": "ing.rhum-demerara",
+    "name": "Rhum Demerara",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Demerara rum"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
+    "seed_key": "ing.rhum-vieux",
+    "name": "Rhum vieux",
+    "category": "cat.spirits.rum.molasses",
+    "aliases": ["Aged rum"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.q122195",
@@ -4009,6 +4184,21 @@
     "external_ref": "Q3492989"
   },
   {
+    "seed_key": "ing.cordial-de-camomille",
+    "name": "Cordial de camomille",
+    "category": "cat.sweeteners.syrups",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q2688129",
     "name": "Golden syrup",
     "category": "cat.sweeteners.syrups",
@@ -4099,6 +4289,36 @@
     "external_ref": "Q26359769"
   },
   {
+    "seed_key": "ing.sirop-de-framboise",
+    "name": "Sirop de framboise",
+    "category": "cat.sweeteners.syrups",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
+    "seed_key": "ing.sirop-de-fruit-de-la-passion",
+    "name": "Sirop de fruit de la passion",
+    "category": "cat.sweeteners.syrups",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
+  },
+  {
     "seed_key": "ing.q11296160",
     "name": "Sirop de gomme",
     "category": "cat.sweeteners.syrups",
@@ -4157,6 +4377,21 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1377087"
+  },
+  {
+    "seed_key": "ing.sirop-de-sucre-demerara",
+    "name": "Sirop de sucre demerara",
+    "category": "cat.sweeteners.syrups",
+    "aliases": ["Sirop demerara"],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.madere",
@@ -4232,6 +4467,21 @@
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q7272342"
+  },
+  {
+    "seed_key": "ing.amontillado",
+    "name": "Amontillado",
+    "category": "cat.wines.sherry",
+    "aliases": [],
+    "default_abv": null,
+    "sugar_g_per_l": null,
+    "acid_g_per_l": null,
+    "composition_source": null,
+    "composition_confidence": null,
+    "allergens": [],
+    "is_staple": false,
+    "source": "seed",
+    "external_ref": null
   },
   {
     "seed_key": "ing.q5450908",

@@ -7,6 +7,7 @@ import categories from '../../../data/seed/categories.json'
 import glasses from '../../../data/seed/glasses.json'
 import ice from '../../../data/seed/ice.json'
 import ingredients from '../../../data/seed/ingredients.json'
+import recipes from '../../../data/seed/recipes.json'
 import type { SeedData } from './load'
 
 export const BUNDLED_SEED: SeedData = {
@@ -14,4 +15,5 @@ export const BUNDLED_SEED: SeedData = {
   glasses: glasses,
   ice: ice,
   ingredients: ingredients as SeedData['ingredients'],
+  recipes: recipes as SeedData['recipes'],
 }

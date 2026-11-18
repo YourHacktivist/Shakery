@@ -38,6 +38,7 @@ const SEED: SeedData = {
   ],
   ice: [{ seed_key: 'ice.cubes', name: 'Glaçons', sort_order: 1 }],
   ingredients: [],
+  recipes: [],
 }
 
 let root: string
