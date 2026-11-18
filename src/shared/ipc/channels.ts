@@ -7,6 +7,7 @@
  */
 export const IPC_CHANNELS = [
   'app.getVersion',
+  'app.setPrepMode',
   'database.getHealth',
   'backups.list',
   'backups.create',
@@ -39,6 +40,8 @@ export const IPC_CHANNELS = [
   'recipes.compute',
   'import.choose',
   'import.apply',
+  'search.query',
+  'recentViews.record',
 ] as const
 
 export type IpcChannel = (typeof IPC_CHANNELS)[number]

@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, CopyPlus, FlaskConical, NotebookPen, Pencil, Star, Trash2 } from 'lucide-react'
-import { useId, useMemo, useState, type ReactNode } from 'react'
+import { ArrowLeft, ChefHat, CopyPlus, FlaskConical, NotebookPen, Pencil, Star, Trash2 } from 'lucide-react'
+import { useEffect, useId, useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
@@ -18,6 +18,7 @@ import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { formatDate, formatNumber } from '@renderer/lib/format'
 import {
+  recordView,
   restoreRecipe,
   useCategories,
   useCreateVariant,
@@ -43,6 +44,11 @@ const statusOptions = STATUS_VALUES.map((value) => ({ value, label: fr.component
 export function RecipeDetailPage() {
   const { id = '' } = useParams()
   const recipe = useRecipe(id)
+  const loaded = recipe.data?.id
+  // Opened recipes rank higher in the search (section 12.1).
+  useEffect(() => {
+    if (loaded) recordView('recipe', loaded)
+  }, [loaded])
 
   if (recipe.isPending) {
     return (
@@ -168,6 +174,14 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             }}
           >
             {td.variant}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<ChefHat size={16} aria-hidden="true" />}
+            aria-keyshortcuts="F11"
+            onClick={() => void navigate(`/prepare/${recipe.id}`)}
+          >
+            {fr.recipes.prepare.open}
           </Button>
           <FilterPill
             label={td.status}

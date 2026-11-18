@@ -14,6 +14,7 @@ import {
   STATUS_VALUES,
 } from '../domain/catalog'
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
+import { searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
 import type { IpcChannel } from './channels'
 
 /**
@@ -154,6 +155,19 @@ export const ipcContract = {
       .object({ inserted: z.number().int(), updated: z.number().int(), skipped: z.number().int() })
       .strict(),
   },
+  /** Ctrl+K search over recipes, ingredients and bottles (section 12.1). */
+  'search.query': {
+    input: z
+      .object({ text: z.string().max(200), limit: z.number().int().min(1).max(50).default(20) })
+      .strict(),
+    output: z.array(searchHitSchema).max(50),
+  },
+  'recentViews.record': {
+    input: z.object({ entityType: z.enum(SEARCH_ENTITIES), entityId: z.string().min(1).max(36) }).strict(),
+    output: done,
+  },
+  /** Preparation mode (section 10.12): full screen and screen kept awake, or back to normal. */
+  'app.setPrepMode': { input: z.object({ active: z.boolean() }).strict(), output: done },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract

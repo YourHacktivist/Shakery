@@ -60,6 +60,14 @@ export function useGlobalShortcuts(): void {
           event.preventDefault()
           overlays.open('shortcuts')
           return
+        case 'prepMode': {
+          // From an open recipe only (section 10.12).
+          const recipe = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]
+          if (!recipe || recipe === 'new' || isModalOpen()) return
+          event.preventDefault()
+          void navigate(`/prepare/${recipe}`)
+          return
+        }
         case 'typeToSearch':
           if (editable || isModalOpen() || isTypeaheadTarget(event.target)) return
           event.preventDefault()

@@ -1,21 +1,14 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
-import {
-  createHashRouter,
-  Navigate,
-  Outlet,
-  RouterProvider,
-  useNavigate,
-  type RouteObject,
-} from 'react-router'
-import { KIT_PATH, NAV_ITEMS } from '@renderer/app/navigation'
+import { useState } from 'react'
+import { createHashRouter, Navigate, Outlet, RouterProvider, type RouteObject } from 'react-router'
+import { KIT_PATH } from '@renderer/app/navigation'
 import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
 import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
 import { Sidebar } from '@renderer/app/Sidebar'
 import { useOverlayStore } from '@renderer/app/stores'
+import { PaletteHost } from '@renderer/app/PaletteHost'
 import { TopBar } from '@renderer/app/TopBar'
 import { useGlobalShortcuts } from '@renderer/app/useGlobalShortcuts'
-import { CommandPalette, type CommandPaletteGroup } from '@renderer/components/CommandPalette'
 import { Toaster } from '@renderer/components/Toast'
 import { KitPage } from '@renderer/dev/KitPage'
 import { BarPage } from '@renderer/features/bar/BarPage'
@@ -27,11 +20,11 @@ import { LabPage } from '@renderer/features/lab/LabPage'
 import { NotebookPage } from '@renderer/features/notebook/NotebookPage'
 import { PracticePage } from '@renderer/features/practice/PracticePage'
 import { PrepsPage } from '@renderer/features/preps/PrepsPage'
+import { PrepModePage } from '@renderer/features/prepare/PrepModePage'
 import { RecipeDetailPage } from '@renderer/features/recipes/RecipeDetailPage'
 import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
-import { fr } from '@renderer/i18n/fr'
 import { createQueryClient } from '@renderer/lib/queries'
 
 const SCREENS: RouteObject[] = [
@@ -59,7 +52,13 @@ const SCREENS: RouteObject[] = [
  */
 export function App() {
   const [queryClient] = useState(createQueryClient)
-  const [router] = useState(() => createHashRouter([{ element: <Shell />, children: SCREENS }]))
+  // The preparation mode is outside the shell: full screen, no sidebar (section 10.12).
+  const [router] = useState(() =>
+    createHashRouter([
+      { path: '/prepare/:id', element: <PrepModePage /> },
+      { element: <Shell />, children: SCREENS },
+    ]),
+  )
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
@@ -69,32 +68,8 @@ export function App() {
 
 function Shell() {
   useGlobalShortcuts()
-  const navigate = useNavigate()
   const overlay = useOverlayStore((state) => state.current)
-  const paletteQuery = useOverlayStore((state) => state.paletteQuery)
   const closeOverlay = useOverlayStore((state) => state.close)
-
-  const groups = useMemo<CommandPaletteGroup[]>(
-    () => [
-      {
-        id: 'screens',
-        heading: fr.shell.palette.groupScreens,
-        items: NAV_ITEMS.map((item) => {
-          const Icon = item.icon
-          return {
-            id: item.id,
-            label: fr.shell.nav[item.id],
-            icon: <Icon size={16} aria-hidden="true" />,
-            onSelect: () => {
-              closeOverlay()
-              void navigate(item.path)
-            },
-          }
-        }),
-      },
-    ],
-    [closeOverlay, navigate],
-  )
 
   return (
     <div className="flex h-full min-w-[1100px] overflow-hidden">
@@ -105,12 +80,7 @@ function Shell() {
           <Outlet />
         </main>
       </div>
-      <CommandPalette
-        open={overlay === 'palette'}
-        onClose={closeOverlay}
-        groups={groups}
-        initialQuery={paletteQuery}
-      />
+      <PaletteHost />
       <QuickIdeaDialog open={overlay === 'quickIdea'} onClose={closeOverlay} />
       <ShortcutsDialog open={overlay === 'shortcuts'} onClose={closeOverlay} />
       <Toaster />

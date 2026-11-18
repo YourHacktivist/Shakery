@@ -1,6 +1,6 @@
 import { Command } from 'cmdk'
 import { CornerDownLeft, Search } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { normalizeName } from '@core/normalize'
 import { Dialog } from '@renderer/components/Dialog'
 import { Kbd } from '@renderer/components/Kbd'
@@ -13,6 +13,8 @@ export type CommandPaletteItem = {
   icon?: ReactNode
   /** Extra search terms (synonyms). Accents and case never matter. */
   keywords?: readonly string[]
+  /** Secondary text on the right: category, status. */
+  detail?: string
   onSelect: () => void
 }
 
@@ -20,6 +22,8 @@ export type CommandPaletteGroup = {
   id: string
   heading: string
   items: readonly CommandPaletteItem[]
+  /** Results already filtered by the search of the main process: shown as they are. */
+  preFiltered?: boolean
 }
 
 type CommandPaletteProps = {
@@ -28,6 +32,8 @@ type CommandPaletteProps = {
   groups: readonly CommandPaletteGroup[]
   /** Text already in the search field when it opens (a letter typed outside a field). */
   initialQuery?: string
+  /** Called with the typed text, so that the screen can search with it. */
+  onQueryChange?: (query: string) => void
   className?: string
 }
 
@@ -35,7 +41,14 @@ type CommandPaletteProps = {
  * Ctrl+K palette: a search field over grouped actions, in the glass dialog. Arrows move,
  * Enter runs the action and closes the palette. The full search arrives in phase 5.
  */
-export function CommandPalette({ open, onClose, groups, initialQuery = '', className }: CommandPaletteProps) {
+export function CommandPalette({
+  open,
+  onClose,
+  groups,
+  initialQuery = '',
+  onQueryChange,
+  className,
+}: CommandPaletteProps) {
   return (
     <Dialog
       open={open}
@@ -47,7 +60,12 @@ export function CommandPalette({ open, onClose, groups, initialQuery = '', class
       placement="top"
       className={className}
     >
-      <PaletteBody groups={groups} initialQuery={initialQuery} onClose={onClose} />
+      <PaletteBody
+        groups={groups}
+        initialQuery={initialQuery}
+        onClose={onClose}
+        onQueryChange={onQueryChange}
+      />
     </Dialog>
   )
 }
@@ -57,17 +75,36 @@ function PaletteBody({
   groups,
   initialQuery,
   onClose,
+  onQueryChange,
 }: {
   groups: readonly CommandPaletteGroup[]
   initialQuery: string
   onClose: () => void
+  onQueryChange?: ((query: string) => void) | undefined
 }) {
   const [query, setQuery] = useState(initialQuery)
+  useEffect(() => {
+    onQueryChange?.(query)
+  }, [onQueryChange, query])
+  // cmdk does not filter: screens are matched here, accents and case ignored; search results
+  // come already filtered and ranked.
+  const needle = normalizeName(query)
+  const visible = groups
+    .map((group) => ({
+      ...group,
+      items:
+        group.preFiltered || needle === ''
+          ? group.items
+          : group.items.filter((item) =>
+              [item.label, ...(item.keywords ?? [])].some((text) => normalizeName(text).includes(needle)),
+            ),
+    }))
+    .filter((group) => group.items.length > 0)
   const t = fr.shell.palette
   const keys = fr.shell.keys
 
   return (
-    <Command label={t.label} loop vimBindings={false} className="flex min-h-0 flex-col">
+    <Command label={t.label} loop vimBindings={false} shouldFilter={false} className="flex min-h-0 flex-col">
       <div className="flex items-center gap-3 border-b border-border px-5 focus-within:border-border-strong">
         <Search size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
         <Command.Input
@@ -86,7 +123,7 @@ function PaletteBody({
           <span className="text-body font-semibold text-fg">{t.empty}</span>
           <span className="max-w-sm text-small text-fg-secondary">{t.emptyHint}</span>
         </Command.Empty>
-        {groups.map((group) => (
+        {visible.map((group) => (
           <Command.Group
             key={group.id}
             heading={group.heading}
@@ -95,8 +132,7 @@ function PaletteBody({
             {group.items.map((item) => (
               <Command.Item
                 key={item.id}
-                value={item.label}
-                keywords={[normalizeName(item.label), ...(item.keywords ?? []).map(normalizeName)]}
+                value={item.id}
                 onSelect={() => {
                   item.onSelect()
                   onClose()
@@ -112,6 +148,11 @@ function PaletteBody({
                   </span>
                 ) : null}
                 <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                {item.detail ? (
+                  <span className="max-w-[45%] shrink-0 truncate text-caption font-normal text-fg-muted">
+                    {item.detail}
+                  </span>
+                ) : null}
                 <CornerDownLeft
                   size={14}
                   aria-hidden="true"

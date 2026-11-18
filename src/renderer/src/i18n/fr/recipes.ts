@@ -343,6 +343,22 @@ export const recipes = {
     },
   },
 
+  prepare: {
+    eyebrow: 'Mode préparation',
+    loading: 'Chargement…',
+    exit: 'Quitter',
+    ingredients: 'Ingrédients',
+    steps: 'Étapes',
+    garnish: 'Garniture :',
+    optional: 'facultatif',
+    noSteps: 'Aucune étape notée.',
+    notFound: 'Cette fiche n’existe pas ou a été supprimée.',
+    previous: 'Fiche précédente',
+    next: 'Fiche suivante',
+    position: (current: number, total: number) => `${current} sur ${total}`,
+    open: 'Mode préparation',
+  },
+
   ingredientDialog: {
     title: 'Nouvel ingrédient',
     description: 'Choisis sa catégorie. Tu pourras compléter son degré et sa composition dans Mon bar.',

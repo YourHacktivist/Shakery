@@ -52,6 +52,25 @@ export function invalidateCatalog(client: QueryClient): Promise<void> {
 // Reads
 // ---------------------------------------------------------------------------------------
 
+/** Ctrl+K search: kept while typing so the list does not flash between two letters. */
+export function useSearch(text: string) {
+  const trimmed = text.trim()
+  return useQuery({
+    queryKey: ['search', trimmed],
+    queryFn: () => unwrap(api().search.query({ text: trimmed, limit: 20 })),
+    enabled: trimmed !== '',
+    placeholderData: (previous) => previous,
+    staleTime: 0,
+  })
+}
+
+/** Remembers an opened item for the search ranking; a failure is not worth a message. */
+export function recordView(entityType: 'recipe' | 'ingredient' | 'product', entityId: string) {
+  void api()
+    .recentViews.record({ entityType, entityId })
+    .catch(() => undefined)
+}
+
 export function useRecipes() {
   return useQuery({ queryKey: queryKeys.recipes, queryFn: () => unwrap(api().recipes.list()) })
 }
