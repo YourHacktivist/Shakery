@@ -16,6 +16,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Thin, discreet scrollbars that match the dark surfaces. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 235 220 / 0.14) transparent;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -35,4 +41,48 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Glass is reserved to floating elements: palette, dialogs, quick idea (section 11). */
+@utility glass {
+  background-color: var(--color-glass-fill);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-strong);
+}
+
+/* Entrance animations: transform and opacity only, 150 to 250 ms, no bounce (section 11). */
+@keyframes shk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shk-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-fade-in {
+  animation: shk-fade-in 180ms var(--ease-out-soft) both;
+}
+
+@utility animate-pop-in {
+  animation: shk-pop-in 200ms var(--ease-out-soft) both;
+}
+
+/* Setting « animations off » (section 10.14) adds this class on <html>. */
+.no-motion *,
+.no-motion *::before,
+.no-motion *::after {
+  animation: none !important;
+  transition: none !important;
 }
