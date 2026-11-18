@@ -20,7 +20,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## État au 18 novembre 2026 (soir)
 
-Phases 0 à 8 livrées, tout est committé. `npm run check` passe (320 tests), `npm run test:e2e` passe (20 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
+Phases 0 à 9 livrées, tout est committé. `npm run check` passe (322 tests), `npm run test:e2e` passe (20 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
 
 Changements de la dernière session :
 
@@ -102,11 +102,16 @@ Reste hors phase 7 : la palette ne cherche pas encore dans le carnet et le journ
 
 Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WARNING_DAYS` en attendant l'écran Paramètres), étiquette de bouteille et impression du batch (le gabarit de collection montre la voie), générateurs de révision restants (D-034), glisser-déposer dans une collection (les flèches suffisent au clavier).
 
+## Phase 9 livrée (accueil)
+
+- `features/home/HomePage.tsx` sur les vraies données : trois créations (statut idée, brouillon ou en test, par dernière activité, fiche ou dégustation) avec la note moyenne de la dernière version goûtée, l'écart avec la précédente et la courbe des notes ; « En cours » ou « Favoris », filtre par famille ; emplacements vides qui ouvrent l'idée rapide ; carte héros ; création en focus (la plus récente en test) avec ses quatre indicateurs, l'écart avec la version précédente, la zone de sa famille et sa dernière prochaine étape. L'accueil vide de la maquette reste tel quel sans création.
+- Test `features/home/HomePage.test.tsx`. Capture `npm run screens` : `home.png`.
+
 ## Phases suivantes (section 14 de la spec)
 
 - Phase 8 (livrée) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
-- Phase 9 (prochaine) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
-- Phase 10 : export et partage, Open Food Facts.
+- Phase 9 (livrée) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
+- Phase 10 (prochaine) : export et partage, Open Food Facts. Décision de l'utilisateur attendue avant de commencer : recettes de 24cocktails (« À valider plus tard » dans `DECISIONS.md`).
 - Phase 11 : finitions, packaging, documentation.
 
 ## Commandes utiles
