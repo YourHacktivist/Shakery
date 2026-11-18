@@ -118,7 +118,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-6">
+    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
       <Link
         to="/recipes"
         className="inline-flex w-fit items-center gap-1.5 rounded-md text-small font-medium text-fg-secondary hover:text-fg"
@@ -130,7 +130,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
       <header className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <span className="text-small text-fg-muted">{context.join(' · ')}</span>
-          <h1 className="m-0 text-display leading-[1.05] font-light tracking-[-0.03em] text-fg">
+          <h1 className="m-0 text-title leading-tight font-semibold tracking-[-0.02em] text-fg">
             {recipe.name}
           </h1>
           <div className="flex flex-wrap items-center gap-2">
@@ -153,7 +153,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             icon={<Pencil size={16} aria-hidden="true" />}
             onClick={() => void navigate(`/recipes/${recipe.id}/edit`)}
@@ -190,7 +190,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             aria-pressed={recipe.isFavorite}
             icon={
               <Star
-                size={18}
+                size={16}
                 aria-hidden="true"
                 className={cn(recipe.isFavorite ? 'fill-accent text-accent' : 'text-fg-secondary')}
               />
@@ -235,15 +235,15 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
         </div>
       </header>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_356px] items-start gap-6">
-        <div className="flex min-w-0 flex-col gap-6">
+      <div className="grid grid-cols-[minmax(0,1fr)_356px] items-start gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <LinesCard recipe={recipe} names={names} />
           <Card aria-label={td.sections.steps}>
-            <h2 className="m-0 text-lead font-medium text-fg">{td.sections.steps}</h2>
+            <h2 className="m-0 text-body font-semibold text-fg">{td.sections.steps}</h2>
             {recipe.steps.length === 0 ? (
               <p className="m-0 text-small text-fg-muted">{td.noSteps}</p>
             ) : (
-              <ol className="m-0 flex list-none flex-col gap-3 p-0">
+              <ol className="m-0 flex list-none flex-col gap-2 p-0">
                 {recipe.steps.map((step, index) => (
                   <li
                     key={`${String(index)}-${step}`}
@@ -259,7 +259,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             )}
           </Card>
           {recipe.garnish || recipe.notes ? (
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-4">
               {recipe.garnish ? (
                 <TextCard
                   title={td.sections.garnish}
@@ -277,8 +277,8 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             </div>
           ) : null}
           <Card aria-label={td.sections.service}>
-            <h2 className="m-0 text-lead font-medium text-fg">{td.sections.service}</h2>
-            <dl className="m-0 grid grid-cols-2 gap-x-6 gap-y-4">
+            <h2 className="m-0 text-body font-semibold text-fg">{td.sections.service}</h2>
+            <dl className="m-0 grid grid-cols-2 gap-x-4 gap-y-3">
               <Fact label={td.fields.glass} value={glass?.name} />
               <Fact label={td.fields.ice} value={ice?.name} />
               <Fact label={td.fields.method} value={recipe.method ? t.methods[recipe.method] : null} />
@@ -304,8 +304,8 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           </Card>
           {recipe.kind === 'prep' ? (
             <Card aria-label={td.sections.prep}>
-              <h2 className="m-0 text-lead font-medium text-fg">{td.sections.prep}</h2>
-              <dl className="m-0 grid grid-cols-2 gap-x-6 gap-y-4">
+              <h2 className="m-0 text-body font-semibold text-fg">{td.sections.prep}</h2>
+              <dl className="m-0 grid grid-cols-2 gap-x-4 gap-y-3">
                 <Fact
                   label={td.fields.yield}
                   value={
@@ -328,10 +328,10 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           ) : null}
         </div>
 
-        <aside className="flex min-w-0 flex-col gap-6">
+        <aside className="flex min-w-0 flex-col gap-4">
           <ComputedPanel data={recipe.lines.length > 0 ? computationInput : null} names={names} />
           <Card aria-label={td.sections.history}>
-            <h2 className="m-0 text-lead font-medium text-fg">{td.sections.history}</h2>
+            <h2 className="m-0 text-body font-semibold text-fg">{td.sections.history}</h2>
             <ol className="m-0 flex list-none flex-col gap-2.5 p-0">
               {recipe.history.map((entry) => (
                 <li key={entry.version} className="flex items-center gap-3">
@@ -404,7 +404,7 @@ function SoonButton({
 function LinesCard({ recipe, names }: { recipe: RecipeDetail; names: ReadonlyMap<string, string> }) {
   return (
     <Card aria-label={td.sections.lines}>
-      <h2 className="m-0 text-lead font-medium text-fg">{td.sections.lines}</h2>
+      <h2 className="m-0 text-body font-semibold text-fg">{td.sections.lines}</h2>
       {recipe.lines.length === 0 ? (
         <p className="m-0 text-small text-fg-muted">{td.noLines}</p>
       ) : (
@@ -412,7 +412,7 @@ function LinesCard({ recipe, names }: { recipe: RecipeDetail; names: ReadonlyMap
           {recipe.lines.map((line) => (
             <li
               key={line.id}
-              className="grid grid-cols-[9.5rem_minmax(0,1fr)] items-baseline gap-4 border-b border-border py-3 last:border-b-0"
+              className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-3 border-b border-border py-2 last:border-b-0"
             >
               <span
                 className={cn(
@@ -462,7 +462,7 @@ function LineTag({ children }: { children: ReactNode }) {
 function TextCard({ title, text, className }: { title: string; text: string; className?: string }) {
   return (
     <Card aria-label={title} className={className}>
-      <h2 className="m-0 text-lead font-medium text-fg">{title}</h2>
+      <h2 className="m-0 text-body font-semibold text-fg">{title}</h2>
       <p className="m-0 text-body leading-relaxed whitespace-pre-wrap text-fg-secondary">{text}</p>
     </Card>
   )

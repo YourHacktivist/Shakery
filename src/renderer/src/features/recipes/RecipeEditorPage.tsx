@@ -222,7 +222,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
       <form
         noValidate
         aria-labelledby="recipe-editor-title"
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-4"
         onSubmit={(event) => {
           void handleSubmit(save, reportInvalid)(event)
         }}
@@ -234,7 +234,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
             </span>
             <h1
               id="recipe-editor-title"
-              className="m-0 truncate text-title font-normal tracking-tight text-fg"
+              className="m-0 truncate text-title font-semibold tracking-tight text-fg"
             >
               {recipe ? te.editTitle(recipe.name) : te.newTitle}
             </h1>
@@ -252,8 +252,8 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
           </div>
         </header>
 
-        <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-6">
-          <div className="flex min-w-0 flex-col gap-6">
+        <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-4">
+          <div className="flex min-w-0 flex-col gap-4">
             <Section title={te.sections.essentials}>
               <Input
                 {...register('name')}
@@ -427,7 +427,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
             ) : null}
           </div>
 
-          <aside className="sticky top-0 flex min-w-0 flex-col gap-6">
+          <aside className="sticky top-0 flex min-w-0 flex-col gap-4">
             <EditorPanel control={control} getValues={getValues} names={ingredientNames} />
             {recipe ? (
               <Section title={te.sections.save}>
@@ -509,8 +509,8 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <Card as="section" aria-label={title} className="gap-5">
-      <h2 className="m-0 text-lead font-medium text-fg">{title}</h2>
+    <Card as="section" aria-label={title} className="gap-4">
+      <h2 className="m-0 text-body font-semibold text-fg">{title}</h2>
       {children}
     </Card>
   )
@@ -945,7 +945,7 @@ function LineRow({
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={cn(
-        'flex flex-col gap-2.5 rounded-nested border bg-surface-2/50 p-3 transition-colors duration-150 ease-out-soft',
+        'flex flex-col gap-1.5 rounded-nested border bg-surface-2/50 p-2 transition-colors duration-150 ease-out-soft',
         dropTarget ? 'border-accent' : 'border-border',
       )}
     >
@@ -953,12 +953,12 @@ function LineRow({
         <span
           aria-hidden="true"
           title={tl.drag(position)}
-          className="mt-3 flex cursor-grab text-fg-muted hover:text-fg active:cursor-grabbing"
+          className="mt-2 flex cursor-grab text-fg-muted hover:text-fg active:cursor-grabbing"
           onPointerDown={onHandleDown}
         >
-          <GripVertical size={16} />
+          <GripVertical size={14} />
         </span>
-        <span aria-hidden="true" className="nums mt-3 w-4 shrink-0 text-right text-caption text-fg-muted">
+        <span aria-hidden="true" className="nums mt-2 w-4 shrink-0 text-right text-caption text-fg-muted">
           {position}
         </span>
         <Controller
@@ -1001,7 +1001,7 @@ function LineRow({
               onBlur={field.onBlur}
               onChange={field.onChange}
               error={fieldErrorMessage(fieldState.error, { numeric: true })}
-              className="w-24 shrink-0"
+              className="w-20 shrink-0"
             />
           )}
         />
@@ -1010,15 +1010,15 @@ function LineRow({
           label={tl.unit(position)}
           hideLabel
           options={unitOptions}
-          className="w-40 shrink-0"
+          className="w-32 shrink-0"
         />
-        <div className="mt-1 flex shrink-0 items-center gap-1">
+        <div className="mt-0.5 flex shrink-0 items-center gap-0.5">
           <IconButton
             data-move=""
             size="sm"
             variant="ghost"
             label={tl.moveUp(position)}
-            icon={<ArrowUp size={16} aria-hidden="true" />}
+            icon={<ArrowUp size={14} aria-hidden="true" />}
             disabled={index === 0}
             onClick={(event) => {
               onMove(index, index - 1, event.currentTarget)
@@ -1029,7 +1029,7 @@ function LineRow({
             size="sm"
             variant="ghost"
             label={tl.moveDown(position)}
-            icon={<ArrowDown size={16} aria-hidden="true" />}
+            icon={<ArrowDown size={14} aria-hidden="true" />}
             disabled={index === total - 1}
             onClick={(event) => {
               onMove(index, index + 1, event.currentTarget)
@@ -1039,12 +1039,12 @@ function LineRow({
             size="sm"
             variant="ghost"
             label={tl.remove(position)}
-            icon={<Trash2 size={16} aria-hidden="true" />}
+            icon={<Trash2 size={14} aria-hidden="true" />}
             onClick={onRemove}
           />
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pl-12">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pl-10">
         {unit === 'top' ? (
           <Controller
             control={control}

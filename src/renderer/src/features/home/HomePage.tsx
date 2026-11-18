@@ -28,11 +28,11 @@ export function HomePage() {
   const [view, setView] = useState<View>('current')
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-6">
+    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.caption}</span>
-          <h1 className="m-0 text-title font-normal tracking-tight text-fg">{t.title}</h1>
+          <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
         </div>
         <SegmentedControl<View>
           label={t.viewsLabel}
@@ -45,8 +45,8 @@ export function HomePage() {
         />
       </header>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_356px] gap-6">
-        <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong px-8 py-14 text-center">
+      <div className="grid grid-cols-[minmax(0,1fr)_356px] gap-4">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong px-5 py-14 text-center">
           <div className="flex size-16 items-center justify-center rounded-nested border border-border-strong bg-surface-2 text-accent">
             <Lightbulb size={26} strokeWidth={1.6} aria-hidden="true" />
           </div>

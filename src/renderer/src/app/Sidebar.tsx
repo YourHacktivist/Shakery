@@ -39,15 +39,15 @@ function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
       end={item.path === '/'}
       className={({ isActive }) =>
         cn(
-          'flex h-10 items-center gap-3 rounded-field border text-body font-medium transition-colors duration-150 ease-out-soft',
-          collapsed ? 'w-10 justify-center' : 'px-3',
+          'flex h-8 items-center gap-2.5 rounded-field border text-body font-medium transition-colors duration-150 ease-out-soft',
+          collapsed ? 'w-8 justify-center' : 'px-2.5',
           isActive
             ? 'border-border bg-surface-2 text-fg'
             : 'border-transparent text-fg-secondary hover:bg-surface-2/60 hover:text-fg',
         )
       }
     >
-      <Icon size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
+      <Icon size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
       <span className={collapsed ? 'sr-only' : 'truncate'}>{label}</span>
     </NavLink>
   )
@@ -75,7 +75,7 @@ function TonightCard() {
   const id = useId()
   const t = fr.shell.side.tonight
   return (
-    <section aria-labelledby={id} className="flex flex-col gap-2 rounded-nested bg-surface-2 p-4">
+    <section aria-labelledby={id} className="flex flex-col gap-1.5 rounded-nested bg-surface-2 p-3">
       <h2
         id={id}
         className="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted"
@@ -158,16 +158,16 @@ export function Sidebar({ className }: { className?: string }) {
       data-collapsed={collapsed ? 'true' : 'false'}
       className={cn(
         'flex h-full shrink-0 flex-col border-r border-border',
-        collapsed ? 'w-[72px]' : 'w-[248px]',
+        collapsed ? 'w-[56px]' : 'w-[212px]',
         className,
       )}
     >
-      <div className={cn('flex items-center gap-3 pt-6 pb-6', collapsed ? 'justify-center px-4' : 'px-6')}>
-        <div className="logo-halo flex size-10 shrink-0 items-center justify-center rounded-full">
-          <img src={logoUrl} alt="" width={36} height={36} className="size-9" />
+      <div className={cn('flex items-center gap-2.5 pt-4 pb-4', collapsed ? 'justify-center px-3' : 'px-4')}>
+        <div className="logo-halo flex size-8 shrink-0 items-center justify-center rounded-full">
+          <img src={logoUrl} alt="" width={28} height={28} className="size-7" />
         </div>
         <div className={cn('flex min-w-0 flex-col gap-0.5', collapsed && 'sr-only')}>
-          <span className="text-[18px] leading-tight font-semibold tracking-[-0.01em] text-fg">
+          <span className="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">
             {t.brand.name}
           </span>
           <span className="text-caption text-fg-muted">{t.brand.tagline}</span>
@@ -176,13 +176,13 @@ export function Sidebar({ className }: { className?: string }) {
 
       <div
         className={cn(
-          'flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-4 pb-6',
+          'flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-3 pb-4',
           collapsed && 'items-center',
           SCROLLBAR,
         )}
       >
         <nav aria-label={t.nav.label}>
-          <ul className="m-0 flex list-none flex-col gap-1 p-0">
+          <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
             {NAV_ITEMS.map((item) => (
               <NavEntry key={item.id} item={item} collapsed={collapsed} />
             ))}
@@ -191,7 +191,7 @@ export function Sidebar({ className }: { className?: string }) {
 
         {collapsed ? null : (
           <>
-            <div className="flex flex-col gap-4 px-2">
+            <div className="flex flex-col gap-3 px-2">
               <SideBlock
                 icon={<RotateCcw size={14} strokeWidth={1.75} aria-hidden="true" />}
                 title={t.side.retest.title}
@@ -212,8 +212,8 @@ export function Sidebar({ className }: { className?: string }) {
 
       <div
         className={cn(
-          'flex gap-2 border-t border-border py-3',
-          collapsed ? 'flex-col items-center px-2' : 'items-center justify-between pr-4 pl-6',
+          'flex gap-2 border-t border-border py-2',
+          collapsed ? 'flex-col items-center px-2' : 'items-center justify-between pr-3 pl-4',
         )}
       >
         <VersionCaption collapsed={collapsed} />

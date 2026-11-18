@@ -69,20 +69,20 @@ function PaletteBody({
   return (
     <Command label={t.label} loop vimBindings={false} className="flex min-h-0 flex-col">
       <div className="flex items-center gap-3 border-b border-border px-5 focus-within:border-border-strong">
-        <Search size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
+        <Search size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
         <Command.Input
           data-autofocus=""
           value={query}
           onValueChange={setQuery}
           placeholder={t.placeholder}
-          className="h-14 min-w-0 flex-1 border-0 bg-transparent font-sans text-lead text-fg outline-none placeholder:text-fg-muted focus-visible:outline-none"
+          className="h-12 min-w-0 flex-1 border-0 bg-transparent font-sans text-lead text-fg outline-none placeholder:text-fg-muted focus-visible:outline-none"
         />
       </div>
       <Command.List
         label={t.listLabel}
         className="max-h-[min(420px,55vh)] scroll-py-2 overflow-y-auto p-2 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]"
       >
-        <Command.Empty className="flex flex-col items-center gap-1.5 px-6 py-10 text-center">
+        <Command.Empty className="flex flex-col items-center gap-1.5 px-4 py-10 text-center">
           <span className="text-body font-semibold text-fg">{t.empty}</span>
           <span className="max-w-sm text-small text-fg-secondary">{t.emptyHint}</span>
         </Command.Empty>

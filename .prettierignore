@@ -11,3 +11,5 @@ build
 docs/SPEC.md
 CLAUDE.md
 src/renderer/src/styles/tokens.css
+.claude
+imports

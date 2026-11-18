@@ -107,8 +107,8 @@ export function StatTile({
   return (
     <div
       className={cn(
-        'flex min-w-0 flex-col gap-2.5',
-        surface === 'nested' && 'rounded-nested bg-surface-2 p-4',
+        'flex min-w-0 flex-col gap-2',
+        surface === 'nested' && 'rounded-nested bg-surface-2 p-3',
         className,
       )}
     >
@@ -117,7 +117,7 @@ export function StatTile({
         {deltaPlacement === 'top' ? deltaNode : null}
       </div>
       {isEmpty ? (
-        <div className="flex h-10 items-center gap-2">
+        <div className="flex h-7 items-center gap-2">
           <span aria-hidden="true" className="block h-0.5 w-7 rounded-full bg-fg-muted" />
           <span className="sr-only">{t.stat.empty}</span>
           {unit ? <span className="text-small text-fg-muted">{unit}</span> : null}

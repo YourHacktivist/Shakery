@@ -27,13 +27,13 @@ const VARIANTS: Record<ButtonVariant, string> = {
 }
 
 const SIZES: Record<ButtonSize, string> = {
-  md: 'h-11 gap-2 px-[18px] text-body',
-  sm: 'h-9 gap-1.5 px-3.5 text-small',
+  md: 'h-8 gap-1.5 px-3 text-body',
+  sm: 'h-7 gap-1 px-2.5 text-small',
 }
 
 const ICON_SIZES: Record<ButtonSize, string> = {
-  md: 'size-11 p-0',
-  sm: 'size-9 p-0',
+  md: 'size-8 p-0',
+  sm: 'size-7 p-0',
 }
 
 /** Button of the design system: solid (main action), outline, ghost (discreet), danger. */

@@ -80,11 +80,11 @@ export function BarPage() {
   const total = ingredients.data?.length ?? 0
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-6">
+    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.count(total)}</span>
-          <h1 className="m-0 text-title font-normal tracking-tight text-fg">{t.title}</h1>
+          <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
         </div>
         <Button
           icon={<Plus size={16} aria-hidden="true" />}
@@ -102,7 +102,7 @@ export function BarPage() {
         </p>
       ) : ingredients.isPending ? null : total === 0 ? (
         <EmptyState
-          icon={<Wine size={18} strokeWidth={1.75} aria-hidden="true" />}
+          icon={<Wine size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-10"
@@ -118,7 +118,7 @@ export function BarPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-6">
+        <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-4">
           <Card className="sticky top-0 max-h-[calc(100vh-220px)] gap-4 overflow-hidden p-4">
             <Input
               variant="search"
@@ -257,14 +257,14 @@ function IngredientPanel({
   const confidence = ingredient.compositionConfidence ? t.confidences[ingredient.compositionConfidence] : null
 
   return (
-    <div className="flex min-w-0 flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-4">
       <Card className="gap-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 flex-col gap-1.5">
             <span className="text-small text-fg-muted">
               {categoryPath(categories.data, ingredient.categoryId)}
             </span>
-            <h2 className="m-0 text-title font-normal tracking-tight text-fg">{ingredient.name}</h2>
+            <h2 className="m-0 text-title font-semibold tracking-tight text-fg">{ingredient.name}</h2>
             <div className="flex flex-wrap gap-2">
               {ingredient.prepRecipeId ? <Tag>{t.prep}</Tag> : null}
               {ingredient.isStaple ? <Tag>{t.staple}</Tag> : null}
@@ -307,7 +307,7 @@ function IngredientPanel({
         {ingredient.defaultAbv === null ? <Notice>{td.abvMissing}</Notice> : null}
         {compositionMissing ? <Notice>{td.compositionMissing}</Notice> : null}
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-4">
           <Block title={td.allergens}>
             <AllergenList codes={ingredient.allergens} empty={td.noAllergen} />
           </Block>
@@ -360,7 +360,7 @@ function BottlesCard({ ingredientId }: { ingredientId: string }) {
   return (
     <Card aria-label={td.bottles}>
       <div className="flex items-center justify-between gap-4">
-        <h2 className="m-0 text-lead font-medium text-fg">{td.bottles}</h2>
+        <h2 className="m-0 text-body font-semibold text-fg">{td.bottles}</h2>
         <Button
           variant="outline"
           size="sm"

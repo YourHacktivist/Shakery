@@ -13,13 +13,13 @@ export function PlaceholderPage({ screen, className }: { screen: PlaceholderScre
   const text = fr.shell.screens[screen]
   const Icon = navItem(screen).icon
   return (
-    <div className={cn('flex flex-col gap-6', className)}>
+    <div className={cn('flex flex-col gap-4', className)}>
       <div className="flex flex-col gap-1.5">
         <span className="text-caption font-medium tracking-[0.01em] text-fg-muted">{text.eyebrow}</span>
-        <h1 className="m-0 text-title font-normal tracking-[-0.02em] text-fg">{text.title}</h1>
+        <h1 className="m-0 text-title font-semibold tracking-[-0.02em] text-fg">{text.title}</h1>
       </div>
       <EmptyState
-        icon={<Icon size={18} strokeWidth={1.75} aria-hidden="true" />}
+        icon={<Icon size={16} strokeWidth={1.75} aria-hidden="true" />}
         title={text.emptyTitle}
         description={text.emptyText}
         className="min-h-[320px] p-10"

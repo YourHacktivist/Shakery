@@ -179,7 +179,7 @@ export function Dialog({
             </>
           ) : (
             <>
-              <div className="flex min-h-0 flex-col gap-5 overflow-y-auto p-6">
+              <div className="flex min-h-0 flex-col gap-5 overflow-y-auto p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 flex-col gap-1.5">
                     {heading}
@@ -205,7 +205,7 @@ export function Dialog({
                 {children}
               </div>
               {footer ? (
-                <div className="flex flex-wrap items-center justify-end gap-3 border-t border-border px-6 py-4">
+                <div className="flex flex-wrap items-center justify-end gap-3 border-t border-border px-4 py-4">
                   {footer}
                 </div>
               ) : null}

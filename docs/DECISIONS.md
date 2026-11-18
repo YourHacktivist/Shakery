@@ -221,6 +221,14 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Alternatives écartées** : désactiver `noUncheckedIndexedAccess`, ou marquer chaque repli d'un commentaire d'exclusion.
 - **Validation** : non requise.
 
+### D-028 Interface compacte
+
+- **Date** : 2026-11-18
+- **Contexte** : l'utilisateur trouve l'interface grossière et demande un rendu compact et moderne. La section 11 fixait des cartes à 24 px de marge et une échelle de 12 à 56 px.
+- **Choix** : échelle de texte 11, 12, 13, 14, 16, 22, 28, 40 px (corps à 13 px) ; champs et boutons à 32 px de haut (28 px en petit) ; marge des cartes à 16 px (12 px imbriquées) ; rayons 7, 9, 12 et 16 px ; barre latérale de 212 px ; espacements de page resserrés d'un cran ; panneau « Calculs » en lignes (libellé, valeur, unité) avec les données manquantes regroupées par ligne d'ingrédient. Les tokens de `design/tokens.css` suivent. Le mode préparation garde ses tailles de 32 et 48 px (section 10.12).
+- **Alternatives écartées** : un zoom global de la fenêtre, qui grossit aussi les icônes et ne corrige pas les proportions.
+- **Validation** : demandée par l'utilisateur.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                                                                           | Échéance              |

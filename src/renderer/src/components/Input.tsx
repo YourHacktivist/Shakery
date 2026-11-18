@@ -86,7 +86,7 @@ export function fieldFrameClass({
   disabled?: boolean
 }) {
   return cn(
-    'flex h-11 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft',
+    'flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft',
     'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent',
     invalid ? 'border-status-danger' : 'border-border-strong',
     disabled ? 'cursor-not-allowed opacity-55' : 'hover:bg-surface-2',
@@ -155,11 +155,11 @@ export function Input({
       className={className}
     >
       <div
-        className={cn(fieldFrameClass({ invalid, disabled }), 'gap-2.5 px-3.5')}
+        className={cn(fieldFrameClass({ invalid, disabled }), 'gap-2 px-2.5')}
         onMouseDown={focusFieldInput}
       >
         {variant === 'search' ? (
-          <Search size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
+          <Search size={14} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
         ) : null}
         <input
           ref={ref}

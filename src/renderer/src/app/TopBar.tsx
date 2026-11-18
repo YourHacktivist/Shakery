@@ -13,7 +13,7 @@ export function TopBar({ className }: { className?: string }) {
   const t = fr.shell.topbar
 
   return (
-    <header aria-label={t.label} className={cn('flex flex-wrap items-center gap-3', className)}>
+    <header aria-label={t.label} className={cn('flex flex-wrap items-center gap-2', className)}>
       <button
         type="button"
         aria-haspopup="dialog"
@@ -21,22 +21,22 @@ export function TopBar({ className }: { className?: string }) {
         onClick={() => {
           openOverlay('palette')
         }}
-        className="flex h-11 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2.5 rounded-field border border-border-strong bg-surface-1 px-3.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
+        className="flex h-8 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2 rounded-field border border-border-strong bg-surface-1 px-2.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
       >
-        <Search size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
+        <Search size={14} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
         <span className="min-w-0 flex-1 truncate">{t.search}</span>
         <span aria-hidden="true">
           <Kbd>{shortcutText('palette')}</Kbd>
         </span>
       </button>
       <Button
-        icon={<Plus size={18} strokeWidth={2} aria-hidden="true" />}
+        icon={<Plus size={14} strokeWidth={2} aria-hidden="true" />}
         aria-haspopup="dialog"
         aria-keyshortcuts={ariaKeyShortcut('quickIdea')}
         onClick={() => {
           openOverlay('quickIdea')
         }}
-        className="gap-2.5"
+        className="gap-2"
       >
         {t.quickIdea}
         <span aria-hidden="true">
@@ -47,9 +47,9 @@ export function TopBar({ className }: { className?: string }) {
         to="/settings"
         aria-label={t.settings}
         title={t.settings}
-        className="inline-flex size-11 shrink-0 items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
+        className="inline-flex size-8 shrink-0 items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
       >
-        <Settings size={18} strokeWidth={1.75} aria-hidden="true" />
+        <Settings size={16} strokeWidth={1.75} aria-hidden="true" />
       </Link>
     </header>
   )

@@ -113,7 +113,7 @@ function ToastView({ entry }: { entry: ToastEntry }) {
 
   return (
     <div
-      className="pointer-events-auto flex animate-pop-in items-center gap-3 rounded-nested border border-border-strong bg-surface-2 py-2.5 pr-2.5 pl-4 shadow-[0_12px_32px_rgb(0_0_0/0.45)]"
+      className="pointer-events-auto flex animate-pop-in items-center gap-2 rounded-nested border border-border-strong bg-surface-2 py-1.5 pr-1.5 pl-3 shadow-[0_12px_32px_rgb(0_0_0/0.45)]"
       onPointerEnter={() => {
         setHovered(true)
       }}
@@ -126,9 +126,9 @@ function ToastView({ entry }: { entry: ToastEntry }) {
       onBlur={handleBlur}
     >
       {entry.tone === 'error' ? (
-        <CircleAlert size={18} aria-hidden="true" className="shrink-0 text-status-danger" />
+        <CircleAlert size={16} aria-hidden="true" className="shrink-0 text-status-danger" />
       ) : null}
-      <p className="m-0 min-w-0 flex-1 text-body text-fg">
+      <p className="m-0 min-w-0 flex-1 text-small text-fg">
         {entry.tone === 'error' ? <span className="sr-only">{t.errorPrefix}</span> : null}
         {entry.message}
       </p>
@@ -148,7 +148,7 @@ function ToastView({ entry }: { entry: ToastEntry }) {
         variant="ghost"
         size="sm"
         label={t.dismiss}
-        icon={<X size={16} aria-hidden="true" />}
+        icon={<X size={14} aria-hidden="true" />}
         onClick={() => {
           dismiss(entry.id)
         }}
@@ -164,11 +164,11 @@ export function Toaster({ className }: { className?: string }) {
     <section
       aria-label={fr.shell.toast.region}
       className={cn(
-        'pointer-events-none fixed right-6 bottom-6 z-50 w-[min(400px,calc(100vw-48px))]',
+        'pointer-events-none fixed right-4 bottom-4 z-50 w-[min(340px,calc(100vw-32px))]',
         className,
       )}
     >
-      <div role="status" aria-live="polite" aria-atomic="false" className="flex flex-col gap-2">
+      <div role="status" aria-live="polite" aria-atomic="false" className="flex flex-col gap-1.5">
         {toasts.map((entry) => (
           <ToastView key={entry.id} entry={entry} />
         ))}

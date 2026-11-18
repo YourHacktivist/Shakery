@@ -84,9 +84,9 @@ export function KitPage() {
   const [dialog, setDialog] = useState(false)
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-8">
+    <div className="mx-auto flex max-w-[1120px] flex-col gap-5">
       <header className="flex flex-col gap-1">
-        <h1 className="m-0 text-title font-normal text-fg">{t.title}</h1>
+        <h1 className="m-0 text-title font-semibold text-fg">{t.title}</h1>
         <p className="m-0 text-body text-fg-secondary">{t.subtitle}</p>
       </header>
 
@@ -115,7 +115,7 @@ export function KitPage() {
       </Section>
 
       <Section title={t.sections.radii}>
-        <div className="flex items-end gap-6">
+        <div className="flex items-end gap-4">
           {['rounded-field', 'rounded-nested', 'rounded-card', 'rounded-hero', 'rounded-full'].map((r) => (
             <div key={r} className="flex flex-col items-center gap-2">
               <div className={`size-16 border border-border-strong bg-surface-2 ${r}`} />
@@ -141,7 +141,7 @@ export function KitPage() {
             <Button variant="danger" icon={<Trash2 size={16} aria-hidden="true" />} disabled={disabled}>
               {s.remove}
             </Button>
-            <IconButton label={s.add} icon={<Plus size={18} aria-hidden="true" />} disabled={disabled} />
+            <IconButton label={s.add} icon={<Plus size={16} aria-hidden="true" />} disabled={disabled} />
             <Button size="sm" disabled={disabled}>
               {s.save} <Kbd tone="onAccent">Ctrl S</Kbd>
             </Button>
@@ -150,7 +150,7 @@ export function KitPage() {
       </Section>
 
       <Section title={t.sections.fields}>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-4">
           <Input label={s.name} placeholder={s.namePlaceholder} />
           <Input label={s.name} error={s.nameError} />
           <Input label={s.name} disabled placeholder={s.namePlaceholder} />

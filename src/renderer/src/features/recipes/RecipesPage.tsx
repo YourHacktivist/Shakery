@@ -149,13 +149,13 @@ export function RecipesPage() {
   const total = all?.length ?? 0
 
   return (
-    <div className="mx-auto flex h-full max-w-[1120px] flex-col gap-6">
+    <div className="mx-auto flex h-full max-w-[1120px] flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">
             {filtered ? tl.shown(rows.length, total) : tl.count(total)}
           </span>
-          <h1 className="m-0 text-title font-normal tracking-tight text-fg">{tl.title}</h1>
+          <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{tl.title}</h1>
         </div>
         <div className="flex items-center gap-3">
           <Button
@@ -244,7 +244,7 @@ export function RecipesPage() {
         </p>
       ) : recipes.isPending ? null : total === 0 ? (
         <EmptyState
-          icon={<BookOpen size={18} strokeWidth={1.75} aria-hidden="true" />}
+          icon={<BookOpen size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={tl.empty.title}
           description={tl.empty.description(shortcutText('quickIdea'))}
           className="min-h-[320px] p-10"

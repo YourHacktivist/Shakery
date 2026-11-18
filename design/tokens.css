@@ -45,20 +45,20 @@
 
   /* Typographie */
   --font-sans: "Manrope", system-ui, sans-serif;
-  --text-caption: 12px;
-  --text-small: 13px;
-  --text-body: 14px;
-  --text-lead: 16px;
-  --text-heading: 20px;
-  --text-title: 28px;
-  --text-metric: 40px;
-  --text-display: 56px;
+  --text-caption: 11px;
+  --text-small: 12px;
+  --text-body: 13px;
+  --text-lead: 14px;
+  --text-heading: 16px;
+  --text-title: 22px;
+  --text-metric: 28px;
+  --text-display: 40px;
 
   /* Rayons */
-  --radius-field: 10px;
-  --radius-nested: 12px;
-  --radius-card: 16px;
-  --radius-hero: 20px;
+  --radius-field: 7px;
+  --radius-nested: 9px;
+  --radius-card: 12px;
+  --radius-hero: 16px;
 
   /* Animations : 150 à 250 ms, sans rebond */
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);

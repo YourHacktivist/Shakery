@@ -4,7 +4,7 @@ import { cn } from '@renderer/lib/cn'
 type CardProps = HTMLAttributes<HTMLElement> & {
   /** Small muted label above the content. */
   eyebrow?: ReactNode
-  /** A card inside a card: surface-2, radius 12, padding 16. */
+  /** A card inside a card: surface-2, radius 9, padding 12. */
   nested?: boolean
   as?: 'section' | 'div' | 'article'
 }
@@ -22,7 +22,7 @@ export function Card({
     <Tag
       className={cn(
         'flex flex-col border border-border',
-        nested ? 'gap-2 rounded-nested bg-surface-2 p-4' : 'gap-3 rounded-card bg-surface-1 p-6',
+        nested ? 'gap-2 rounded-nested bg-surface-2 p-3' : 'gap-3 rounded-card bg-surface-1 p-4',
         className,
       )}
       {...rest}

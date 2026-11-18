@@ -100,8 +100,8 @@ function Shell() {
     <div className="flex h-full min-w-[1100px] overflow-hidden">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <TopBar className="px-10 pt-8 pb-6" />
-        <main className="min-h-0 flex-1 overflow-y-auto px-10 pb-10">
+        <TopBar className="px-4 pt-3 pb-3" />
+        <main className="min-h-0 flex-1 overflow-y-auto px-4 pt-2 pb-8">
           <Outlet />
         </main>
       </div>
