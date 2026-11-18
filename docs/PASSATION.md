@@ -20,7 +20,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## État au 18 novembre 2026 (fin de journée)
 
-Phases 0 à 3 livrées, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
+Phases 0 à 3 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
 
 Changements de cette session :
 
@@ -30,30 +30,43 @@ Changements de cette session :
 
 Reste ouvert de la phase 3 : validation par l'utilisateur des valeurs de D-026 (présentées, sans réponse pour l'instant ; ne pas bloquer).
 
-## Phase 4 en cours (données de départ)
+## Phase 4 livrée (données de départ), trois points attendent l'utilisateur
 
-Pipeline dans `scripts/seed/` (TypeScript, lancé avec `npx tsx`, jamais exécuté par l'application). Réponses réseau en cache dans `scripts/seed/.cache/` (ignoré par git, rejouable hors ligne, `--refresh` pour retélécharger).
+Pipeline dans `scripts/seed/` (TypeScript, `npx tsx`, jamais exécuté par l'application). Réponses réseau en cache dans `scripts/seed/.cache/` (ignoré par git ; `--refresh` pour retélécharger). Ordre :
 
-Fait :
+```bash
+npx tsx scripts/seed/wikidata.ts
+```
 
-- `lib.ts` : cache, User-Agent descriptif sans donnée personnelle, attente sur 429 (le service SPARQL de Wikidata limite parfois à une requête par minute).
-- `wikidata.ts` : une requête SPARQL par classe racine (sous-classes P279 avec libellé français, donc sans les marques qui sont des instances), placement dans une feuille de `data/seed/categories.json` par racine et mots-clés. Sortie : `scripts/seed/review/wikidata-candidates.json` (1 131 candidats). Attention : `Q193291` est « esprit » (surnaturel), pas un spiritueux ; retiré.
-- `review/decisions.json` : relecture faite par l'agent. Liste blanche des candidats retenus (avec catégorie et renommage éventuel) ; les racines `autoAccept` (fruits filtrés, compléments) sont retenues sauf rejet. Tout le reste est écarté.
-- Ciqual 2020 (XML) téléchargé dans le cache depuis la copie Wayback du fichier officiel (`https://web.archive.org/web/20250727022008id_/https://ciqual.anses.fr/cms/sites/default/files/inline-files/XML_2020_07_07.zip`), le site Ciqual étant en maintenance le 18 novembre 2026. Licence Ouverte (Etalab). Constituants : sucres 32000, acides organiques 65000 (g/100 g). Conversion en g/L avec une masse volumique de 1 kg/L (à documenter dans `DATA_SOURCES.md` et `DECISIONS.md`).
-- Jeu IBA : `https://raw.githubusercontent.com/ahcombs/iba-cocktails/main/iba-web/iba-cocktails-web.json` (90 cocktails relevés sur le site de l'IBA en mars 2023, code sous licence MIT ; doses et ingrédients repris comme des faits), dans le cache `iba/`.
+```bash
+npx tsx scripts/seed/ciqual.ts
+```
 
-Reste à faire :
+```bash
+npx tsx scripts/seed/iba.ts
+```
 
-1. `ciqual.ts` : table de correspondance écrite à la main (clé d'ingrédient vers code Ciqual) et valeurs. Codes repérés : citron (maison) 2007 (sucres 2,06, acides 4,8), citron vert pur jus 2031 (1,24 / 5), orange pur jus 2070 (9,61 / 1), pamplemousse pur jus 2027 (8,89 / 1,3), ananas pur jus 2073 (12,1 / 0,6), pomme pur jus 2074 (10,9 / 0,6), raisin 2016 (16 / 0,8), tomate 2053 (3,72 / 0,4), canneberge absent, sirop d'agave 31089, sirop d'érable 31034, miel 31008, sucre blanc 31016, cola sucré 18018, tonic sucré 18344, limonade 18010, lait de coco 18041, crème de cassis 1021.
-2. Ingrédients écrits à la main (absents de Wikidata ou introuvables) : Campari, Vermouth rouge, Gin London Dry, Prosecco, Ginger beer, Crème de violette, Falernum, Curaçao bleu, Bitters Peychaud, Aquavit (Q178899 relevé dans une réponse antérieure), eau plate, sucre blanc, sucre roux, blanc et jaune d'œuf, crème liquide, lait, café expresso, sel, noix de muscade, fruits manquants (fruit de la passion, noix de coco, rhubarbe, yuzu, mandarine).
-3. `iba.ts` : correspondance des 168 libellés IBA vers les clés d'ingrédients, familles, méthodes, verres, étapes réécrites en français (jamais traduites mot à mot).
-4. Préparations classiques (sirop simple, sirop riche, miel, grenadine, orgeat, oleo saccharum, cordial citron vert, gingembre) : **bloqué par une décision de modèle**. Le cœur exclut les lignes en grammes, donc la composition d'un sirop fait de sucre en grammes ne se calcule pas. Recommandation à faire valider : colonne facultative `density_g_per_ml` sur `ingredients` ; une ligne en grammes d'un ingrédient qui a une masse volumique devient volumique (ml = g / masse volumique). Le saccharose cristallisé (1,59 g/ml) donne alors le bon volume dissous (500 g de sucre et 500 ml d'eau donnent environ 815 ml) et le bon sucre.
-5. `build.ts` : fusion vers `data/seed/ingredients.json`, `recipes.json`, `preps.json`, refus de tout `needs_review`, puis chargeur dans `src/main/seed/load.ts` (même règle : n'ajouter que les `seed_key` absentes), tests, `DATA_SOURCES.md` complet.
-6. Relecture par l'utilisateur de l'arbre des catégories et d'un échantillon d'ingrédients (critère de la phase) : à lui présenter sans bloquer.
+```bash
+npx tsx scripts/seed/build.ts
+```
+
+- `wikidata.ts` : une requête SPARQL par classe racine, sortie `review/wikidata-candidates.json`. Le service limite parfois à une requête par minute (attente gérée dans `lib.ts`). `Q193291` est « esprit » (surnaturel) : ne jamais le reprendre.
+- `review/decisions.json` : relecture (liste blanche, renommages, `keepAbv` pour les seuls produits uniques).
+- `hand-ingredients.json` : 63 ingrédients rédigés à la main. `ciqual-map.json` et `ciqual.ts` : sucre et acidité de 19 jus et sodas (Ciqual 2020 via la copie Wayback, D-029).
+- `iba.ts` : relevé du site de l'IBA (102 cocktails). `iba-map.json` : libellés et lignes lues à la main. `iba-fr.json` : textes français écrits à la main. `recipes.ts` : assemblage.
+- `preps.json` : 10 préparations classiques sans durée ni rendement.
+- `build.ts` écrit `data/seed/ingredients.json` (308) et `data/seed/recipes.json` (10 préparations puis 102 cocktails) ; il échoue sur une ligne IBA non lue, un doublon, une catégorie qui n'est pas une feuille.
+- Chargement : `src/main/seed/load.ts` (ingrédients avec alias et index de recherche dans la transaction principale ; fiches ensuite par `RecipeRepository`, une transaction par fiche, statut `final`, origine `classic`). N'ajoute que les `seed_key` absentes, ne recrée jamais une entrée supprimée, laisse un ingrédient que l'utilisateur a déjà sous le même nom. Les tests de dépôts et l'archive MAF chargent la base sans ingrédients ni fiches (`{ ...BUNDLED_SEED, ingredients: [], recipes: [] }`).
+- Le test e2e du Negroni choisit les ingrédients de départ et crée un seul nouvel ingrédient.
+
+En attente de l'utilisateur (ne pas bloquer la suite) :
+
+1. **Décision de modèle** (« À valider plus tard » dans `DECISIONS.md`) : colonne `density_g_per_ml` pour compter les lignes en grammes. Sans elle, la composition des sirops maison ne se calcule pas (critère « sirops de base calculés » non tenu). Si validée : migration drizzle, `core/units.ts` (ligne en g avec masse volumique = volume), sucre blanc 1,59 g/ml, sucre roux et miel à sourcer, tests, puis sirops recalculés.
+2. Relecture de l'arbre des catégories et d'un échantillon d'ingrédients (critère de la phase 4).
+3. Valeurs de D-026 (dilution et unités).
 
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 4 : données de départ (pipeline `scripts/seed/` : Wikidata, Ciqual, cocktails IBA réécrits, préparations classiques, relecture, `needs_review` bloquant au build). Voir la section 9 de la spec. Ne jamais inventer de valeur de composition.
 - Phase 5 : recherche, palette, mode préparation.
 - Phase 6 : atelier.
 - Phase 7 : journal de dégustation et carnet.
@@ -87,7 +100,8 @@ npx electron scripts/icons/generate.mjs
 ## Pièges connus
 
 - L'outil d'écriture de fichiers transforme les séquences `\uXXXX` en caractères réels : pour une espace insécable ou un tiret spécial dans le code, utiliser `String.fromCharCode`.
-- Les heredocs Bash contenant des apostrophes échouent : écrire les scripts avec l'outil d'écriture ou en Python (`python -I`).
+- Les heredocs Bash contenant des apostrophes échouent : écrire le script Python dans un fichier du dossier temporaire avec l'outil d'écriture, puis `python -I fichier.py`. `python -I` ignore `PYTHONIOENCODING` : pour afficher de l'UTF-8, `sys.stdout.reconfigure(encoding='utf-8')`.
+- Prettier reformate les fichiers après coup : relire un fichier avant un remplacement par motif, sinon le motif ne correspond plus.
 - Windows verrouille les fichiers ouverts : toujours fermer une base SQLite avant de la supprimer, y compris dans les `catch`.
 - Les scripts lancés avec `tsx` sont en CommonJS : pas de `await` au niveau supérieur, envelopper dans une fonction `main`.
 - `better-sqlite3` est en Node-API : pas de recompilation pour Electron (D-021), `npmRebuild: false`.
