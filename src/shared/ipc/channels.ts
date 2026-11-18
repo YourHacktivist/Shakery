@@ -37,6 +37,8 @@ export const IPC_CHANNELS = [
   'recipes.restore',
   'recipes.quickIdea',
   'recipes.compute',
+  'import.choose',
+  'import.apply',
 ] as const
 
 export type IpcChannel = (typeof IPC_CHANNELS)[number]

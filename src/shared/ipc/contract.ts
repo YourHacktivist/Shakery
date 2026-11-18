@@ -36,6 +36,16 @@ export const appVersionSchema = z
 const idInput = z.object({ id: z.string().min(1).max(36) }).strict()
 const done = z.null()
 
+const tablePreviewSchema = z
+  .object({
+    table: z.string().max(64),
+    total: z.number().int(),
+    added: z.number().int(),
+    matched: z.number().int(),
+    conflicts: z.number().int(),
+  })
+  .strict()
+
 export type ContractEntry = {
   readonly input: z.ZodType
   readonly output: z.ZodType
@@ -120,6 +130,29 @@ export const ipcContract = {
   'recipes.compute': {
     input: z.object({ data: recipeInputSchema }).strict(),
     output: recipeComputationSchema,
+  },
+  /** Opens the file dialog in the main process; the renderer never handles a path. */
+  'import.choose': {
+    input: noInput,
+    output: z
+      .object({
+        token: z.string().max(64),
+        label: z.string().max(200).nullable(),
+        tables: z.array(tablePreviewSchema).max(64),
+      })
+      .strict()
+      .nullable(),
+  },
+  'import.apply': {
+    input: z
+      .object({
+        token: z.string().min(1).max(64),
+        strategy: z.enum(['ignore', 'replace', 'duplicate']),
+      })
+      .strict(),
+    output: z
+      .object({ inserted: z.number().int(), updated: z.number().int(), skipped: z.number().int() })
+      .strict(),
   },
 } as const satisfies Record<IpcChannel, ContractEntry>
 

@@ -5,6 +5,7 @@ import { log } from '../logger'
 import { isTrustedRendererUrl, type RendererTarget } from '../security-policy'
 import { appHandlers } from './app'
 import { createCatalogHandlers } from './catalog'
+import { createImportHandlers } from './import'
 import { createDatabaseHandlers, type DatabaseHandlerDeps } from './database'
 import { dispatch, type IpcHandlers } from './dispatch'
 
@@ -15,6 +16,7 @@ export function createHandlers(deps: HandlerDeps): IpcHandlers {
     ...appHandlers,
     ...createDatabaseHandlers(deps),
     ...createCatalogHandlers(deps.manager),
+    ...createImportHandlers(deps.manager),
   }
 }
 
