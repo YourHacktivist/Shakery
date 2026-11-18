@@ -105,7 +105,7 @@ export function BarPage() {
           icon={<Wine size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
-          className="min-h-[320px] p-10"
+          className="min-h-[320px] p-8"
           action={
             <Button
               icon={<Plus size={16} aria-hidden="true" />}
@@ -173,14 +173,14 @@ export function BarPage() {
             <EmptyState
               title={t.noSelection.title}
               description={t.noSelection.description}
-              className="min-h-[320px] p-10"
+              className="min-h-[320px] p-8"
             />
           ) : selected.isPending ? (
             <p className="m-0 text-body text-fg-muted" aria-busy="true">
               {td.loading}
             </p>
           ) : selected.isError ? (
-            <EmptyState title={fr.errors.NOT_FOUND} className="min-h-[320px] p-10" />
+            <EmptyState title={fr.errors.NOT_FOUND} className="min-h-[320px] p-8" />
           ) : (
             <IngredientPanel
               ingredient={selected.data}

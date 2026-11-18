@@ -22,7 +22,7 @@ export function PlaceholderPage({ screen, className }: { screen: PlaceholderScre
         icon={<Icon size={16} strokeWidth={1.75} aria-hidden="true" />}
         title={text.emptyTitle}
         description={text.emptyText}
-        className="min-h-[320px] p-10"
+        className="min-h-[320px] p-8"
       />
     </div>
   )

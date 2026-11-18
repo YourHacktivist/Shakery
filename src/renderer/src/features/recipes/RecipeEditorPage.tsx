@@ -119,7 +119,7 @@ export function RecipeEditorPage() {
     return (
       <EmptyState
         title={t.detail.notFound}
-        className="mx-auto min-h-[320px] max-w-[1120px] p-10"
+        className="mx-auto min-h-[320px] max-w-[1120px] p-8"
         action={
           <Link to="/recipes" className="text-body font-semibold text-accent-soft hover:text-accent">
             {t.detail.backToList}

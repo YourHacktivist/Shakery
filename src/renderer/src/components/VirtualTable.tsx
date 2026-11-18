@@ -48,7 +48,7 @@ export function VirtualTable<Row>({
   columns,
   getRowId,
   label,
-  rowHeight = 48,
+  rowHeight = 40,
   activeId,
   onActiveChange,
   onOpen,
@@ -154,7 +154,7 @@ export function VirtualTable<Row>({
       {/* Visual header; screen readers get the column names inside each row. */}
       <div
         aria-hidden="true"
-        className="grid h-10 shrink-0 items-center gap-4 border-b border-border px-4 text-caption font-medium tracking-[0.01em] text-fg-muted"
+        className="grid h-8 shrink-0 items-center gap-4 border-b border-border px-4 text-caption font-medium tracking-[0.01em] text-fg-muted"
         style={{ gridTemplateColumns: template }}
       >
         {columns.map((column) => (
@@ -181,7 +181,7 @@ export function VirtualTable<Row>({
         onBlur={() => {
           pointerDown.current = false
         }}
-        className="relative min-h-0 flex-1 overflow-y-auto outline-offset-[-2px]"
+        className="relative min-h-0 flex-1 overflow-y-auto outline-offset-[-2px] select-none"
       >
         <div className="relative w-full" style={{ height: virtualizer.getTotalSize() }}>
           {virtualizer.getVirtualItems().map((item) => {

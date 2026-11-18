@@ -247,7 +247,7 @@ export function RecipesPage() {
           icon={<BookOpen size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={tl.empty.title}
           description={tl.empty.description(shortcutText('quickIdea'))}
-          className="min-h-[320px] p-10"
+          className="min-h-[320px] p-8"
           action={
             <div className="flex items-center gap-3">
               <Button
@@ -271,7 +271,7 @@ export function RecipesPage() {
             columns={columns}
             getRowId={(row) => row.id}
             label={tl.tableLabel}
-            rowHeight={56}
+            rowHeight={40}
             onOpen={(row) => void navigate(`/recipes/${row.id}`)}
             className="min-h-[320px] flex-1"
             empty={
