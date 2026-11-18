@@ -1,47 +1,98 @@
-import { useEffect, useState } from 'react'
-import logoUrl from '@renderer/assets/logo-160.png'
+import { useMemo } from 'react'
+import { HashRouter, Navigate, Route, Routes, useNavigate } from 'react-router'
+import { KIT_PATH, NAV_ITEMS } from '@renderer/app/navigation'
+import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
+import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
+import { Sidebar } from '@renderer/app/Sidebar'
+import { useOverlayStore } from '@renderer/app/stores'
+import { TopBar } from '@renderer/app/TopBar'
+import { useGlobalShortcuts } from '@renderer/app/useGlobalShortcuts'
+import { CommandPalette, type CommandPaletteGroup } from '@renderer/components/CommandPalette'
+import { Toaster } from '@renderer/components/Toast'
+import { KitPage } from '@renderer/dev/KitPage'
+import { BarPage } from '@renderer/features/bar/BarPage'
+import { CalculatorsPage } from '@renderer/features/calculators/CalculatorsPage'
+import { CollectionsPage } from '@renderer/features/collections/CollectionsPage'
+import { HomePage } from '@renderer/features/home/HomePage'
+import { JournalPage } from '@renderer/features/journal/JournalPage'
+import { LabPage } from '@renderer/features/lab/LabPage'
+import { NotebookPage } from '@renderer/features/notebook/NotebookPage'
+import { PracticePage } from '@renderer/features/practice/PracticePage'
+import { PrepsPage } from '@renderer/features/preps/PrepsPage'
+import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
+import { SettingsPage } from '@renderer/features/settings/SettingsPage'
 import { fr } from '@renderer/i18n/fr'
-import { shakery, unwrap } from '@renderer/lib/ipc'
 
-type VersionState = { status: 'loading' } | { status: 'ready'; version: string } | { status: 'error' }
-
-/** Phase 0 placeholder: proves the IPC round trip and the design tokens. Replaced in phase 2. */
+/** Root of the interface: hash routing works when the page is loaded from file://. */
 export function App() {
-  const [version, setVersion] = useState<VersionState>({ status: 'loading' })
+  return (
+    <HashRouter>
+      <Shell />
+    </HashRouter>
+  )
+}
 
-  useEffect(() => {
-    let active = true
-    unwrap(shakery.app.getVersion())
-      .then(({ version: value }) => {
-        if (active) setVersion({ status: 'ready', version: value })
-      })
-      .catch(() => {
-        if (active) setVersion({ status: 'error' })
-      })
-    return () => {
-      active = false
-    }
-  }, [])
+function Shell() {
+  useGlobalShortcuts()
+  const navigate = useNavigate()
+  const overlay = useOverlayStore((state) => state.current)
+  const paletteQuery = useOverlayStore((state) => state.paletteQuery)
+  const closeOverlay = useOverlayStore((state) => state.close)
+
+  const groups = useMemo<CommandPaletteGroup[]>(
+    () => [
+      {
+        id: 'screens',
+        heading: fr.shell.palette.groupScreens,
+        items: NAV_ITEMS.map((item) => {
+          const Icon = item.icon
+          return {
+            id: item.id,
+            label: fr.shell.nav[item.id],
+            icon: <Icon size={16} aria-hidden="true" />,
+            onSelect: () => {
+              closeOverlay()
+              void navigate(item.path)
+            },
+          }
+        }),
+      },
+    ],
+    [closeOverlay, navigate],
+  )
 
   return (
-    <main className="flex h-full items-center justify-center p-6">
-      <section className="flex flex-col items-center gap-6 text-center">
-        <div className="logo-halo flex size-40 items-center justify-center rounded-full">
-          <img src={logoUrl} alt={fr.boot.logoAlt} width={128} height={128} />
-        </div>
-        <div className="flex flex-col gap-1">
-          <h1 className="text-display font-light tracking-tight">{fr.app.name}</h1>
-          <p className="text-lead text-fg-secondary">{fr.app.tagline}</p>
-        </div>
-        <p className="nums text-small text-fg-muted" data-testid="app-version">
-          {version.status === 'ready'
-            ? fr.boot.version(version.version)
-            : version.status === 'error'
-              ? fr.boot.versionUnknown
-              : ' '}
-        </p>
-        <p className="max-w-md text-body text-fg-secondary">{fr.boot.phase}</p>
-      </section>
-    </main>
+    <div className="flex h-full min-w-[1100px] overflow-hidden">
+      <Sidebar />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <TopBar className="px-10 pt-8 pb-6" />
+        <main className="min-h-0 flex-1 overflow-y-auto px-10 pb-10">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/recipes" element={<RecipesPage />} />
+            <Route path="/lab" element={<LabPage />} />
+            <Route path="/journal" element={<JournalPage />} />
+            <Route path="/notebook" element={<NotebookPage />} />
+            <Route path="/bar" element={<BarPage />} />
+            <Route path="/preps" element={<PrepsPage />} />
+            <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/practice" element={<PracticePage />} />
+            <Route path="/calculators" element={<CalculatorsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            {import.meta.env.DEV ? <Route path={KIT_PATH} element={<KitPage />} /> : null}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+      </div>
+      <CommandPalette
+        open={overlay === 'palette'}
+        onClose={closeOverlay}
+        groups={groups}
+        initialQuery={paletteQuery}
+      />
+      <QuickIdeaDialog open={overlay === 'quickIdea'} onClose={closeOverlay} />
+      <ShortcutsDialog open={overlay === 'shortcuts'} onClose={closeOverlay} />
+      <Toaster />
+    </div>
   )
 }

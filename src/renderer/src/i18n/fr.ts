@@ -1,8 +1,12 @@
 import type { IpcErrorCode } from '@shared/ipc/result'
+import { components } from './fr/components'
+import { home } from './fr/home'
+import { kit } from './fr/kit'
+import { shell } from './fr/shell'
 
 /**
  * Every user-facing string lives here, so the interface can be translated later.
- * Components never hard-code French text.
+ * Components never hard-code French text. Each area owns one file in ./fr/.
  */
 export const fr = {
   app: {
@@ -24,4 +28,8 @@ export const fr = {
     UNAVAILABLE: 'Le carnet n’est pas disponible pour le moment. Son état est indiqué dans les paramètres.',
     INTERNAL: 'Une erreur interne est survenue. Le détail est dans le journal.',
   } satisfies Record<IpcErrorCode, string>,
+  components,
+  shell,
+  home,
+  kit,
 } as const
