@@ -18,28 +18,17 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), terminés par la ligne `Co-Authored-By` indiquée par le système. Ne committer que ses propres fichiers.
 
-## État au 18 novembre 2026
+## État au 18 novembre 2026 (fin de journée)
 
-Phases 0, 1 et 2 livrées. Phase 3 presque terminée, tout est committé.
+Phases 0 à 3 livrées, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
 
-Fait pour la phase 3 :
+Changements de cette session :
 
-- `src/core/` : unités, dilution, composition, TAV (servi et méthode socle), allergènes, coût et prix de vente, avec leurs tests (`src/core/calculations.test.ts`).
-- Dépôts ingrédients, bouteilles, recettes (`src/main/db/repositories/`) et IPC du catalogue (`src/main/ipc/catalog.ts`).
-- Import `.shakery` : lecture protégée de l'archive (`src/main/services/archive.ts`), validation ligne à ligne, rapprochement, stratégies ignorer, remplacer, dupliquer (`src/main/services/import.ts`), IPC `import.choose` et `import.apply` (`src/main/ipc/import.ts`).
-- Conversion des carnets MAF : `npm run maf:convert` écrit `imports/maf/maf-2025.shakery` (règles dans `docs/maf-mapping.md`). Contrôlé : 4 715 lignes, réimport sans doublon, coûts identiques au carnet à l'arrondi près.
-- Écrans de la phase 3 (écrits par un sous-agent arrêté par la limite d'usage juste avant d'écrire leurs tests) : liste, fiche et éditeur de recettes, idée rapide réelle, Mon bar minimal (`src/renderer/src/features/recipes/`, `features/bar/`, `features/shared/`, `lib/queries.ts`, `lib/forms.ts`, composants `Checkbox`, `Select`, `Textarea`). Un utilitaire de test existe déjà : `src/renderer/src/test/shakery.tsx`.
-- Paramètres : carte d'import d'un carnet `.shakery` (`src/renderer/src/features/settings/`).
+- Interface compacte demandée par l'utilisateur (D-028) : corps à 13 px, contrôles de 32 px, cartes à 16 px de marge, panneau « Calculs » en lignes. Toute nouvelle vue suit cette densité, pas les valeurs d'origine de la section 11.
+- `npm run screens` capture les écrans principaux (`tests/screens/`, configuration `playwright.screens.config.ts`) : à utiliser pour vérifier un écran au lieu de lancer `npm run dev`. `tests/screens/maf-import.spec.ts` importe `imports/maf/maf-2025.shakery` dans une base neuve (36 fiches, 4 715 éléments, contrôlé).
+- Tests d'écrans : fiche (`RecipeDetailPage.test.tsx`), Mon bar (`BarPage.test.tsx`), import (`ImportCard.test.tsx`).
 
-Contrôles au moment de la passation : `npm run check` passe (types, lint, format, 248 tests unitaires), `npm run test:e2e` passe (14 tests).
-
-## Reste à faire pour clore la phase 3
-
-1. Écrire les tests des nouveaux écrans (recettes, éditeur, idée rapide, Mon bar, import des paramètres) et un test e2e « créer un Negroni complet en moins d'une minute » (critère de la phase).
-2. Vérifier les écrans dans l'application (`npm run dev`) contre les maquettes `design/maquettes/png/` et le kit, corriger ce qui s'en écarte.
-3. Importer `imports/maf/maf-2025.shakery` depuis les Paramètres dans l'application réelle et vérifier l'affichage des 36 recettes (les fiches de culture s'affichent aux phases suivantes).
-4. Faire valider par l'utilisateur les valeurs par défaut de D-026 (dilution : shake 25 %, stir 20 %, build 10 %, autre 15 % ; unités : oz 30 ml d'affichage et 29,5735 ml exacts, trait 0,25 ml, goutte 0,05 ml, cuillère de bar et cuillère à café 5 ml). Sources dans `docs/DATA_SOURCES.md`. Ne pas bloquer la suite : présenter les valeurs et continuer.
-5. Mettre `README.md` à jour (phase 3 livrée).
+Reste ouvert de la phase 3 : validation par l'utilisateur des valeurs de D-026 (présentées, sans réponse pour l'instant ; ne pas bloquer).
 
 ## Phases suivantes (section 14 de la spec)
 
@@ -84,3 +73,6 @@ npx electron scripts/icons/generate.mjs
 - TypeScript reste en 6.x tant que typescript-eslint ne prend pas en charge la 7 (D-005).
 - Les transactions Drizzle n'exposent pas `$client` : utiliser `this.db.$client`.
 - Zod 4 : `.finite()` est obsolète, ne pas l'utiliser.
+- Python sous Windows : `write_text` écrit des fins de ligne CRLF ; passer `newline='
+'`, sinon Prettier échoue.
+- Testing Library lit les espaces insécables des chaînes françaises comme des espaces simples : comparer avec `text.replaceAll(String.fromCharCode(0xa0), ' ')`. Pas de jest-dom : `toBeDefined()`, `toBeNull()`.
