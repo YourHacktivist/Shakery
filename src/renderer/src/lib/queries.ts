@@ -47,6 +47,8 @@ const CATALOG_KEYS: QueryKey[] = [
   ['computation'],
   ['zones'],
   ['search'],
+  ['tastings'],
+  ['notebook'],
 ]
 
 export function invalidateCatalog(client: QueryClient): Promise<void> {
@@ -91,6 +93,17 @@ export function useRecipeVersion(id: string, version: number | null) {
     enabled: version !== null,
     staleTime: Infinity,
   })
+}
+
+export function useTastings(filter: { recipeId?: string; toRetest?: boolean } = {}) {
+  return useQuery({
+    queryKey: ['tastings', filter],
+    queryFn: () => unwrap(api().tastingNotes.list(filter)),
+  })
+}
+
+export function useNotebook() {
+  return useQuery({ queryKey: ['notebook'], queryFn: () => unwrap(api().notebook.list()) })
 }
 
 export function useRecipes() {
@@ -186,6 +199,14 @@ export const useSetRecipeFavorite = mutationOf('recipes', 'setFavorite')
 export const useCreateVariant = mutationOf('recipes', 'createVariant')
 export const useDeleteRecipe = mutationOf('recipes', 'delete')
 export const useRestoreRecipe = mutationOf('recipes', 'restore')
+
+export const useCreateTasting = mutationOf('tastingNotes', 'create')
+export const useUpdateTasting = mutationOf('tastingNotes', 'update')
+export const useSetNextStepDone = mutationOf('tastingNotes', 'setNextStepDone')
+export const useDeleteTasting = mutationOf('tastingNotes', 'delete')
+export const useCreateEntry = mutationOf('notebook', 'create')
+export const useUpdateEntry = mutationOf('notebook', 'update')
+export const useDeleteEntry = mutationOf('notebook', 'delete')
 
 export const useCreateIngredient = mutationOf('ingredients', 'create')
 export const useUpdateIngredient = mutationOf('ingredients', 'update')

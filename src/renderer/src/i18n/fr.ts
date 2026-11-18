@@ -1,6 +1,7 @@
 import type { IpcErrorCode } from '@shared/ipc/result'
 import { bar } from './fr/bar'
 import { components } from './fr/components'
+import { journal } from './fr/journal'
 import { home } from './fr/home'
 import { kit } from './fr/kit'
 import { recipes } from './fr/recipes'
@@ -32,6 +33,7 @@ export const fr = {
     INTERNAL: 'Une erreur interne est survenue. Le détail est dans le journal.',
   } satisfies Record<IpcErrorCode, string>,
   components,
+  journal,
   shell,
   home,
   kit,

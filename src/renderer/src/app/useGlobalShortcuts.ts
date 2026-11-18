@@ -60,6 +60,13 @@ export function useGlobalShortcuts(): void {
           event.preventDefault()
           overlays.open('shortcuts')
           return
+        case 'tastingNote': {
+          // Ctrl+J: tasting note, on the recipe on screen when there is one (section 10.1).
+          event.preventDefault()
+          const shown = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]
+          overlays.openTasting(shown && shown !== 'new' ? shown : null)
+          return
+        }
         case 'openInLab': {
           // Ctrl+E opens the recipe on screen in the lab (section 10.1).
           const shown = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]

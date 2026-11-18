@@ -86,9 +86,27 @@ Reste de la section 10.4 non fait (à reprendre avec les phases concernées) : f
 
 Limites connues : les zones n'apparaissent qu'une fois les degrés et compositions renseignés (les spiritueux génériques de départ n'ont pas de degré, voir D-030) ; « Noter une dégustation » attend la phase 7.
 
+## Phase 7 en cours (journal et carnet) : reprendre ici
+
+Fait et committé :
+
+- Domaine partagé `src/shared/domain/journal.ts` (8 critères de −2 à +2, note de dégustation liée à une version, entrée de carnet avec liens par id).
+- Dépôt `src/main/db/repositories/journal.ts` et tests `journal.test.ts` (version goûtée vérifiée, « à retester », liens qui survivent au renommage, élément supprimé affiché à null). Index de recherche alimenté (`tasting_note`, `notebook_entry`).
+- IPC `tastingNotes.list|create|update|setNextStepDone|delete` et `notebook.list|create|update|delete` (`src/main/ipc/journal.ts`).
+- Renderer, base seulement : chaînes `src/renderer/src/i18n/fr/journal.ts` (`fr.journal`), hooks `useTastings`, `useNotebook` et mutations dans `lib/queries.ts`, overlay `tasting` avec `openTasting(recipeId, version)` dans `app/stores.ts`, Ctrl+J actif dans `useGlobalShortcuts.ts` (ouvre l'overlay ; le dialogue n'existe pas encore).
+
+Reste à faire, dans cet ordre :
+
+1. `app/TastingDialog.tsx` monté dans `App.tsx` à côté de `QuickIdeaDialog` (`overlay === 'tasting'`) : fiche (Combobox des fiches), version (défaut : version actuelle), note globale 1 à 5, 8 `RatingScale` (`fr.journal.criteria`), commentaire, prochaine étape, contexte ; `useCreateTasting` puis toast. Objectif : saisie complète en moins de 30 s.
+2. `features/journal/JournalPage.tsx` : liste chronologique, filtres fiche, note minimale, « À retester », case « Testée » (`useSetNextStepDone`), suppression ; bouton « Noter une dégustation ».
+3. Fiche (`RecipeDetailPage.tsx`) : remplacer le `SoonButton` « Noter une dégustation » par un bouton `openTasting(recipe.id, recipe.version)` ; sous « Versions », notes par version et `Sparkline` de la note moyenne.
+4. Atelier : bouton « Noter une dégustation » (enregistrer d'abord la version si le brouillon a changé, puis `openTasting`).
+5. Barre latérale (`Sidebar.tsx`, bloc « À retester ») : `useTastings({ toRetest: true })`, trois premières prochaines étapes, lien vers le journal.
+6. `features/notebook/NotebookPage.tsx` : liste (épinglées d'abord, filtre), éditeur titre, texte, tags, épingle ; « @ » ouvre une liste de `search.query` et ajoute le lien ; liens affichés avec leur nom actuel ; « Transformer en idée de fiche » (`recipes.create` statut `idea`, nom = titre, notes = texte).
+7. Tests d'écran du dialogue et du carnet, e2e « note de dégustation avec prochaine étape puis testée », `npm run check`, `npm run test:e2e`, README et passation.
+
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 7 : journal de dégustation et carnet.
 - Phase 8 : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
 - Phase 10 : export et partage, Open Food Facts.
