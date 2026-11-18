@@ -13,6 +13,7 @@
     "vitest.config.mts",
     "drizzle.config.ts",
     "playwright.config.ts",
+    "playwright.screens.config.ts",
     "scripts/**/*.ts"
   ]
 }
