@@ -10,9 +10,10 @@ Application de bureau Electron, React, Tailwind CSS v4 et TypeScript. Le cahier 
 | ------ | ---------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | 0      | Fondations : projet, durcissement Electron, contrat IPC, CI, instance unique, journaux                     | livrée, validée                        |
 | 1      | Données et sauvegarde : SQLite, schéma complet avec l'extension MAF, migrations, référentiels, sauvegardes | livrée                                 |
-| 2 à 11 | Design system, fiches, base de départ, recherche, atelier, journal, bar, accueil, export, finitions        | à venir, dans l'ordre de la section 14 |
+| 2      | Design system : composants, coquille, raccourcis, palette, accueil vide, icônes, page /dev/kit             | livrée                                 |
+| 3 à 11 | Fiches, base de départ, recherche, atelier, journal, bar, accueil, export, finitions                       | à venir, dans l'ordre de la section 14 |
 
-La phase 0 affiche une page provisoire (logo, nom, version lue par IPC). Les écrans arrivent avec les phases suivantes.
+L'application affiche la coquille complète et l'accueil d'un carnet vide. Les écrans de données arrivent avec les phases suivantes.
 
 ## Prérequis
 
