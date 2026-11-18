@@ -65,6 +65,11 @@ describe('filterOptions', () => {
     expect(filterOptions(indexed, 'co').map((option) => option.id)).toEqual(['d'])
   })
 
+  it('tolerates a typo when nothing matches exactly', () => {
+    expect(filterOptions(indexed, 'cointrau').map((option) => option.id)).toEqual(['d'])
+    expect(filterOptions(indexed, 'cassys').map((option) => option.id)).toEqual(['a'])
+  })
+
   it('returns every option for an empty query', () => {
     expect(filterOptions(indexed, '  ')).toHaveLength(4)
   })

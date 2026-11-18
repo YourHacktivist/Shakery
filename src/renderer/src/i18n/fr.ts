@@ -1,7 +1,10 @@
 import type { IpcErrorCode } from '@shared/ipc/result'
+import { bar } from './fr/bar'
 import { components } from './fr/components'
 import { home } from './fr/home'
 import { kit } from './fr/kit'
+import { recipes } from './fr/recipes'
+import { settings } from './fr/settings'
 import { shell } from './fr/shell'
 
 /**
@@ -32,4 +35,7 @@ export const fr = {
   shell,
   home,
   kit,
+  recipes,
+  bar,
+  settings,
 } as const

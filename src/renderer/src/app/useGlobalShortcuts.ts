@@ -50,6 +50,11 @@ export function useGlobalShortcuts(): void {
           event.preventDefault()
           overlays.open('quickIdea')
           return
+        case 'newRecipe':
+          event.preventDefault()
+          overlays.close()
+          void navigate('/recipes/new')
+          return
         case 'help':
           if (editable || isModalOpen()) return
           event.preventDefault()

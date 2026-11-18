@@ -87,9 +87,23 @@ export const shell = {
   },
   quickIdea: {
     title: 'Idée rapide',
-    description: `Bientôt, tu noteras ici une idée en quelques secondes${colon} un nom, quelques ingrédients, une ligne de note, puis Entrée.`,
-    phase: 'La saisie arrive à la phase 3, avec les fiches et les ingrédients.',
-    confirm: 'Compris',
+    description: 'Un nom suffit. Entrée crée la fiche au statut idée.',
+    name: 'Nom',
+    namePlaceholder: 'Par exemple, Highball yuzu',
+    nameRequired: 'Donne un nom à ton idée.',
+    ingredients: 'Ingrédients',
+    ingredientsPlaceholder: 'Tape un ingrédient puis Entrée ou virgule',
+    ingredientsHint: 'Les ingrédients inconnus sont créés dans la catégorie À classer.',
+    suggestions: 'Ingrédients connus',
+    remove: (name: string) => `Retirer ${name}`,
+    tooMany: 'Vingt ingrédients au plus pour une idée.',
+    note: 'Note',
+    notePlaceholder: 'Une ligne pour ne pas oublier',
+    create: 'Créer l’idée',
+    creating: 'Création…',
+    cancel: 'Annuler',
+    created: (name: string) => `Idée ${quote(name)} notée.`,
+    open: 'Ouvrir',
   },
   shortcuts: {
     title: 'Raccourcis clavier',
@@ -109,13 +123,6 @@ export const shell = {
     },
   },
   screens: {
-    recipes: {
-      eyebrow: 'Arrive à la phase 3',
-      title: 'Fiches',
-      emptyTitle: 'Tes fiches vivront ici',
-      emptyText:
-        'Chaque recette avec ses ingrédients, ses doses, ses étapes, ses versions et ses calculs. La création et l’édition arrivent à la phase 3, les filtres et la recherche à la phase 5.',
-    },
     lab: {
       eyebrow: 'Arrive à la phase 6',
       title: 'Atelier',
@@ -135,13 +142,6 @@ export const shell = {
       title: 'Carnet',
       emptyTitle: 'Tes notes libres',
       emptyText: `Associations de saveurs, techniques, inspirations, bouteilles à goûter${colon} tout ce qui n’est pas encore une recette. Le carnet arrive à la phase 7.`,
-    },
-    bar: {
-      eyebrow: 'Arrive aux phases 3 et 8',
-      title: 'Mon bar',
-      emptyTitle: 'Tes ingrédients et tes bouteilles',
-      emptyText:
-        'Les ingrédients et les bouteilles arrivent à la phase 3. Ce que tu possèdes, ce que tu peux préparer ce soir et la liste d’achats arrivent à la phase 8.',
     },
     preps: {
       eyebrow: 'Arrive à la phase 8',

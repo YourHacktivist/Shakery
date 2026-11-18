@@ -28,16 +28,44 @@ export type ComboboxOption = {
   label: string
   /** Muted detail on the right, e.g. the category of an ingredient. */
   hint?: string
+  /** Other names that find this option (aliases of an ingredient). */
+  keywords?: readonly string[]
 }
 
 /** Value of the « create » item in the list; option ids are UUIDs and cannot collide with it. */
 const CREATE_VALUE = 'combobox:create'
 
-type IndexedOption = ComboboxOption & { normalized: string; words: string[] }
+type IndexedOption = ComboboxOption & { normalized: string; words: string[]; names: string[] }
+
+/** Edit distance between two short strings (insertions, deletions, substitutions). */
+function editDistance(a: string, b: string): number {
+  let previous = Array.from({ length: b.length + 1 }, (_, index) => index)
+  for (let i = 1; i <= a.length; i += 1) {
+    const current = [i]
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+      current.push(Math.min((previous[j] ?? 0) + 1, (current[j - 1] ?? 0) + 1, (previous[j - 1] ?? 0) + cost))
+    }
+    previous = current
+  }
+  return previous[b.length] ?? 0
+}
+
+/** A typed word close to the start of a word: one typo from 3 letters, two from 7. */
+function isCloseTo(term: string, word: string): boolean {
+  const allowed = term.length >= 7 ? 2 : term.length >= 3 ? 1 : 0
+  if (allowed === 0) return word.startsWith(term)
+  for (let length = term.length - 1; length <= term.length + 1; length += 1) {
+    if (length > word.length) break
+    if (editDistance(term, word.slice(0, length)) <= allowed) return true
+  }
+  return editDistance(term, word) <= allowed
+}
 
 /**
  * Options matching a query, accents and case ignored: every word typed must appear in the label.
- * Labels that start with the query come first, then those where a word starts with it.
+ * Labels that start with the query come first, then those where a word starts with it. When
+ * nothing matches, a word with a typo still finds its option (« cointrau » finds Cointreau).
  */
 export function filterOptions<O extends { normalized: string; words: string[] }>(
   options: readonly O[],
@@ -51,11 +79,13 @@ export function filterOptions<O extends { normalized: string; words: string[] }>
     if (option.words.some((word) => word.startsWith(terms[0] ?? ''))) return 1
     return 2
   }
-  return options
+  const strict = options
     .filter((option) => terms.every((term) => option.normalized.includes(term)))
     .map((option) => ({ option, rank: rank(option) }))
     .sort((a, b) => a.rank - b.rank)
     .map(({ option }) => option)
+  if (strict.length > 0) return strict
+  return options.filter((option) => terms.every((term) => option.words.some((word) => isCloseTo(term, word))))
 }
 
 type ComboboxProps = {
@@ -108,8 +138,9 @@ export function Combobox({
   const indexed = useMemo<IndexedOption[]>(
     () =>
       options.map((option) => {
-        const normalized = normalizeName(option.label)
-        return { ...option, normalized, words: normalized.split(' ') }
+        const names = [option.label, ...(option.keywords ?? [])].map(normalizeName)
+        const normalized = names.join(' | ')
+        return { ...option, normalized, names, words: names.join(' ').split(' ') }
       }),
     [options],
   )
@@ -120,7 +151,7 @@ export function Combobox({
     const matches = text === null ? indexed : filterOptions(indexed, text)
     const typed = text?.trim() ?? ''
     const normalized = normalizeName(typed)
-    const exact = indexed.some((option) => option.normalized === normalized)
+    const exact = indexed.some((option) => option.names.includes(normalized))
     const creatable = onCreate !== undefined && normalized !== '' && !exact ? typed : null
     return { matches, creatable }
   }

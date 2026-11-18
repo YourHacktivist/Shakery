@@ -1,5 +1,13 @@
-import { useMemo } from 'react'
-import { HashRouter, Navigate, Route, Routes, useNavigate } from 'react-router'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
+import {
+  createHashRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+  useNavigate,
+  type RouteObject,
+} from 'react-router'
 import { KIT_PATH, NAV_ITEMS } from '@renderer/app/navigation'
 import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
 import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
@@ -19,16 +27,43 @@ import { LabPage } from '@renderer/features/lab/LabPage'
 import { NotebookPage } from '@renderer/features/notebook/NotebookPage'
 import { PracticePage } from '@renderer/features/practice/PracticePage'
 import { PrepsPage } from '@renderer/features/preps/PrepsPage'
+import { RecipeDetailPage } from '@renderer/features/recipes/RecipeDetailPage'
+import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
 import { fr } from '@renderer/i18n/fr'
+import { createQueryClient } from '@renderer/lib/queries'
 
-/** Root of the interface: hash routing works when the page is loaded from file://. */
+const SCREENS: RouteObject[] = [
+  { path: '/', element: <HomePage /> },
+  { path: '/recipes', element: <RecipesPage /> },
+  { path: '/recipes/new', element: <RecipeEditorPage /> },
+  { path: '/recipes/:id', element: <RecipeDetailPage /> },
+  { path: '/recipes/:id/edit', element: <RecipeEditorPage /> },
+  { path: '/lab', element: <LabPage /> },
+  { path: '/journal', element: <JournalPage /> },
+  { path: '/notebook', element: <NotebookPage /> },
+  { path: '/bar', element: <BarPage /> },
+  { path: '/preps', element: <PrepsPage /> },
+  { path: '/collections', element: <CollectionsPage /> },
+  { path: '/practice', element: <PracticePage /> },
+  { path: '/calculators', element: <CalculatorsPage /> },
+  { path: '/settings', element: <SettingsPage /> },
+  ...(import.meta.env.DEV ? [{ path: KIT_PATH, element: <KitPage /> }] : []),
+  { path: '*', element: <Navigate to="/" replace /> },
+]
+
+/**
+ * Root of the interface: hash routing works when the page is loaded from file://. A data
+ * router, so the editor can hold a navigation while a change is not saved (section 10.1).
+ */
 export function App() {
+  const [queryClient] = useState(createQueryClient)
+  const [router] = useState(() => createHashRouter([{ element: <Shell />, children: SCREENS }]))
   return (
-    <HashRouter>
-      <Shell />
-    </HashRouter>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 
@@ -67,21 +102,7 @@ function Shell() {
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar className="px-10 pt-8 pb-6" />
         <main className="min-h-0 flex-1 overflow-y-auto px-10 pb-10">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/recipes" element={<RecipesPage />} />
-            <Route path="/lab" element={<LabPage />} />
-            <Route path="/journal" element={<JournalPage />} />
-            <Route path="/notebook" element={<NotebookPage />} />
-            <Route path="/bar" element={<BarPage />} />
-            <Route path="/preps" element={<PrepsPage />} />
-            <Route path="/collections" element={<CollectionsPage />} />
-            <Route path="/practice" element={<PracticePage />} />
-            <Route path="/calculators" element={<CalculatorsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            {import.meta.env.DEV ? <Route path={KIT_PATH} element={<KitPage />} /> : null}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Outlet />
         </main>
       </div>
       <CommandPalette

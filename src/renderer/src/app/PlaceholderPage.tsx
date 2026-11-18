@@ -3,7 +3,7 @@ import { EmptyState } from '@renderer/components/EmptyState'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 
-export type PlaceholderScreen = Exclude<ScreenId, 'home'>
+export type PlaceholderScreen = Exclude<ScreenId, 'home' | 'recipes' | 'bar' | 'settings'>
 
 /**
  * Provisional screen: its title and an empty state saying what it will do and in which

@@ -34,3 +34,25 @@ export function formatDelta(value: number, decimals = 1): string {
 export function formatEuros(cents: number): string {
   return `${formatNumber(cents / 100, 2)}\u00a0€`
 }
+
+const dateFormatter = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+const relativeFormatter = new Intl.RelativeTimeFormat('fr-FR', { numeric: 'auto' })
+
+const MINUTE = 60_000
+const HOUR = 60 * MINUTE
+const DAY = 24 * HOUR
+
+/** « 12 nov. 2026 ». */
+export function formatDate(timestamp: number): string {
+  return dateFormatter.format(new Date(timestamp))
+}
+
+/** « il y a 5 minutes », « hier », then the date after a week. */
+export function formatRelative(timestamp: number, now: number = Date.now()): string {
+  const elapsed = Math.max(0, now - timestamp)
+  if (elapsed < MINUTE) return relativeFormatter.format(0, 'second')
+  if (elapsed < HOUR) return relativeFormatter.format(-Math.floor(elapsed / MINUTE), 'minute')
+  if (elapsed < DAY) return relativeFormatter.format(-Math.floor(elapsed / HOUR), 'hour')
+  if (elapsed < 7 * DAY) return relativeFormatter.format(-Math.floor(elapsed / DAY), 'day')
+  return formatDate(timestamp)
+}
