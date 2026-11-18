@@ -12,7 +12,9 @@ Application de bureau Electron, React, Tailwind CSS v4 et TypeScript. Le cahier 
 | 1      | Données et sauvegarde : SQLite, schéma complet avec l'extension MAF, migrations, référentiels, sauvegardes | livrée                                 |
 | 2      | Design system : composants, coquille, raccourcis, palette, accueil vide, icônes, page /dev/kit             | livrée                                 |
 | 3      | Ingrédients, bouteilles et fiches : éditeur, versions, variantes, idée rapide, calculs, import `.shakery`  | livrée                                 |
-| 4 à 11 | Base de départ, recherche, atelier, journal, bar, accueil, export, finitions                               | à venir, dans l'ordre de la section 14 |
+| 4      | Base de départ : 308 ingrédients (Wikidata, Ciqual, rédaction), 102 cocktails IBA, 10 préparations         | livrée, relecture à faire              |
+| 5      | Recherche Ctrl+K (plein texte et approchée), fiches réalisables, mode préparation                          | livrée                                 |
+| 6 à 11 | Atelier, journal, bar, accueil, export, finitions                                                          | à venir, dans l'ordre de la section 14 |
 
 L'application gère les ingrédients, les bouteilles et les fiches (création, édition, statuts, versions, variantes, idée rapide), calcule volume, degré, sucre, acidité, coût et allergènes, et importe un carnet `.shakery` depuis les paramètres.
 
@@ -35,20 +37,21 @@ node node_modules/electron/install.js
 
 ## Scripts
 
-| Commande              | Rôle                                                                                      |
-| --------------------- | ----------------------------------------------------------------------------------------- |
-| `npm run dev`         | Lance l'application avec rechargement à chaud. F12 ouvre les outils de développement.     |
-| `npm run build`       | Construit main, preload et renderer dans `out/`.                                          |
-| `npm run typecheck`   | Vérifie les types des quatre projets TypeScript (main, renderer, code pur, tests e2e).    |
-| `npm run lint`        | ESLint avec règles typées et règles de frontière entre processus.                         |
-| `npm run format`      | Formate le code avec Prettier (`format:check` pour vérifier sans modifier).               |
-| `npm test`            | Tests unitaires Vitest.                                                                   |
-| `npm run test:e2e`    | Construit l'application puis lance les tests Playwright sur Electron.                     |
-| `npm run check`       | Typage, lint, formatage et tests unitaires, comme la CI.                                  |
-| `npm run screens`     | Construit l'application puis capture ses écrans principaux dans `test-results/screens`.   |
-| `npm run maf:convert` | Convertit les carnets MAF de `imports/maf/` en archive `.shakery` (données personnelles). |
-| `npm run dist:win`    | Construit l'installeur NSIS Windows dans `dist/`.                                         |
-| `npm run dist:mac`    | Construit les DMG macOS (arm64 et x64) dans `dist/`.                                      |
+| Commande              | Rôle                                                                                                                        |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`         | Lance l'application avec rechargement à chaud. F12 ouvre les outils de développement.                                       |
+| `npm run build`       | Construit main, preload et renderer dans `out/`.                                                                            |
+| `npm run typecheck`   | Vérifie les types des quatre projets TypeScript (main, renderer, code pur, tests e2e).                                      |
+| `npm run lint`        | ESLint avec règles typées et règles de frontière entre processus.                                                           |
+| `npm run format`      | Formate le code avec Prettier (`format:check` pour vérifier sans modifier).                                                 |
+| `npm test`            | Tests unitaires Vitest.                                                                                                     |
+| `npm run test:e2e`    | Construit l'application puis lance les tests Playwright sur Electron.                                                       |
+| `npm run check`       | Typage, lint, formatage et tests unitaires, comme la CI.                                                                    |
+| `npm run screens`     | Construit l'application puis capture ses écrans principaux dans `test-results/screens`.                                     |
+| `npm run perf`        | Génère une base de 5 000 ingrédients, 2 000 fiches et 10 000 notes, puis mesure recherche, ouverture et calcul d'une fiche. |
+| `npm run maf:convert` | Convertit les carnets MAF de `imports/maf/` en archive `.shakery` (données personnelles).                                   |
+| `npm run dist:win`    | Construit l'installeur NSIS Windows dans `dist/`.                                                                           |
+| `npm run dist:mac`    | Construit les DMG macOS (arm64 et x64) dans `dist/`.                                                                        |
 
 Les installeurs ne sont pas signés : Windows SmartScreen affiche un avertissement et macOS bloque une application non notarisée. La signature reste à décider avant toute diffusion publique.
 

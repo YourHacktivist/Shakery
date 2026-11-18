@@ -20,7 +20,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## État au 18 novembre 2026 (fin de journée)
 
-Phases 0 à 3 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
+Phases 0 à 3 et 5 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
 
 Changements de cette session :
 
@@ -65,9 +65,19 @@ En attente de l'utilisateur (ne pas bloquer la suite) :
 2. Relecture de l'arbre des catégories et d'un échantillon d'ingrédients (critère de la phase 4).
 3. Valeurs de D-026 (dilution et unités).
 
+## Phase 5 livrée (recherche et mode préparation)
+
+- `src/core/fuzzy.ts` : Damerau-Levenshtein bornée, tolérance selon la longueur (0 sous 4 lettres, 1 jusqu'à 6, puis 2).
+- `src/main/db/repositories/search.ts` : FTS5 trigramme sur `search_index` (termes normalisés, mis entre guillemets, syntaxe FTS5 neutralisée), préfixe sous 3 lettres, classement (exact, préfixe, alias, contenu, approché) avec bonus favoris, fiches en cours et vues récentes (`recent_views`, 500 dernières). Repli approché si rien n'est trouvé. IPC `search.query` et `recentViews.record`.
+- Palette (`src/renderer/src/app/PaletteHost.tsx`) : fiches, ingrédients, bouteilles, action « Préparer… », écrans. `CommandPalette` ne filtre plus avec cmdk (`shouldFilter={false}`) : les écrans sont filtrés localement, les résultats de recherche arrivent filtrés (`preFiltered`).
+- Mode préparation : route `/prepare/:id` hors de la coquille (`features/prepare/PrepModePage.tsx`), F11 depuis une fiche, bouton sur la fiche, `?ids=a,b,c` pour enchaîner les fiches d'une collection avec les flèches, IPC `app.setPrepMode` (plein écran et `powerSaveBlocker`).
+- `src/core/availability.ts` : disponibilité, ingrédients manquants, ingrédients qui débloquent le plus de fiches (`unlockers`, pour la liste d'achats de la phase 8). Chaque `RecipeSummary` porte `missingIngredientIds`. Liste des fiches : vue « Réalisables », filtre par méthode.
+- `npm run perf` : budgets mesurés le 18 novembre 2026 (recherche 35 ms au pire, ouverture 1 ms, calcul 4 ms, liste de 2 000 fiches 27 ms).
+
+Reste de la section 10.4 non fait (à reprendre avec les phases concernées) : filtres par spiritueux de base, verre, collection, tags, profil aromatique et exclusion d'un allergène ; actions de palette « Ouvrir dans l'atelier », « Noter une dégustation », « Comparer avec… » (phases 6 et 7). Démarrage en moins de 3 s et défilement à 60 images par seconde non mesurés automatiquement.
+
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 5 : recherche, palette, mode préparation.
 - Phase 6 : atelier.
 - Phase 7 : journal de dégustation et carnet.
 - Phase 8 : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
