@@ -16,6 +16,12 @@ import {
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import { searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
 import { referenceZonesSchema } from '../domain/zones'
+import {
+  notebookEntrySchema,
+  notebookInputSchema,
+  tastingInputSchema,
+  tastingNoteSchema,
+} from '../domain/journal'
 import type { IpcChannel } from './channels'
 
 /**
@@ -178,6 +184,32 @@ export const ipcContract = {
   },
   /** Reference zones of each family (section 8), cached until a recipe or an ingredient changes. */
   'recipes.referenceZones': { input: noInput, output: referenceZonesSchema },
+  /** Tasting journal (section 10.6). */
+  'tastingNotes.list': {
+    input: z
+      .object({ recipeId: z.string().min(1).max(36).optional(), toRetest: z.boolean().optional() })
+      .strict()
+      .default({}),
+    output: z.array(tastingNoteSchema).max(100_000),
+  },
+  'tastingNotes.create': { input: tastingInputSchema, output: tastingNoteSchema },
+  'tastingNotes.update': {
+    input: z.object({ id: z.string().min(1).max(36), data: tastingInputSchema }).strict(),
+    output: tastingNoteSchema,
+  },
+  'tastingNotes.setNextStepDone': {
+    input: z.object({ id: z.string().min(1).max(36), done: z.boolean() }).strict(),
+    output: tastingNoteSchema,
+  },
+  'tastingNotes.delete': { input: idInput, output: done },
+  /** Notebook (section 10.7). */
+  'notebook.list': { input: noInput, output: z.array(notebookEntrySchema).max(100_000) },
+  'notebook.create': { input: notebookInputSchema, output: notebookEntrySchema },
+  'notebook.update': {
+    input: z.object({ id: z.string().min(1).max(36), data: notebookInputSchema }).strict(),
+    output: notebookEntrySchema,
+  },
+  'notebook.delete': { input: idInput, output: done },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract

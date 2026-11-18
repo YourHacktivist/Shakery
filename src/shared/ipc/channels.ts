@@ -44,6 +44,15 @@ export const IPC_CHANNELS = [
   'import.apply',
   'search.query',
   'recentViews.record',
+  'tastingNotes.list',
+  'tastingNotes.create',
+  'tastingNotes.update',
+  'tastingNotes.setNextStepDone',
+  'tastingNotes.delete',
+  'notebook.list',
+  'notebook.create',
+  'notebook.update',
+  'notebook.delete',
 ] as const
 
 export type IpcChannel = (typeof IPC_CHANNELS)[number]
