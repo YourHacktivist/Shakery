@@ -25,7 +25,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <span
       data-status={status}
       className={cn(
-        'inline-flex h-6 shrink-0 items-center rounded-full px-2.5 text-caption font-semibold whitespace-nowrap',
+        'inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[""]',
         STATUS_STYLES[status],
         className,
       )}

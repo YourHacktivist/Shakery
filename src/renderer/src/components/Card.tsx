@@ -22,7 +22,7 @@ export function Card({
     <Tag
       className={cn(
         'flex flex-col border border-border',
-        nested ? 'gap-2 rounded-nested bg-surface-2 p-3' : 'gap-3 rounded-card bg-surface-1 p-4',
+        nested ? 'gap-2 rounded-nested bg-surface-2 p-3' : 'gap-3 rounded-card bg-card p-4 shadow-card',
         className,
       )}
       {...rest}

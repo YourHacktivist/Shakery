@@ -31,7 +31,10 @@ function isGroup(option: SelectOption | SelectGroup): option is SelectGroup {
   return 'options' in option
 }
 
-/** Native select in the frame of the text fields: keyboard and screen readers work as everywhere. */
+/**
+ * Native select in the frame of the text fields: keyboard and screen readers work as everywhere.
+ * Its list is drawn by the `shk-select` styles of index.css (customizable select).
+ */
 export function Select({
   label,
   hideLabel = false,
@@ -65,25 +68,21 @@ export function Select({
           disabled={disabled}
           aria-invalid={error ? true : undefined}
           aria-describedby={ids.describedBy}
-          className="h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg [color-scheme:dark] outline-none disabled:cursor-not-allowed"
+          className="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg [color-scheme:dark] outline-none disabled:cursor-not-allowed"
           {...rest}
         >
-          {placeholder === undefined ? null : (
-            <option value="" className="bg-surface-2 text-fg-secondary">
-              {placeholder}
-            </option>
-          )}
+          {placeholder === undefined ? null : <option value="">{placeholder}</option>}
           {options.map((option) =>
             isGroup(option) ? (
-              <optgroup key={option.label} label={option.label} className="bg-surface-2 text-fg-muted">
+              <optgroup key={option.label} label={option.label}>
                 {option.options.map((child) => (
-                  <option key={child.value} value={child.value} className="bg-surface-2 text-fg">
+                  <option key={child.value} value={child.value}>
                     {child.label}
                   </option>
                 ))}
               </optgroup>
             ) : (
-              <option key={option.value} value={option.value} className="bg-surface-2 text-fg">
+              <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ),

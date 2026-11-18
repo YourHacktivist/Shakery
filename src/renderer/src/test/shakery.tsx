@@ -28,6 +28,8 @@ const EMPTY_LISTS = [
   'ingredients.list',
   'products.listByIngredient',
   'recipes.list',
+  'tastingNotes.list',
+  'notebook.list',
 ]
 
 /** Installs a fake bridge: lists are empty, any other call fails until a test mocks it. */

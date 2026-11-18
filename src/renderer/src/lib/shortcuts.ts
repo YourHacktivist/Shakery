@@ -11,13 +11,14 @@ export type ShortcutId =
   | 'newRecipe'
   | 'tastingNote'
   | 'openInLab'
+  | 'sidebar'
   | 'print'
   | 'prepMode'
   | 'back'
   | 'help'
 
 /** A key as shown to the user: a named key (translated), or a literal one such as « K » or « ? ». */
-export type KeyToken = 'mod' | 'shift' | 'escape' | 'letter' | 'K' | 'N' | 'J' | 'E' | 'P' | 'F11' | '?'
+export type KeyToken = 'mod' | 'shift' | 'escape' | 'letter' | 'K' | 'N' | 'J' | 'E' | 'B' | 'P' | 'F11' | '?'
 
 export type Shortcut = {
   readonly id: ShortcutId
@@ -33,6 +34,7 @@ export const SHORTCUTS: readonly Shortcut[] = [
   { id: 'newRecipe', keys: ['mod', 'shift', 'N'], available: true },
   { id: 'tastingNote', keys: ['mod', 'J'], available: true },
   { id: 'openInLab', keys: ['mod', 'E'], available: true },
+  { id: 'sidebar', keys: ['mod', 'B'], available: true },
   { id: 'print', keys: ['mod', 'P'], available: false },
   { id: 'prepMode', keys: ['F11'], available: true },
   { id: 'back', keys: ['escape'], available: true },
@@ -122,6 +124,8 @@ export function matchShortcut(event: KeyInput): ShortcutId | null {
         return event.shiftKey ? null : 'tastingNote'
       case 'e':
         return event.shiftKey ? null : 'openInLab'
+      case 'b':
+        return event.shiftKey ? null : 'sidebar'
       case 'p':
         return event.shiftKey ? null : 'print'
       default:

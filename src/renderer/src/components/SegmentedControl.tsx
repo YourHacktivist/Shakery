@@ -1,4 +1,4 @@
-import { useRef, type KeyboardEvent, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, type KeyboardEvent, type ReactNode } from 'react'
 import { cn } from '@renderer/lib/cn'
 
 export type SegmentedOption<T extends string> = {
@@ -30,7 +30,41 @@ export function SegmentedControl<T extends string>({
   className,
 }: SegmentedControlProps<T>) {
   const groupRef = useRef<HTMLDivElement>(null)
+  const thumbRef = useRef<HTMLSpanElement>(null)
+  const placedRef = useRef(false)
   const selectedIndex = options.findIndex((option) => option.value === value)
+
+  // The thumb slides under the selected choice (transform only). Placed without
+  // animation the first time, then follows the selection and the size of the group.
+  useLayoutEffect(() => {
+    const group = groupRef.current
+    const thumb = thumbRef.current
+    if (!group || !thumb) return
+    const place = () => {
+      const button = group.querySelectorAll<HTMLButtonElement>('[role="radio"]')[selectedIndex]
+      if (!button || button.offsetWidth === 0) {
+        thumb.style.opacity = '0'
+        return
+      }
+      const first = !placedRef.current
+      if (first) thumb.style.transition = 'none'
+      thumb.style.opacity = '1'
+      thumb.style.width = `${String(button.offsetWidth)}px`
+      thumb.style.transform = `translateX(${String(button.offsetLeft)}px)`
+      if (first) {
+        thumb.getBoundingClientRect()
+        thumb.style.transition = ''
+        placedRef.current = true
+      }
+    }
+    place()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(place)
+    observer.observe(group)
+    return () => {
+      observer.disconnect()
+    }
+  }, [selectedIndex, options])
 
   function select(index: number) {
     const option = options[index]
@@ -59,12 +93,17 @@ export function SegmentedControl<T extends string>({
       aria-label={label}
       aria-disabled={disabled || undefined}
       className={cn(
-        'inline-flex gap-1 rounded-nested border border-border bg-surface-1 p-1',
+        'relative inline-flex gap-1 rounded-nested border border-border bg-surface-1 p-1',
         disabled && 'opacity-55',
         className,
       )}
       onKeyDown={handleKeyDown}
     >
+      <span
+        ref={thumbRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1 bottom-1 left-0 rounded-[7px] border border-border-strong bg-surface-3 opacity-0 shadow-[inset_0_1px_0_rgb(255_235_220/0.06),0_4px_12px_-4px_rgb(0_0_0/0.7)] transition-[transform,width,opacity] duration-200 ease-out-soft"
+      />
       {options.map((option, index) => {
         const checked = option.value === value
         // Roving focus: only the selected choice (or the first one) is in the tab order.
@@ -78,8 +117,8 @@ export function SegmentedControl<T extends string>({
             tabIndex={focusable ? 0 : -1}
             disabled={disabled}
             className={cn(
-              'inline-flex cursor-pointer items-center gap-1.5 rounded-[9px] px-3.5 py-2 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed',
-              checked ? 'bg-surface-2 text-fg' : 'bg-transparent text-fg-muted hover:text-fg-secondary',
+              'relative inline-flex cursor-pointer items-center gap-1.5 rounded-[7px] px-3.5 py-2 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed',
+              checked ? 'text-fg' : 'text-fg-muted hover:text-fg-secondary',
             )}
             onClick={() => {
               select(index)

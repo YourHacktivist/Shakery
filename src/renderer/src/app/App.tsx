@@ -1,10 +1,18 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import { useState } from 'react'
-import { createHashRouter, Navigate, Outlet, RouterProvider, type RouteObject } from 'react-router'
+import { useLayoutEffect, useRef, useState } from 'react'
+import {
+  createHashRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+  useLocation,
+  type RouteObject,
+} from 'react-router'
 import { KIT_PATH } from '@renderer/app/navigation'
 import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
 import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
 import { Sidebar } from '@renderer/app/Sidebar'
+import { TastingDialog } from '@renderer/app/TastingDialog'
 import { useOverlayStore } from '@renderer/app/stores'
 import { PaletteHost } from '@renderer/app/PaletteHost'
 import { TopBar } from '@renderer/app/TopBar'
@@ -67,23 +75,60 @@ export function App() {
   )
 }
 
+/** True when the system or the « animations » setting asks for no motion (section 11). */
+export function motionReduced(): boolean {
+  return (
+    document.documentElement.classList.contains('no-motion') ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
+/**
+ * Each new screen rises in (opacity and transform, 220 ms). The page is not remounted, so a
+ * screen that only changes its address (the lab after a save) keeps its state.
+ */
+function usePageEntrance() {
+  const ref = useRef<HTMLElement>(null)
+  const { pathname } = useLocation()
+  useLayoutEffect(() => {
+    const element = ref.current
+    if (!element || typeof element.animate !== 'function' || motionReduced()) return
+    element.animate(
+      [
+        { opacity: 0, transform: 'translateY(6px)' },
+        { opacity: 1, transform: 'none' },
+      ],
+      { duration: 220, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+    )
+  }, [pathname])
+  return ref
+}
+
 function Shell() {
   useGlobalShortcuts()
+  const pageRef = usePageEntrance()
   const overlay = useOverlayStore((state) => state.current)
   const closeOverlay = useOverlayStore((state) => state.close)
+  const tasting = useOverlayStore((state) => state.tasting)
 
   return (
     <div className="flex h-full min-w-[1100px] overflow-hidden">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar className="px-4 pt-3 pb-3" />
-        <main className="min-h-0 flex-1 overflow-y-auto px-4 pt-2 pb-8">
+        <main ref={pageRef} className="min-h-0 flex-1 overflow-y-auto px-4 pt-2 pb-8">
           <Outlet />
         </main>
       </div>
       <PaletteHost />
       <QuickIdeaDialog open={overlay === 'quickIdea'} onClose={closeOverlay} />
       <ShortcutsDialog open={overlay === 'shortcuts'} onClose={closeOverlay} />
+      <TastingDialog
+        open={overlay === 'tasting'}
+        recipeId={tasting.recipeId}
+        version={tasting.version}
+        onClose={closeOverlay}
+      />
       <Toaster />
     </div>
   )

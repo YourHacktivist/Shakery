@@ -25,6 +25,10 @@ export const journal = {
   noMatch: 'Aucune note ne correspond aux filtres.',
   version: (version: number) => `v${version}`,
   overall: (value: number) => `${value}/5`,
+  overallLabel: (value: number) => `Note globale${NBSP}: ${value} sur 5`,
+  scoreChip: (criterion: string, value: string) => `${criterion} ${value}`,
+  undo: 'Annuler',
+  recipeDeleted: 'Fiche supprimée',
   nextStep: 'Prochaine étape',
   nextStepDone: 'Testée',
   markDone: (step: string) => `Marquer ${quote(step)} comme testée`,
@@ -46,6 +50,9 @@ export const journal = {
     recipePlaceholder: 'Cherche une fiche',
     version: 'Version goûtée',
     overall: 'Note globale',
+    overallOption: (value: number) => `${value} sur 5`,
+    versionOption: (version: number, label: string | null, current: boolean) =>
+      `v${version}${label ? ` · ${label}` : ''}${current ? ' (actuelle)' : ''}`,
     scores: 'Critères',
     scoresHint: 'De trop peu à trop, au centre c’est juste.',
     comment: 'Commentaire',
@@ -63,6 +70,7 @@ export const journal = {
     none: 'Aucune dégustation pour cette fiche.',
     byVersion: 'Note moyenne par version',
     notes: (count: number) => (count === 1 ? '1 note' : `${count} notes`),
+    mean: (value: string) => `${value}/5`,
   },
   side: {
     open: 'Ouvrir le journal',

@@ -23,27 +23,30 @@
   --color-bg-base: #0A0807;
   --color-surface-1: #120D0B;
   --color-surface-2: #1A1310;
+  --color-surface-3: #241A15;
   --color-border: rgb(255 235 220 / 0.07);
   --color-border-strong: rgb(255 235 220 / 0.14);
   --color-glass-fill: rgb(26 19 16 / 0.72);
 
-  /* Texte (voir l'avertissement en tête de fichier) */
+  /* Text */
   --color-fg: #F5EFEA;
   --color-fg-secondary: #B9ADA5;
   --color-fg-muted: #8E827A;
 
-  /* Accent unique, issu du logo */
+  /* Single accent, taken from the logo */
   --color-accent: #EF782B;
   --color-accent-soft: #F4B183;
   --color-accent-deep: #A13817;
   --color-accent-ink: #1A0B05;
+  /* Warm highlight of the copper gradients (buttons, active states, curves) */
+  --color-accent-gold: #F8C7A0;
 
-  /* États */
+  /* States */
   --color-status-ok: #3FBF8A;
   --color-status-warning: #F2C94C;
   --color-status-danger: #F05252;
 
-  /* Typographie */
+  /* Typography */
   --font-sans: "Manrope", system-ui, sans-serif;
   --text-caption: 11px;
   --text-small: 12px;
@@ -54,22 +57,47 @@
   --text-metric: 28px;
   --text-display: 40px;
 
-  /* Rayons */
+  /* Radii */
   --radius-field: 7px;
   --radius-nested: 9px;
   --radius-card: 12px;
   --radius-hero: 16px;
 
-  /* Animations : 150 à 250 ms, sans rebond */
+  /* Depth: a hairline of light on top, a soft shadow below; a copper glow for the main action */
+  --shadow-card: inset 0 1px 0 rgb(255 235 220 / 0.035), 0 12px 32px -20px rgb(0 0 0 / 0.9);
+  --shadow-float: 0 24px 64px -16px rgb(0 0 0 / 0.75);
+  --shadow-glow: 0 6px 20px -6px rgb(239 120 43 / 0.55);
+
+  /* Motion: 150 to 250 ms, no bounce */
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Dégradé de la carte héros, la seule surface en dégradé de l'interface */
+/* Hero card gradient, the only gradient surface of the interface */
 @utility bg-hero {
   background: radial-gradient(120% 120% at 100% 0%, #A13817 0%, #3C140C 45%, #120D0B 100%);
 }
 
-/* Chiffres tabulaires pour les doses, notes et montants */
+/* Main action and checked controls: copper, lighter on top-left. Dark ink stays above 7:1. */
+@utility bg-accent-gradient {
+  background: linear-gradient(135deg, #F8C7A0 0%, #F4A46C 48%, #EF8A43 100%);
+}
+
+/* Regular card: a faint light from above on surface-1, no blur (section 11) */
+@utility bg-card {
+  background:
+    linear-gradient(180deg, rgb(255 235 220 / 0.03) 0%, rgb(255 235 220 / 0) 140px),
+    var(--color-surface-1);
+}
+
+/* Big titles and figures that carry the brand */
+@utility text-copper {
+  background: linear-gradient(100deg, #F8D2B4 0%, #F4A46C 55%, #EF782B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tabular figures for doses, ratings and amounts */
 @utility nums {
   font-variant-numeric: tabular-nums;
 }

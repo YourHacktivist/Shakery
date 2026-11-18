@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { useOverlayStore } from '@renderer/app/stores'
+import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { getShortcut, isEditableTarget, isTypeaheadTarget, matchShortcut } from '@renderer/lib/shortcuts'
 
 function isModalOpen(): boolean {
@@ -83,6 +83,10 @@ export function useGlobalShortcuts(): void {
           void navigate(`/prepare/${recipe}`)
           return
         }
+        case 'sidebar':
+          event.preventDefault()
+          useSidebarStore.getState().toggle()
+          return
         case 'typeToSearch':
           if (editable || isModalOpen() || isTypeaheadTarget(event.target)) return
           event.preventDefault()

@@ -17,9 +17,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const VARIANTS: Record<ButtonVariant, string> = {
   // Text on the accent is dark: white on #EF782B fails WCAG (section 11).
   solid:
-    'border border-transparent bg-accent-soft text-accent-ink hover:bg-[#F7C29C] disabled:bg-[#6B4A39] disabled:text-accent-ink/70',
+    'border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-[#6B4A39] disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100',
   outline:
-    'border border-border-strong bg-transparent text-fg hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
+    'border border-border-strong bg-[rgb(255_235_220/0.015)] text-fg hover:border-[rgb(255_235_220/0.22)] hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
   ghost:
     'border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50',
   danger:
@@ -53,7 +53,7 @@ export function Button({
       ref={ref}
       type={type}
       className={cn(
-        'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed',
+        'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100',
         VARIANTS[variant],
         iconOnly ? ICON_SIZES[size] : SIZES[size],
         className,

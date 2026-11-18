@@ -107,9 +107,9 @@ export function RatingScale({
                 handleKeyDown(event, index)
               }}
               className={cn(
-                'nums h-8 cursor-pointer rounded-[7px] text-small font-semibold transition-colors duration-150 ease-out-soft disabled:cursor-not-allowed',
+                'nums h-8 cursor-pointer rounded-[7px] text-small font-semibold transition-[color,background-color,box-shadow,transform] duration-150 ease-out-soft active:scale-95 disabled:cursor-not-allowed',
                 checked
-                  ? 'bg-accent-soft text-accent-ink'
+                  ? 'bg-accent-gradient text-accent-ink shadow-glow'
                   : 'text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/60 disabled:hover:bg-transparent',
               )}
             >

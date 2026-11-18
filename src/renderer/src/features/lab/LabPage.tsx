@@ -1,6 +1,7 @@
-import { FlaskConical, Plus, Redo2, Trash2, Undo2 } from 'lucide-react'
+import { NotebookPen, Plus, Redo2, Trash2, Undo2 } from 'lucide-react'
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useBlocker, useNavigate, useParams } from 'react-router'
+import { useOverlayStore } from '@renderer/app/stores'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Combobox, type ComboboxOption } from '@renderer/components/Combobox'
@@ -119,6 +120,7 @@ type Mode = 'work' | 'compare'
 
 function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   const navigate = useNavigate()
+  const openTasting = useOverlayStore((state) => state.openTasting)
   const ingredients = useIngredients()
   const allRecipes = useRecipes()
   const zones = useReferenceZones()
@@ -188,7 +190,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
     change({ ...draft, lines: draft.lines.map((line) => (line.key === key ? { ...line, ...patch } : line)) })
   }
 
-  function saveVersion(label: string) {
+  function saveVersion(label: string, then?: (detail: RecipeDetail) => void) {
     if (!recipe) return
     leaving.current = true
     update.mutate(
@@ -197,6 +199,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
         onSuccess: (detail) => {
           toast.show({ message: t.saved(detail.name, `v${detail.version}`) })
           setDialog(null)
+          then?.(detail)
         },
         onError: notifyError,
         onSettled: () => {
@@ -206,7 +209,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
     )
   }
 
-  function saveAsNew(name: string, parent: string | null) {
+  function saveAsNew(name: string, parent: string | null, then?: (detail: RecipeDetail) => void) {
     leaving.current = true
     create.mutate(
       {
@@ -218,6 +221,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
           toast.show({ message: parent ? t.variantCreated(detail.name) : t.created(detail.name) })
           setDialog(null)
           void navigate(`/lab/${detail.id}`, { replace: true })
+          then?.(detail)
         },
         onError: (error) => {
           leaving.current = false
@@ -225,6 +229,19 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
         },
       },
     )
+  }
+
+  /** « Noter une dégustation » (section 10.5): the draft is saved first when it changed. */
+  function tasteNow() {
+    const open = (detail: RecipeDetail) => {
+      openTasting(detail.id, detail.version)
+    }
+    if (!recipe) {
+      if (draft.name.trim() !== '') saveAsNew(draft.name, null, open)
+      return
+    }
+    if (dirty) saveVersion('', open)
+    else open(recipe)
   }
 
   const result = computation.data
@@ -501,12 +518,14 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
           {t.discard}
         </Button>
         <Button
-          variant="ghost"
-          disabled
-          icon={<FlaskConical size={14} aria-hidden="true" />}
+          variant="outline"
+          disabled={(!recipe && draft.name.trim() === '') || update.isPending || create.isPending}
+          icon={<NotebookPen size={14} aria-hidden="true" />}
+          aria-keyshortcuts="Control+J"
           className="ml-auto"
+          onClick={tasteNow}
         >
-          {`${t.taste} · ${t.tastePhase}`}
+          {t.taste}
         </Button>
       </footer>
 

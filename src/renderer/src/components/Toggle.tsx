@@ -52,7 +52,7 @@ export function Toggle({
         disabled={disabled}
         className={cn(
           'relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border p-0.5 transition-colors duration-150 ease-out-soft disabled:cursor-not-allowed',
-          checked ? 'border-accent bg-accent' : 'border-border-strong bg-surface-2',
+          checked ? 'border-transparent bg-accent-gradient shadow-glow' : 'border-border-strong bg-surface-2',
         )}
         onClick={(event) => {
           onClick?.(event)

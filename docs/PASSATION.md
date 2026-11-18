@@ -18,19 +18,17 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
-## État au 18 novembre 2026 (fin de journée)
+## État au 18 novembre 2026 (soir)
 
-Phases 0 à 3, 5 et 6 livrées, phase 4 livrée sous réserve des validations ci-dessous, tout est committé. `npm run check` passe (260 tests), `npm run test:e2e` passe (16 tests, dont « Negroni complet en moins d'une minute » et « idée rapide puis brouillon » dans `tests/e2e/recipes.spec.ts`).
+Phases 0 à 7 livrées, tout est committé. `npm run check` passe (301 tests), `npm run test:e2e` passe (19 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
 
-Changements de cette session :
+Changements de la dernière session :
 
-- Interface compacte demandée par l'utilisateur (D-028) : corps à 13 px, contrôles de 32 px, cartes à 16 px de marge, panneau « Calculs » en lignes. Toute nouvelle vue suit cette densité, pas les valeurs d'origine de la section 11.
+- L'utilisateur a validé la masse volumique (D-031), l'arbre des catégories et les ingrédients de départ, et les valeurs de D-026. Plus rien n'attend de réponse pour les phases 3 et 4.
+- Refonte visuelle demandée par l'utilisateur (D-032) : halos cuivrés fixes, dégradé cuivré sur l'action principale et les contrôles cochés, cartes éclairées par le haut, case à cocher dessinée, `<select>` natifs redessinés (`shk-select` dans `index.css`, `appearance: base-select`), entrée animée des écrans (`usePageEntrance` dans `App.tsx`), curseurs glissants (barre latérale, `SegmentedControl`), barre latérale repliable avec animation de largeur et Ctrl+B. Toute nouvelle vue reprend ces classes (`bg-card`, `shadow-card`, `bg-accent-gradient`, `shadow-glow`, `animate-rise` avec `--rise-index`) et reste à la densité de D-028.
 - `npm run screens` capture les écrans principaux (`tests/screens/`, configuration `playwright.screens.config.ts`) : à utiliser pour vérifier un écran au lieu de lancer `npm run dev`. `tests/screens/maf-import.spec.ts` importe `imports/maf/maf-2025.shakery` dans une base neuve (36 fiches, 4 715 éléments, contrôlé).
-- Tests d'écrans : fiche (`RecipeDetailPage.test.tsx`), Mon bar (`BarPage.test.tsx`), import (`ImportCard.test.tsx`).
 
-Reste ouvert de la phase 3 : validation par l'utilisateur des valeurs de D-026 (présentées, sans réponse pour l'instant ; ne pas bloquer).
-
-## Phase 4 livrée (données de départ), trois points attendent l'utilisateur
+## Phase 4 livrée (données de départ)
 
 Pipeline dans `scripts/seed/` (TypeScript, `npx tsx`, jamais exécuté par l'application). Réponses réseau en cache dans `scripts/seed/.cache/` (ignoré par git ; `--refresh` pour retélécharger). Ordre :
 
@@ -59,11 +57,7 @@ npx tsx scripts/seed/build.ts
 - Chargement : `src/main/seed/load.ts` (ingrédients avec alias et index de recherche dans la transaction principale ; fiches ensuite par `RecipeRepository`, une transaction par fiche, statut `final`, origine `classic`). N'ajoute que les `seed_key` absentes, ne recrée jamais une entrée supprimée, laisse un ingrédient que l'utilisateur a déjà sous le même nom. Les tests de dépôts et l'archive MAF chargent la base sans ingrédients ni fiches (`{ ...BUNDLED_SEED, ingredients: [], recipes: [] }`).
 - Le test e2e du Negroni choisit les ingrédients de départ et crée un seul nouvel ingrédient.
 
-En attente de l'utilisateur (ne pas bloquer la suite) :
-
-1. **Décision de modèle** (« À valider plus tard » dans `DECISIONS.md`) : colonne `density_g_per_ml` pour compter les lignes en grammes. Sans elle, la composition des sirops maison ne se calcule pas (critère « sirops de base calculés » non tenu). Si validée : migration drizzle, `core/units.ts` (ligne en g avec masse volumique = volume), sucre blanc 1,59 g/ml, sucre roux et miel à sourcer, tests, puis sirops recalculés.
-2. Relecture de l'arbre des catégories et d'un échantillon d'ingrédients (critère de la phase 4).
-3. Valeurs de D-026 (dilution et unités).
+Masse volumique (D-031) : colonne `density_g_per_ml` (migration `0002`, ajout de colonne écrit à la main, car drizzle-kit voulait recréer la table). Une ligne en grammes compte `g / masse volumique` ml dans `core/composition.ts` et dans le volume d'une préparation sans rendement (`core/cost.ts`). Valeurs de départ dans `scripts/seed/hand-compositions.json` (eau, sucres, miels, sucre de Ciqual converti). `load.ts` complète au démarrage un ingrédient de départ qui n'a encore aucune composition (`fillComposition`). Le sirop simple ressort à 61,3 g de sucre pour 100 ml.
 
 ## Phase 5 livrée (recherche et mode préparation)
 
@@ -86,28 +80,22 @@ Reste de la section 10.4 non fait (à reprendre avec les phases concernées) : f
 
 Limites connues : les zones n'apparaissent qu'une fois les degrés et compositions renseignés (les spiritueux génériques de départ n'ont pas de degré, voir D-030) ; « Noter une dégustation » attend la phase 7.
 
-## Phase 7 en cours (journal et carnet) : reprendre ici
+## Phase 7 livrée (journal et carnet)
 
-Fait et committé :
+- Domaine `src/shared/domain/journal.ts`, dépôt `src/main/db/repositories/journal.ts`, IPC `tastingNotes.*` et `notebook.*` (`src/main/ipc/journal.ts`).
+- `app/TastingDialog.tsx` (Ctrl+J partout, fiche et version proposées depuis une fiche ou l'atelier) : fiche, version, note globale en étoiles (`components/StarRating.tsx`), 8 `RatingScale`, commentaire, prochaine étape, contexte.
+- `features/journal/JournalPage.tsx` : liste chronologique, filtres fiche, note minimale, « À retester », case « Testée » avec état optimiste (une étape cochée reste affichée jusqu'au changement de vue), suppression avec « Annuler » (la note est réécrite à l'identique). `TastingCard` est réutilisée par la fiche.
+- Fiche : bouton « Noter une dégustation », note moyenne par version sous « Versions », courbe des moyennes dès deux versions notées, trois dernières dégustations.
+- Atelier : « Noter une dégustation » enregistre d'abord une nouvelle version si le brouillon a changé (une nouvelle fiche est créée d'abord sous son nom).
+- Barre latérale : bloc « À retester » (trois prochaines étapes, lien vers le journal).
+- `features/notebook/NotebookPage.tsx` : épinglées d'abord, filtre, éditeur à enregistrement automatique (600 ms après la dernière frappe et à la fermeture), « @ » ouvre `search.query` et ajoute le lien, liens affichés avec leur nom actuel, « Transformer en idée de fiche » (`recipes.create`, statut `idea`), suppression avec « Annuler ».
+- Tests : `JournalPage.test.tsx` (dialogue et journal), `NotebookPage.test.tsx`, e2e `tests/e2e/journal.spec.ts`.
 
-- Domaine partagé `src/shared/domain/journal.ts` (8 critères de −2 à +2, note de dégustation liée à une version, entrée de carnet avec liens par id).
-- Dépôt `src/main/db/repositories/journal.ts` et tests `journal.test.ts` (version goûtée vérifiée, « à retester », liens qui survivent au renommage, élément supprimé affiché à null). Index de recherche alimenté (`tasting_note`, `notebook_entry`).
-- IPC `tastingNotes.list|create|update|setNextStepDone|delete` et `notebook.list|create|update|delete` (`src/main/ipc/journal.ts`).
-- Renderer, base seulement : chaînes `src/renderer/src/i18n/fr/journal.ts` (`fr.journal`), hooks `useTastings`, `useNotebook` et mutations dans `lib/queries.ts`, overlay `tasting` avec `openTasting(recipeId, version)` dans `app/stores.ts`, Ctrl+J actif dans `useGlobalShortcuts.ts` (ouvre l'overlay ; le dialogue n'existe pas encore).
-
-Reste à faire, dans cet ordre :
-
-1. `app/TastingDialog.tsx` monté dans `App.tsx` à côté de `QuickIdeaDialog` (`overlay === 'tasting'`) : fiche (Combobox des fiches), version (défaut : version actuelle), note globale 1 à 5, 8 `RatingScale` (`fr.journal.criteria`), commentaire, prochaine étape, contexte ; `useCreateTasting` puis toast. Objectif : saisie complète en moins de 30 s.
-2. `features/journal/JournalPage.tsx` : liste chronologique, filtres fiche, note minimale, « À retester », case « Testée » (`useSetNextStepDone`), suppression ; bouton « Noter une dégustation ».
-3. Fiche (`RecipeDetailPage.tsx`) : remplacer le `SoonButton` « Noter une dégustation » par un bouton `openTasting(recipe.id, recipe.version)` ; sous « Versions », notes par version et `Sparkline` de la note moyenne.
-4. Atelier : bouton « Noter une dégustation » (enregistrer d'abord la version si le brouillon a changé, puis `openTasting`).
-5. Barre latérale (`Sidebar.tsx`, bloc « À retester ») : `useTastings({ toRetest: true })`, trois premières prochaines étapes, lien vers le journal.
-6. `features/notebook/NotebookPage.tsx` : liste (épinglées d'abord, filtre), éditeur titre, texte, tags, épingle ; « @ » ouvre une liste de `search.query` et ajoute le lien ; liens affichés avec leur nom actuel ; « Transformer en idée de fiche » (`recipes.create` statut `idea`, nom = titre, notes = texte).
-7. Tests d'écran du dialogue et du carnet, e2e « note de dégustation avec prochaine étape puis testée », `npm run check`, `npm run test:e2e`, README et passation.
+Reste hors phase 7 : la palette ne cherche pas encore dans le carnet et le journal (section 10.1), ses actions « Noter une dégustation » et « Comparer avec… » ne sont pas proposées ; photo facultative d'une dégustation (section 10.6) non faite.
 
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 8 : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
+- Phase 8 (prochaine) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
 - Phase 10 : export et partage, Open Food Facts.
 - Phase 11 : finitions, packaging, documentation.

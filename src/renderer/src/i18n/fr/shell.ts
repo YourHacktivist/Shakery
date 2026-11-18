@@ -122,6 +122,7 @@ export const shell = {
       newRecipe: 'Créer une fiche complète',
       tastingNote: 'Noter une dégustation',
       openInLab: 'Ouvrir la fiche affichée dans l’atelier',
+      sidebar: 'Replier ou déplier la barre latérale',
       print: 'Imprimer',
       prepMode: 'Passer en mode préparation',
       back: 'Fermer la fenêtre ouverte ou revenir en arrière',

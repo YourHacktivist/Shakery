@@ -252,6 +252,18 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Alternatives écartées** : convertir les grammes en volume à 1 g/ml, faux de 37 % pour le sucre ; demander une conversion à chaque ligne.
 - **Validation** : oui, par l'utilisateur le 18 novembre 2026, avec la relecture de l'arbre des catégories et des ingrédients de départ (phase 4).
 
+### D-032 Interface plus vivante
+
+- **Date** : 2026-11-18
+- **Contexte** : l'utilisateur veut une interface « magnifique », avec des animations fluides, de belles couleurs, des contrôles dessinés (pas de cases à cocher blanches par défaut) et une barre latérale qui se replie.
+- **Choix** : dans les limites de la section 11 (un seul accent cuivré, aucun flou sur les cartes, aucun fond animé, `prefers-reduced-motion` respecté) :
+  - couleurs : deux halos cuivrés fixes derrière l'interface, dégradé cuivre clair vers cuivre sur l'action principale, les cases cochées, l'interrupteur et la note sélectionnée, lueur cuivrée au survol ; cartes avec un léger éclairage par le haut et une ombre douce (`bg-card`, `shadow-card`), nouveau token `--color-surface-3` ;
+  - contrôles : case à cocher dessinée (l'élément natif reste, pour le clavier, les formulaires et les lecteurs d'écran), listes déroulantes natives redessinées par le `<select>` personnalisable de Chromium (`appearance: base-select`), avec repli sur le rendu natif sombre ;
+  - mouvement : entrée de chaque écran (opacité et translation, 220 ms), curseur glissant sous l'entrée active de la barre latérale et sous le choix d'un contrôle segmenté, cartes du journal et du carnet qui apparaissent l'une après l'autre, étoiles et coches qui grandissent en se remplissant, boutons qui s'enfoncent au clic ;
+  - barre latérale : repliée en icônes par le bouton du bas ou Ctrl+B, avec une animation de sa largeur (250 ms) et des libellés qui s'effacent. C'est la seule propriété de mise en page animée : un seul élément, coupé par `prefers-reduced-motion`.
+- **Alternatives écartées** : une bibliothèque d'animation (poids, minuteries) ; une seconde couleur d'accent, que la section 11 exclut ; remplacer les `<select>` par des listes JavaScript, ce qui casserait le clavier natif et les tests.
+- **Validation** : demandée par l'utilisateur.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

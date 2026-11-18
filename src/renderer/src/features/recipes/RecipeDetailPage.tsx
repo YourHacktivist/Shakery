@@ -1,15 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { ArrowLeft, ChefHat, CopyPlus, FlaskConical, NotebookPen, Pencil, Star, Trash2 } from 'lucide-react'
-import { useEffect, useId, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
+import { useOverlayStore } from '@renderer/app/stores'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Dialog } from '@renderer/components/Dialog'
 import { EmptyState } from '@renderer/components/EmptyState'
 import { FilterPill } from '@renderer/components/FilterPill'
 import { Input } from '@renderer/components/Input'
+import { Sparkline } from '@renderer/components/Sparkline'
 import { StatusBadge, VersionBadge } from '@renderer/components/StatusBadge'
 import { toast } from '@renderer/components/Toast'
+import { TastingCard } from '@renderer/features/journal/JournalPage'
 import { ComputedPanel } from '@renderer/features/recipes/ComputedPanel'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { categoryPath } from '@renderer/features/shared/categories'
@@ -31,8 +34,10 @@ import {
   useRecipes,
   useSetRecipeFavorite,
   useSetRecipeStatus,
+  useTastings,
 } from '@renderer/lib/queries'
 import { STATUS_VALUES, type RecipeDetail } from '@shared/domain/catalog'
+import type { TastingNote } from '@shared/domain/journal'
 
 const t = fr.recipes
 const td = t.detail
@@ -85,7 +90,8 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   const setFavorite = useSetRecipeFavorite()
   const deleteRecipe = useDeleteRecipe()
   const [variantOpen, setVariantOpen] = useState(false)
-  const tasteHintId = useId()
+  const openTasting = useOverlayStore((state) => state.openTasting)
+  const tastings = useTastings({ recipeId: recipe.id })
 
   const names = useMemo(
     () => new Map((ingredients.data ?? []).map((ingredient) => [ingredient.id, ingredient.name])),
@@ -228,14 +234,16 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           >
             {td.lab}
           </Button>
-          <SoonButton
+          <Button
+            variant="outline"
             icon={<NotebookPen size={16} aria-hidden="true" />}
-            phase={td.tastePhase}
-            hint={td.tasteSoon}
-            hintId={tasteHintId}
+            aria-keyshortcuts="Control+J"
+            onClick={() => {
+              openTasting(recipe.id, recipe.version)
+            }}
           >
             {td.taste}
-          </SoonButton>
+          </Button>
           <Button
             variant="danger"
             className="ml-auto"
@@ -345,6 +353,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           <ComputedPanel data={recipe.lines.length > 0 ? computationInput : null} names={names} />
           <Card aria-label={td.sections.history}>
             <h2 className="m-0 text-body font-semibold text-fg">{td.sections.history}</h2>
+            <VersionRatings recipe={recipe} tastings={tastings.data ?? []} />
             <ol className="m-0 flex list-none flex-col gap-2.5 p-0">
               {recipe.history.map((entry) => (
                 <li key={entry.version} className="flex items-center gap-3">
@@ -360,9 +369,29 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
                       {formatDate(entry.createdAt)}
                     </span>
                   ) : null}
+                  <VersionAverage
+                    notes={(tastings.data ?? []).filter((n) => n.recipeVersion === entry.version)}
+                  />
                 </li>
               ))}
             </ol>
+          </Card>
+          <Card aria-label={fr.journal.recipe.title}>
+            <h2 className="m-0 text-body font-semibold text-fg">{fr.journal.recipe.title}</h2>
+            {(tastings.data ?? []).length === 0 ? (
+              <p className="m-0 text-small text-fg-secondary">{fr.journal.recipe.none}</p>
+            ) : (
+              <ol className="m-0 flex list-none flex-col gap-2 p-0">
+                {[...(tastings.data ?? [])]
+                  .sort((a, b) => b.tastedAt - a.tastedAt)
+                  .slice(0, 3)
+                  .map((note) => (
+                    <li key={note.id}>
+                      <TastingCard note={note} showRecipe={false} />
+                    </li>
+                  ))}
+              </ol>
+            )}
           </Card>
         </aside>
       </div>
@@ -375,42 +404,6 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
         }}
       />
     </div>
-  )
-}
-
-/** An action of a later phase: focusable, announced as unavailable, with its phase written on it. */
-function SoonButton({
-  icon,
-  phase,
-  hint,
-  hintId,
-  children,
-}: {
-  icon: ReactNode
-  phase: string
-  hint: string
-  hintId: string
-  children: ReactNode
-}) {
-  return (
-    <>
-      <Button
-        variant="outline"
-        icon={icon}
-        aria-disabled="true"
-        aria-describedby={hintId}
-        title={hint}
-        className="cursor-not-allowed text-fg-muted hover:bg-transparent"
-      >
-        {children}
-        <span className="rounded-full border border-border-strong px-1.5 text-[11px] font-semibold text-fg-muted">
-          {phase}
-        </span>
-      </Button>
-      <span id={hintId} className="sr-only">
-        {hint}
-      </span>
-    </>
   )
 }
 
@@ -560,5 +553,46 @@ function VariantForm({ recipe, onClose }: { recipe: RecipeDetail; onClose: () =>
         }}
       />
     </form>
+  )
+}
+
+/** Mean of the overall ratings, or null when none of the notes has one. */
+function meanOverall(notes: readonly TastingNote[]): number | null {
+  const rated = notes.map((note) => note.overall).filter((value): value is number => value !== null)
+  return rated.length === 0 ? null : rated.reduce((sum, value) => sum + value, 0) / rated.length
+}
+
+/** Mean rating of one version and its number of notes, at the end of its row. */
+function VersionAverage({ notes }: { notes: readonly TastingNote[] }) {
+  const mean = meanOverall(notes)
+  if (notes.length === 0) return null
+  return (
+    <span className="nums flex shrink-0 items-center gap-1.5 text-caption text-fg-muted">
+      {mean === null ? null : (
+        <span className="font-semibold text-accent-soft">
+          {fr.journal.recipe.mean(formatNumber(mean, 1))}
+        </span>
+      )}
+      <span>{fr.journal.recipe.notes(notes.length)}</span>
+    </span>
+  )
+}
+
+/** Curve of the mean rating version after version (section 10.6), from two rated versions. */
+function VersionRatings({ recipe, tastings }: { recipe: RecipeDetail; tastings: readonly TastingNote[] }) {
+  const values = [...recipe.history]
+    .sort((a, b) => a.version - b.version)
+    .map((entry) => meanOverall(tastings.filter((note) => note.recipeVersion === entry.version)))
+    .filter((value): value is number => value !== null)
+  if (values.length < 2) return null
+  return (
+    <Sparkline
+      values={values}
+      label={fr.journal.recipe.byVersion}
+      min={1}
+      max={5}
+      height={56}
+      formatValue={(value) => formatNumber(value, 1)}
+    />
   )
 }

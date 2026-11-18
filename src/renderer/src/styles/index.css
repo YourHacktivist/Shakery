@@ -8,8 +8,11 @@
     height: 100%;
   }
 
+  /* Two still copper glows behind the interface, never animated (section 11). */
   body {
-    background-color: var(--color-bg-base);
+    background:
+      radial-gradient(1100px 520px at 88% -12%, rgb(161 56 23 / 0.17), transparent 70%),
+      radial-gradient(800px 600px at -8% 112%, rgb(239 120 43 / 0.06), transparent 70%), var(--color-bg-base);
     color: var(--color-fg);
     font-family: var(--font-sans);
     font-size: var(--text-body);
@@ -77,6 +80,117 @@
 
 @utility animate-pop-in {
   animation: shk-pop-in 200ms var(--ease-out-soft) both;
+}
+
+@keyframes shk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Blocks of a screen appear one after the other: set --rise-index on each. */
+@utility animate-rise {
+  animation: shk-rise 240ms var(--ease-out-soft) both;
+  animation-delay: calc(var(--rise-index, 0) * 40ms);
+}
+
+/*
+ * Lists, dropdowns and pickers of the native <select>, drawn in the colours of the app
+ * (Chromium customizable select). Keyboard, screen readers and tests keep the native element.
+ */
+@supports (appearance: base-select) {
+  select.shk-select,
+  select.shk-select::picker(select) {
+    appearance: base-select;
+  }
+
+  select.shk-select {
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+    border: 0;
+    border-radius: inherit;
+  }
+
+  select.shk-select::picker-icon {
+    display: none;
+  }
+
+  select.shk-select::picker(select) {
+    margin-block: 6px;
+    padding: 4px;
+    max-height: min(22rem, 60vh);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-nested);
+    background: var(--color-surface-2);
+    color: var(--color-fg);
+    box-shadow: var(--shadow-float);
+    scrollbar-width: thin;
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+    transform-origin: top center;
+    transition:
+      opacity 160ms var(--ease-out-soft),
+      transform 160ms var(--ease-out-soft),
+      overlay 160ms allow-discrete,
+      display 160ms allow-discrete;
+  }
+
+  select.shk-select:open::picker(select) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    select.shk-select:open::picker(select) {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+  }
+
+  select.shk-select optgroup {
+    padding-top: 4px;
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--color-fg-muted);
+  }
+
+  select.shk-select option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: transparent;
+    font-size: var(--text-body);
+    font-weight: 400;
+    color: var(--color-fg);
+    transition: background-color 120ms var(--ease-out-soft);
+  }
+
+  select.shk-select option:hover,
+  select.shk-select option:focus-visible {
+    background: rgb(255 235 220 / 0.07);
+    outline: none;
+  }
+
+  select.shk-select option:checked {
+    background: rgb(239 120 43 / 0.13);
+    color: var(--color-accent-soft);
+    font-weight: 600;
+  }
+
+  select.shk-select option::checkmark {
+    order: 1;
+    margin-left: auto;
+    color: var(--color-accent);
+  }
 }
 
 /* Setting « animations off » (section 10.14) adds this class on <html>. */
