@@ -264,14 +264,37 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Alternatives écartées** : une bibliothèque d'animation (poids, minuteries) ; une seconde couleur d'accent, que la section 11 exclut ; remplacer les `<select>` par des listes JavaScript, ce qui casserait le clavier natif et les tests.
 - **Validation** : demandée par l'utilisateur.
 
+### D-033 Impression par fenêtre cachée
+
+- **Date** : 2026-11-18
+- **Contexte** : la section 12.2 demande des gabarits React rendus dans une fenêtre cachée, avec la même sécurité et la même CSP, puis `printToPDF`.
+- **Choix** : `src/main/services/print.ts` ouvre une fenêtre cachée avec `secureWebPreferences()` (les réglages de la fenêtre principale, mis en commun), charge la route `#/print/...` du renderer et attend que le gabarit donne au document le titre `shakery-print-ready` (données affichées et polices chargées), sans exécuter de JavaScript dans la page, ce qui garde la CSP intacte. Le PDF est écrit à l'endroit choisi dans la boîte d'enregistrement. Premier gabarit : la collection (`renderer/src/print/CollectionPrint.tsx`), noir sur blanc.
+- **Alternatives écartées** : imprimer la fenêtre principale avec une feuille `@media print` (le PDF dépendrait de l'écran affiché) ; `executeJavaScript` pour sonder la page.
+- **Validation** : non requise.
+
+### D-034 Questions de révision de la phase 8
+
+- **Date** : 2026-11-18
+- **Contexte** : la proposition MAF (partie C.3) liste environ 25 générateurs de questions.
+- **Choix** : `core/practice.ts` en livre 15, ceux qui couvrent les données présentes dans toute collection : dose, ingrédient intrus, méthode, verre, glace, décoration, longueur, moment, famille, TAV du socle et récitation pour les recettes (la référence socle figée quand elle existe) ; classe, TAV minimum, origine, « à retenir » inversé et questions jury pour les fiches culture ; cellules des tableaux récapitulatifs des carnets concernés. Les mauvaises réponses viennent du même générateur dans la collection ; avec moins de mauvaises réponses que nécessaire, la question devient une carte mémoire. Les erreurs de la dernière réponse passent en premier à la session suivante. Les générateurs de frise, variantes, marques, répertoire et calcul du TAV ou du coût restent à faire.
+- **Validation** : non requise (aucun changement de modèle).
+
+### D-035 Bascule « je l'ai » sur un ingrédient
+
+- **Date** : 2026-11-18
+- **Contexte** : la disponibilité se calcule sur les bouteilles possédées (section 8), alors que la section 10.8 demande une bascule rapide « je l'ai ».
+- **Choix** : sur la fiche ingrédient de Mon bar, la bascule coche la première bouteille ; s'il n'y en a aucune, elle crée une bouteille au nom de l'ingrédient, déjà possédée. La décocher retire « possédée » de toutes ses bouteilles. Aucun changement de modèle.
+- **Validation** : non requise.
+
 ## À valider plus tard
 
-| Sujet                          | Proposition                                                                                                      | Échéance              |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                      | Phase 2               |
-| Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée. | Phase de la corbeille |
-| Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                  | Avant diffusion       |
-| Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                            | Avant diffusion       |
+| Sujet                          | Proposition                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Échéance              |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                                                                                                                                                                                                                                                                                                                                                                             | Phase 2               |
+| Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée.                                                                                                                                                                                                                                                                                                                                                        | Phase de la corbeille |
+| Recettes de 24cocktails        | Les conditions de 24cocktails.com autorisent l'usage commercial gratuit de l'API, avec un lien vers chaque recette et la mention de la source, mais interdisent de s'en servir pour bâtir un catalogue concurrent et de republier en masse sans attribution. Recommandation : pas d'import massif dans les données de départ ; une recherche à la demande, recette par recette, à l'initiative de l'utilisateur, avec crédit et lien, en phase 10 avec Open Food Facts. | Phase 10              |
+| Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                                                                                                                                                                                                                                                                                                                                                                         | Avant diffusion       |
+| Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                                                                                                                                                                                                                                                                                                                                                                                   | Avant diffusion       |
 
 ## Dépendances (phases 0 et 1)
 

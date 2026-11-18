@@ -49,6 +49,9 @@ const CATALOG_KEYS: QueryKey[] = [
   ['search'],
   ['tastings'],
   ['notebook'],
+  ['preps'],
+  ['collections'],
+  ['practice'],
 ]
 
 export function invalidateCatalog(client: QueryClient): Promise<void> {
@@ -100,6 +103,40 @@ export function useTastings(filter: { recipeId?: string; toRetest?: boolean } = 
     queryKey: ['tastings', filter],
     queryFn: () => unwrap(api().tastingNotes.list(filter)),
   })
+}
+
+export function usePreps() {
+  return useQuery({ queryKey: ['preps'], queryFn: () => unwrap(api().preps.list()) })
+}
+
+export function useCollections() {
+  return useQuery({ queryKey: ['collections'], queryFn: () => unwrap(api().collections.list()) })
+}
+
+export function useCollection(id: string | null) {
+  return useQuery({
+    queryKey: ['collections', 'detail', id],
+    queryFn: () => unwrap(api().collections.get({ id: id ?? '' })),
+    enabled: id !== null && id !== '',
+  })
+}
+
+/** Data of a collection for the question generators, read again for every session. */
+export function usePracticeCorpus(id: string | null) {
+  return useQuery({
+    queryKey: ['practice', 'corpus', id],
+    queryFn: () => unwrap(api().practice.corpus({ id: id ?? '' })),
+    enabled: id !== null && id !== '',
+    staleTime: 0,
+  })
+}
+
+export function usePracticeHistory() {
+  return useQuery({ queryKey: ['practice', 'history'], queryFn: () => unwrap(api().practice.history()) })
+}
+
+export function useWeakKeys() {
+  return useQuery({ queryKey: ['practice', 'weak'], queryFn: () => unwrap(api().practice.weakKeys()) })
 }
 
 export function useNotebook() {
@@ -207,6 +244,24 @@ export const useDeleteTasting = mutationOf('tastingNotes', 'delete')
 export const useCreateEntry = mutationOf('notebook', 'create')
 export const useUpdateEntry = mutationOf('notebook', 'update')
 export const useDeleteEntry = mutationOf('notebook', 'delete')
+
+export const useCreateBatch = mutationOf('batches', 'create')
+export const useSetBatchStatus = mutationOf('batches', 'setStatus')
+export const useDeleteBatch = mutationOf('batches', 'delete')
+export const useCreateCollection = mutationOf('collections', 'create')
+export const useUpdateCollection = mutationOf('collections', 'update')
+export const useDeleteCollection = mutationOf('collections', 'delete')
+export const useRestoreCollection = mutationOf('collections', 'restore')
+export const useAddToCollection = mutationOf('collections', 'addRecipes')
+export const useUpdateCollectionItem = mutationOf('collections', 'updateItem')
+export const useRemoveCollectionItem = mutationOf('collections', 'removeItem')
+export const useReorderCollection = mutationOf('collections', 'reorder')
+export const useFinishPractice = mutationOf('practice', 'finish')
+
+/** Saves the PDF of a collection; false when the user closed the save dialog. */
+export function exportCollectionPdf(id: string): Promise<boolean> {
+  return unwrap(api().collections.exportPdf({ id }))
+}
 
 export const useCreateIngredient = mutationOf('ingredients', 'create')
 export const useUpdateIngredient = mutationOf('ingredients', 'update')

@@ -1,3 +1,4 @@
+import { daysLeft } from '@core/shelf-life'
 /**
  * French number formatting for the interface: decimal comma and narrow no-break space as
  * thousands separator. Tabular figures come from the `nums` utility on the element.
@@ -55,4 +56,9 @@ export function formatRelative(timestamp: number, now: number = Date.now()): str
   if (elapsed < DAY) return relativeFormatter.format(-Math.floor(elapsed / HOUR), 'hour')
   if (elapsed < 7 * DAY) return relativeFormatter.format(-Math.floor(elapsed / DAY), 'day')
   return formatDate(timestamp)
+}
+
+/** Signed calendar days before a best-before date, counted from now (core/shelf-life). */
+export function daysLeftFromNow(bestBefore: number | null): number | null {
+  return daysLeft(bestBefore, Date.now())
 }

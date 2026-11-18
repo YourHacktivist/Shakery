@@ -20,7 +20,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## État au 18 novembre 2026 (soir)
 
-Phases 0 à 7 livrées, tout est committé. `npm run check` passe (301 tests), `npm run test:e2e` passe (19 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
+Phases 0 à 8 livrées, tout est committé. `npm run check` passe (320 tests), `npm run test:e2e` passe (20 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
 
 Changements de la dernière session :
 
@@ -93,10 +93,19 @@ Limites connues : les zones n'apparaissent qu'une fois les degrés et compositio
 
 Reste hors phase 7 : la palette ne cherche pas encore dans le carnet et le journal (section 10.1), ses actions « Noter une dégustation » et « Comparer avec… » ne sont pas proposées ; photo facultative d'une dégustation (section 10.6) non faite.
 
+## Phase 8 livrée (Mon bar, préparations, collections, révision, calculateurs)
+
+- Cœur : `core/shelf-life.ts` (date limite à la dernière milliseconde du jour local, en jours calendaires ; tests aux changements d'heure dans `core/phase8.test.ts`), `core/batch.ts` (multiplication, eau de dilution facultative, part ajoutée au service selon le `batch_hint` de la catégorie), `core/practice.ts` (générateurs de questions, D-034).
+- Main : `db/repositories/workshop.ts` (préparations et fabrications, collections, corpus de révision, journal `practice_answers`), IPC `preps.*`, `batches.*`, `collections.*`, `practice.*` (`ipc/workshop.ts`), impression PDF (`services/print.ts`, D-033). Test `workshop.test.ts` : disponibilité sur les recettes de départ, fabrication, collection, révision.
+- Écrans : `features/preps/PrepsPage.tsx`, `features/collections/CollectionsPage.tsx` (+ `AddToCollection.tsx` sur la fiche), `features/practice/PracticePage.tsx` (+ `corpus.ts` qui écrit les libellés français), `features/calculators/CalculatorsPage.tsx`, gabarit `print/CollectionPrint.tsx` (route `/print/collection/:id` hors coquille). Mon bar : liste d'achats et bascule « je l'ai » (D-035). Barre latérale : préparations à surveiller et carte « Ce soir » réelles (`features/shared/tonight.ts`).
+- E2e `tests/e2e/workshop.spec.ts` : collection, export PDF réel (boîte d'enregistrement remplacée dans le main), révision complète, fabrication.
+
+Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WARNING_DAYS` en attendant l'écran Paramètres), étiquette de bouteille et impression du batch (le gabarit de collection montre la voie), générateurs de révision restants (D-034), glisser-déposer dans une collection (les flèches suffisent au clavier).
+
 ## Phases suivantes (section 14 de la spec)
 
-- Phase 8 (prochaine) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
-- Phase 9 : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
+- Phase 8 (livrée) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
+- Phase 9 (prochaine) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
 - Phase 10 : export et partage, Open Food Facts.
 - Phase 11 : finitions, packaging, documentation.
 

@@ -7,9 +7,12 @@ import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { useAppVersion } from '@renderer/app/useAppVersion'
 import logoUrl from '@renderer/assets/logo-160.png'
 import { IconButton } from '@renderer/components/Button'
+import { DEFAULT_EXPIRY_WARNING_DAYS, ExpiryPill } from '@renderer/components/ExpiryPill'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
-import { useTastings } from '@renderer/lib/queries'
+import { daysLeftFromNow } from '@renderer/lib/format'
+import { useTonight } from '@renderer/features/shared/tonight'
+import { usePreps, useTastings } from '@renderer/lib/queries'
 
 const SCROLLBAR = '[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]'
 
@@ -151,9 +154,46 @@ function RetestBlock() {
   )
 }
 
+/** Batches in use that expire soon or have expired (section 10.3). */
+function PrepsBlock() {
+  const t = fr.shell.side.preps
+  const preps = usePreps()
+  const watched = (preps.data ?? [])
+    .flatMap((prep) =>
+      prep.batches
+        .filter((batch) => batch.status === 'active')
+        .map((batch) => ({ prep, batch, days: daysLeftFromNow(batch.bestBefore) })),
+    )
+    .filter((entry) => entry.days !== null && entry.days <= DEFAULT_EXPIRY_WARNING_DAYS)
+    .sort((a, b) => (a.days ?? 0) - (b.days ?? 0))
+  return (
+    <SideBlock icon={<Milk size={14} strokeWidth={1.75} aria-hidden="true" />} title={t.title}>
+      {watched.length === 0 ? (
+        <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
+      ) : (
+        <ul className="m-0 flex list-none flex-col gap-1 p-0">
+          {watched.slice(0, 3).map(({ prep, batch, days }) => (
+            <li key={batch.id}>
+              <Link
+                to="/preps"
+                className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-[rgb(255_235_220/0.04)]"
+              >
+                <span className="truncate text-small font-medium text-fg">{prep.name}</span>
+                <ExpiryPill days={days} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </SideBlock>
+  )
+}
+
 function TonightCard() {
   const id = useId()
   const t = fr.shell.side.tonight
+  const tonight = useTonight()
+  const best = tonight.unlockers[0]
   return (
     <section
       aria-labelledby={id}
@@ -166,7 +206,23 @@ function TonightCard() {
         <Wine size={14} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
         <span>{t.title}</span>
       </h2>
-      <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
+      {tonight.ready && (tonight.makeable > 0 || tonight.unlockers.length > 0) ? (
+        <>
+          <p className="m-0 text-small leading-normal text-fg">
+            <span className="nums text-heading font-semibold text-copper">{tonight.makeable}</span>{' '}
+            <span className="text-fg-secondary">
+              {fr.workshop.bar.makeable(tonight.makeable).replace(/^\d+ /, '')}
+            </span>
+          </p>
+          {best ? (
+            <p className="m-0 text-caption leading-snug text-fg-muted">
+              {fr.workshop.bar.unlock(best.name, best.recipes.length)}
+            </p>
+          ) : null}
+        </>
+      ) : (
+        <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
+      )}
       <Link
         to="/bar"
         className="group/link inline-flex items-center gap-1.5 self-start rounded-sm text-small font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
@@ -262,12 +318,7 @@ export function Sidebar({ className }: { className?: string }) {
         >
           <div className="flex flex-col gap-3 px-1">
             <RetestBlock />
-            <SideBlock
-              icon={<Milk size={14} strokeWidth={1.75} aria-hidden="true" />}
-              title={t.side.preps.title}
-            >
-              <p className="m-0 text-small leading-normal text-fg-secondary">{t.side.preps.empty}</p>
-            </SideBlock>
+            <PrepsBlock />
           </div>
           <TonightCard />
         </div>

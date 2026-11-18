@@ -1,6 +1,26 @@
 import { app, BrowserWindow } from 'electron'
 import { devServerUrl, preloadFile, rendererIndexFile, windowIconFile } from './paths'
 
+/** Settings of every window of the application, the hidden print window included (section 6). */
+export function secureWebPreferences(): Electron.WebPreferences {
+  return {
+    preload: preloadFile(),
+    contextIsolation: true,
+    sandbox: true,
+    nodeIntegration: false,
+    nodeIntegrationInWorker: false,
+    nodeIntegrationInSubFrames: false,
+    webSecurity: true,
+    allowRunningInsecureContent: false,
+    webviewTag: false,
+    experimentalFeatures: false,
+    navigateOnDragDrop: false,
+    safeDialogs: true,
+    spellcheck: false,
+    devTools: !app.isPackaged,
+  }
+}
+
 export function createMainWindow(): BrowserWindow {
   const icon = windowIconFile()
   const window = new BrowserWindow({
@@ -13,22 +33,7 @@ export function createMainWindow(): BrowserWindow {
     backgroundColor: '#0A0807',
     autoHideMenuBar: true,
     ...(icon ? { icon } : {}),
-    webPreferences: {
-      preload: preloadFile(),
-      contextIsolation: true,
-      sandbox: true,
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      nodeIntegrationInSubFrames: false,
-      webSecurity: true,
-      allowRunningInsecureContent: false,
-      webviewTag: false,
-      experimentalFeatures: false,
-      navigateOnDragDrop: false,
-      safeDialogs: true,
-      spellcheck: false,
-      devTools: !app.isPackaged,
-    },
+    webPreferences: secureWebPreferences(),
   })
 
   window.once('ready-to-show', () => {

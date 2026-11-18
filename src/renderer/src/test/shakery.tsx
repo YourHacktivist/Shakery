@@ -30,6 +30,10 @@ const EMPTY_LISTS = [
   'recipes.list',
   'tastingNotes.list',
   'notebook.list',
+  'preps.list',
+  'collections.list',
+  'practice.history',
+  'practice.weakKeys',
 ]
 
 /** Installs a fake bridge: lists are empty, any other call fails until a test mocks it. */

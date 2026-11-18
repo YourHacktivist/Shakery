@@ -53,6 +53,10 @@ test('screens', async () => {
     const sidebar = page.getByRole('complementary', { name: 'Barre latérale' })
     for (const [link, file] of [
       ['Fiches', 'recipes'],
+      ['Préparations', 'preps'],
+      ['Collections', 'collections'],
+      ['Révision', 'practice'],
+      ['Calculateurs', 'calculators'],
       ['Mon bar', 'bar'],
       ['Paramètres', 'settings'],
       ['Accueil', 'home'],

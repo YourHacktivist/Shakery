@@ -7,6 +7,7 @@ import { kit } from './fr/kit'
 import { recipes } from './fr/recipes'
 import { settings } from './fr/settings'
 import { shell } from './fr/shell'
+import { workshop } from './fr/workshop'
 
 /**
  * Every user-facing string lives here, so the interface can be translated later.
@@ -34,6 +35,7 @@ export const fr = {
   } satisfies Record<IpcErrorCode, string>,
   components,
   journal,
+  workshop,
   shell,
   home,
   kit,

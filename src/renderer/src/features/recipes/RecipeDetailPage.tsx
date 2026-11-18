@@ -12,6 +12,7 @@ import { Input } from '@renderer/components/Input'
 import { Sparkline } from '@renderer/components/Sparkline'
 import { StatusBadge, VersionBadge } from '@renderer/components/StatusBadge'
 import { toast } from '@renderer/components/Toast'
+import { AddToCollection } from '@renderer/features/collections/AddToCollection'
 import { TastingCard } from '@renderer/features/journal/JournalPage'
 import { ComputedPanel } from '@renderer/features/recipes/ComputedPanel'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
@@ -244,6 +245,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           >
             {td.taste}
           </Button>
+          <AddToCollection recipeId={recipe.id} recipeName={recipe.name} />
           <Button
             variant="danger"
             className="ml-auto"

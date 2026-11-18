@@ -34,6 +34,7 @@ import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
 import { createQueryClient } from '@renderer/lib/queries'
+import { CollectionPrint } from '@renderer/print/CollectionPrint'
 
 const SCREENS: RouteObject[] = [
   { path: '/', element: <HomePage /> },
@@ -65,6 +66,7 @@ export function App() {
   const [router] = useState(() =>
     createHashRouter([
       { path: '/prepare/:id', element: <PrepModePage /> },
+      { path: '/print/collection/:id', element: <CollectionPrint /> },
       { element: <Shell />, children: SCREENS },
     ]),
   )

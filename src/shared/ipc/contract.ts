@@ -22,6 +22,19 @@ import {
   tastingInputSchema,
   tastingNoteSchema,
 } from '../domain/journal'
+import {
+  BATCH_STATUSES,
+  batchInputSchema,
+  batchSchema,
+  collectionDetailSchema,
+  collectionInputSchema,
+  collectionItemInputSchema,
+  collectionSummarySchema,
+  practiceCorpusSchema,
+  practiceFinishSchema,
+  practiceSessionSchema,
+  prepOverviewSchema,
+} from '../domain/workshop'
 import type { IpcChannel } from './channels'
 
 /**
@@ -210,6 +223,48 @@ export const ipcContract = {
     output: notebookEntrySchema,
   },
   'notebook.delete': { input: idInput, output: done },
+  /** Homemade preparations and their batches (section 10.9). */
+  'preps.list': { input: noInput, output: z.array(prepOverviewSchema).max(5000) },
+  'batches.create': { input: batchInputSchema, output: batchSchema },
+  'batches.setStatus': {
+    input: z.object({ id: z.string().min(1).max(36), status: z.enum(BATCH_STATUSES) }).strict(),
+    output: batchSchema,
+  },
+  'batches.delete': { input: idInput, output: done },
+  /** Collections (section 10.10). */
+  'collections.list': { input: noInput, output: z.array(collectionSummarySchema).max(5000) },
+  'collections.get': { input: idInput, output: collectionDetailSchema },
+  'collections.create': { input: collectionInputSchema, output: collectionSummarySchema },
+  'collections.update': {
+    input: z.object({ id: z.string().min(1).max(36), data: collectionInputSchema }).strict(),
+    output: collectionSummarySchema,
+  },
+  'collections.delete': { input: idInput, output: done },
+  'collections.restore': { input: idInput, output: collectionSummarySchema },
+  'collections.addRecipes': {
+    input: z
+      .object({
+        id: z.string().min(1).max(36),
+        recipeIds: z.array(z.string().min(1).max(36)).min(1).max(500),
+      })
+      .strict(),
+    output: collectionSummarySchema,
+  },
+  'collections.updateItem': { input: collectionItemInputSchema, output: done },
+  'collections.removeItem': { input: idInput, output: done },
+  'collections.reorder': {
+    input: z
+      .object({ id: z.string().min(1).max(36), itemIds: z.array(z.string().min(1).max(36)).max(5000) })
+      .strict(),
+    output: done,
+  },
+  /** Asks where to save, then writes the PDF; false when the user cancels. */
+  'collections.exportPdf': { input: idInput, output: z.boolean() },
+  /** Revision (section 10.11). */
+  'practice.corpus': { input: idInput, output: practiceCorpusSchema },
+  'practice.weakKeys': { input: noInput, output: z.array(z.string().max(200)).max(100_000) },
+  'practice.finish': { input: practiceFinishSchema, output: practiceSessionSchema },
+  'practice.history': { input: noInput, output: z.array(practiceSessionSchema).max(10_000) },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract

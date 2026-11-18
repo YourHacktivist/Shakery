@@ -1,5 +1,5 @@
-import { CircleAlert, Merge, Pencil, Plus, Trash2, Wine } from 'lucide-react'
-import { useMemo, useState, type ReactNode } from 'react'
+import { CircleAlert, Merge, Pencil, Plus, ShoppingBasket, Trash2, Wine } from 'lucide-react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { normalizeName } from '@core/normalize'
 import { Button, IconButton } from '@renderer/components/Button'
@@ -16,6 +16,7 @@ import { ProductFormDialog } from '@renderer/features/bar/ProductFormDialog'
 import { categoryPath } from '@renderer/features/shared/categories'
 import { AllergenList } from '@renderer/features/shared/fields'
 import { errorMessage, isConflict, notifyError } from '@renderer/features/shared/notify'
+import { useTonight } from '@renderer/features/shared/tonight'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { formatEuros, formatNumber } from '@renderer/lib/format'
@@ -27,6 +28,7 @@ import {
   useIngredients,
   useMergeIngredients,
   useProducts,
+  useCreateProduct,
   useSetProductOwned,
 } from '@renderer/lib/queries'
 import type { IngredientDetail, IngredientSummary, Product } from '@shared/domain/catalog'
@@ -170,11 +172,7 @@ export function BarPage() {
           </Card>
 
           {selectedId === null ? (
-            <EmptyState
-              title={t.noSelection.title}
-              description={t.noSelection.description}
-              className="min-h-[320px] p-8"
-            />
+            <BarOverview onSelect={select} />
           ) : selected.isPending ? (
             <p className="m-0 text-body text-fg-muted" aria-busy="true">
               {td.loading}
@@ -346,14 +344,79 @@ function IngredientPanel({
         </Block>
       </Card>
 
-      <BottlesCard ingredientId={ingredient.id} />
+      <BottlesCard ingredientId={ingredient.id} ingredientName={ingredient.name} />
     </div>
   )
 }
 
-function BottlesCard({ ingredientId }: { ingredientId: string }) {
+/** Tonight's count and the shopping list, while no ingredient is selected (section 10.8). */
+function BarOverview({ onSelect }: { onSelect: (id: string) => void }) {
+  const tonight = useTonight()
+  const tw = fr.workshop.bar
+  return (
+    <div className="flex flex-col gap-4">
+      <Card className="gap-3">
+        <div className="flex items-center gap-3">
+          <span className="flex size-9 items-center justify-center rounded-full bg-accent/14 text-accent">
+            <Wine size={16} strokeWidth={1.75} aria-hidden="true" />
+          </span>
+          <div className="flex flex-col">
+            <span className="text-lead font-semibold text-fg">{tw.makeable(tonight.makeable)}</span>
+            <span className="text-small text-fg-secondary">{t.noSelection.description}</span>
+          </div>
+        </div>
+      </Card>
+      <Card aria-label={tw.shopping.title} className="gap-3">
+        <div className="flex flex-col gap-1">
+          <h2 className="m-0 flex items-center gap-2 text-body font-semibold text-fg">
+            <ShoppingBasket size={15} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
+            {tw.shopping.title}
+          </h2>
+          <p className="m-0 text-small text-fg-secondary">{tw.shopping.description}</p>
+        </div>
+        {tonight.unlockers.length === 0 ? (
+          <p className="m-0 text-small text-fg-muted">{tw.shopping.empty}</p>
+        ) : (
+          <ol className="m-0 flex list-none flex-col gap-1 p-0">
+            {tonight.unlockers.slice(0, 10).map((entry, index) => (
+              <li
+                key={entry.ingredientId}
+                className="animate-rise"
+                style={{ '--rise-index': index } as CSSProperties}
+              >
+                <button
+                  type="button"
+                  className="flex w-full cursor-pointer items-center gap-3 rounded-nested border border-transparent px-3 py-2 text-left transition-colors duration-150 hover:border-border hover:bg-surface-2"
+                  onClick={() => {
+                    onSelect(entry.ingredientId)
+                  }}
+                >
+                  <span className="nums flex size-7 shrink-0 items-center justify-center rounded-full bg-accent-gradient text-small font-bold text-accent-ink">
+                    {entry.recipes.length}
+                  </span>
+                  <span className="flex min-w-0 flex-col">
+                    <span className="truncate text-body font-medium text-fg">{entry.name}</span>
+                    <span className="truncate text-caption text-fg-muted">
+                      {`${tw.shopping.unlocks(entry.recipes.length)} : ${entry.recipes
+                        .slice(0, 4)
+                        .map((recipe) => recipe.name)
+                        .join(', ')}`}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        )}
+      </Card>
+    </div>
+  )
+}
+
+function BottlesCard({ ingredientId, ingredientName }: { ingredientId: string; ingredientName: string }) {
   const products = useProducts(ingredientId)
   const setOwned = useSetProductOwned()
+  const createProduct = useCreateProduct()
   const [editing, setEditing] = useState<{ product: Product | null } | null>(null)
   const [deleting, setDeleting] = useState<Product | null>(null)
   const list = products.data ?? []
@@ -362,6 +425,30 @@ function BottlesCard({ ingredientId }: { ingredientId: string }) {
     <Card aria-label={td.bottles}>
       <div className="flex items-center justify-between gap-4">
         <h2 className="m-0 text-body font-semibold text-fg">{td.bottles}</h2>
+        <Toggle
+          label={fr.workshop.bar.owned(ingredientName)}
+          hideLabel
+          showState
+          className="mr-auto ml-2"
+          checked={list.some((product) => product.owned)}
+          disabled={products.isPending || setOwned.isPending || createProduct.isPending}
+          onCheckedChange={(owned) => {
+            // One click: the first bottle, or a bottle named after the ingredient.
+            const first = list[0]
+            if (!owned) {
+              for (const product of list.filter((p) => p.owned)) {
+                setOwned.mutate({ id: product.id, owned: false }, { onError: notifyError })
+              }
+            } else if (first) {
+              setOwned.mutate({ id: first.id, owned: true }, { onError: notifyError })
+            } else {
+              createProduct.mutate(
+                { ingredientId, name: ingredientName, owned: true },
+                { onError: notifyError },
+              )
+            }
+          }}
+        />
         <Button
           variant="outline"
           size="sm"

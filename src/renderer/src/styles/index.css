@@ -200,3 +200,11 @@
   animation: none !important;
   transition: none !important;
 }
+
+/* Print templates (section 12.2): black on white, without the glows of the interface. */
+html.print-light,
+html.print-light body {
+  background: #ffffff;
+  color: #111111;
+  color-scheme: light;
+}
