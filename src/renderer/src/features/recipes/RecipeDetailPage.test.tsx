@@ -70,6 +70,7 @@ function summary(detail: RecipeDetail, extra: Partial<RecipeSummary> = {}): Reci
     version: detail.version,
     isFavorite: detail.isFavorite,
     updatedAt: detail.updatedAt,
+    missingIngredientIds: [],
     ...extra,
   }
 }

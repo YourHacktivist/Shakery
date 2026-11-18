@@ -4,6 +4,7 @@
  * and may not use itself, directly or through a chain.
  */
 import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm'
+import { missingIngredients } from '../../../core/availability'
 import { normalizeName } from '../../../core/normalize'
 import {
   quickIdeaSchema,
@@ -35,7 +36,45 @@ export class RecipeRepository {
     private readonly ingredientRepository: IngredientRepository,
   ) {}
 
-  list(): RecipeSummary[] {
+  /** Summaries with what is missing to make each recipe tonight (section 8, « Disponibilité »). */
+  list(now: number = Date.now()): RecipeSummary[] {
+    const sqlite = this.db.$client
+    const ids = (query: string, ...params: unknown[]) =>
+      new Set((sqlite.prepare(query).all(...params) as Array<{ id: string }>).map((row) => row.id))
+    const facts = {
+      owned: ids('SELECT DISTINCT ingredient_id AS id FROM products WHERE owned = 1 AND deleted_at IS NULL'),
+      staples: ids('SELECT id FROM ingredients WHERE is_staple = 1 AND deleted_at IS NULL'),
+      activePreps: ids(
+        `SELECT DISTINCT i.id AS id FROM ingredients i JOIN prep_batches b ON b.recipe_id = i.prep_recipe_id
+         WHERE i.deleted_at IS NULL AND b.deleted_at IS NULL AND b.status = 'active'
+           AND (b.best_before IS NULL OR b.best_before >= ?)`,
+        now,
+      ),
+    }
+    const linesByRecipe = new Map<
+      string,
+      Array<{ ingredientId: string; isOptional: boolean; isGarnish: boolean }>
+    >()
+    for (const row of sqlite
+      .prepare(
+        'SELECT recipe_id AS recipeId, ingredient_id AS ingredientId, is_optional AS isOptional, is_garnish AS isGarnish FROM recipe_lines WHERE deleted_at IS NULL ORDER BY sort_order',
+      )
+      .all() as Array<{ recipeId: string; ingredientId: string; isOptional: number; isGarnish: number }>) {
+      const list = linesByRecipe.get(row.recipeId) ?? []
+      list.push({
+        ingredientId: row.ingredientId,
+        isOptional: row.isOptional === 1,
+        isGarnish: row.isGarnish === 1,
+      })
+      linesByRecipe.set(row.recipeId, list)
+    }
+    return this.listRows().map((row) => ({
+      ...row,
+      missingIngredientIds: missingIngredients(linesByRecipe.get(row.id) ?? [], facts).slice(0, 60),
+    }))
+  }
+
+  private listRows() {
     return this.db
       .select({
         id: recipes.id,

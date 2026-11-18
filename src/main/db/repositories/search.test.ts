@@ -114,4 +114,13 @@ describe('SearchRepository', () => {
     repo.recordView('recipe', made['negroni'] ?? '', ids)
     expect(titles('ne')).toEqual(['Negroni', 'Negroni Sbagliato'])
   })
+
+  it('lists what each recipe misses tonight, until a bottle of it is owned', () => {
+    const negroni = () => recipesRepo.list().find((recipe) => recipe.id === made['negroni'])
+    expect(negroni()?.missingIngredientIds).toEqual([made['gin']])
+    const products = new ProductRepository(db, ids)
+    const bottle = products.create({ ingredientId: made['gin'] ?? '', name: 'Gin de la maison' })
+    products.setOwned(bottle.id, true)
+    expect(negroni()?.missingIngredientIds).toEqual([])
+  })
 })

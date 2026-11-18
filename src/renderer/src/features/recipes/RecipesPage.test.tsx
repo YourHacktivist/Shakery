@@ -21,6 +21,7 @@ function summary(id: string, name: string, extra: Partial<RecipeSummary>): Recip
     version: 1,
     isFavorite: false,
     updatedAt: 0,
+    missingIngredientIds: [],
     ...extra,
   }
 }
@@ -72,6 +73,7 @@ describe('filterRecipes', () => {
       statuses: [],
       families: [],
       origins: [],
+      methods: [],
       view: 'all',
       sort: 'activity',
     }

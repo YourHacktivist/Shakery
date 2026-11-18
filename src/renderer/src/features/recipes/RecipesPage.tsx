@@ -14,7 +14,13 @@ import { fr } from '@renderer/i18n/fr'
 import { formatRelative } from '@renderer/lib/format'
 import { useRecipes } from '@renderer/lib/queries'
 import { shortcutText } from '@renderer/lib/shortcuts'
-import { FAMILY_VALUES, ORIGIN_VALUES, STATUS_VALUES, type RecipeSummary } from '@shared/domain/catalog'
+import {
+  FAMILY_VALUES,
+  METHOD_VALUES,
+  ORIGIN_VALUES,
+  STATUS_VALUES,
+  type RecipeSummary,
+} from '@shared/domain/catalog'
 
 const t = fr.recipes
 const tl = t.list
@@ -22,13 +28,15 @@ const tl = t.list
 type Status = RecipeSummary['status']
 type Family = NonNullable<RecipeSummary['family']>
 type Origin = RecipeSummary['origin']
-type View = 'all' | 'favorites'
+type Method = NonNullable<RecipeSummary['method']>
+type View = 'all' | 'favorites' | 'makeable'
 type Sort = 'activity' | 'name'
 
 type RecipeFilters = {
   statuses: Status[]
   families: Family[]
   origins: Origin[]
+  methods: Method[]
   view: View
   sort: Sort
   set: (patch: Partial<Omit<RecipeFilters, 'set' | 'reset'>>) => void
@@ -39,6 +47,7 @@ const DEFAULT_FILTERS = {
   statuses: [] as Status[],
   families: [] as Family[],
   origins: [] as Origin[],
+  methods: [] as Method[],
   view: 'all' as View,
   sort: 'activity' as Sort,
 }
@@ -59,7 +68,7 @@ const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
 /** Recipes kept by the filters, in the chosen order. Filters of different kinds combine. */
 export function filterRecipes(
   recipes: readonly RecipeSummary[],
-  filters: Pick<RecipeFilters, 'statuses' | 'families' | 'origins' | 'view' | 'sort'>,
+  filters: Pick<RecipeFilters, 'statuses' | 'families' | 'origins' | 'methods' | 'view' | 'sort'>,
 ): RecipeSummary[] {
   const kept = recipes.filter(
     (recipe) =>
@@ -67,7 +76,10 @@ export function filterRecipes(
       (filters.families.length === 0 ||
         (recipe.family !== null && filters.families.includes(recipe.family))) &&
       (filters.origins.length === 0 || filters.origins.includes(recipe.origin)) &&
-      (filters.view === 'all' || recipe.isFavorite),
+      (filters.methods.length === 0 || (recipe.method !== null && filters.methods.includes(recipe.method))) &&
+      (filters.view === 'all' ||
+        (filters.view === 'favorites' && recipe.isFavorite) ||
+        (filters.view === 'makeable' && recipe.missingIngredientIds.length === 0)),
   )
   return kept.sort((a, b) =>
     filters.sort === 'name' ? collator.compare(a.name, b.name) : b.updatedAt - a.updatedAt,
@@ -77,6 +89,7 @@ export function filterRecipes(
 const statusOptions = STATUS_VALUES.map((value) => ({ value, label: fr.components.display.status[value] }))
 const familyOptions = FAMILY_VALUES.map((value) => ({ value, label: t.families[value] }))
 const originOptions = ORIGIN_VALUES.map((value) => ({ value, label: t.origins[value] }))
+const methodOptions = METHOD_VALUES.map((value) => ({ value, label: t.methods[value] }))
 
 /** List of the recipes (section 10.4): virtualised, combinable filters, sort by name or activity. */
 export function RecipesPage() {
@@ -90,7 +103,8 @@ export function RecipesPage() {
     filters.statuses.length > 0 ||
     filters.families.length > 0 ||
     filters.origins.length > 0 ||
-    filters.view === 'favorites'
+    filters.methods.length > 0 ||
+    filters.view !== 'all'
   // Relative times are computed once per visit of the list: no timer while idle.
   const [now] = useState(() => Date.now())
 
@@ -185,6 +199,7 @@ export function RecipesPage() {
             options={[
               { value: 'all', label: tl.filters.all },
               { value: 'favorites', label: tl.filters.favorites },
+              { value: 'makeable', label: tl.filters.makeable },
             ]}
           />
           <FilterPill
@@ -215,6 +230,16 @@ export function RecipesPage() {
             value={filters.origins}
             onChange={(origins) => {
               filters.set({ origins })
+            }}
+          />
+          <FilterPill
+            multiple
+            label={tl.filters.method}
+            allLabel={tl.filters.allMethods}
+            options={methodOptions}
+            value={filters.methods}
+            onChange={(methods) => {
+              filters.set({ methods })
             }}
           />
           {filtered ? (

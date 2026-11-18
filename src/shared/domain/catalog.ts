@@ -236,6 +236,8 @@ export const recipeSummarySchema = z
     version: z.number().int(),
     isFavorite: z.boolean(),
     updatedAt: z.number().int(),
+    /** Required ingredients not available tonight; empty when the recipe can be made. */
+    missingIngredientIds: z.array(id).max(60),
   })
   .strict()
 
