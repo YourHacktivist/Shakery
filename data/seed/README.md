@@ -2,11 +2,11 @@
 
 Référentiels fixes chargés au premier lancement (section 9 de `docs/SPEC.md`), relus à la main et versionnés.
 
-| Fichier           | Contenu                                                                                  |
-| ----------------- | ---------------------------------------------------------------------------------------- |
-| `categories.json` | Arbre des catégories d'ingrédients génériques : 95 nœuds sur 3 niveaux, dont 77 feuilles |
-| `glasses.json`    | 24 verres et contenants                                                                  |
-| `ice.json`        | 8 types de glace                                                                         |
+| Fichier           | Contenu                                                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `categories.json` | Arbre des catégories d'ingrédients génériques : 96 nœuds sur 3 niveaux, dont 78 feuilles (« À classer » reçoit les ingrédients créés par l’idée rapide) |
+| `glasses.json`    | 24 verres et contenants                                                                                                                                 |
+| `ice.json`        | 8 types de glace                                                                                                                                        |
 
 La correspondance avec les carnets MAF de l'utilisateur est décrite dans `docs/maf-mapping.md`.
 

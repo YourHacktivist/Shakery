@@ -758,5 +758,13 @@
     "parent": "cat.garnishes",
     "sort_order": 3,
     "batch_hint": "ok"
+  },
+  {
+    "seed_key": "cat.unsorted",
+    "name": "À classer",
+    "slug": "a-classer",
+    "parent": null,
+    "sort_order": 17,
+    "batch_hint": "ok"
   }
 ]

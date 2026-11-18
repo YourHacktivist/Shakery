@@ -1,5 +1,18 @@
 import { z } from 'zod'
 import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
+import {
+  ingredientDetailSchema,
+  ingredientInputSchema,
+  ingredientSummarySchema,
+  productInputSchema,
+  productSchema,
+  quickIdeaSchema,
+  recipeComputationSchema,
+  recipeDetailSchema,
+  recipeInputSchema,
+  recipeSummarySchema,
+  STATUS_VALUES,
+} from '../domain/catalog'
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import type { IpcChannel } from './channels'
 
@@ -20,6 +33,9 @@ export const appVersionSchema = z
   })
   .strict()
 
+const idInput = z.object({ id: z.string().min(1).max(36) }).strict()
+const done = z.null()
+
 export type ContractEntry = {
   readonly input: z.ZodType
   readonly output: z.ZodType
@@ -37,6 +53,74 @@ export const ipcContract = {
   'reference.listGlasses': { input: noInput, output: z.array(glassSchema).max(500) },
   'reference.listIceTypes': { input: noInput, output: z.array(iceTypeSchema).max(200) },
   'reference.listCategories': { input: noInput, output: z.array(categorySchema).max(2000) },
+  'ingredients.list': { input: noInput, output: z.array(ingredientSummarySchema).max(20_000) },
+  'ingredients.get': { input: idInput, output: ingredientDetailSchema },
+  'ingredients.create': { input: ingredientInputSchema, output: ingredientSummarySchema },
+  'ingredients.update': {
+    input: z.object({ id: z.string().min(1).max(36), data: ingredientInputSchema }).strict(),
+    output: ingredientSummarySchema,
+  },
+  'ingredients.merge': {
+    input: z.object({ sourceId: z.string().min(1).max(36), targetId: z.string().min(1).max(36) }).strict(),
+    output: ingredientSummarySchema,
+  },
+  'ingredients.delete': { input: idInput, output: done },
+  'ingredients.setFavorite': {
+    input: z.object({ id: z.string().min(1).max(36), favorite: z.boolean() }).strict(),
+    output: done,
+  },
+  'products.listByIngredient': {
+    input: z.object({ ingredientId: z.string().min(1).max(36) }).strict(),
+    output: z.array(productSchema).max(5000),
+  },
+  'products.create': { input: productInputSchema, output: productSchema },
+  'products.update': {
+    input: z.object({ id: z.string().min(1).max(36), data: productInputSchema }).strict(),
+    output: productSchema,
+  },
+  'products.setOwned': {
+    input: z.object({ id: z.string().min(1).max(36), owned: z.boolean() }).strict(),
+    output: productSchema,
+  },
+  'products.delete': { input: idInput, output: done },
+  'recipes.list': { input: noInput, output: z.array(recipeSummarySchema).max(50_000) },
+  'recipes.get': { input: idInput, output: recipeDetailSchema },
+  'recipes.create': {
+    input: z
+      .object({ data: recipeInputSchema, label: z.string().max(120).nullable().default(null) })
+      .strict(),
+    output: recipeDetailSchema,
+  },
+  'recipes.update': {
+    input: z
+      .object({
+        id: z.string().min(1).max(36),
+        data: recipeInputSchema,
+        newVersion: z.boolean().default(true),
+        label: z.string().max(120).nullable().default(null),
+      })
+      .strict(),
+    output: recipeDetailSchema,
+  },
+  'recipes.setStatus': {
+    input: z.object({ id: z.string().min(1).max(36), status: z.enum(STATUS_VALUES) }).strict(),
+    output: recipeSummarySchema,
+  },
+  'recipes.setFavorite': {
+    input: z.object({ id: z.string().min(1).max(36), favorite: z.boolean() }).strict(),
+    output: recipeSummarySchema,
+  },
+  'recipes.createVariant': {
+    input: z.object({ id: z.string().min(1).max(36), name: z.string().trim().min(1).max(120) }).strict(),
+    output: recipeDetailSchema,
+  },
+  'recipes.delete': { input: idInput, output: done },
+  'recipes.restore': { input: idInput, output: recipeDetailSchema },
+  'recipes.quickIdea': { input: quickIdeaSchema, output: recipeDetailSchema },
+  'recipes.compute': {
+    input: z.object({ data: recipeInputSchema }).strict(),
+    output: recipeComputationSchema,
+  },
 } as const satisfies Record<IpcChannel, ContractEntry>
 
 export type IpcContract = typeof ipcContract
