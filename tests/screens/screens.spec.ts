@@ -19,9 +19,9 @@ test('screens', async () => {
     await page.keyboard.press('Control+Shift+N')
     await page.getByLabel('Nom', { exact: true }).fill('Negroni')
     const items: [string, string, string][] = [
-      ['Gin London Dry', 'Gin et genièvre', '30'],
-      ['Campari', 'Bitters apéritifs', '30'],
-      ['Vermouth rouge', 'Vermouths', '30'],
+      ['Gin maison', 'Gin et genièvre', '30'],
+      ['Bitter maison', 'Bitters apéritifs', '30'],
+      ['Vermouth maison', 'Vermouths', '30'],
     ]
     let position = 0
     for (const [name, category, dose] of items) {

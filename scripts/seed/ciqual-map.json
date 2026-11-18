@@ -1,0 +1,74 @@
+{
+  "_comment": "Correspondance écrite à la main entre un ingrédient de départ (son nom final) et un aliment de la table Ciqual 2020. sugar et acid donnent le code Ciqual de chaque valeur ; une valeur absente de la table reste vide. Choix : le jus pressé maison quand il porte les deux valeurs, sinon le pur jus. Seuls les produits dont la masse volumique est proche de 1 kg/L (jus, sodas, vins, lait de coco) sont repris : pour un sirop, un miel ou une liqueur, la conversion en g/L serait fausse de 15 à 40 %.",
+  "map": {
+    "Jus de citron": {
+      "sugar": "2007",
+      "acid": "2007"
+    },
+    "Jus de citron vert": {
+      "sugar": "2031",
+      "acid": "2031"
+    },
+    "Jus d'orange": {
+      "sugar": "2013",
+      "acid": "2013"
+    },
+    "Jus de pamplemousse": {
+      "sugar": "2025",
+      "acid": "2025"
+    },
+    "Jus de pamplemousse rose": {
+      "sugar": "2025",
+      "acid": "2025"
+    },
+    "Jus de mandarine": {
+      "sugar": "2034"
+    },
+    "Jus d'ananas": {
+      "sugar": "2073",
+      "acid": "2073"
+    },
+    "Jus de pomme": {
+      "sugar": "2074",
+      "acid": "2074"
+    },
+    "Jus de raisin": {
+      "sugar": "2016",
+      "acid": "2016"
+    },
+    "Jus de tomate": {
+      "sugar": "2053",
+      "acid": "2053"
+    },
+    "Jus de mangue": {
+      "sugar": "2023"
+    },
+    "Jus de grenade": {
+      "sugar": "2039"
+    },
+    "Jus de fruit de la passion": {
+      "sugar": "2024"
+    },
+    "Jus de carotte": {
+      "sugar": "2006"
+    },
+    "Nectar d'abricot": {
+      "sugar": "2043",
+      "acid": "2043"
+    },
+    "Cola": {
+      "sugar": "18018"
+    },
+    "Eau tonique": {
+      "sugar": "18344"
+    },
+    "Lait de coco": {
+      "sugar": "18041",
+      "acid": "18041"
+    },
+    "Champagne": {
+      "sugar": "5207",
+      "acid": "5207"
+    }
+  }
+}

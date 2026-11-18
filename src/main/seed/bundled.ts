@@ -6,10 +6,12 @@
 import categories from '../../../data/seed/categories.json'
 import glasses from '../../../data/seed/glasses.json'
 import ice from '../../../data/seed/ice.json'
+import ingredients from '../../../data/seed/ingredients.json'
 import type { SeedData } from './load'
 
 export const BUNDLED_SEED: SeedData = {
   categories: categories as SeedData['categories'],
   glasses: glasses,
   ice: ice,
+  ingredients: ingredients as SeedData['ingredients'],
 }

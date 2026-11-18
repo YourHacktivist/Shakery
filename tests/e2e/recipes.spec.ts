@@ -4,6 +4,19 @@ import { closeApp, launchApp } from './helpers'
 const NBSP = String.fromCharCode(0xa0)
 const quoted = (text: string) => `«${NBSP}${text}${NBSP}»`
 
+/** Adds a line with an ingredient of the starting base, then sets the dose. */
+async function addKnownIngredient(page: Page, position: number, name: string, dose: string) {
+  await page.getByRole('button', { name: 'Ajouter un ingrédient' }).click()
+  const field = page.getByRole('combobox', { name: `Ingrédient de la ligne ${position}` })
+  await field.fill(name)
+  await page
+    .getByRole('option', { name: new RegExp(`^${name}`) })
+    .first()
+    .click()
+  await expect(field).toHaveValue(name)
+  await page.getByLabel(`Dose de la ligne ${position}`, { exact: true }).fill(dose)
+}
+
 /** Adds a line whose ingredient does not exist yet, creates it in its category, then sets the dose. */
 async function addNewIngredient(page: Page, position: number, name: string, category: string, dose: string) {
   await page.getByRole('button', { name: 'Ajouter un ingrédient' }).click()
@@ -27,9 +40,11 @@ test('a complete Negroni, ingredients included, is created in less than a minute
 
     await page.keyboard.press('Control+Shift+N')
     await page.getByLabel('Nom', { exact: true }).fill('Negroni')
-    await addNewIngredient(page, 1, 'Gin London Dry', 'Gin et genièvre', '30')
-    await addNewIngredient(page, 2, 'Campari', 'Bitters apéritifs', '30')
-    await addNewIngredient(page, 3, 'Vermouth rouge', 'Vermouths', '30')
+    // Gin, Campari and red vermouth come with the starting base; the house bitters is new.
+    await addKnownIngredient(page, 1, 'Gin London Dry', '30')
+    await addKnownIngredient(page, 2, 'Campari', '30')
+    await addKnownIngredient(page, 3, 'Vermouth rouge', '30')
+    await addNewIngredient(page, 4, 'Bitter orange maison', 'Bitters cocktail', '0.25')
     await page.getByLabel('Méthode', { exact: true }).selectOption({ label: 'Verre à mélange' })
     await page.getByLabel('Verre', { exact: true }).selectOption({ label: 'Rocks' })
     await page.getByLabel('Glace', { exact: true }).selectOption({ label: 'Gros glaçon' })
@@ -41,7 +56,7 @@ test('a complete Negroni, ingredients included, is created in less than a minute
     expect(Date.now() - started).toBeLessThan(60_000)
 
     // The detail shows the three doses and the calculated volume before dilution.
-    for (const name of ['Gin London Dry', 'Campari', 'Vermouth rouge']) {
+    for (const name of ['Gin London Dry', 'Campari', 'Vermouth rouge', 'Bitter orange maison']) {
       await expect(page.getByText(name, { exact: true }).first()).toBeVisible()
     }
     await expect(page.getByText(`90${NBSP}ml avant dilution`)).toBeVisible()

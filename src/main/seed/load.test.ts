@@ -8,11 +8,37 @@ const base: SeedData = {
   ],
   glasses: [{ seed_key: 'glass.coupe', name: 'Coupe', capacity_ml: null, sort_order: 1 }],
   ice: [{ seed_key: 'ice.cubes', name: 'Glaçons', sort_order: 1 }],
+  ingredients: [
+    {
+      seed_key: 'ing.q1',
+      name: 'Gin',
+      category: 'cat.b',
+      aliases: ['Genièvre anglais'],
+      default_abv: null,
+      sugar_g_per_l: null,
+      acid_g_per_l: null,
+      composition_source: null,
+      composition_confidence: null,
+      allergens: [],
+      is_staple: false,
+      source: 'wikidata',
+      external_ref: 'Q1',
+    },
+  ],
 }
 
 describe('validateSeedData', () => {
   it('accepts a consistent set', () => {
     expect(validateSeedData(base).categories).toHaveLength(2)
+  })
+
+  it('refuses an ingredient outside a leaf, or twice in a category', () => {
+    const [gin] = base.ingredients
+    if (!gin) throw new Error('fixture')
+    expect(() => validateSeedData({ ...base, ingredients: [{ ...gin, category: 'cat.a' }] })).toThrow(/leaf/)
+    expect(() =>
+      validateSeedData({ ...base, ingredients: [gin, { ...gin, seed_key: 'ing.q2', name: 'GIN' }] }),
+    ).toThrow(/Duplicate/)
   })
 
   it('refuses an entry still marked for review (section 9)', () => {

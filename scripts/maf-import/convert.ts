@@ -245,7 +245,7 @@ function freshNotebook(ids: Ids): Db {
   const sqlite = openDatabase(':memory:')
   runMigrations(sqlite, MIGRATIONS)
   const db = createDb(sqlite)
-  loadSeedData(db, ids, BUNDLED_SEED)
+  loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: [] })
   return db
 }
 

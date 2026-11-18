@@ -1,5 +1,5 @@
 {
-  "_comment": "Relecture des candidats Wikidata (wikidata-candidates.json). Un candidat est retenu s'il figure dans accept (sa catégorie, ou un objet avec un nouveau nom) ; les fruits filtrés et les compléments (racines autoAccept) sont retenus sauf s'ils figurent dans reject. Tout le reste est écarté : marques de grande diffusion, appellations régionales, noms ambigus, classes botaniques ou mythologiques.",
+  "_comment": "Relecture des candidats Wikidata (wikidata-candidates.json). Un candidat est retenu s'il figure dans accept (sa catégorie, ou un objet avec un nouveau nom) ; les fruits filtrés et les compléments (racines autoAccept) sont retenus sauf s'ils figurent dans reject. Tout le reste est écarté : marques de grande diffusion, appellations régionales, noms ambigus, classes botaniques ou mythologiques. Le degré Wikidata (P2665) n'est repris que pour les produits uniques de keepAbv : sur un type générique, c'est un minimum légal ou une valeur en proof (80 pour le bourbon), pas le degré d'une bouteille.",
   "autoAccept": ["Q1364", "extras"],
   "reject": [],
   "accept": {
@@ -11,11 +11,20 @@
     "Whisky de maïs": "cat.spirits.whisky.american",
     "Whiskey irlandais": "cat.spirits.whisky.irish",
     "Whisky écossais": "cat.spirits.whisky.scotch",
-    "Islay whisky": { "category": "cat.spirits.whisky.scotch", "name": "Whisky d'Islay" },
+    "Islay whisky": {
+      "category": "cat.spirits.whisky.scotch",
+      "name": "Whisky d'Islay"
+    },
     "Whisky": "cat.spirits.whisky.world",
     "Whisky japonais": "cat.spirits.whisky.world",
-    "Canadian whisky": { "category": "cat.spirits.whisky.world", "name": "Whisky canadien" },
-    "Single malt whisky": { "category": "cat.spirits.whisky.world", "name": "Whisky single malt" },
+    "Canadian whisky": {
+      "category": "cat.spirits.whisky.world",
+      "name": "Whisky canadien"
+    },
+    "Single malt whisky": {
+      "category": "cat.spirits.whisky.world",
+      "name": "Whisky single malt"
+    },
     "Whisky de grain": "cat.spirits.whisky.world",
     "Whisky de malt": "cat.spirits.whisky.world",
     "Cachaça": "cat.spirits.cachaca",
@@ -35,33 +44,40 @@
     "Pisco": "cat.spirits.brandy",
     "Pisco chilien": "cat.spirits.brandy",
     "Eau-de-vie de fruit": "cat.spirits.fruit_brandy",
-    "Eau de vie de mirabelle": { "category": "cat.spirits.fruit_brandy", "name": "Eau-de-vie de mirabelle" },
+    "Eau de vie de mirabelle": {
+      "category": "cat.spirits.fruit_brandy",
+      "name": "Eau-de-vie de mirabelle"
+    },
     "Kirsch": "cat.spirits.fruit_brandy",
     "Pálinka": "cat.spirits.fruit_brandy",
     "Slivovitz": "cat.spirits.fruit_brandy",
     "Rakija": "cat.spirits.fruit_brandy",
     "Boukha": "cat.spirits.fruit_brandy",
     "Pastis": "cat.spirits.anise",
-
     "Amaro": "cat.bitters.amari",
     "Amaro Averna": "cat.bitters.amari",
     "Amaro Lucano": "cat.bitters.amari",
     "Amaro Montenegro": "cat.bitters.amari",
     "Amaro Ramazzotti": "cat.bitters.amari",
     "Amaro Braulio": "cat.bitters.amari",
-    "Fernet Branca": { "category": "cat.bitters.amari", "name": "Fernet-Branca" },
+    "Fernet Branca": {
+      "category": "cat.bitters.amari",
+      "name": "Fernet-Branca"
+    },
     "Rabarbaro Zucca": "cat.bitters.amari",
     "Cynar": "cat.bitters.amari",
     "Unicum": "cat.bitters.amari",
     "Gammel Dansk": "cat.bitters.amari",
     "Underberg": "cat.bitters.amari",
     "Aperol": "cat.bitters.aperitif",
-    "Angostura": { "category": "cat.bitters.aromatic", "name": "Angostura bitters" },
+    "Angostura": {
+      "category": "cat.bitters.aromatic",
+      "name": "Angostura bitters"
+    },
     "Orange bitters": "cat.bitters.aromatic",
     "Suze": "cat.bitters.gentian",
     "Picon": "cat.bitters.gentian",
     "Liqueur de gentiane": "cat.bitters.gentian",
-
     "Cherry brandy": "cat.liqueurs.cherry_violet",
     "Liqueur de cerise": "cat.liqueurs.cherry_violet",
     "Marasquin": "cat.liqueurs.cherry_violet",
@@ -92,7 +108,10 @@
     "Triple sec": "cat.liqueurs.orange",
     "Drambuie": "cat.liqueurs.spice_honey",
     "Bénédictine": "cat.liqueurs.herbal",
-    "Chartreuse": { "category": "cat.liqueurs.herbal", "name": "Chartreuse verte" },
+    "Chartreuse": {
+      "category": "cat.liqueurs.herbal",
+      "name": "Chartreuse verte"
+    },
     "Chartreuse jaune": "cat.liqueurs.herbal",
     "Galliano": "cat.liqueurs.herbal",
     "Jägermeister": "cat.liqueurs.herbal",
@@ -101,14 +120,19 @@
     "Anisette": "cat.liqueurs.herbal",
     "Kummel": "cat.liqueurs.herbal",
     "Liqueur de plantes": "cat.liqueurs.herbal",
-
     "Vermouth": "cat.wines.vermouth",
     "Vermouth blanc": "cat.wines.vermouth",
     "Vermouth sec": "cat.wines.vermouth",
     "Quinquina": "cat.wines.quinquina",
-    "Lillet": { "category": "cat.wines.quinquina", "name": "Lillet blanc" },
+    "Lillet": {
+      "category": "cat.wines.quinquina",
+      "name": "Lillet blanc"
+    },
     "Porto": "cat.wines.port",
-    "Marsala DOC": { "category": "cat.wines.port", "name": "Marsala" },
+    "Marsala DOC": {
+      "category": "cat.wines.port",
+      "name": "Marsala"
+    },
     "Xérès": "cat.wines.sherry",
     "Fino": "cat.wines.sherry",
     "Oloroso": "cat.wines.sherry",
@@ -135,10 +159,12 @@
     "Bière sans alcool": "cat.alcohol_free.aperitifs",
     "Kriek": "cat.beer_cider.beer",
     "Gueuze": "cat.beer_cider.beer",
-
     "Jus d'orange": "cat.juices.citrus",
     "Jus de citron": "cat.juices.citrus",
-    "Jus de lime": { "category": "cat.juices.citrus", "name": "Jus de citron vert" },
+    "Jus de lime": {
+      "category": "cat.juices.citrus",
+      "name": "Jus de citron vert"
+    },
     "Jus de pamplemousse": "cat.juices.citrus",
     "Jus de pamplemousse rose": "cat.juices.citrus",
     "Jus de mandarine": "cat.juices.citrus",
@@ -158,11 +184,13 @@
     "Jus de concombre": "cat.juices.fresh",
     "Jus de carotte": "cat.juices.fresh",
     "Jus de betterave": "cat.juices.fresh",
-
     "Sirop de sucre": "cat.sweeteners.syrups",
     "Sirop de gomme": "cat.sweeteners.syrups",
     "Sirop de grenadine": "cat.sweeteners.syrups",
-    "Orgeat": { "category": "cat.sweeteners.syrups", "name": "Sirop d'orgeat" },
+    "Orgeat": {
+      "category": "cat.sweeteners.syrups",
+      "name": "Sirop d'orgeat"
+    },
     "Sirop d'agave": "cat.sweeteners.syrups",
     "Sirop d'érable": "cat.sweeteners.syrups",
     "Sirop de menthe": "cat.sweeteners.syrups",
@@ -171,7 +199,6 @@
     "Mélasse": "cat.sweeteners.sugars",
     "Miel": "cat.sweeteners.honey",
     "Miel d'acacia": "cat.sweeteners.honey",
-
     "Eau tonique": "cat.mixers.tonic",
     "Ginger ale": "cat.mixers.ginger",
     "Eau gazeuse": "cat.mixers.sparkling_water",
@@ -184,10 +211,12 @@
     "Kombucha": "cat.mixers.sodas",
     "Thé glacé": "cat.coffee_tea.tea",
     "Crème fraîche": "cat.dairy.milk",
-
     "Basilic": "cat.seasonings.herbs",
     "Basilic thaï": "cat.seasonings.herbs",
-    "Mentha spicata": { "category": "cat.seasonings.herbs", "name": "Menthe verte" },
+    "Mentha spicata": {
+      "category": "cat.seasonings.herbs",
+      "name": "Menthe verte"
+    },
     "Mélisse": "cat.seasonings.herbs",
     "Romarin": "cat.seasonings.herbs",
     "Thym": "cat.seasonings.herbs",
@@ -195,7 +224,10 @@
     "Aneth": "cat.seasonings.herbs",
     "Cerfeuil": "cat.seasonings.herbs",
     "Ciboulette": "cat.seasonings.herbs",
-    "Feuille de coriandre": { "category": "cat.seasonings.herbs", "name": "Coriandre fraîche" },
+    "Feuille de coriandre": {
+      "category": "cat.seasonings.herbs",
+      "name": "Coriandre fraîche"
+    },
     "Persil": "cat.seasonings.herbs",
     "Sarriette": "cat.seasonings.herbs",
     "Camomille": "cat.seasonings.herbs",
@@ -206,9 +238,15 @@
     "Cardamome": "cat.seasonings.spices",
     "Curcuma": "cat.seasonings.spices",
     "Gingembre": "cat.seasonings.spices",
-    "Girofle": { "category": "cat.seasonings.spices", "name": "Clou de girofle" },
+    "Girofle": {
+      "category": "cat.seasonings.spices",
+      "name": "Clou de girofle"
+    },
     "Graine de coriandre": "cat.seasonings.spices",
-    "Graine d’anis": { "category": "cat.seasonings.spices", "name": "Anis vert" },
+    "Graine d’anis": {
+      "category": "cat.seasonings.spices",
+      "name": "Anis vert"
+    },
     "Paprika": "cat.seasonings.spices",
     "Piment d'Espelette": "cat.seasonings.spices",
     "Piment de Cayenne": "cat.seasonings.spices",
@@ -226,6 +264,21 @@
     "Réglisse": "cat.seasonings.spices",
     "Fleur de sel": "cat.seasonings.condiments",
     "Sel de céleri": "cat.seasonings.condiments",
-    "Sucre vanillé": "cat.sweeteners.sugars"
-  }
+    "Sucre vanillé": "cat.sweeteners.sugars",
+    "Lime": {
+      "category": "cat.fruits.fresh",
+      "name": "Citron vert"
+    }
+  },
+  "keepAbv": [
+    "Cynar",
+    "Aperol",
+    "Angostura",
+    "Becherovka",
+    "Chartreuse jaune",
+    "Chartreuse",
+    "Jägermeister",
+    "Drambuie",
+    "Lillet"
+  ]
 }

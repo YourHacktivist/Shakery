@@ -34,7 +34,7 @@ beforeEach(() => {
       (b) => b.fill(3),
     ),
   }
-  loadSeedData(db, ids, BUNDLED_SEED)
+  loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: [] })
   const bySeed = new Map(
     db
       .select()

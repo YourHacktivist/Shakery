@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { normalizeName } from '../../core/normalize'
 import { describe, expect, it } from 'vitest'
 import { createUuidV7Generator } from '../../core/uuid'
 import { createDb } from '../db/client'
@@ -50,10 +51,57 @@ describe('bundled seed data', () => {
       categories: BUNDLED_SEED.categories.length,
       glasses: BUNDLED_SEED.glasses.length,
       ice: BUNDLED_SEED.ice.length,
+      ingredients: BUNDLED_SEED.ingredients.length,
     })
-    expect(loadSeedData(db, ids, BUNDLED_SEED)).toEqual({ categories: 0, glasses: 0, ice: 0 })
+    expect(loadSeedData(db, ids, BUNDLED_SEED)).toEqual({ categories: 0, glasses: 0, ice: 0, ingredients: 0 })
+    // Aliases are written and the ingredients can be found by the search index.
+    const aliases = sqlite.prepare('SELECT COUNT(*) AS n FROM ingredient_aliases').get() as { n: number }
+    expect(aliases.n).toBe(BUNDLED_SEED.ingredients.reduce((sum, item) => sum + item.aliases.length, 0))
+    const indexed = sqlite
+      .prepare("SELECT COUNT(*) AS n FROM search_index WHERE entity_type = 'ingredient'")
+      .get() as { n: number }
+    expect(indexed.n).toBe(BUNDLED_SEED.ingredients.length)
     const tree = new SqliteReferenceRepository(db).listCategories()
     expect(tree).toHaveLength(BUNDLED_SEED.categories.length)
+    sqlite.close()
+  })
+
+  it('never recreates an ingredient the user deleted, nor duplicates one the user named alike', () => {
+    const sqlite = openDatabase(':memory:')
+    runMigrations(sqlite, MIGRATIONS)
+    const db = createDb(sqlite)
+    const ids = {
+      now: () => 1,
+      newId: createUuidV7Generator(
+        () => 1,
+        (b) => b.fill(2),
+      ),
+    }
+    const [first, second] = BUNDLED_SEED.ingredients
+    if (!first || !second) throw new Error('fixture')
+    loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: [first] })
+    sqlite.prepare('UPDATE ingredients SET deleted_at = 5 WHERE seed_key = ?').run(first.seed_key)
+    const category = sqlite
+      .prepare('SELECT category_id AS id FROM ingredients WHERE seed_key = ?')
+      .get(first.seed_key) as { id: string }
+    // The user already has the second ingredient under the same name, without a seed key.
+    const secondCategory = sqlite
+      .prepare('SELECT id FROM categories WHERE seed_key = ?')
+      .get(second.category) as {
+      id: string
+    }
+    sqlite
+      .prepare(
+        "INSERT INTO ingredients (id, created_at, updated_at, name, name_normalized, category_id, source) VALUES ('mine', 1, 1, ?, ?, ?, 'user')",
+      )
+      .run(second.name, normalizeName(second.name), secondCategory.id)
+    const report = loadSeedData(db, ids, BUNDLED_SEED)
+    expect(report.ingredients).toBe(BUNDLED_SEED.ingredients.length - 2)
+    expect(category.id).toBeTruthy()
+    const live = sqlite
+      .prepare('SELECT COUNT(*) AS n FROM ingredients WHERE seed_key = ? AND deleted_at IS NULL')
+      .get(first.seed_key) as { n: number }
+    expect(live.n).toBe(0)
     sqlite.close()
   })
 

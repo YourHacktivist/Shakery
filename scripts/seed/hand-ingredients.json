@@ -1,0 +1,245 @@
+{
+  "_comment": "Ingrédients génériques rédigés à la main (source seed) : absents de Wikidata, ou présents sans libellé français exploitable. Allergènes renseignés seulement quand ils tiennent à la nature de l'ingrédient (œuf, lait, fruits à coque) ; ceux d'un produit transformé dépendent de sa recette et restent à saisir sur la bouteille.",
+  "ingredients": [
+    {
+      "name": "Gin London Dry",
+      "category": "cat.spirits.gin",
+      "aliases": ["London Dry Gin", "London dry"]
+    },
+    {
+      "name": "Campari",
+      "category": "cat.bitters.aperitif",
+      "aliases": ["Bitter Campari"]
+    },
+    {
+      "name": "Vermouth rouge",
+      "category": "cat.wines.vermouth",
+      "aliases": ["Vermouth doux", "Sweet vermouth", "Vermouth rosso"]
+    },
+    {
+      "name": "Madère",
+      "category": "cat.wines.port",
+      "aliases": ["Madeira"]
+    },
+    {
+      "name": "Prosecco",
+      "category": "cat.sparkling.other",
+      "aliases": []
+    },
+    {
+      "name": "Vin blanc sec",
+      "category": "cat.wines.still",
+      "aliases": []
+    },
+    {
+      "name": "Vin rouge",
+      "category": "cat.wines.still",
+      "aliases": []
+    },
+    {
+      "name": "Aquavit",
+      "category": "cat.spirits.world",
+      "aliases": ["Akvavit"],
+      "external_ref": "Q178899"
+    },
+    {
+      "name": "Vodka aromatisée au citron",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Vodka citron"]
+    },
+    {
+      "name": "Vodka aromatisée à la vanille",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Vodka vanille"]
+    },
+    {
+      "name": "Crème de violette",
+      "category": "cat.liqueurs.cherry_violet",
+      "aliases": ["Liqueur de violette"]
+    },
+    {
+      "name": "Curaçao bleu",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Blue curaçao"]
+    },
+    {
+      "name": "Falernum",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": []
+    },
+    {
+      "name": "Bitters Peychaud",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Peychaud's bitters"]
+    },
+    {
+      "name": "Ginger beer",
+      "category": "cat.mixers.ginger",
+      "aliases": ["Bière de gingembre"]
+    },
+    {
+      "name": "Soda au pamplemousse",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Pink grapefruit soda"]
+    },
+    {
+      "name": "Eau plate",
+      "category": "cat.mixers.water",
+      "aliases": ["Eau"],
+      "is_staple": true
+    },
+    {
+      "name": "Sucre blanc",
+      "category": "cat.sweeteners.sugars",
+      "aliases": ["Sucre en poudre", "Sucre semoule"],
+      "is_staple": true
+    },
+    {
+      "name": "Sucre roux",
+      "category": "cat.sweeteners.sugars",
+      "aliases": ["Cassonade", "Sucre de canne roux"]
+    },
+    {
+      "name": "Sucre en morceaux",
+      "category": "cat.sweeteners.sugars",
+      "aliases": ["Morceau de sucre"]
+    },
+    {
+      "name": "Sucre glace",
+      "category": "cat.sweeteners.sugars",
+      "aliases": []
+    },
+    {
+      "name": "Sirop de fleur de sureau",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Cordial de sureau", "Elderflower cordial"]
+    },
+    {
+      "name": "Jus de canne à sucre",
+      "category": "cat.juices.fresh",
+      "aliases": ["Vesou"]
+    },
+    {
+      "name": "Purée de pêche blanche",
+      "category": "cat.fruits.puree",
+      "aliases": []
+    },
+    {
+      "name": "Fruit de la passion",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Maracuja"]
+    },
+    {
+      "name": "Mandarine",
+      "category": "cat.fruits.fresh",
+      "aliases": []
+    },
+    {
+      "name": "Yuzu",
+      "category": "cat.fruits.fresh",
+      "aliases": []
+    },
+    {
+      "name": "Rhubarbe",
+      "category": "cat.fruits.fresh",
+      "aliases": []
+    },
+    {
+      "name": "Amande",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Amandes"],
+      "allergens": ["nuts"]
+    },
+    {
+      "name": "Crème de coco",
+      "category": "cat.fruits.coconut",
+      "aliases": ["Coconut cream"]
+    },
+    {
+      "name": "Lait de coco",
+      "category": "cat.fruits.coconut",
+      "aliases": []
+    },
+    {
+      "name": "Blanc d'œuf",
+      "category": "cat.dairy.eggs",
+      "aliases": ["Blanc d'oeuf", "Egg white"],
+      "allergens": ["eggs"]
+    },
+    {
+      "name": "Jaune d'œuf",
+      "category": "cat.dairy.eggs",
+      "aliases": ["Jaune d'oeuf"],
+      "allergens": ["eggs"]
+    },
+    {
+      "name": "Œuf entier",
+      "category": "cat.dairy.eggs",
+      "aliases": ["Oeuf"],
+      "allergens": ["eggs"]
+    },
+    {
+      "name": "Crème liquide",
+      "category": "cat.dairy.milk",
+      "aliases": ["Crème fleurette", "Crème fraîche liquide"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Lait entier",
+      "category": "cat.dairy.milk",
+      "aliases": ["Lait"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Café expresso",
+      "category": "cat.coffee_tea.coffee",
+      "aliases": ["Espresso", "Expresso"]
+    },
+    {
+      "name": "Café chaud",
+      "category": "cat.coffee_tea.coffee",
+      "aliases": ["Café filtre"]
+    },
+    {
+      "name": "Sel fin",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Sel"],
+      "is_staple": true
+    },
+    {
+      "name": "Sauce Worcestershire",
+      "category": "cat.seasonings.condiments",
+      "aliases": []
+    },
+    {
+      "name": "Sauce pimentée",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Tabasco"]
+    },
+    {
+      "name": "Noix de muscade",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Muscade"]
+    },
+    {
+      "name": "Extrait de vanille",
+      "category": "cat.seasonings.extracts",
+      "aliases": []
+    },
+    {
+      "name": "Eau de fleur d'oranger",
+      "category": "cat.seasonings.extracts",
+      "aliases": []
+    },
+    {
+      "name": "Cerise à cocktail",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["Cerise au marasquin", "Cerise confite"]
+    },
+    {
+      "name": "Olive verte",
+      "category": "cat.garnishes.savory",
+      "aliases": ["Olive"]
+    }
+  ]
+}

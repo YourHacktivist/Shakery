@@ -5,12 +5,14 @@
  * overwritten, and an entry the user deleted (soft delete) is never recreated, because
  * its seed_key is still in the table.
  */
-import { isNotNull, isNull } from 'drizzle-orm'
+import { and, eq, isNotNull, isNull } from 'drizzle-orm'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
+import { ALLERGEN_CODES } from '../../shared/domain/allergens'
 import { BATCH_HINT_VALUES } from '../../shared/domain/reference'
 import type { Db, Ids } from '../db/client'
-import { categories, glasses, iceTypes } from '../db/schema'
+import { indexEntity } from '../db/repositories/search-index'
+import { categories, glasses, iceTypes, ingredientAliases, ingredients } from '../db/schema'
 
 const seedKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,80}$/)
 const label = z.string().trim().min(1).max(120)
@@ -46,13 +48,42 @@ export const iceSeedSchema = z
   })
   .strict()
 
+/** Generic ingredient built by scripts/seed/build.ts (Wikidata, Ciqual, hand-written). */
+export const ingredientSeedSchema = z
+  .object({
+    seed_key: seedKey,
+    name: label,
+    category: seedKey,
+    aliases: z.array(label).max(50),
+    default_abv: z.number().min(0).max(100).nullable(),
+    sugar_g_per_l: z.number().min(0).max(1000).nullable(),
+    acid_g_per_l: z.number().min(0).max(1000).nullable(),
+    composition_source: z.enum(['ciqual', 'computed', 'label']).nullable(),
+    composition_confidence: z.enum(['sourced', 'estimated']).nullable(),
+    allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
+    is_staple: z.boolean(),
+    source: z.enum(['seed', 'wikidata']),
+    external_ref: z
+      .string()
+      .regex(/^Q\d+$/)
+      .nullable(),
+    needs_review: z.literal(false).optional(),
+  })
+  .strict()
+
 export type SeedData = {
   readonly categories: ReadonlyArray<z.input<typeof categorySeedSchema>>
   readonly glasses: ReadonlyArray<z.input<typeof glassSeedSchema>>
   readonly ice: ReadonlyArray<z.input<typeof iceSeedSchema>>
+  readonly ingredients: ReadonlyArray<z.input<typeof ingredientSeedSchema>>
 }
 
-export type SeedReport = { readonly categories: number; readonly glasses: number; readonly ice: number }
+export type SeedReport = {
+  readonly categories: number
+  readonly glasses: number
+  readonly ice: number
+  readonly ingredients: number
+}
 
 function uniqueOrThrow(values: string[], what: string): void {
   const seen = new Set<string>()
@@ -70,10 +101,12 @@ export function validateSeedData(data: SeedData): {
   categories: Array<z.output<typeof categorySeedSchema>>
   glasses: Array<z.output<typeof glassSeedSchema>>
   ice: Array<z.output<typeof iceSeedSchema>>
+  ingredients: Array<z.output<typeof ingredientSeedSchema>>
 } {
   const cats = z.array(categorySeedSchema).max(500).parse(data.categories)
   const gls = z.array(glassSeedSchema).max(200).parse(data.glasses)
   const ice = z.array(iceSeedSchema).max(100).parse(data.ice)
+  const ings = z.array(ingredientSeedSchema).max(5000).parse(data.ingredients)
 
   uniqueOrThrow(
     cats.map((c) => c.seed_key),
@@ -108,7 +141,21 @@ export function validateSeedData(data: SeedData): {
       parent = next.parent
     }
   }
-  return { categories: cats, glasses: gls, ice }
+  uniqueOrThrow(
+    ings.map((i) => i.seed_key),
+    'ingredient seed_key',
+  )
+  uniqueOrThrow(
+    ings.map((i) => `${i.category}|${normalizeName(i.name)}`),
+    'ingredient name in a category',
+  )
+  const parents = new Set(cats.map((c) => c.parent))
+  for (const ingredient of ings) {
+    if (!byKey.has(ingredient.category) || parents.has(ingredient.category)) {
+      throw new Error(`Ingredient ${ingredient.seed_key} is not in a leaf category`)
+    }
+  }
+  return { categories: cats, glasses: gls, ice, ingredients: ings }
 }
 
 /** Adds the missing seed entries, in one transaction. */
@@ -116,7 +163,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
   const checked = validateSeedData(data)
   return db.transaction((tx) => {
     const now = ids.now()
-    const report = { categories: 0, glasses: 0, ice: 0 }
+    const report = { categories: 0, glasses: 0, ice: 0, ingredients: 0 }
 
     // Categories: parents first, so a child can resolve its parent's id.
     const existing = new Map(
@@ -227,6 +274,70 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
         })
         .run()
       report.ice += 1
+    }
+
+    // Ingredients: a seed_key already present (even deleted) is never written again, and an
+    // ingredient the user already has under the same name in the same category is left alone.
+    const ingredientKeys = new Set(
+      tx
+        .select({ seedKey: ingredients.seedKey })
+        .from(ingredients)
+        .where(isNotNull(ingredients.seedKey))
+        .all()
+        .map((r) => r.seedKey),
+    )
+    for (const item of checked.ingredients) {
+      if (ingredientKeys.has(item.seed_key)) continue
+      const categoryId = existing.get(item.category)
+      if (categoryId === undefined) continue
+      const nameNormalized = normalizeName(item.name)
+      const clash = tx
+        .select({ id: ingredients.id })
+        .from(ingredients)
+        .where(
+          and(
+            eq(ingredients.nameNormalized, nameNormalized),
+            eq(ingredients.categoryId, categoryId),
+            isNull(ingredients.deletedAt),
+          ),
+        )
+        .get()
+      if (clash) continue
+      const id = ids.newId()
+      tx.insert(ingredients)
+        .values({
+          id,
+          createdAt: now,
+          updatedAt: now,
+          name: item.name,
+          nameNormalized,
+          categoryId,
+          defaultAbv: item.default_abv,
+          sugarGPerL: item.sugar_g_per_l,
+          acidGPerL: item.acid_g_per_l,
+          compositionSource: item.composition_source,
+          compositionConfidence: item.composition_confidence,
+          allergens: item.allergens,
+          isStaple: item.is_staple,
+          source: item.source,
+          externalRef: item.external_ref,
+          seedKey: item.seed_key,
+        })
+        .run()
+      for (const alias of item.aliases) {
+        tx.insert(ingredientAliases)
+          .values({
+            id: ids.newId(),
+            createdAt: now,
+            updatedAt: now,
+            ingredientId: id,
+            alias,
+            aliasNormalized: normalizeName(alias),
+          })
+          .run()
+      }
+      indexEntity(db.$client, 'ingredient', id, { title: item.name, aliases: item.aliases })
+      report.ingredients += 1
     }
     return report
   })

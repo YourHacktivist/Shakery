@@ -37,6 +37,7 @@ const SEED: SeedData = {
     { seed_key: 'glass.rocks', name: 'Rocks', capacity_ml: null, sort_order: 2 },
   ],
   ice: [{ seed_key: 'ice.cubes', name: 'Glaçons', sort_order: 1 }],
+  ingredients: [],
 }
 
 let root: string

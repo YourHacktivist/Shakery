@@ -27,7 +27,7 @@ function freshDb(): Db {
   const sqlite = openDatabase(':memory:')
   runMigrations(sqlite, MIGRATIONS)
   const created = createDb(sqlite)
-  loadSeedData(created, ids, BUNDLED_SEED)
+  loadSeedData(created, ids, { ...BUNDLED_SEED, ingredients: [] })
   return created
 }
 

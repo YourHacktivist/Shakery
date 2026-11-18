@@ -1,0 +1,116 @@
+{
+  "Jus de citron": {
+    "sugar_g_per_l": 20.6,
+    "acid_g_per_l": 48,
+    "sugar_food": "2007 Jus de citron, maison",
+    "acid_food": "2007 Jus de citron, maison"
+  },
+  "Jus de citron vert": {
+    "sugar_g_per_l": 12.4,
+    "acid_g_per_l": 50,
+    "sugar_food": "2031 Jus de citron vert, pur jus",
+    "acid_food": "2031 Jus de citron vert, pur jus"
+  },
+  "Jus d'orange": {
+    "sugar_g_per_l": 84,
+    "acid_g_per_l": 8,
+    "sugar_food": "2013 Jus d'orange, maison",
+    "acid_food": "2013 Jus d'orange, maison"
+  },
+  "Jus de pamplemousse": {
+    "sugar_g_per_l": 91,
+    "acid_g_per_l": 13.6,
+    "sugar_food": "2025 Jus de pamplemousse (pomélo), maison",
+    "acid_food": "2025 Jus de pamplemousse (pomélo), maison"
+  },
+  "Jus de pamplemousse rose": {
+    "sugar_g_per_l": 91,
+    "acid_g_per_l": 13.6,
+    "sugar_food": "2025 Jus de pamplemousse (pomélo), maison",
+    "acid_food": "2025 Jus de pamplemousse (pomélo), maison"
+  },
+  "Jus de mandarine": {
+    "sugar_g_per_l": 100,
+    "acid_g_per_l": null,
+    "sugar_food": "2034 Jus de clémentine ou mandarine, pur jus",
+    "acid_food": null
+  },
+  "Jus d'ananas": {
+    "sugar_g_per_l": 121,
+    "acid_g_per_l": 6,
+    "sugar_food": "2073 Jus d'ananas, pur jus",
+    "acid_food": "2073 Jus d'ananas, pur jus"
+  },
+  "Jus de pomme": {
+    "sugar_g_per_l": 109,
+    "acid_g_per_l": 6,
+    "sugar_food": "2074 Jus de pomme, pur jus",
+    "acid_food": "2074 Jus de pomme, pur jus"
+  },
+  "Jus de raisin": {
+    "sugar_g_per_l": 160,
+    "acid_g_per_l": 8,
+    "sugar_food": "2016 Jus de raisin, pur jus",
+    "acid_food": "2016 Jus de raisin, pur jus"
+  },
+  "Jus de tomate": {
+    "sugar_g_per_l": 37.2,
+    "acid_g_per_l": 4,
+    "sugar_food": "2053 Jus de tomate, pur jus (aliment moyen)",
+    "acid_food": "2053 Jus de tomate, pur jus (aliment moyen)"
+  },
+  "Jus de mangue": {
+    "sugar_g_per_l": 93,
+    "acid_g_per_l": null,
+    "sugar_food": "2023 Jus de mangue, frais",
+    "acid_food": null
+  },
+  "Jus de grenade": {
+    "sugar_g_per_l": 116,
+    "acid_g_per_l": null,
+    "sugar_food": "2039 Jus de grenade, frais",
+    "acid_food": null
+  },
+  "Jus de fruit de la passion": {
+    "sugar_g_per_l": 143,
+    "acid_g_per_l": null,
+    "sugar_food": "2024 Jus de fruit de la passion ou maracudja, frais",
+    "acid_food": null
+  },
+  "Jus de carotte": {
+    "sugar_g_per_l": 59.5,
+    "acid_g_per_l": null,
+    "sugar_food": "2006 Jus de carotte, pur jus",
+    "acid_food": null
+  },
+  "Nectar d'abricot": {
+    "sugar_g_per_l": 110,
+    "acid_g_per_l": 8,
+    "sugar_food": "2043 Nectar d'abricot",
+    "acid_food": "2043 Nectar d'abricot"
+  },
+  "Cola": {
+    "sugar_g_per_l": 102,
+    "acid_g_per_l": null,
+    "sugar_food": "18018 Cola, sucré",
+    "acid_food": null
+  },
+  "Eau tonique": {
+    "sugar_g_per_l": 73.8,
+    "acid_g_per_l": null,
+    "sugar_food": "18344 Tonic ou bitter, sucré",
+    "acid_food": null
+  },
+  "Lait de coco": {
+    "sugar_g_per_l": 21,
+    "acid_g_per_l": null,
+    "sugar_food": "18041 Lait de coco ou Crème de coco",
+    "acid_food": null
+  },
+  "Champagne": {
+    "sugar_g_per_l": 14,
+    "acid_g_per_l": null,
+    "sugar_food": "5207 Champagne",
+    "acid_food": null
+  }
+}

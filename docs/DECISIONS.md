@@ -229,6 +229,21 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Alternatives écartées** : un zoom global de la fenêtre, qui grossit aussi les icônes et ne corrige pas les proportions.
 - **Validation** : demandée par l'utilisateur.
 
+### D-029 Conversion des valeurs Ciqual en g/L
+
+- **Date** : 2026-11-18
+- **Contexte** : Ciqual donne le sucre et les acides en g pour 100 g ; Shakery les stocke en g par litre (section 7).
+- **Choix** : multiplication par 10 avec une masse volumique de 1 kg/L, limitée aux produits proches de l'eau (jus, sodas, vins, lait de coco). Écart de 2 à 5 % sur un jus, documenté. Les sirops, le miel et les liqueurs, trop denses, ne sont pas repris. Une acidité notée 0 ou « traces » reste vide.
+- **Alternatives écartées** : une masse volumique par produit, qu'aucune source ouverte ne donne de façon homogène ; garder 0 comme acidité du champagne ou du miel, ce qui serait faux.
+- **Validation** : non requise (aucun changement de modèle).
+
+### D-030 Produits uniques comme ingrédients génériques
+
+- **Date** : 2026-11-18
+- **Contexte** : la section 7 sépare l'ingrédient générique de la bouteille de marque. Les recettes classiques nomment pourtant des produits qui n'existent qu'en une marque (Campari, Aperol, Chartreuse, Bénédictine, Angostura).
+- **Choix** : ces produits uniques sont des ingrédients de la base de départ, avec le degré publié sur Wikidata. Les marques d'un type générique (vodkas, gins, rhums, colas) restent des bouteilles à créer par l'utilisateur.
+- **Validation** : non requise.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                                                                           | Échéance              |
