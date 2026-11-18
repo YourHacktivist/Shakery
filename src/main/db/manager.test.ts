@@ -140,7 +140,7 @@ describe('DatabaseManager', () => {
     m.close()
     // Simulate a notebook created by an older version: forget the last migration.
     const raw = openDatabase(path.join(root, 'shakery.db'))
-    raw.exec('DROP TABLE search_index')
+    raw.exec('ALTER TABLE ingredients DROP COLUMN density_g_per_ml')
     // Drizzle's id column stays NULL in SQLite: the order is given by created_at.
     raw.exec(
       'DELETE FROM __drizzle_migrations WHERE created_at = (SELECT max(created_at) FROM __drizzle_migrations)',

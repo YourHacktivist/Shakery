@@ -211,7 +211,7 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 
 - **Date** : 2026-11-18
 - **Choix** : once 30 ml (29,5735 ml au choix), trait 0,25 ml, goutte 0,05 ml, cuillères de bar et à café 5 ml ; dilution 25 % au shaker, 20 % au verre à mélange, 10 % au verre, 15 % pour « autre » ; aucune dilution pour une préparation. Sources et réserves dans `docs/DATA_SOURCES.md`. Le TAV « méthode socle » (sans dilution, seules les lignes en ml, cl ou oz) est calculé à côté du TAV servi.
-- **Validation** : à faire par l'utilisateur en fin de phase 3 (section 8).
+- **Validation** : oui, par l'utilisateur le 18 novembre 2026 (dilution 25, 20 et 10 %, trait 0,25 ml, cuillère de bar 5 ml, once 30 ml).
 
 ### D-027 Seuil de couverture des branches de `core/`
 
@@ -244,18 +244,22 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Choix** : ces produits uniques sont des ingrédients de la base de départ, avec le degré publié sur Wikidata. Les marques d'un type générique (vodkas, gins, rhums, colas) restent des bouteilles à créer par l'utilisateur.
 - **Validation** : non requise.
 
+### D-031 Masse volumique des ingrédients
+
+- **Date** : 2026-11-18
+- **Contexte** : une ligne en grammes (sucre d'un sirop maison) ne comptait pas dans les calculs, si bien que la composition des sirops de base restait vide (critère de la phase 4).
+- **Choix** : colonne facultative `density_g_per_ml` sur `ingredients` (migration `0002`, simple ajout de colonne). Une ligne en grammes d'un ingrédient qui a une masse volumique compte comme `g / masse volumique` millilitres, dans la composition et dans le volume d'une préparation sans rendement (coût). Le sucre cristallisé compte à 1,59 g/ml, volume apparent du saccharose dissous. Valeurs de départ dans `scripts/seed/hand-compositions.json` : eau, sucres blanc, en morceaux et roux, miels, avec le sucre de Ciqual 2020 converti par leur masse volumique. Une base existante reçoit ces valeurs au démarrage si l'ingrédient n'a encore aucune composition. Le TAV « méthode socle » ne change pas : seules les lignes en ml, cl ou oz y comptent.
+- **Alternatives écartées** : convertir les grammes en volume à 1 g/ml, faux de 37 % pour le sucre ; demander une conversion à chaque ligne.
+- **Validation** : oui, par l'utilisateur le 18 novembre 2026, avec la relecture de l'arbre des catégories et des ingrédients de départ (phase 4).
+
 ## À valider plus tard
 
-| Sujet                              | Proposition                                                                                                                                                                                                                                                                                                                           | Échéance              |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| TAV « méthode socle »              | Afficher le TAV théorique selon la méthode du socle MAF (sans dilution, traits, poudres et herbes non comptés) à côté du TAV servi estimé de la spec (avec dilution).                                                                                                                                                                 | Fin de phase 3        |
-| Taux de dilution par méthode       | Valeurs initiales proposées avec leurs sources dans `DATA_SOURCES.md`.                                                                                                                                                                                                                                                                | Fin de phase 3        |
-| Équivalences d'unités              | Trait, goutte, cuillère de bar, cuillère à café, once (30 ml ou 29,57 ml). Le carnet MAF compte un trait à 0,25 ml.                                                                                                                                                                                                                   | Fin de phase 3        |
-| Police définitive                  | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                                                                                                                                                                                                                                           | Phase 2               |
-| Corbeille et données de départ     | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée.                                                                                                                                                                                                                      | Phase de la corbeille |
-| Lignes en grammes dans les calculs | Colonne facultative `density_g_per_ml` sur `ingredients` : une ligne en grammes d'un ingrédient qui a une masse volumique compte comme un volume (ml = g / masse volumique). Le saccharose cristallisé (1,59 g/ml) donne alors le volume dissous et le sucre d'un sirop maison. Changement du modèle de données : validation requise. | Phase 4               |
-| Licence du code source             | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                                                                                                                                                                                                                                       | Avant diffusion       |
-| Signature de code                  | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                                                                                                                                                                                                                                                 | Avant diffusion       |
+| Sujet                          | Proposition                                                                                                      | Échéance              |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                      | Phase 2               |
+| Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée. | Phase de la corbeille |
+| Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                  | Avant diffusion       |
+| Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                            | Avant diffusion       |
 
 ## Dépendances (phases 0 et 1)
 

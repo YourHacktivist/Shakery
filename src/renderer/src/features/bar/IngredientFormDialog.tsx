@@ -51,6 +51,7 @@ function toInput(detail: IngredientDetail | null): IngredientInput {
       acidGPerL: null,
       compositionSource: null,
       compositionConfidence: null,
+      densityGPerMl: null,
       flavorTags: [],
       description: null,
       allergens: [],
@@ -66,6 +67,7 @@ function toInput(detail: IngredientDetail | null): IngredientInput {
     acidGPerL: detail.acidGPerL,
     compositionSource: detail.compositionSource,
     compositionConfidence: detail.compositionConfidence,
+    densityGPerMl: detail.densityGPerMl,
     flavorTags: [...detail.flavorTags],
     description: detail.description,
     allergens: [...detail.allergens],
@@ -167,7 +169,7 @@ function IngredientForm({
           error={fieldErrorMessage(errors.categoryId, { required: fr.recipes.form.categoryRequired })}
         />
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         <NumberField
           control={control}
           name="defaultAbv"
@@ -181,9 +183,19 @@ function IngredientForm({
           name="sugarGPerL"
           label={tf.sugar}
           unit={t.detail.perLitre}
-          max={1000}
+          max={2000}
         />
         <NumberField control={control} name="acidGPerL" label={tf.acid} unit={t.detail.perLitre} max={1000} />
+        <NumberField
+          control={control}
+          name="densityGPerMl"
+          label={tf.density}
+          description={tf.densityHint}
+          unit={t.detail.densityUnit}
+          max={5}
+          step={0.01}
+          decimals={2}
+        />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <NullableSelectField

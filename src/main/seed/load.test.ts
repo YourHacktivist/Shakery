@@ -19,6 +19,7 @@ const base: SeedData = {
       acid_g_per_l: null,
       composition_source: null,
       composition_confidence: null,
+      density_g_per_ml: null,
       allergens: [],
       is_staple: false,
       source: 'wikidata',

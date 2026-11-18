@@ -156,17 +156,18 @@ function lineCost(line: LineInput, context: CostContext, visiting: Set<string>):
     const prepCost = cost(prep, context, visiting)
     visiting.delete(prep.id)
     if (prepCost.issues.some((i) => i.reason === 'cycle')) return 'cycle'
-    const prepVolume = prep.yieldMl ?? countedVolume(prep, eq)
+    const prepVolume = prep.yieldMl ?? countedVolume(prep, eq, resolver)
     if (prepCost.cents === null || prepCost.basis === null || prepVolume <= 0) return 'missing'
     return { cents: (prepCost.cents / prepVolume) * volume.ml, basis: prepCost.basis }
   }
   return 'missing'
 }
 
-function countedVolume(recipe: RecipeInput, eq: UnitEquivalences): number {
+/** Volume of a preparation without a yield, counted like its composition (grams included). */
+function countedVolume(recipe: RecipeInput, eq: UnitEquivalences, resolver: FactsResolver): number {
   let total = 0
   for (const line of countedLines(recipe)) {
-    const v = lineVolumeMl(line, eq)
+    const v = lineVolumeMl(line, eq, resolver.ingredient(line.ingredientId)?.densityGPerMl ?? null)
     if (v.ok) total += v.ml
   }
   return total

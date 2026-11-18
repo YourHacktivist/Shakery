@@ -2,7 +2,8 @@
  * Composition of a recipe (section 8, « Degré estimé » and « Équilibre sucre et acidité »):
  * volume, alcohol, sugar and acid, recursive through homemade preparations.
  *
- * For each enabled, non-optional, non-garnish volumetric line, the value used is the preferred
+ * For each enabled, non-optional, non-garnish volumetric line (grams count through the
+ * ingredient's density, D-031), the value used is the preferred
  * bottle's, else the ingredient's, else the one computed from the preparation's recipe.
  * V0 = Σ vᵢ ; A = Σ vᵢ·aᵢ/100 ; Vf = V0·(1+d) ; ABVf = A/Vf·100 ;
  * S = Σ vᵢ·sᵢ/1000 ; C = Σ vᵢ·cᵢ/1000 ; sugar and acid in g per 100 ml of the served drink.
@@ -99,7 +100,8 @@ function compose(
   let approximate = false
 
   for (const line of countedLines(recipe)) {
-    const measured = lineVolumeMl(line, eq)
+    const density = context.resolver.ingredient(line.ingredientId)?.densityGPerMl ?? null
+    const measured = lineVolumeMl(line, eq, density)
     if (!measured.ok) {
       if (measured.reason === 'not_volumetric') continue
       volumeIssues.push({ lineId: line.id, reason: measured.reason, ingredientId: line.ingredientId })

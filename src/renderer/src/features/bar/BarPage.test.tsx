@@ -26,6 +26,7 @@ const GIN_DETAIL: IngredientDetail = {
   acidGPerL: null,
   compositionSource: null,
   compositionConfidence: null,
+  densityGPerMl: null,
   flavorTags: [],
   description: null,
   allergens: [],

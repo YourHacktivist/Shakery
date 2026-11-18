@@ -1,0 +1,41 @@
+{
+  "_comment": "Composition des ingrédients comptés en grammes ou trop denses pour la conversion de D-029 (décision D-031). Le sucre vient de la table Ciqual 2020 en g pour 100 g (code cité) ; il est converti en g/L avec la masse volumique donnée ici : g/100 g × 10 × masse volumique. Pour un sucre cristallisé, la masse volumique est celle du sucre dissous (volume apparent du saccharose en solution, environ 0,63 ml par gramme), pas celle du sucre en poudre dans un pot. Degré et acidité à 0 d'après la même table.",
+  "values": {
+    "Eau plate": {
+      "ciqual": "18066",
+      "sugar_g_per_100g": 0,
+      "density_g_per_ml": 1,
+      "confidence": "sourced"
+    },
+    "Sucre blanc": {
+      "ciqual": "31016",
+      "sugar_g_per_100g": 99.8,
+      "density_g_per_ml": 1.59,
+      "confidence": "sourced"
+    },
+    "Sucre en morceaux": {
+      "ciqual": "31016",
+      "sugar_g_per_100g": 99.8,
+      "density_g_per_ml": 1.59,
+      "confidence": "sourced"
+    },
+    "Sucre roux": {
+      "ciqual": "31017",
+      "sugar_g_per_100g": 95.5,
+      "density_g_per_ml": 1.59,
+      "confidence": "estimated"
+    },
+    "Miel": {
+      "ciqual": "31008",
+      "sugar_g_per_100g": 79.8,
+      "density_g_per_ml": 1.42,
+      "confidence": "estimated"
+    },
+    "Miel d'acacia": {
+      "ciqual": "31008",
+      "sugar_g_per_100g": 79.8,
+      "density_g_per_ml": 1.42,
+      "confidence": "estimated"
+    }
+  }
+}

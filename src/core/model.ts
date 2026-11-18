@@ -70,6 +70,8 @@ export type IngredientFacts = {
   readonly sugarGPerL: number | null
   readonly acidGPerL: number | null
   readonly compositionConfidence: Confidence | null
+  /** Mass per millilitre: a line in grams of this ingredient counts as g / density millilitres. */
+  readonly densityGPerMl: number | null
   readonly allergens: readonly AllergenCode[]
   /** Set when the ingredient is a homemade preparation: its facts come from that recipe. */
   readonly prepRecipeId: string | null

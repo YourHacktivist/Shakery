@@ -60,6 +60,7 @@ export function databaseResolver(db: Db): FactsResolver {
             sugarGPerL: row.sugarGPerL,
             acidGPerL: row.acidGPerL,
             compositionConfidence: row.compositionConfidence,
+            densityGPerMl: row.densityGPerMl,
             allergens: row.allergens as AllergenCode[],
             prepRecipeId: row.prepRecipeId,
             isStaple: row.isStaple,

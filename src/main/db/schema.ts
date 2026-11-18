@@ -219,6 +219,8 @@ export const ingredients = sqliteTable(
     acidGPerL: real('acid_g_per_l'),
     compositionSource: text('composition_source', { enum: COMPOSITION_SOURCES }),
     compositionConfidence: text('composition_confidence', { enum: COMPOSITION_CONFIDENCES }),
+    /** g/ml, so a line in grams counts as a volume (D-031). */
+    densityGPerMl: real('density_g_per_ml'),
     flavorTags: text('flavor_tags', { mode: 'json' })
       .$type<string[]>()
       .notNull()
@@ -246,6 +248,10 @@ export const ingredients = sqliteTable(
     ),
     check('ingredients_sugar_ck', sql`${t.sugarGPerL} IS NULL OR ${t.sugarGPerL} >= 0`),
     check('ingredients_acid_ck', sql`${t.acidGPerL} IS NULL OR ${t.acidGPerL} >= 0`),
+    check(
+      'ingredients_density_ck',
+      sql`${t.densityGPerMl} IS NULL OR (${t.densityGPerMl} > 0 AND ${t.densityGPerMl} <= 5)`,
+    ),
     check(
       'ingredients_composition_source_ck',
       sql`${t.compositionSource} IS NULL OR ${inList(t.compositionSource, COMPOSITION_SOURCES)}`,

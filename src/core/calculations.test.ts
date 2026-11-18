@@ -34,6 +34,21 @@ describe('units', () => {
     expect(lineVolumeMl(line('a', 'gin', 1, 'tsp'))).toMatchObject({ ml: 5 })
   })
 
+  it('counts grams as a volume only through a density (D-031)', () => {
+    expect(lineVolumeMl(line('a', 'sugar', 159, 'g'))).toEqual({ ok: false, reason: 'not_volumetric' })
+    expect(lineVolumeMl(line('a', 'sugar', 159, 'g'), DEFAULT_EQUIVALENCES, 1.59)).toEqual({
+      ok: true,
+      ml: 100,
+      approximate: false,
+    })
+    expect(lineVolumeMl(line('a', 'sugar', null, 'g'), DEFAULT_EQUIVALENCES, 1.59)).toEqual({
+      ok: false,
+      reason: 'missing_quantity',
+    })
+    // A density never changes a line in millilitres.
+    expect(lineVolumeMl(line('a', 'honey', 20, 'ml'), DEFAULT_EQUIVALENCES, 1.42)).toMatchObject({ ml: 20 })
+  })
+
   it('leaves non-volumetric units out and flags what is missing', () => {
     expect(lineVolumeMl(line('a', 'mint', 10, 'leaf'))).toEqual({ ok: false, reason: 'not_volumetric' })
     expect(lineVolumeMl(line('a', 'gin', null, 'ml'))).toEqual({ ok: false, reason: 'missing_quantity' })
@@ -153,6 +168,21 @@ describe('composition and served ABV', () => {
       5,
     )
     expect(result.abv.value).toBeCloseTo(((50 * 40) / 100 / (95 * 1.25)) * 100, 5)
+  })
+
+  it('computes a simple syrup weighed in grams through the density of dissolved sugar', () => {
+    const crystal = ingredient('crystal', { abv: 0, sugarGPerL: 1586.8, acidGPerL: 0, densityGPerMl: 1.59 })
+    const syrup = recipe('syrup', [line('s1', 'crystal', 500, 'g'), line('s2', 'water', 500)], {
+      kind: 'prep',
+    })
+    const result = computeComposition(syrup, { resolver: resolver({ ingredients: [crystal, water] }) })
+    const sugarMl = 500 / 1.59
+    expect(result.initialVolumeMl).toBeCloseTo(500 + sugarMl, 6)
+    expect(result.abv.value).toBe(0)
+    expect(result.sugarPer100Ml.status).toBe('complete')
+    // 1586.8 g/l over 314.47 ml is 499 g of sugar, i.e. 61.3 g per 100 ml of syrup.
+    expect(result.sugarPer100Ml.value).toBeCloseTo(((sugarMl * 1586.8) / 1000 / (500 + sugarMl)) * 100, 6)
+    expect(result.sugarPer100Ml.value).toBeCloseTo(61.27, 1)
   })
 
   it('detects a preparation that uses itself through a chain', () => {

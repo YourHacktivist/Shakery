@@ -59,10 +59,11 @@ export const ingredientSeedSchema = z
     category: seedKey,
     aliases: z.array(label).max(50),
     default_abv: z.number().min(0).max(100).nullable(),
-    sugar_g_per_l: z.number().min(0).max(1000).nullable(),
+    sugar_g_per_l: z.number().min(0).max(2000).nullable(),
     acid_g_per_l: z.number().min(0).max(1000).nullable(),
     composition_source: z.enum(['ciqual', 'computed', 'label']).nullable(),
     composition_confidence: z.enum(['sourced', 'estimated']).nullable(),
+    density_g_per_ml: z.number().gt(0).max(5).nullable(),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
     is_staple: z.boolean(),
     source: z.enum(['seed', 'wikidata']),
@@ -355,7 +356,10 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
         .map((r) => r.seedKey),
     )
     for (const item of checked.ingredients) {
-      if (ingredientKeys.has(item.seed_key)) continue
+      if (ingredientKeys.has(item.seed_key)) {
+        fillComposition(tx, item, now)
+        continue
+      }
       const categoryId = existing.get(item.category)
       if (categoryId === undefined) continue
       const nameNormalized = normalizeName(item.name)
@@ -385,6 +389,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
           acidGPerL: item.acid_g_per_l,
           compositionSource: item.composition_source,
           compositionConfidence: item.composition_confidence,
+          densityGPerMl: item.density_g_per_ml,
           allergens: item.allergens,
           isStaple: item.is_staple,
           source: item.source,
@@ -411,6 +416,46 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
   })
   report.recipes = loadSeedRecipes(db, ids, checked.recipes)
   return report
+}
+
+/**
+ * Composition added to the seed after an ingredient was loaded (D-031: water, sugars, honey).
+ * Written only when the row still has no composition at all, so a value the user entered is
+ * never replaced.
+ */
+function fillComposition(
+  tx: Parameters<Parameters<Db['transaction']>[0]>[0],
+  item: z.output<typeof ingredientSeedSchema>,
+  now: number,
+): void {
+  if (
+    item.default_abv === null &&
+    item.sugar_g_per_l === null &&
+    item.acid_g_per_l === null &&
+    item.density_g_per_ml === null
+  )
+    return
+  tx.update(ingredients)
+    .set({
+      updatedAt: now,
+      defaultAbv: item.default_abv,
+      sugarGPerL: item.sugar_g_per_l,
+      acidGPerL: item.acid_g_per_l,
+      compositionSource: item.composition_source,
+      compositionConfidence: item.composition_confidence,
+      densityGPerMl: item.density_g_per_ml,
+    })
+    .where(
+      and(
+        eq(ingredients.seedKey, item.seed_key),
+        isNull(ingredients.deletedAt),
+        isNull(ingredients.defaultAbv),
+        isNull(ingredients.sugarGPerL),
+        isNull(ingredients.acidGPerL),
+        isNull(ingredients.densityGPerMl),
+      ),
+    )
+    .run()
 }
 
 /** seed_key to id of a table, deleted rows included: a deleted entry is never recreated. */

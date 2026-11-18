@@ -298,10 +298,11 @@ function IngredientPanel({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-4 gap-3">
           <StatTile label={td.abv} value={ingredient.defaultAbv} unit={td.abvUnit} />
           <StatTile label={td.sugar} value={ingredient.sugarGPerL} unit={td.perLitre} />
           <StatTile label={td.acid} value={ingredient.acidGPerL} unit={td.perLitre} />
+          <StatTile label={td.density} value={ingredient.densityGPerMl} unit={td.densityUnit} />
         </div>
         {source ? <p className="m-0 text-small text-fg-secondary">{td.source(source, confidence)}</p> : null}
         {ingredient.defaultAbv === null ? <Notice>{td.abvMissing}</Notice> : null}

@@ -4,6 +4,7 @@
  * - Wikidata candidates kept by review/decisions.json (source wikidata, QID in external_ref);
  * - hand-written ingredients of hand-ingredients.json (source seed);
  * - sugar and acid from review/ciqual-values.json (composition_source ciqual);
+ * - water, sugars and honey from hand-compositions.json, with their density (D-031);
  * then data/seed/recipes.json: the classic preparations of preps.json, then the IBA cocktails
  * (review/iba-raw.json read through iba-map.json, French texts of iba-fr.json).
  *
@@ -29,6 +30,13 @@ type Decisions = {
   accept: Record<string, Decision>
 }
 
+type HandComposition = {
+  ciqual: string
+  sugar_g_per_100g: number
+  density_g_per_ml: number
+  confidence: 'sourced' | 'estimated'
+}
+
 type HandIngredient = {
   name: string
   category: string
@@ -47,7 +55,8 @@ export type IngredientSeed = {
   sugar_g_per_l: number | null
   acid_g_per_l: number | null
   composition_source: 'ciqual' | null
-  composition_confidence: 'sourced' | null
+  composition_confidence: 'sourced' | 'estimated' | null
+  density_g_per_ml: number | null
   allergens: string[]
   is_staple: boolean
   source: 'wikidata' | 'seed'
@@ -89,6 +98,7 @@ async function main(): Promise<void> {
       acid_g_per_l: null,
       composition_source: null,
       composition_confidence: null,
+      density_g_per_ml: null,
       allergens: [],
       is_staple: false,
       source: 'wikidata',
@@ -109,6 +119,7 @@ async function main(): Promise<void> {
       acid_g_per_l: null,
       composition_source: null,
       composition_confidence: null,
+      density_g_per_ml: null,
       allergens: item.allergens ?? [],
       is_staple: item.is_staple ?? false,
       source: 'seed',
@@ -125,6 +136,21 @@ async function main(): Promise<void> {
       target.composition_source = 'ciqual'
       target.composition_confidence = 'sourced'
     }
+  }
+
+  const { values: compositions } = await readJson<{ values: Record<string, HandComposition> }>(
+    path.join(SEED_DIR, 'hand-compositions.json'),
+  )
+  for (const [name, value] of Object.entries(compositions)) {
+    const target = out.find((ingredient) => ingredient.name === name)
+    if (!target) throw new Error(`Hand composition for an unknown ingredient: ${name}`)
+    if (target.composition_source !== null) throw new Error(`${name} already has a composition`)
+    target.default_abv = 0
+    target.sugar_g_per_l = Math.round(value.sugar_g_per_100g * 10 * value.density_g_per_ml * 10) / 10
+    target.acid_g_per_l = 0
+    target.composition_source = 'ciqual'
+    target.composition_confidence = value.confidence
+    target.density_g_per_ml = value.density_g_per_ml
   }
 
   // Checks of section 9: leaf categories, unique names per category, aliases that do not

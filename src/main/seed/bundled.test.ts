@@ -1,8 +1,10 @@
 import path from 'node:path'
+import { computeComposition } from '../../core/composition'
 import { normalizeName } from '../../core/normalize'
 import { describe, expect, it } from 'vitest'
 import { createUuidV7Generator } from '../../core/uuid'
 import { createDb } from '../db/client'
+import { databaseResolver } from '../db/facts'
 import { openDatabase } from '../db/connection'
 import { runMigrations } from '../db/migrate'
 import { SqliteReferenceRepository } from '../db/repositories/reference'
@@ -84,6 +86,54 @@ describe('bundled seed data', () => {
     expect(zombie.n).toBe(1)
     const tree = new SqliteReferenceRepository(db).listCategories()
     expect(tree).toHaveLength(BUNDLED_SEED.categories.length)
+    sqlite.close()
+  })
+
+  it('computes the seed syrups weighed in grams, and fills a composition added later (D-031)', () => {
+    const sqlite = openDatabase(':memory:')
+    runMigrations(sqlite, MIGRATIONS)
+    const db = createDb(sqlite)
+    const ids = {
+      now: () => 1,
+      newId: createUuidV7Generator(
+        () => 1,
+        (b) => b.fill(3),
+      ),
+    }
+    // An older seed without the compositions, then the user's own value on brown sugar.
+    const bare = BUNDLED_SEED.ingredients.map((item) => ({
+      ...item,
+      ...(item.density_g_per_ml === null
+        ? {}
+        : {
+            default_abv: null,
+            sugar_g_per_l: null,
+            acid_g_per_l: null,
+            composition_source: null,
+            composition_confidence: null,
+            density_g_per_ml: null,
+          }),
+    }))
+    loadSeedData(db, ids, { ...BUNDLED_SEED, ingredients: bare, recipes: [] })
+    sqlite.prepare("UPDATE ingredients SET sugar_g_per_l = 1400 WHERE seed_key = 'ing.sucre-roux'").run()
+    loadSeedData(db, ids, BUNDLED_SEED)
+    const sugars = sqlite
+      .prepare(
+        "SELECT seed_key AS key, sugar_g_per_l AS sugar, density_g_per_ml AS density FROM ingredients WHERE seed_key IN ('ing.sucre-blanc', 'ing.sucre-roux') ORDER BY seed_key",
+      )
+      .all()
+    expect(sugars).toEqual([
+      { key: 'ing.sucre-blanc', sugar: 1586.8, density: 1.59 },
+      { key: 'ing.sucre-roux', sugar: 1400, density: null },
+    ])
+    const syrup = sqlite.prepare("SELECT id FROM recipes WHERE name = 'Sirop simple'").get() as { id: string }
+    const resolver = databaseResolver(db)
+    const recipe = resolver.recipe(syrup.id)
+    if (!recipe) throw new Error('fixture')
+    const result = computeComposition(recipe, { resolver })
+    expect(result.abv.value).toBe(0)
+    expect(result.sugarPer100Ml.status).toBe('complete')
+    expect(result.sugarPer100Ml.value).toBeCloseTo(61.3, 1)
     sqlite.close()
   })
 

@@ -27,6 +27,7 @@ Ce fichier recense chaque source de données, sa licence, sa date de récupérat
 - **Rapprochement** : correspondance écrite à la main dans `scripts/seed/ciqual-map.json`, ingrédient par ingrédient. Le jus pressé maison est préféré quand il porte le sucre et l'acidité, sinon le pur jus.
 - **Conversion** : g/100 g × 10 avec une masse volumique de 1 kg/L, ce qui sous-estime un jus de 2 à 5 % (décision D-029). Les produits denses (sirops, miel, liqueurs) ne sont pas repris : l'écart y dépasserait 15 %.
 - **Valeurs écartées** : une acidité de 0, « traces » ou une borne (« < 0,5 ») n'est pas une mesure et reste vide.
+- **Ingrédients denses et pesés** (D-031) : eau (18066), sucre blanc et en morceaux (31016), sucre roux (31017), miel et miel d'acacia (31008), dans `scripts/seed/hand-compositions.json`. Le sucre de Ciqual est converti avec une masse volumique écrite à la main : 1,59 g/ml pour le sucre cristallisé (volume apparent du saccharose dissous, environ 0,63 ml par gramme), 1,42 g/ml pour un miel à 17,6 % d'eau. Le sucre roux et les miels sont marqués « estimés » (masse volumique d'usage, variable d'un produit à l'autre). Degré et acidité à 0.
 - **Résultat** : 19 ingrédients (jus d'agrumes, jus en bouteille, cola, tonic, lait de coco, champagne). Les sirops maison seront calculés depuis leur recette (`computed`). Les liqueurs restent vides : leur teneur en sucre n'est pas publiée, l'interface invite à la compléter avec une valeur marquée « estimée ».
 
 ### Cocktails IBA
@@ -38,7 +39,7 @@ Ce fichier recense chaque source de données, sa licence, sa date de récupérat
 
 ### Préparations classiques
 
-`scripts/seed/preps.json` : sirop simple, sirop riche, sirop de miel, grenadine, orgeat, oleo saccharum, cordial citron vert, sirops de gingembre et de cannelle, Donn's mix. Proportions d'usage courant données comme recettes. Aucune durée de conservation ni aucun rendement : l'utilisateur les fixe. Les lignes en grammes (sucre, amandes) ne comptent pas encore dans les calculs : la composition calculée de ces sirops attend la décision sur la masse volumique (voir « À valider plus tard » dans `DECISIONS.md`).
+`scripts/seed/preps.json` : sirop simple, sirop riche, sirop de miel, grenadine, orgeat, oleo saccharum, cordial citron vert, sirops de gingembre et de cannelle, Donn's mix. Proportions d'usage courant données comme recettes. Aucune durée de conservation ni aucun rendement : l'utilisateur les fixe. Les lignes en grammes comptent par la masse volumique de l'ingrédient (D-031) : le sirop simple ressort à 61,3 g de sucre pour 100 ml. Les amandes, le gingembre et la cannelle n'ont pas de masse volumique : ils restent hors du volume, comme une décoration.
 
 ### Sources écartées
 

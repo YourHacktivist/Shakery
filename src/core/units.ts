@@ -1,8 +1,8 @@
 /**
  * Units (section 8, « Unités »). Quantities are stored as entered; conversion to millilitres
  * happens here. dash, drop, barspoon and tsp use adjustable equivalences shown as
- * approximations; g, piece, leaf, slice, wedge and to_taste are not volumes and stay out of
- * the calculations; `top` counts for its estimate, or makes the result incomplete.
+ * approximations; piece, leaf, slice, wedge and to_taste are not volumes and stay out of
+ * the calculations; g counts as g / density when the ingredient has a density (D-031); `top` counts for its estimate, or makes the result incomplete.
  *
  * Default values and their sources: docs/DATA_SOURCES.md (to be validated by the user).
  */
@@ -43,11 +43,19 @@ export type VolumeResult =
   | { readonly ok: true; readonly ml: number; readonly approximate: boolean }
   | { readonly ok: false; readonly reason: 'missing_quantity' | 'not_volumetric' | 'top_without_estimate' }
 
-/** Millilitres of one line, or why there are none. */
+/**
+ * Millilitres of one line, or why there are none. A line in grams counts as a volume only
+ * when the ingredient's density (g/ml) is given: crystal sugar dissolved at 1.59 g/ml.
+ */
 export function lineVolumeMl(
   line: Pick<LineInput, 'quantity' | 'unit' | 'topEstimateMl'>,
   eq: UnitEquivalences = DEFAULT_EQUIVALENCES,
+  densityGPerMl: number | null = null,
 ): VolumeResult {
+  if (line.unit === 'g' && densityGPerMl !== null && densityGPerMl > 0) {
+    if (line.quantity === null) return { ok: false, reason: 'missing_quantity' }
+    return { ok: true, ml: line.quantity / densityGPerMl, approximate: false }
+  }
   if (line.unit === 'top') {
     return line.topEstimateMl === null
       ? { ok: false, reason: 'top_without_estimate' }

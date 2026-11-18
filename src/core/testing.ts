@@ -11,6 +11,7 @@ export function ingredient(id: string, facts: Partial<IngredientFacts> = {}): In
     sugarGPerL: null,
     acidGPerL: null,
     compositionConfidence: null,
+    densityGPerMl: null,
     allergens: [],
     prepRecipeId: null,
     isStaple: false,

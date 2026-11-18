@@ -43,6 +43,8 @@ export const bar = {
     acid: 'Acidité',
     perLitre: 'g/L',
     abvUnit: '% vol',
+    density: 'Masse volumique',
+    densityUnit: 'g/ml',
     source: (source: string, confidence: string | null) =>
       confidence ? `Source${colon} ${source}, ${confidence}` : `Source${colon} ${source}`,
     compositionMissing:
@@ -79,6 +81,8 @@ export const bar = {
     abv: 'Degré',
     sugar: 'Sucre',
     acid: 'Acidité',
+    density: 'Masse volumique',
+    densityHint: 'Pour compter une dose en grammes : 1,59 pour le sucre dissous.',
     source: 'Source de la composition',
     confidence: 'Confiance',
     allergens: 'Allergènes',
