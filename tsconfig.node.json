@@ -12,6 +12,7 @@
     "electron.vite.config.ts",
     "vitest.config.mts",
     "drizzle.config.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "scripts/**/*.ts"
   ]
 }

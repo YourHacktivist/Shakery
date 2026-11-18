@@ -7,7 +7,36 @@ Rangement des données des carnets MAF de l'utilisateur (`imports/maf/`, hors d�
 - « Blanc d'œuf (ou aquafaba) » donne deux ingrédients : le blanc d'œuf dans Œufs (allergène œufs), l'aquafaba dans Émulsifiants (sans allergène œufs).
 - Les sirops de sucre et de miel du carnet ont pour référence une proportion (« 1 vol. eau / 1 vol. sucre ») : ce sont des préparations maison, rangées dans Sirops maison. Ils ne sont pas fusionnés avec le sirop simple de départ, dont la proportion peut être en poids.
 - Les noms d'ingrédients créés à l'import sont sans ambiguïté (par exemple « Rhum blanc léger », « Bitter rouge italien ») ; le libellé du carnet devient un alias.
-- La précision de glace d'un libellé de verre (« (glace pilée) ») renseigne la glace de la fiche ; un givrage devient une ligne de garniture ; le shot servi à part du « Coupe + verre shot » devient une ligne de la recette.
+- La précision de glace d'un libellé de verre ou de méthode (« (glace pilée) ») renseigne la glace de la fiche.
+- Le givrage au sel reste dans le texte de garniture : son coût est déjà dans le coût de garniture du socle, et une ligne sans prix rendrait le coût de la recette incomplet. Le shot de champagne servi à part avec le Pornstar Martini n'a pas de dose dans le carnet : il reste dans les étapes et la garniture, sans ligne de recette.
+- Les articles comptés à l'unité (sucre, menthe, basilic, citron vert, assaisonnement) ont un TAV de 0 % : c'est une valeur connue, pas une valeur manquante. Sans elle, le TAV des recettes sucrées en poudre resterait incomplet.
+- Les deux références de bourbon (Woodford Reserve, Buffalo Trace) donnent un seul ingrédient « Bourbon » avec deux produits.
+
+## Conversion
+
+Le script `scripts/maf-import/` (outil de développement, non livré) lit `imports/maf/` et écrit `imports/maf/maf-2025.shakery`, hors dépôt comme ses sources :
+
+```bash
+npm run maf:convert
+```
+
+Il construit le carnet dans une base temporaire avec les dépôts de l'application, l'exporte, puis le réimporte deux fois dans un carnet neuf : la première importation doit tout insérer, la seconde ne rien ajouter. Les identifiants sont déterministes (date d'édition fixe, flux SHA-256) : convertir à nouveau les mêmes fichiers donne la même archive. Toute valeur `needs_review` vraie, tout écart entre une fiche et le tableau de synthèse, ou tout libellé sans correspondance arrête la conversion.
+
+Contrôle fait le 18 novembre 2026 : les 36 recettes importées ont un coût complet, égal au coût matière du carnet à l'arrondi du centime près ; le TAV servi calculé par l'application est celui du socle corrigé de la dilution.
+
+## Familles et méthodes du socle
+
+| Famille du socle                                                                                  | Famille Shakery  |
+| ------------------------------------------------------------------------------------------------- | ---------------- |
+| Sour, Sour (daisy)                                                                                | `sour`           |
+| Highball, Highball (buck), Highball (buck, mule), Highball (cousin du julep), Highball fruité     | `highball`       |
+| Fizz, Fizz au champagne                                                                           | `fizz`           |
+| Aromatique (verre à mélange), Aromatique amer, Old-Fashioned, Cocktail de vins                    | `spirit_forward` |
+| Tiki, Colada, Swizzle                                                                             | `tiki`           |
+| Punch                                                                                             | `punch`          |
+| Sparkling, Pilé (proche du smash), Cocktail au café, Smash, Julep, Fruité contemporain, Savoureux | `other`          |
+
+Le libellé exact reste dans la version socle de la recette. Méthodes : « Shaker (dry shake) » donne `dry_shake`, les autres « Shaker » `shake`, « Direct au verre (swizzle) » `swizzle`, les autres « Direct au verre » `build`, « Verre à mélange » `stir`.
 
 ## Base produits du carnet cocktails (63 catégories)
 
