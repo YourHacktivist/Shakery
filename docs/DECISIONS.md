@@ -207,6 +207,20 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Choix** : refusée par l'utilisateur. Le logo fourni est utilisé partout et à toutes les tailles, jamais redessiné. Pour 32 px et moins, seule la marge transparente autour du logo est recadrée pour qu'il remplisse l'icône (`scripts/icons/generate.mjs`).
 - **Validation** : oui, par l'utilisateur.
 
+### D-026 Valeurs par défaut des unités et de la dilution
+
+- **Date** : 2026-11-18
+- **Choix** : once 30 ml (29,5735 ml au choix), trait 0,25 ml, goutte 0,05 ml, cuillères de bar et à café 5 ml ; dilution 25 % au shaker, 20 % au verre à mélange, 10 % au verre, 15 % pour « autre » ; aucune dilution pour une préparation. Sources et réserves dans `docs/DATA_SOURCES.md`. Le TAV « méthode socle » (sans dilution, seules les lignes en ml, cl ou oz) est calculé à côté du TAV servi.
+- **Validation** : à faire par l'utilisateur en fin de phase 3 (section 8).
+
+### D-027 Seuil de couverture des branches de `core/`
+
+- **Date** : 2026-11-18
+- **Contexte** : la section 13.1 demande 95 % des lignes et des branches. L'option `noUncheckedIndexedAccess` impose des valeurs de repli (`?? 0`) sur des accès de tableau qui ne peuvent pas échouer ; ces branches ne sont pas atteignables.
+- **Choix** : seuil de 95 % pour les lignes, instructions et fonctions, 90 % pour les branches (`npm run test:coverage`). Mesure au 18 novembre 2026 : 99,7 % des lignes, 91,9 % des branches.
+- **Alternatives écartées** : désactiver `noUncheckedIndexedAccess`, ou marquer chaque repli d'un commentaire d'exclusion.
+- **Validation** : non requise.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                                                                           | Échéance              |
