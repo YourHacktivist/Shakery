@@ -18,6 +18,27 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
+## Reprendre ici (19 novembre 2026)
+
+Tout est committé, l'arbre de travail est propre (dernier commit : `docs: 24cocktails import from a downloaded file, offline only`). `npm run check` passe (322 tests), `npm run test:e2e` passe (20 tests).
+
+**Rappels sur la façon de travailler, demandés pendant la dernière session**
+
+- Répondre en français, sans exception : les points d'avancement, le résumé et la question de la boîte de fin de tour, et surtout le message de fin. L'utilisateur l'a rappelé trois fois.
+- L'utilisateur a activé le mode « ultracode » à la fin de la session : il accepte désormais les workflows multi-agents (recherches parallèles, relectures avec contre-vérification). Cette demande, plus récente, l'emporte sur la consigne « travailler sobrement » de la mémoire.
+
+**Deux travaux interrompus par la fin de session, à refaire en premier, dans cet ordre**
+
+1. **Revue complète du code écrit depuis `c9c57ef`** (masse volumique, refonte visuelle, phases 7 à 9), demandée par l'utilisateur pour vérifier que tout est optimal. Six angles : exactitude des calculs du cœur (masse volumique, dates limites, batch, générateurs de révision), processus principal et sécurité (SQL, suppressions logiques, restauration, validation Zod, fenêtre d'impression, migration 0002), logique React (état périmé, sauvegarde automatique du carnet, mutations après démontage, `setState` pendant le rendu dans `AbvCalculator`), interface et accessibilité (animations, contrastes, rôles ARIA, chaînes hors i18n), performance avec des milliers de fiches (`listCollections` appelé par `summary`, `practiceCorpus` avec une requête par élément, invalidations de cache trop larges, génération de toutes les questions dans `PracticePage`), tests manquants ou trompeurs. Contre-vérifier chaque constat avant de le corriger, puis `npm run check` et `npm run test:e2e`. Le script du workflow utilisé est sur ce PC : `C:\Users\anony\.claude\projects\D--Downloads-Shakery\918bd1d3-4564-467d-81f0-0410f5001755\workflows\scripts\revue-phases-7-9-wf_f9075317-cb1.js` (relançable tel quel avec `Workflow({ scriptPath })`, sans reprise possible d'un autre compte). Aucun constat n'a été produit avant l'interruption.
+
+2. **Sources de recettes : nouvelle vision de l'utilisateur.** Il veut que Shakery contienne les données de (presque) tous les cocktails et devienne « un couteau suisse du barman », tout en restant utilisable hors ligne. C'est un changement de cap : la spec (sections 2 et 9) décrit un carnet personnel avec 102 classiques IBA et précise qu'aucun site de recettes n'est aspiré. À faire :
+   - finir la recherche des sources (script : `...\workflows\scripts\sources-cocktails-wf_f0908f07-38b.js`, même dossier) : jeux sous licence ouverte (Wikidata, Wikipédia en français sous CC BY-SA, recettes anciennes du domaine public, conditions actuelles de TheCocktailDB), cadre juridique (droit sui generis des bases de données, directive 96/9/CE, articles L341-1 et suivants du CPI) ;
+   - ce qui est déjà établi pour 24cocktails.com (lu le 18 novembre sur `/terms.html` et `/llms.txt`) : 7 154 recettes, export en masse `/llms/recipes.jsonl` (doses en ml, méthode, verre, ingrédients), usage gratuit même commercial avec mention de la source et lien vers chaque recette, mais interdiction de s'en servir pour bâtir un catalogue concurrent et de republier en masse sans attribution ; textes et traductions protégés, formules libres (des faits) ; langue de l'export non confirmée ;
+   - présenter à l'utilisateur une recommandation claire avec ses risques : par exemple une autorisation écrite de l'éditeur de 24cocktails pour embarquer ses formules (rédiger le message pour l'utilisateur, ne jamais l'envoyer soi-même), l'import par l'utilisateur d'un fichier qu'il a téléchargé (proposition actuelle dans « À valider plus tard » de `DECISIONS.md`), ou des sources ouvertes ;
+   - toute décision retenue modifie la spec (objectif et section 9) et probablement le modèle (lien source par fiche) : validation de l'utilisateur obligatoire avant de coder.
+
+Ensuite seulement : phase 10 (export et partage, Open Food Facts), qui attend aussi cette décision.
+
 ## État au 18 novembre 2026 (soir)
 
 Phases 0 à 9 livrées, tout est committé. `npm run check` passe (322 tests), `npm run test:e2e` passe (20 tests, dont « Negroni complet en moins d'une minute » dans `tests/e2e/recipes.spec.ts` et « note de dégustation puis testée » dans `tests/e2e/journal.spec.ts`).
