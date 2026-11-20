@@ -64,8 +64,10 @@ function isCloseTo(term: string, word: string): boolean {
 
 /**
  * Options matching a query, accents and case ignored: every word typed must appear in the label.
- * Labels that start with the query come first, then those where a word starts with it. When
- * nothing matches, a word with a typo still finds its option (« cointrau » finds Cointreau).
+ * The exact label comes first, then labels that start with the query (shortest first, so that
+ * « negroni » gives Negroni before its variants among thousands of classics), then those where
+ * a word starts with it. When nothing matches, a word with a typo still finds its option
+ * (« cointrau » finds Cointreau).
  */
 export function filterOptions<O extends { normalized: string; words: string[] }>(
   options: readonly O[],
@@ -74,15 +76,17 @@ export function filterOptions<O extends { normalized: string; words: string[] }>
   const normalized = normalizeName(query)
   if (normalized === '') return [...options]
   const terms = normalized.split(' ')
+  const label = (option: O) => option.normalized.split(' | ')[0] ?? ''
   const rank = (option: O) => {
-    if (option.normalized.startsWith(normalized)) return 0
-    if (option.words.some((word) => word.startsWith(terms[0] ?? ''))) return 1
-    return 2
+    if (label(option) === normalized) return 0
+    if (option.normalized.startsWith(normalized)) return 1
+    if (option.words.some((word) => word.startsWith(terms[0] ?? ''))) return 2
+    return 3
   }
   const strict = options
     .filter((option) => terms.every((term) => option.normalized.includes(term)))
-    .map((option) => ({ option, rank: rank(option) }))
-    .sort((a, b) => a.rank - b.rank)
+    .map((option) => ({ option, rank: rank(option), length: label(option).length }))
+    .sort((a, b) => a.rank - b.rank || (a.rank === 1 ? a.length - b.length : 0))
     .map(({ option }) => option)
   if (strict.length > 0) return strict
   return options.filter((option) => terms.every((term) => option.words.some((word) => isCloseTo(term, word))))

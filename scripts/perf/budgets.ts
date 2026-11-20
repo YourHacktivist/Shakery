@@ -1,6 +1,7 @@
 /**
- * Performance budgets of section 13.1, measured on a generated notebook: 5 000 ingredients,
- * 2 000 recipes with 5 versions each and 10 000 tasting notes. Development tool.
+ * Performance budgets of section 13.1, measured on the seed (about 7 000 recipes since D-036) plus
+ * a generated notebook: 5 000 ingredients, 2 000 recipes with 5 versions each and 10 000 tasting
+ * notes. Development tool.
  *
  * Budgets checked here: search under 50 ms, opening a recipe under 100 ms, calculation of a
  * recipe under 100 ms. Start-up, scrolling and idle CPU are checked in the application.
@@ -20,7 +21,7 @@ import { IngredientRepository } from '../../src/main/db/repositories/ingredients
 import { RecipeRepository } from '../../src/main/db/repositories/recipes'
 import { SearchRepository } from '../../src/main/db/repositories/search'
 import { indexEntity } from '../../src/main/db/repositories/search-index'
-import { BUNDLED_SEED } from '../../src/main/seed/bundled'
+import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from '../../src/main/seed/bundled'
 import { loadSeedData } from '../../src/main/seed/load'
 
 const SYLLABLES = [
@@ -77,7 +78,25 @@ async function main(): Promise<void> {
     const db = createDb(sqlite)
     const clock = Date.now()
     const ids = systemIds()
-    loadSeedData(db, ids, BUNDLED_SEED)
+    // Seed of the first launch (about 7 000 recipes of 24cocktails, D-036), then the check made
+    // at every later launch, which must stay well inside the 3 s start-up budget.
+    const seedStart = performance.now()
+    const seed = withClassics(BUNDLED_SEED, path.resolve(__dirname, '../../resources/seed', CLASSICS_FILE))
+    const seeded = loadSeedData(db, ids, seed)
+    console.log(
+      `Seed loaded in ${((performance.now() - seedStart) / 1000).toFixed(1)} s (${seeded.recipes} recipes, ${seeded.ingredients} ingredients)`,
+    )
+    const seedCheck = measure(
+      'seed check at a later launch',
+      1000,
+      () =>
+        loadSeedData(
+          db,
+          ids,
+          withClassics(BUNDLED_SEED, path.resolve(__dirname, '../../resources/seed', CLASSICS_FILE)),
+        ),
+      3,
+    )
 
     const started = performance.now()
     const leaf = (
@@ -131,6 +150,7 @@ async function main(): Promise<void> {
     const search = new SearchRepository(db)
     const sample = recipeIds[1234] ?? ''
     const results = [
+      seedCheck,
       measure('search, 3 letters', 50, () => search.search('bak')),
       measure('search, a full name', 50, () => search.search(`${word(1234 + 9000)} ${word(1234)}`)),
       measure('search, misspelt (approximate fallback)', 50, () => search.search('zzbakorineq'), 10),

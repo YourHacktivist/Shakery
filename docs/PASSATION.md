@@ -1,6 +1,6 @@
 # Passation
 
-Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 18 novembre 2026.
+Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 20 novembre 2026.
 
 ## Lire d'abord
 
@@ -13,31 +13,28 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 - Aucun tiret cadratin, aucune tournure « style IA », dans le code, les docs, les commits et les messages.
 - Enchaîner les phases sans s'arrêter pour validation en fin de phase. S'arrêter seulement pour une décision bloquante (modèle de données, architecture, sécurité, licence), avec une recommandation claire.
-- Messages courts. L'utilisateur atteint souvent sa limite d'usage : pas de relectures multi-agents ni de panels sans risque réel, un seul sous-agent à la fois pour un gros bloc.
+- Messages courts, en français. L'utilisateur atteint souvent sa limite d'usage : limiter les sous-agents (il l'a redemandé le 19 novembre, même avec le mode ultracode). Un workflow seulement pour un vrai volume de données (des milliers d'éléments), à effort moyen et sans double relecture ; revues et recherches faites directement.
+- Les recettes de 24cocktails font partie de Shakery comme des classiques : jamais de lien ni de bouton vers le site, jamais d'origine « Autre », jamais d'export ou d'import demandé à l'utilisateur. Ne plus rouvrir la question (D-036).
 - Toujours le logo fourni (`design/assets/`) pour les icônes et visuels, jamais de variante redessinée.
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
-## Reprendre ici (19 novembre 2026)
+## Reprendre ici (20 novembre 2026)
 
-Tout est committé, l'arbre de travail est propre (dernier commit : `docs: 24cocktails import from a downloaded file, offline only`). `npm run check` passe (322 tests), `npm run test:e2e` passe (20 tests).
+Tout est committé (`feat(seed): 7 000 classics of 24cocktails built into the app`). `npm run check` passe (333 tests), `npm run test:e2e` passe (20 tests ; un plantage ponctuel du processus de Playwright, code 0xC0000409, a disparu en relançant).
 
-**Rappels sur la façon de travailler, demandés pendant la dernière session**
+**Fait les 19 et 20 novembre** : les recettes de 24cocktails.com sont intégrées (D-036, spec sections 2 et 9, `docs/DATA_SOURCES.md`).
 
-- Répondre en français, sans exception : les points d'avancement, le résumé et la question de la boîte de fin de tour, et surtout le message de fin. L'utilisateur l'a rappelé trois fois.
-- L'utilisateur a activé le mode « ultracode » à la fin de la session : il accepte désormais les workflows multi-agents (recherches parallèles, relectures avec contre-vérification). Cette demande, plus récente, l'emporte sur la consigne « travailler sobrement » de la mémoire.
+- Pipeline : `scripts/seed/cocktails24-fetch.ts` (export en cache), `cocktails24.ts` (lecture des lignes, assemblage), `24c-map.json` (unités, verres, méthodes, noms réparés, 2 404 libellés vers le référentiel), `24c-ingredients.json` (469 ingrédients nouveaux), `24c-garnish-fr.json` (2 517 décorations traduites). `build.ts` écrit `resources/seed/recipes-24c.json` : 7 064 cocktails (90 écartés car portant le nom d'un classique IBA ou en double).
+- Application : `bundled.ts` lit ce fichier au démarrage (`withClassics`, `seedFolder()`). `load.ts` charge les cocktails en bloc (`bulkCocktailWriter`, requêtes préparées une fois, instantané construit par `recipeDetailFromRows` comme `get`), le tout dans une transaction : environ 3 à 5 s au premier lancement, 0,1 à 0,3 s ensuite. Toutes les fiches sont `origin = 'classic'`, sans crédit ni lien.
+- Index de recherche : `indexEntity(..., { fresh: true })` évite le parcours complet de la table FTS5 pour une entrée neuve (c'était quadratique : 181 s de chargement). La recherche cherche aussi la saisie entière comme une expression (« My Tie », « AT&T », « Daisy No.2 »), la recherche approchée classe à distance égale le nom de longueur la plus proche et ne détaille que 100 candidats, et la distance est calculée en bande diagonale (`core/fuzzy.ts`). La liste déroulante (`Combobox`) met le nom exact en tête puis les noms les plus courts.
+- Contrôle complet : `npx tsx scripts/seed/check-seed.ts` charge tout dans une base neuve et vérifie chaque cocktail (chargé, ouvert, calculé, premier résultat quand on tape son nom). Dernier passage : 7 166 cocktails sur 7 166, recherche la plus lente 19 ms.
+- La décoration accepte 1 000 caractères (fiche, éditeur, base de départ).
+- Revue des phases 7 à 9 faite à la main sur les points signalés : rien de grave (le `setState` d'`AbvCalculator` est le schéma documenté par React ; boucle de `listCollections` simplifiée).
 
-**Deux travaux interrompus par la fin de session, à refaire en premier, dans cet ordre**
+**Limites connues** : l'export ne donne ni étapes ni famille, ces champs restent vides sur les 7 064 fiches (les zones d'équilibre ne s'appuient donc que sur les fiches qui ont une famille) ; 469 ingrédients nouveaux sans degré ni composition ; la fenêtre n'apparaît qu'après le premier chargement (3 à 5 s, une seule fois).
 
-1. **Revue complète du code écrit depuis `c9c57ef`** (masse volumique, refonte visuelle, phases 7 à 9), demandée par l'utilisateur pour vérifier que tout est optimal. Six angles : exactitude des calculs du cœur (masse volumique, dates limites, batch, générateurs de révision), processus principal et sécurité (SQL, suppressions logiques, restauration, validation Zod, fenêtre d'impression, migration 0002), logique React (état périmé, sauvegarde automatique du carnet, mutations après démontage, `setState` pendant le rendu dans `AbvCalculator`), interface et accessibilité (animations, contrastes, rôles ARIA, chaînes hors i18n), performance avec des milliers de fiches (`listCollections` appelé par `summary`, `practiceCorpus` avec une requête par élément, invalidations de cache trop larges, génération de toutes les questions dans `PracticePage`), tests manquants ou trompeurs. Contre-vérifier chaque constat avant de le corriger, puis `npm run check` et `npm run test:e2e`. Le script du workflow utilisé est sur ce PC : `C:\Users\anony\.claude\projects\D--Downloads-Shakery\918bd1d3-4564-467d-81f0-0410f5001755\workflows\scripts\revue-phases-7-9-wf_f9075317-cb1.js` (relançable tel quel avec `Workflow({ scriptPath })`, sans reprise possible d'un autre compte). Aucun constat n'a été produit avant l'interruption.
-
-2. **Sources de recettes : nouvelle vision de l'utilisateur.** Il veut que Shakery contienne les données de (presque) tous les cocktails et devienne « un couteau suisse du barman », tout en restant utilisable hors ligne. C'est un changement de cap : la spec (sections 2 et 9) décrit un carnet personnel avec 102 classiques IBA et précise qu'aucun site de recettes n'est aspiré. À faire :
-   - finir la recherche des sources (script : `...\workflows\scripts\sources-cocktails-wf_f0908f07-38b.js`, même dossier) : jeux sous licence ouverte (Wikidata, Wikipédia en français sous CC BY-SA, recettes anciennes du domaine public, conditions actuelles de TheCocktailDB), cadre juridique (droit sui generis des bases de données, directive 96/9/CE, articles L341-1 et suivants du CPI) ;
-   - ce qui est déjà établi pour 24cocktails.com (lu le 18 novembre sur `/terms.html` et `/llms.txt`) : 7 154 recettes, export en masse `/llms/recipes.jsonl` (doses en ml, méthode, verre, ingrédients), usage gratuit même commercial avec mention de la source et lien vers chaque recette, mais interdiction de s'en servir pour bâtir un catalogue concurrent et de republier en masse sans attribution ; textes et traductions protégés, formules libres (des faits) ; langue de l'export non confirmée ;
-   - présenter à l'utilisateur une recommandation claire avec ses risques : par exemple une autorisation écrite de l'éditeur de 24cocktails pour embarquer ses formules (rédiger le message pour l'utilisateur, ne jamais l'envoyer soi-même), l'import par l'utilisateur d'un fichier qu'il a téléchargé (proposition actuelle dans « À valider plus tard » de `DECISIONS.md`), ou des sources ouvertes ;
-   - toute décision retenue modifie la spec (objectif et section 9) et probablement le modèle (lien source par fiche) : validation de l'utilisateur obligatoire avant de coder.
-
-Ensuite seulement : phase 10 (export et partage, Open Food Facts), qui attend aussi cette décision.
+**Prochaine étape** : phase 10 (export et partage, Open Food Facts), qui n'attend plus aucune décision.
 
 ## État au 18 novembre 2026 (soir)
 
@@ -132,7 +129,7 @@ Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WA
 
 - Phase 8 (livrée) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 (livrée) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
-- Phase 10 (prochaine) : export et partage, Open Food Facts. Décision de l'utilisateur attendue avant de commencer : recettes de 24cocktails (« À valider plus tard » dans `DECISIONS.md`).
+- Phase 10 (prochaine) : export et partage, Open Food Facts.
 - Phase 11 : finitions, packaging, documentation.
 
 ## Commandes utiles
@@ -151,6 +148,10 @@ npm run test:e2e
 
 ```bash
 npm run maf:convert
+```
+
+```bash
+npx tsx scripts/seed/check-seed.ts
 ```
 
 ```bash

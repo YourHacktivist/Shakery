@@ -359,7 +359,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
                 multiline
               />
               <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-4">
-                <NullableText control={control} name="garnish" label={tf.garnish} maxLength={300} />
+                <NullableText control={control} name="garnish" label={tf.garnish} maxLength={1000} />
                 <Controller
                   control={control}
                   name="garnishCostHtCents"

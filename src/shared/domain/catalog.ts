@@ -206,7 +206,7 @@ export const recipeInputSchema = z
     method: z.enum(METHOD_VALUES).nullable().default(null),
     glassId: id.nullable().default(null),
     iceId: id.nullable().default(null),
-    garnish: optionalText(300).default(null),
+    garnish: optionalText(1000).default(null),
     steps: z.array(text(1000)).max(50).default([]),
     notes: optionalText(10_000).default(null),
     tags: z.array(z.string().trim().min(1).max(40)).max(30).default([]),

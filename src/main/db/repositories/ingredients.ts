@@ -138,11 +138,13 @@ export class IngredientRepository {
         })
         .run()
       this.writeAliases(tx, id, data.aliases, now)
-      indexEntity(this.db.$client, 'ingredient', id, {
-        title: data.name,
-        aliases: data.aliases,
-        body: [data.description],
-      })
+      indexEntity(
+        this.db.$client,
+        'ingredient',
+        id,
+        { title: data.name, aliases: data.aliases, body: [data.description] },
+        { fresh: true },
+      )
     })
     return this.summary(id)
   }

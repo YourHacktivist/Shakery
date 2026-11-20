@@ -65,6 +65,19 @@ describe('filterOptions', () => {
     expect(filterOptions(indexed, 'co').map((option) => option.id)).toEqual(['d'])
   })
 
+  it('puts the exact label first, then the shortest labels starting with the query', () => {
+    const recipes = ['Negroni Sbagliato', 'Negroni Bianco Royale', 'Negroni', 'Gin Negroni'].map((label) => {
+      const normalized = normalizeName(label)
+      return { id: label, label, normalized, words: normalized.split(' ') }
+    })
+    expect(filterOptions(recipes, 'negroni').map((option) => option.id)).toEqual([
+      'Negroni',
+      'Negroni Sbagliato',
+      'Negroni Bianco Royale',
+      'Gin Negroni',
+    ])
+  })
+
   it('tolerates a typo when nothing matches exactly', () => {
     expect(filterOptions(indexed, 'cointrau').map((option) => option.id)).toEqual(['d'])
     expect(filterOptions(indexed, 'cassys').map((option) => option.id)).toEqual(['a'])

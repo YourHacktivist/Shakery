@@ -52,6 +52,11 @@ export function migrationsFolder(): string {
   return join(app.getAppPath(), 'resources', 'migrations')
 }
 
+/** Generated seed files read at start-up (resources/seed, section 9). */
+export function seedFolder(): string {
+  return join(app.getAppPath(), 'resources', 'seed')
+}
+
 export function windowIconFile(): string | undefined {
   return app.isPackaged ? undefined : join(app.getAppPath(), 'resources', 'icon.png')
 }

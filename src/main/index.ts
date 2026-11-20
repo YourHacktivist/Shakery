@@ -1,3 +1,4 @@
+import { join } from 'node:path'
 import { app, BrowserWindow, Menu, session } from 'electron'
 import { systemIds } from './db/client'
 import { DatabaseManager } from './db/manager'
@@ -11,10 +12,11 @@ import {
   mediaRoot,
   migrationsFolder,
   rendererTarget,
+  seedFolder,
 } from './paths'
 import { handleMediaProtocol, registerMediaScheme } from './protocol'
 import { hardenAllWebContents, hardenSession } from './security'
-import { BUNDLED_SEED } from './seed/bundled'
+import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './seed/bundled'
 import { loadSeedData } from './seed/load'
 import { createMainWindow } from './window'
 
@@ -40,7 +42,7 @@ if (!app.requestSingleInstanceLock()) {
     ids: systemIds(),
     log,
     seed: (db, ids) => {
-      const added = loadSeedData(db, ids, BUNDLED_SEED)
+      const added = loadSeedData(db, ids, withClassics(BUNDLED_SEED, join(seedFolder(), CLASSICS_FILE)))
       log.info(`Seed data added: ${JSON.stringify(added)}`)
     },
   })

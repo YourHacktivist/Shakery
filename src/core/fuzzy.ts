@@ -6,40 +6,67 @@
  * Inputs are expected normalized (normalize.ts): lower case, no accents.
  */
 
+/** Rows of the distance table, reused from one call to the next (the core stays pure). */
+let rowsSize = 0
+let rowA = new Int32Array(0)
+let rowB = new Int32Array(0)
+let rowC = new Int32Array(0)
+
 /**
  * Distance between `a` and `b`, or `max + 1` as soon as it is known to exceed `max`.
- * Runs in O(len(a) × len(b)) at worst, and stops early on clearly different words.
+ * Only the diagonal band of width `max` is computed: a cell outside it is already above `max`,
+ * so the result is the same as the full table, in O(len(a) × max). The search scans thousands
+ * of names with it when the full-text search finds nothing.
  */
 export function boundedDistance(a: string, b: string, max: number): number {
   if (a === b) return 0
-  if (Math.abs(a.length - b.length) > max) return max + 1
-  if (a.length === 0) return b.length
-  if (b.length === 0) return a.length
-
-  let previous2: number[] = []
-  let previous: number[] = Array.from({ length: b.length + 1 }, (_, j) => j)
-  for (let i = 1; i <= a.length; i += 1) {
-    const current: number[] = [i]
-    let rowMin = i
-    for (let j = 1; j <= b.length; j += 1) {
-      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+  const n = a.length
+  const m = b.length
+  const over = max + 1
+  if (Math.abs(n - m) > max) return over
+  if (n === 0) return m
+  if (m === 0) return n
+  if (rowsSize < m + 2) {
+    rowsSize = Math.max(m + 2, rowsSize * 2, 64)
+    rowA = new Int32Array(rowsSize)
+    rowB = new Int32Array(rowsSize)
+    rowC = new Int32Array(rowsSize)
+  }
+  let before = rowA
+  let previous = rowB
+  let current = rowC
+  for (let j = 0; j <= m; j += 1) previous[j] = j <= max ? j : over
+  previous[m + 1] = over
+  for (let i = 1; i <= n; i += 1) {
+    const low = Math.max(1, i - max)
+    const high = Math.min(m, i + max)
+    current[0] = i <= max ? i : over
+    current[low - 1] = low > 1 ? over : current[0]
+    let rowMin = current[low - 1] ?? over
+    const ai = a.charCodeAt(i - 1)
+    for (let j = low; j <= high; j += 1) {
+      const bj = b.charCodeAt(j - 1)
       let value = Math.min(
-        (previous[j] ?? Infinity) + 1,
-        (current[j - 1] ?? Infinity) + 1,
-        (previous[j - 1] ?? Infinity) + cost,
+        (previous[j] ?? over) + 1,
+        (current[j - 1] ?? over) + 1,
+        (previous[j - 1] ?? over) + (ai === bj ? 0 : 1),
       )
-      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
-        value = Math.min(value, (previous2[j - 2] ?? Infinity) + 1)
+      if (i > 1 && j > 1 && ai === b.charCodeAt(j - 2) && a.charCodeAt(i - 2) === bj) {
+        value = Math.min(value, (before[j - 2] ?? over) + 1)
       }
-      current.push(value)
+      if (value > over) value = over
+      current[j] = value
       if (value < rowMin) rowMin = value
     }
-    if (rowMin > max) return max + 1
-    previous2 = previous
+    if (high < m) current[high + 1] = over
+    if (rowMin > max) return over
+    const spare = before
+    before = previous
     previous = current
+    current = spare
   }
-  const result = previous[b.length] ?? max + 1
-  return result > max ? max + 1 : result
+  const result = previous[m] ?? over
+  return result > max ? over : result
 }
 
 /** Allowed distance for a typed text: none under 4 letters, 1 up to 6, then 2. */

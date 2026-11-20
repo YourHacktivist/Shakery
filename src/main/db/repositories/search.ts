@@ -3,9 +3,10 @@
  * the repositories (search-index.ts).
  *
  * - Fewer than three characters: prefix on the normalized names and aliases.
- * - Otherwise: FTS5 trigram MATCH. The typed text is never passed raw: it is normalized, cut
- *   into terms, each term quoted with its quotes doubled, which neutralizes OR, NOT, NEAR, *, ^
- *   and quotes (section 6).
+ * - Otherwise: FTS5 trigram MATCH, on the whole text as one phrase, then on its terms in any
+ *   order. The typed text is never passed raw: it is normalized, and the phrase and each term
+ *   are quoted with their quotes doubled, which neutralizes OR, NOT, NEAR, *, ^ and quotes
+ *   (section 6).
  * - Ranking: exact name, prefix, alias, then content; bonus for favourites, recipes in progress
  *   and recently viewed items.
  * - Nothing found: bounded Damerau-Levenshtein on names and aliases (core/fuzzy.ts).
@@ -37,6 +38,7 @@ type Row = { entityType: string; id: string; title: string; aliases: string }
 
 const TIER: Record<SearchMatch, number> = { exact: 0, prefix: 1, alias: 2, content: 3, fuzzy: 4 }
 const RECENT_DAYS = 30
+const FUZZY_CANDIDATES = 100
 const DAY = 24 * 60 * 60 * 1000
 
 function escapeLike(text: string): string {
@@ -51,6 +53,14 @@ export function toMatchQuery(normalized: string): string | null {
     .filter((term) => term.length >= 3)
   if (terms.length === 0) return null
   return terms.map((term) => `"${term.replaceAll('"', '""')}"`).join(' ')
+}
+
+/**
+ * The normalized text as a single FTS5 string: the trigram tokenizer finds it as a substring,
+ * punctuation included. Only the quote is special inside a string, and it is doubled.
+ */
+export function toPhraseQuery(normalized: string): string {
+  return `"${normalized.replaceAll('"', '""')}"`
 }
 
 function matchOf(query: string, row: Row): SearchMatch {
@@ -69,8 +79,7 @@ export class SearchRepository {
     if (query === '') return []
     const sqlite = this.db.$client
     let rows: Row[]
-    const match = query.length >= 3 ? toMatchQuery(query) : null
-    if (match === null) {
+    if (query.length < 3) {
       const prefix = `${escapeLike(query)}%`
       rows = sqlite
         .prepare(
@@ -81,18 +90,23 @@ export class SearchRepository {
         )
         .all(prefix, prefix, `% | ${prefix}`) as Row[]
     } else {
-      rows = sqlite
-        .prepare(
-          `SELECT entity_type AS entityType, entity_id AS id, title, aliases FROM search_index
-           WHERE search_index MATCH ? AND entity_type IN ('recipe', 'ingredient', 'product')
-           ORDER BY rank LIMIT 300`,
-        )
-        .all(match) as Row[]
+      const statement = sqlite.prepare(
+        `SELECT entity_type AS entityType, entity_id AS id, title, aliases FROM search_index
+         WHERE search_index MATCH ? AND entity_type IN ('recipe', 'ingredient', 'product')
+         ORDER BY rank LIMIT 300`,
+      )
+      // The whole text as one quoted phrase first: with thousands of classics, a short or
+      // punctuated word dropped from the terms (« My Tie », « AT&T », « Daisy No.2 ») would
+      // otherwise leave the exact name outside the first rows.
+      const phrase = toPhraseQuery(query)
+      rows = statement.all(phrase) as Row[]
+      const terms = toMatchQuery(query)
+      if (terms !== null && terms !== phrase) rows.push(...(statement.all(terms) as Row[]))
     }
 
-    const scored = new Map<string, { row: Row; match: SearchMatch; distance: number }>()
+    const scored = new Map<string, { row: Row; match: SearchMatch; distance: number; spread: number }>()
     for (const row of rows)
-      scored.set(`${row.entityType}:${row.id}`, { row, match: matchOf(query, row), distance: 0 })
+      scored.set(`${row.entityType}:${row.id}`, { row, match: matchOf(query, row), distance: 0, spread: 0 })
 
     if (scored.size === 0) {
       const all = sqlite
@@ -108,8 +122,18 @@ export class SearchRepository {
           const score = fuzzyScore(query, name)
           if (score !== null && (best === null || score < best)) best = score
         }
-        if (best !== null) scored.set(`${row.entityType}:${row.id}`, { row, match: 'fuzzy', distance: best })
+        // Among equally close names, the one whose length is closest to the typed text first:
+        // « margarta » gives Margarita before the hundred « … Margarita » of the classics.
+        const spread = Math.min(Math.abs(row.title.length - query.length), 9)
+        if (best !== null)
+          scored.set(`${row.entityType}:${row.id}`, { row, match: 'fuzzy', distance: best, spread })
       }
+      // Only the closest candidates are worth reading in detail.
+      const kept = [...scored.entries()]
+        .sort(([, a], [, b]) => a.distance - b.distance || a.spread - b.spread)
+        .slice(0, FUZZY_CANDIDATES)
+      scored.clear()
+      for (const [key, entry] of kept) scored.set(key, entry)
     }
     if (scored.size === 0) return []
 
@@ -130,7 +154,7 @@ export class SearchRepository {
         if (hit.favorite) bonus += 3
         if (hit.hit.status === 'draft' || hit.hit.status === 'testing') bonus += 2
         if (recent.has(key)) bonus += 4
-        const sortKey = TIER[entry.match] * 100 + entry.distance * 10 - bonus
+        const sortKey = TIER[entry.match] * 100 + entry.distance * 10 + entry.spread - bonus
         return [{ hit: { ...hit.hit, match: entry.match }, sortKey }]
       })
       .sort((a, b) => a.sortKey - b.sortKey || a.hit.title.localeCompare(b.hit.title, 'fr'))

@@ -13,7 +13,8 @@ test('Ctrl+K, three letters and Enter open a recipe in less than 3 seconds, then
     await page.keyboard.press('Control+K')
     const palette = page.getByRole('dialog', { name: 'Palette de recherche' })
     await palette.getByRole('combobox').fill('dai')
-    await expect(palette.getByRole('option', { name: /^Daiquiri/ })).toBeVisible()
+    // Thousands of classics (D-036): many « Daiquiri… », the Daiquiri itself comes first.
+    await expect(palette.getByRole('option').first()).toHaveAccessibleName(/^Daiquiri\s*Finale$/)
     await page.keyboard.press('Enter')
     await expect(page.getByRole('heading', { name: 'Daiquiri', level: 1 })).toBeVisible()
     expect(Date.now() - started).toBeLessThan(3_000)

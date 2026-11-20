@@ -8,7 +8,10 @@ import { databaseResolver } from '../db/facts'
 import { openDatabase } from '../db/connection'
 import { runMigrations } from '../db/migrate'
 import { SqliteReferenceRepository } from '../db/repositories/reference'
-import { BUNDLED_SEED } from './bundled'
+import { IngredientRepository } from '../db/repositories/ingredients'
+import { RecipeRepository } from '../db/repositories/recipes'
+import { SearchRepository } from '../db/repositories/search'
+import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './bundled'
 import { loadSeedData, validateSeedData } from './load'
 
 const MIGRATIONS = path.resolve(__dirname, '../../../resources/migrations')
@@ -208,5 +211,54 @@ describe('bundled seed data', () => {
         )
       }
     }
+  })
+})
+
+describe('classics of 24cocktails (D-036)', () => {
+  const file = path.resolve(__dirname, '../../../resources/seed', CLASSICS_FILE)
+
+  it('validate with the bundled seed: thousands of classics, each cocktail name once', () => {
+    const checked = validateSeedData(withClassics(BUNDLED_SEED, file))
+    expect(checked.recipes.filter((recipe) => recipe.seed_key.startsWith('c24.')).length).toBeGreaterThan(
+      7000,
+    )
+    const names = checked.recipes
+      .filter((recipe) => recipe.kind === 'cocktail')
+      .map((recipe) => normalizeName(recipe.name))
+    expect(new Set(names).size).toBe(names.length)
+  })
+
+  it('load like a repository creation: a classic, same first snapshot, found first by its name', () => {
+    const sqlite = openDatabase(':memory:')
+    runMigrations(sqlite, MIGRATIONS)
+    const db = createDb(sqlite)
+    let clock = 10
+    const ids = {
+      now: () => (clock += 1),
+      newId: createUuidV7Generator(
+        () => clock,
+        (b) => b.fill(7),
+      ),
+    }
+    const all = withClassics(BUNDLED_SEED, file)
+    const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('c24.')).slice(0, 40)
+    const report = loadSeedData(db, ids, { ...BUNDLED_SEED, recipes: [...BUNDLED_SEED.recipes, ...classics] })
+    expect(report.recipes).toBe(BUNDLED_SEED.recipes.length + classics.length)
+    const recipes = new RecipeRepository(db, ids, new IngredientRepository(db, ids))
+    const search = new SearchRepository(db)
+    for (const seed of classics) {
+      const { id } = sqlite.prepare('SELECT id FROM recipes WHERE seed_key = ?').get(seed.seed_key) as {
+        id: string
+      }
+      const detail = recipes.get(id)
+      expect(detail).toMatchObject({ name: seed.name, origin: 'classic', status: 'final', credit: null })
+      expect(detail.lines).toHaveLength(seed.lines.length)
+      expect(recipes.getVersion(id, 1)).toEqual({ ...detail, history: [] })
+      expect(search.search(seed.name, 5)[0]?.id, seed.name).toBe(id)
+    }
+    expect(
+      loadSeedData(db, ids, { ...BUNDLED_SEED, recipes: [...BUNDLED_SEED.recipes, ...classics] }).recipes,
+    ).toBe(0)
+    sqlite.close()
   })
 })

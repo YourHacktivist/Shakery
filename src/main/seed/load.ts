@@ -5,7 +5,8 @@
  * overwritten, and an entry the user deleted (soft delete) is never recreated, because
  * its seed_key is still in the table.
  */
-import { and, eq, isNotNull, isNull } from 'drizzle-orm'
+import { and, eq, getTableColumns, getTableName, isNotNull, isNull } from 'drizzle-orm'
+import type { SQLiteTable } from 'drizzle-orm/sqlite-core'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
 import { ALLERGEN_CODES } from '../../shared/domain/allergens'
@@ -13,9 +14,23 @@ import { FAMILY_VALUES, METHOD_VALUES, UNIT_VALUES } from '../../shared/domain/c
 import { BATCH_HINT_VALUES } from '../../shared/domain/reference'
 import type { Db, Ids } from '../db/client'
 import { IngredientRepository } from '../db/repositories/ingredients'
-import { RecipeRepository } from '../db/repositories/recipes'
-import { indexEntity } from '../db/repositories/search-index'
-import { categories, glasses, iceTypes, ingredientAliases, ingredients, recipes } from '../db/schema'
+import {
+  recipeDetailFromRows,
+  recipeIndexFields,
+  RecipeRepository,
+  type RecipeRow,
+} from '../db/repositories/recipes'
+import { indexEntity, indexValues, INSERT_INDEX_ROW } from '../db/repositories/search-index'
+import {
+  categories,
+  glasses,
+  iceTypes,
+  ingredientAliases,
+  ingredients,
+  recipeHistory,
+  recipeLines,
+  recipes,
+} from '../db/schema'
 
 const seedKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,80}$/)
 const label = z.string().trim().min(1).max(120)
@@ -87,8 +102,9 @@ const recipeLineSeedSchema = z
   .strict()
 
 /**
- * A classic cocktail (IBA) or a classic homemade preparation. A preparation is also an
- * ingredient: `ingredient_key` is the seed_key given to it, `category` its leaf category.
+ * A classic cocktail (IBA or 24cocktails.com, D-036) or a classic homemade preparation. A
+ * preparation is also an ingredient: `ingredient_key` is the seed_key given to it, `category`
+ * its leaf category.
  */
 export const recipeSeedSchema = z
   .object({
@@ -100,7 +116,7 @@ export const recipeSeedSchema = z
     method: z.enum(METHOD_VALUES).nullable(),
     glass: seedKey.nullable(),
     ice: seedKey.nullable(),
-    garnish: z.string().max(300).nullable(),
+    garnish: z.string().max(1000).nullable(),
     steps: z.array(z.string().min(1).max(1000)).max(30),
     notes: z.string().max(4000).nullable(),
     credit: z.string().max(200).nullable(),
@@ -152,7 +168,7 @@ export function validateSeedData(data: SeedData): {
   const gls = z.array(glassSeedSchema).max(200).parse(data.glasses)
   const ice = z.array(iceSeedSchema).max(100).parse(data.ice)
   const ings = z.array(ingredientSeedSchema).max(5000).parse(data.ingredients)
-  const recs = z.array(recipeSeedSchema).max(2000).parse(data.recipes)
+  const recs = z.array(recipeSeedSchema).max(10_000).parse(data.recipes)
 
   uniqueOrThrow(
     cats.map((c) => c.seed_key),
@@ -409,12 +425,12 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
           })
           .run()
       }
-      indexEntity(db.$client, 'ingredient', id, { title: item.name, aliases: item.aliases })
+      indexEntity(db.$client, 'ingredient', id, { title: item.name, aliases: item.aliases }, { fresh: true })
       report.ingredients += 1
     }
     return report
   })
-  report.recipes = loadSeedRecipes(db, ids, checked.recipes)
+  report.recipes = db.transaction(() => loadSeedRecipes(db, ids, checked.recipes))
   return report
 }
 
@@ -466,8 +482,9 @@ function seedKeys(rows: Array<{ id: string; seedKey: string | null }>): Map<stri
 }
 
 /**
- * Recipes go through the repository, which writes lines, the first snapshot, the search index
- * and, for a preparation, its ingredient. One transaction per recipe.
+ * Preparations go through the repository, which also writes their ingredient; cocktails go
+ * through the bulk writer below. All of them in one transaction: a single commit for the
+ * thousands of recipes of the first launch.
  */
 function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof recipeSeedSchema>>): number {
   const repository = new RecipeRepository(db, ids, new IngredientRepository(db, ids))
@@ -484,6 +501,7 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
   )
   const glassKeys = seedKeys(db.select({ id: glasses.id, seedKey: glasses.seedKey }).from(glasses).all())
   const iceKeys = seedKeys(db.select({ id: iceTypes.id, seedKey: iceTypes.seedKey }).from(iceTypes).all())
+  const bulk = bulkCocktailWriter(db, ids)
   let added = 0
   for (const seed of seeds) {
     if (recipeKeys.has(seed.seed_key)) continue
@@ -497,6 +515,14 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
     }))
     // An ingredient the user deleted (or merged away) leaves the recipe out.
     if (lines.some((line) => line.ingredientId === '')) continue
+    const glassId = seed.glass === null ? null : (glassKeys.get(seed.glass) ?? null)
+    const iceId = seed.ice === null ? null : (iceKeys.get(seed.ice) ?? null)
+    if (seed.kind === 'cocktail') {
+      const id = bulk.write(seed, lines, glassId, iceId)
+      recipeKeys.set(seed.seed_key, id)
+      added += 1
+      continue
+    }
     const detail = repository.create({
       name: seed.name,
       kind: seed.kind,
@@ -505,8 +531,8 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
       credit: seed.credit,
       family: seed.family,
       method: seed.method,
-      glassId: seed.glass === null ? null : (glassKeys.get(seed.glass) ?? null),
-      iceId: seed.ice === null ? null : (iceKeys.get(seed.ice) ?? null),
+      glassId,
+      iceId,
       garnish: seed.garnish,
       steps: seed.steps,
       notes: seed.notes,
@@ -518,7 +544,8 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
       .set({ seedKey: seed.seed_key, source: seed.source })
       .where(eq(recipes.id, detail.id))
       .run()
-    if (seed.kind === 'prep' && seed.ingredient_key !== null) {
+    // Only preparations reach this point: cocktails went through the bulk writer.
+    if (seed.ingredient_key !== null) {
       db.update(ingredients)
         .set({ seedKey: seed.ingredient_key, source: 'seed' })
         .where(eq(ingredients.prepRecipeId, detail.id))
@@ -534,4 +561,118 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
     added += 1
   }
   return added
+}
+
+type SeedLine = {
+  ingredientId: string
+  quantity: number | null
+  unit: (typeof recipeLines.$inferSelect)['unit']
+  isOptional: boolean
+  isGarnish: boolean
+  note: string | null
+}
+
+/** INSERT prepared once; each value goes through its column (booleans, JSON). Full rows only. */
+function bulkInsert<T extends SQLiteTable>(db: Db, table: T): (row: T['$inferSelect']) => void {
+  const columns = Object.entries(getTableColumns(table))
+  const statement = db.$client.prepare(
+    `INSERT INTO "${getTableName(table)}" (${columns.map(([, column]) => `"${column.name}"`).join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
+  )
+  return (row) => {
+    const values = row as Record<string, unknown>
+    statement.run(
+      ...columns.map(([key, column]) => {
+        const value = values[key]
+        if (value === undefined) throw new Error(`Seed row without ${key}`)
+        return value === null ? null : column.mapToDriverValue(value)
+      }),
+    )
+  }
+}
+
+/**
+ * Writes a seed cocktail with statements prepared once (D-036: about 7 000 classics on the first
+ * launch). Same rows as `RecipeRepository.create`: the recipe, its lines, the first snapshot
+ * built by `recipeDetailFromRows` (what `get` returns) and the search index row. The seed has
+ * already been validated by `validateSeedData`; a cocktail cannot use a preparation cycle.
+ */
+function bulkCocktailWriter(db: Db, ids: Ids) {
+  const insertRecipe = bulkInsert(db, recipes)
+  const insertLine = bulkInsert(db, recipeLines)
+  const insertHistory = bulkInsert(db, recipeHistory)
+  const insertIndex = db.$client.prepare(INSERT_INDEX_ROW)
+  return {
+    write(
+      seed: z.output<typeof recipeSeedSchema>,
+      lines: readonly SeedLine[],
+      glassId: string | null,
+      iceId: string | null,
+    ): string {
+      const now = ids.now()
+      const row: RecipeRow = {
+        id: ids.newId(),
+        createdAt: now,
+        updatedAt: now,
+        deletedAt: null,
+        name: seed.name,
+        nameNormalized: normalizeName(seed.name),
+        kind: 'cocktail',
+        status: 'final',
+        origin: 'classic',
+        credit: seed.credit,
+        family: seed.family,
+        method: seed.method,
+        glassId,
+        iceId,
+        garnish: seed.garnish,
+        steps: seed.steps,
+        notes: seed.notes,
+        photoPath: null,
+        tags: [],
+        dilutionOverridePct: null,
+        parentRecipeId: null,
+        yieldMl: seed.yield_ml,
+        shelfLifeDays: null,
+        storageNotes: null,
+        isFavorite: false,
+        version: 1,
+        source: seed.source,
+        seedKey: seed.seed_key,
+        drinkLength: null,
+        servingMoment: null,
+        profile: null,
+        garnishCostHtCents: null,
+      }
+      const lineRows = lines.map((line, index): typeof recipeLines.$inferSelect => ({
+        id: ids.newId(),
+        createdAt: now,
+        updatedAt: now,
+        deletedAt: null,
+        recipeId: row.id,
+        ingredientId: line.ingredientId,
+        preferredProductId: null,
+        quantity: line.quantity,
+        unit: line.unit,
+        topEstimateMl: null,
+        isOptional: line.isOptional,
+        isGarnish: line.isGarnish,
+        sortOrder: index,
+        note: line.note,
+      }))
+      insertRecipe(row)
+      for (const line of lineRows) insertLine(line)
+      insertHistory({
+        id: ids.newId(),
+        createdAt: now,
+        updatedAt: now,
+        deletedAt: null,
+        recipeId: row.id,
+        version: 1,
+        snapshot: recipeDetailFromRows(row, lineRows, [], null),
+        label: null,
+      })
+      insertIndex.run('recipe', row.id, ...indexValues(recipeIndexFields(row)))
+      return row.id
+    },
+  }
 }

@@ -1,0 +1,2369 @@
+{
+  "_comment": "Ingrédients créés pour les libellés de 24cocktails.com sans équivalent dans le référentiel (D-036). Même format que hand-ingredients.json.",
+  "ingredients": [
+    {
+      "name": "Crodino",
+      "category": "cat.alcohol_free.aperitifs",
+      "aliases": ["Apéritif amer sans alcool", "Bitter sans alcool"]
+    },
+    {
+      "name": "Spiritueux sans alcool",
+      "category": "cat.alcohol_free.spirits",
+      "aliases": ["Non-alcoholic spirit", "Distillat sans alcool"]
+    },
+    {
+      "name": "Branca Menta",
+      "category": "cat.bitters.amari",
+      "aliases": ["Fernet-Branca Menta"]
+    },
+    {
+      "name": "Apéritif amer à l'orange",
+      "category": "cat.bitters.aperitif",
+      "aliases": ["Bittersweet aperitivo", "Aperitivo"]
+    },
+    {
+      "name": "Bitter blanc",
+      "category": "cat.bitters.aperitif",
+      "aliases": ["Bitter bianco", "White bitter"]
+    },
+    {
+      "name": "Bitter rouge italien",
+      "category": "cat.bitters.aperitif",
+      "aliases": ["Italian red bitter", "Bitter italien"]
+    },
+    {
+      "name": "Cappelletti",
+      "category": "cat.bitters.aperitif",
+      "aliases": ["Aperitivo Cappelletti", "Cappelletti Americano Rosso"]
+    },
+    {
+      "name": "Bitters à l'érable",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Maple bitters"]
+    },
+    {
+      "name": "Bitters à l'hibiscus",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Hibiscus bitters"]
+    },
+    {
+      "name": "Bitters à l'olive",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Olive bitters"]
+    },
+    {
+      "name": "Bitters à la cardamome",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Cardamom bitters"]
+    },
+    {
+      "name": "Bitters à la cerise",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Cherry bitters"]
+    },
+    {
+      "name": "Bitters à la coriandre",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Coriander bitters"]
+    },
+    {
+      "name": "Bitters à la lavande",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Lavender bitters"]
+    },
+    {
+      "name": "Bitters à la menthe",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Peppermint bitters", "Mint bitters"]
+    },
+    {
+      "name": "Bitters à la noix",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Black walnut bitters", "Walnut bitters"]
+    },
+    {
+      "name": "Bitters à la pêche",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Peach bitters"]
+    },
+    {
+      "name": "Bitters à la poire",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["pear bitters"]
+    },
+    {
+      "name": "Bitters à la pomme",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Apple bitters"]
+    },
+    {
+      "name": "Bitters à la prune",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Plum bitters"]
+    },
+    {
+      "name": "Bitters à la réglisse",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Liquorice bitters", "Licorice bitters"]
+    },
+    {
+      "name": "Bitters à la rhubarbe",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Rhubarb bitters"]
+    },
+    {
+      "name": "Bitters à la vanille",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Vanilla bitters"]
+    },
+    {
+      "name": "Bitters au café",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Coffee bitters"]
+    },
+    {
+      "name": "Bitters au céleri",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Celery bitters"]
+    },
+    {
+      "name": "Bitters au chocolat",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Chocolate bitters"]
+    },
+    {
+      "name": "Bitters au citron",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Lemon bitters"]
+    },
+    {
+      "name": "Bitters au citron vert",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Lime bitters"]
+    },
+    {
+      "name": "Bitters au curcuma",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Turmeric bitters"]
+    },
+    {
+      "name": "Bitters au gingembre",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Ginger bitters"]
+    },
+    {
+      "name": "Bitters au melon d'hiver",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Winter melon bitters"]
+    },
+    {
+      "name": "Bitters au pamplemousse",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Grapefruit bitters"]
+    },
+    {
+      "name": "Bitters au piment",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Habanero bitters", "Chili bitters", "Teinture de piment"]
+    },
+    {
+      "name": "Bitters au piment de la Jamaïque",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Pimento bitters", "Allspice bitters"]
+    },
+    {
+      "name": "Bitters au yuzu",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Yuzu bitters"]
+    },
+    {
+      "name": "Bitters aux agrumes",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Citrus bitters"]
+    },
+    {
+      "name": "Bitters Daiquiri",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Daiquiri bitters"]
+    },
+    {
+      "name": "Bitters Margarita",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Margarita bitters"]
+    },
+    {
+      "name": "Bitters tiki",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Tiki bitters"]
+    },
+    {
+      "name": "Boker's bitters",
+      "category": "cat.bitters.aromatic",
+      "aliases": ["Bitters Boker"]
+    },
+    {
+      "name": "China-China",
+      "category": "cat.bitters.gentian",
+      "aliases": ["Amer China-China", "China China amer"]
+    },
+    {
+      "name": "Café soluble",
+      "category": "cat.coffee_tea.coffee",
+      "aliases": ["Instant coffee"]
+    },
+    {
+      "name": "Grain de café",
+      "category": "cat.coffee_tea.coffee",
+      "aliases": ["Coffee beans", "Grains de café"]
+    },
+    {
+      "name": "Café cold brew",
+      "category": "cat.coffee_tea.cold_brew",
+      "aliases": ["Cold brew coffee", "Café infusé à froid"]
+    },
+    {
+      "name": "Café froid",
+      "category": "cat.coffee_tea.cold_brew",
+      "aliases": ["Cold coffee", "Café refroidi"]
+    },
+    {
+      "name": "Fleur d'hibiscus",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Hibiscus flower", "Bissap", "Karkadé"]
+    },
+    {
+      "name": "Infusion de banane",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Banana tea", "Thé à la banane"]
+    },
+    {
+      "name": "Infusion de camomille",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Chamomile tea", "Camomile tea", "Tisane de camomille"]
+    },
+    {
+      "name": "Infusion de fruits rouges",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Berry tea", "Fruit tea", "Thé aux fruits rouges"]
+    },
+    {
+      "name": "Infusion de rooibos",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Rooibos tea", "Thé rooibos"]
+    },
+    {
+      "name": "Maté",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Yerba mate", "Mate tea", "Chá mate"]
+    },
+    {
+      "name": "Thé à la pomme",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Apple tea", "Thé turc à la pomme"]
+    },
+    {
+      "name": "Thé au jasmin",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Jasmine tea"]
+    },
+    {
+      "name": "Thé blanc",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["White tea"]
+    },
+    {
+      "name": "Thé chai",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Chai", "Masala chai"]
+    },
+    {
+      "name": "Thé Earl Grey",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Earl Grey tea", "Earl Grey"]
+    },
+    {
+      "name": "Thé Lapsang Souchong",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Lapsang souchong tea", "Thé fumé"]
+    },
+    {
+      "name": "Thé noir",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Black tea", "Breakfast tea"]
+    },
+    {
+      "name": "Thé vert",
+      "category": "cat.coffee_tea.tea",
+      "aliases": ["Green tea"]
+    },
+    {
+      "name": "Agent moussant",
+      "category": "cat.dairy.emulsifiers",
+      "aliases": ["Cocktail foamer", "Foamer"]
+    },
+    {
+      "name": "Aquafaba",
+      "category": "cat.dairy.emulsifiers",
+      "aliases": ["Eau de pois chiche", "Chickpea water"]
+    },
+    {
+      "name": "Blanc d'œuf en poudre",
+      "category": "cat.dairy.emulsifiers",
+      "aliases": ["Powdered egg white", "Albumine"],
+      "allergens": ["eggs"]
+    },
+    {
+      "name": "Beurre",
+      "category": "cat.dairy.milk",
+      "aliases": ["Butter"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Glace à la vanille",
+      "category": "cat.dairy.milk",
+      "aliases": ["Vanilla ice cream"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Glace au café",
+      "category": "cat.dairy.milk",
+      "aliases": ["Coffee ice cream"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Glace au chocolat",
+      "category": "cat.dairy.milk",
+      "aliases": ["Chocolate ice cream"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Lait chocolaté",
+      "category": "cat.dairy.milk",
+      "aliases": ["Chocolate milk"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Lait concentré sucré",
+      "category": "cat.dairy.milk",
+      "aliases": ["Condensed milk", "Sweetened condensed milk", "Lait condensé sucré"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Lait d'amande",
+      "category": "cat.dairy.milk",
+      "aliases": ["Almond milk", "Boisson à l'amande"],
+      "allergens": ["nuts"]
+    },
+    {
+      "name": "Lait d'avoine",
+      "category": "cat.dairy.milk",
+      "aliases": ["Oat milk", "Boisson à l'avoine"]
+    },
+    {
+      "name": "Lait demi-écrémé",
+      "category": "cat.dairy.milk",
+      "aliases": ["Semi-skimmed milk", "2% milk"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Mascarpone",
+      "category": "cat.dairy.milk",
+      "aliases": ["Mascarpone cheese"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Yaourt",
+      "category": "cat.dairy.milk",
+      "aliases": ["Yogurt", "Yoghurt"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Yaourt grec",
+      "category": "cat.dairy.milk",
+      "aliases": ["Greek yogurt", "Greek yoghurt"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Crème de coco sucrée",
+      "category": "cat.fruits.coconut",
+      "aliases": ["Cream of coconut", "Crème de noix de coco sucrée"]
+    },
+    {
+      "name": "Eau de coco",
+      "category": "cat.fruits.coconut",
+      "aliases": ["Coconut water"]
+    },
+    {
+      "name": "Huile de coco",
+      "category": "cat.fruits.coconut",
+      "aliases": ["Coconut oil"]
+    },
+    {
+      "name": "Sorbet à la noix de coco",
+      "category": "cat.fruits.coconut",
+      "aliases": ["Coconut sorbet", "Sorbet coco"]
+    },
+    {
+      "name": "Abricot",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Apricot"]
+    },
+    {
+      "name": "Ail",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Garlic", "Gousse d'ail"]
+    },
+    {
+      "name": "Avocat",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Avocado"]
+    },
+    {
+      "name": "Canneberge",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Cranberry", "Airelle canneberge", "Cranberries"]
+    },
+    {
+      "name": "Combava",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Kaffir lime", "Makrut lime"]
+    },
+    {
+      "name": "Épinard",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Spinach"]
+    },
+    {
+      "name": "Figue",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Fig", "Figs"]
+    },
+    {
+      "name": "Fleur comestible",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Edible flower"]
+    },
+    {
+      "name": "Fruit de saison",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Fruit", "Seasonal fruit"]
+    },
+    {
+      "name": "Kumquat",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Kumquats", "Cumquat"]
+    },
+    {
+      "name": "Maïs doux",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Sweetcorn", "Sweet corn"]
+    },
+    {
+      "name": "Nectarine",
+      "category": "cat.fruits.fresh",
+      "aliases": []
+    },
+    {
+      "name": "Oignon rouge",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Red onion"]
+    },
+    {
+      "name": "Oignon vert",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Green onion", "Cébette", "Scallion"]
+    },
+    {
+      "name": "Papaye",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Papaya"]
+    },
+    {
+      "name": "Physalis",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Cape gooseberry", "Amour en cage"]
+    },
+    {
+      "name": "Pois gourmand",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Sugar snap peas", "Mangetout"]
+    },
+    {
+      "name": "Poivron jaune",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Yellow bell pepper"]
+    },
+    {
+      "name": "Poivron rouge",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Red bell pepper", "Poivron"]
+    },
+    {
+      "name": "Raisin sec",
+      "category": "cat.fruits.fresh",
+      "aliases": ["Raisins", "Sultanas"]
+    },
+    {
+      "name": "Beurre de pomme",
+      "category": "cat.fruits.puree",
+      "aliases": ["Apple butter"]
+    },
+    {
+      "name": "Beurre de potiron",
+      "category": "cat.fruits.puree",
+      "aliases": ["pumpkin butter"]
+    },
+    {
+      "name": "Confiture d'abricot",
+      "category": "cat.fruits.puree",
+      "aliases": ["Apricot jam", "Apricot preserve"]
+    },
+    {
+      "name": "Confiture d'ananas",
+      "category": "cat.fruits.puree",
+      "aliases": ["pineapple jam"]
+    },
+    {
+      "name": "Confiture de cassis",
+      "category": "cat.fruits.puree",
+      "aliases": ["Blackcurrant jam"]
+    },
+    {
+      "name": "Confiture de cerise",
+      "category": "cat.fruits.puree",
+      "aliases": ["Cherry jam", "Black cherry jam"]
+    },
+    {
+      "name": "Confiture de coing",
+      "category": "cat.fruits.puree",
+      "aliases": ["Quince jam"]
+    },
+    {
+      "name": "Confiture de fraise",
+      "category": "cat.fruits.puree",
+      "aliases": ["Strawberry jam", "Strawberry preserve"]
+    },
+    {
+      "name": "Confiture de framboise",
+      "category": "cat.fruits.puree",
+      "aliases": ["Raspberry jam"]
+    },
+    {
+      "name": "Confiture de gingembre",
+      "category": "cat.fruits.puree",
+      "aliases": ["Ginger jam", "Ginger preserve"]
+    },
+    {
+      "name": "Confiture de mûre",
+      "category": "cat.fruits.puree",
+      "aliases": ["Mulberry jam", "Blackberry jam"]
+    },
+    {
+      "name": "Confiture de poire",
+      "category": "cat.fruits.puree",
+      "aliases": ["pear jam"]
+    },
+    {
+      "name": "Confiture de prune",
+      "category": "cat.fruits.puree",
+      "aliases": ["Plum jam", "Damson jam"]
+    },
+    {
+      "name": "Confiture de rhubarbe",
+      "category": "cat.fruits.puree",
+      "aliases": ["Rhubarb jam", "Rhubarb preserve"]
+    },
+    {
+      "name": "Curd à l'orange",
+      "category": "cat.fruits.puree",
+      "aliases": ["orange curd"],
+      "allergens": ["eggs", "milk"]
+    },
+    {
+      "name": "Curd au citron",
+      "category": "cat.fruits.puree",
+      "aliases": ["Lemon curd"],
+      "allergens": ["eggs", "milk"]
+    },
+    {
+      "name": "Gelée de groseille",
+      "category": "cat.fruits.puree",
+      "aliases": ["Redcurrant jelly"]
+    },
+    {
+      "name": "Marmelade d'orange",
+      "category": "cat.fruits.puree",
+      "aliases": ["Orange marmalade"]
+    },
+    {
+      "name": "Marmelade de pamplemousse",
+      "category": "cat.fruits.puree",
+      "aliases": ["Grapefruit marmalade", "Grapefruit preserve"]
+    },
+    {
+      "name": "Mincemeat",
+      "category": "cat.fruits.puree",
+      "aliases": ["Garniture de mince pie"]
+    },
+    {
+      "name": "Purée d'ananas",
+      "category": "cat.fruits.puree",
+      "aliases": ["pineapple puree"]
+    },
+    {
+      "name": "Purée de fraise",
+      "category": "cat.fruits.puree",
+      "aliases": ["Strawberry purée", "Coulis de fraise"]
+    },
+    {
+      "name": "Purée de kiwi",
+      "category": "cat.fruits.puree",
+      "aliases": ["kiwi puree"]
+    },
+    {
+      "name": "Purée de mangue",
+      "category": "cat.fruits.puree",
+      "aliases": ["Mango purée"]
+    },
+    {
+      "name": "Purée de nectarine",
+      "category": "cat.fruits.puree",
+      "aliases": ["nectarine puree"]
+    },
+    {
+      "name": "Purée de pastèque",
+      "category": "cat.fruits.puree",
+      "aliases": ["Watermelon purée"]
+    },
+    {
+      "name": "Purée de pêche",
+      "category": "cat.fruits.puree",
+      "aliases": ["Peach purée"]
+    },
+    {
+      "name": "Purée de poire",
+      "category": "cat.fruits.puree",
+      "aliases": ["Pear purée"]
+    },
+    {
+      "name": "Purée de potiron",
+      "category": "cat.fruits.puree",
+      "aliases": ["pumpkin puree"]
+    },
+    {
+      "name": "Sorbet à l'orange",
+      "category": "cat.fruits.puree",
+      "aliases": ["orange sorbet"]
+    },
+    {
+      "name": "Sorbet au citron",
+      "category": "cat.fruits.puree",
+      "aliases": ["Lemon sorbet", "Sorbet citron"]
+    },
+    {
+      "name": "Sorbet au citron vert",
+      "category": "cat.fruits.puree",
+      "aliases": ["lime sorbet"]
+    },
+    {
+      "name": "Biscuit au chocolat",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["chocolate cookie"]
+    },
+    {
+      "name": "Chocolat blanc",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["White chocolate", "Copeaux de chocolat blanc"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Chocolat noir",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["Dark chocolate", "Copeaux de chocolat"]
+    },
+    {
+      "name": "Fleur d'hibiscus au sirop",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["Hibiscus flower in syrup", "Wild hibiscus flower"]
+    },
+    {
+      "name": "Gingembre confit",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["Candied ginger", "Crystallized ginger"]
+    },
+    {
+      "name": "Guimauve",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["marshmallow"]
+    },
+    {
+      "name": "Pop-corn",
+      "category": "cat.garnishes.cherries",
+      "aliases": ["popcorn"]
+    },
+    {
+      "name": "Sucre à la cannelle",
+      "category": "cat.garnishes.rims",
+      "aliases": ["Cinnamon sugar", "Sucre-cannelle"]
+    },
+    {
+      "name": "Olive noire",
+      "category": "cat.garnishes.savory",
+      "aliases": ["Black olive"]
+    },
+    {
+      "name": "Saumure d'olive",
+      "category": "cat.garnishes.savory",
+      "aliases": ["Olive brine", "Olive juice", "Jus d'olive"]
+    },
+    {
+      "name": "Saumure de câpres",
+      "category": "cat.garnishes.savory",
+      "aliases": ["Caper brine", "Jus de câpres"]
+    },
+    {
+      "name": "Saumure de citron confit",
+      "category": "cat.garnishes.savory",
+      "aliases": ["preserved lemon brine"]
+    },
+    {
+      "name": "Saumure de cornichon",
+      "category": "cat.garnishes.savory",
+      "aliases": ["Pickle brine", "Pickle juice", "Gherkin brine"]
+    },
+    {
+      "name": "Boisson à l'hibiscus",
+      "category": "cat.juices.bottled",
+      "aliases": ["Sorrel drink", "Sorrelade"]
+    },
+    {
+      "name": "Boisson aux fruits",
+      "category": "cat.juices.bottled",
+      "aliases": ["Fruit drink", "Fruit punch"]
+    },
+    {
+      "name": "Citronnade",
+      "category": "cat.juices.bottled",
+      "aliases": ["lemonade"]
+    },
+    {
+      "name": "Clamato",
+      "category": "cat.juices.bottled",
+      "aliases": ["Tomato clam juice", "Jus de tomate aux palourdes"]
+    },
+    {
+      "name": "Jus d'aloe vera",
+      "category": "cat.juices.bottled",
+      "aliases": ["Aloe vera juice", "Boisson à l'aloe vera"]
+    },
+    {
+      "name": "Jus de cassis",
+      "category": "cat.juices.bottled",
+      "aliases": ["Blackcurrant juice"]
+    },
+    {
+      "name": "Jus de litchi",
+      "category": "cat.juices.bottled",
+      "aliases": ["Lychee juice"]
+    },
+    {
+      "name": "Jus de palourde",
+      "category": "cat.juices.bottled",
+      "aliases": ["Clam juice"]
+    },
+    {
+      "name": "Jus de pomme pétillant",
+      "category": "cat.juices.bottled",
+      "aliases": ["Sparkling apple juice"]
+    },
+    {
+      "name": "Jus de pulpe de cacao",
+      "category": "cat.juices.bottled",
+      "aliases": ["Cocoa honey", "Mel de cacau"]
+    },
+    {
+      "name": "Jus multivitaminé",
+      "category": "cat.juices.bottled",
+      "aliases": ["Multivitamin juice", "Jus multifruit"]
+    },
+    {
+      "name": "Nectar de banane",
+      "category": "cat.juices.bottled",
+      "aliases": ["Banana juice", "Jus de banane"]
+    },
+    {
+      "name": "Punch aux fruits sans alcool",
+      "category": "cat.juices.bottled",
+      "aliases": ["Fruit punch"]
+    },
+    {
+      "name": "Sève de bouleau",
+      "category": "cat.juices.bottled",
+      "aliases": ["Birch water", "Eau de bouleau"]
+    },
+    {
+      "name": "Verjus",
+      "category": "cat.juices.bottled",
+      "aliases": ["Verjuice"]
+    },
+    {
+      "name": "Jus d'orange sanguine",
+      "category": "cat.juices.citrus",
+      "aliases": ["Blood orange juice"]
+    },
+    {
+      "name": "Jus de bergamote",
+      "category": "cat.juices.citrus",
+      "aliases": ["Bergamot juice"]
+    },
+    {
+      "name": "Jus de calamansi",
+      "category": "cat.juices.citrus",
+      "aliases": ["Calamansi juice", "Jus de calamondin"]
+    },
+    {
+      "name": "Jus de citron Rangpur",
+      "category": "cat.juices.citrus",
+      "aliases": ["Rangpur lime juice", "Limão-cravo"]
+    },
+    {
+      "name": "Jus de yuzu",
+      "category": "cat.juices.citrus",
+      "aliases": ["Yuzu juice"]
+    },
+    {
+      "name": "Jus de céleri",
+      "category": "cat.juices.fresh",
+      "aliases": ["Celery juice"]
+    },
+    {
+      "name": "Jus de figue de Barbarie",
+      "category": "cat.juices.fresh",
+      "aliases": ["prickly pear juice"]
+    },
+    {
+      "name": "Jus de gingembre",
+      "category": "cat.juices.fresh",
+      "aliases": ["Ginger juice"]
+    },
+    {
+      "name": "Jus de pastèque",
+      "category": "cat.juices.fresh",
+      "aliases": ["Watermelon juice"]
+    },
+    {
+      "name": "Jus de poivron",
+      "category": "cat.juices.fresh",
+      "aliases": ["Bell pepper juice"]
+    },
+    {
+      "name": "Verdita",
+      "category": "cat.juices.fresh",
+      "aliases": []
+    },
+    {
+      "name": "Amarula",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["Marula cream liqueur", "Crème de marula"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Liqueur à la crème",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["Cream liqueur", "Liqueur crémeuse"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Liqueur de caramel",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["Caramel liqueur", "Toffee liqueur"]
+    },
+    {
+      "name": "Liqueur de caramel au beurre",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["Butterscotch liqueur", "Butterscotch schnapps"]
+    },
+    {
+      "name": "Liqueur de chocolat blanc",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["White chocolate liqueur"]
+    },
+    {
+      "name": "Liqueur de yaourt",
+      "category": "cat.liqueurs.coffee_cream",
+      "aliases": ["Yoghurt liqueur", "Yogurt liqueur", "Liqueur au yaourt"],
+      "allergens": ["milk"]
+    },
+    {
+      "name": "Hpnotiq",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Hpnotiq liqueur"]
+    },
+    {
+      "name": "Liqueur d'ananas",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Pineapple liqueur", "Crème d'ananas"]
+    },
+    {
+      "name": "Liqueur de coco",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Coconut liqueur", "Coconut rum liqueur"]
+    },
+    {
+      "name": "Liqueur de kiwi",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["kiwi liqueur"]
+    },
+    {
+      "name": "Liqueur de litchi",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Lychee liqueur"]
+    },
+    {
+      "name": "Liqueur de melon",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Melon liqueur"]
+    },
+    {
+      "name": "Liqueur de pastèque",
+      "category": "cat.liqueurs.exotic",
+      "aliases": ["Watermelon liqueur", "Watermelon schnapps"]
+    },
+    {
+      "name": "Pisang Ambon",
+      "category": "cat.liqueurs.exotic",
+      "aliases": []
+    },
+    {
+      "name": "Crème de figue",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Fig liqueur", "Liqueur de figue"]
+    },
+    {
+      "name": "Crème de fraise",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Strawberry liqueur", "Liqueur de fraise"]
+    },
+    {
+      "name": "Crème de myrtille",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Blueberry liqueur", "Liqueur de myrtille"]
+    },
+    {
+      "name": "Fruit cup",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Fruit cup liqueur", "Summer cup"]
+    },
+    {
+      "name": "Liqueur de canneberge",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Cranberry liqueur"]
+    },
+    {
+      "name": "Liqueur de grenade",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["pomegranate liqueur"]
+    },
+    {
+      "name": "Liqueur de plaquebière",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Cloudberry liqueur", "Lakka"]
+    },
+    {
+      "name": "Liqueur de poire",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Pear liqueur", "Poire Williams liqueur", "Crème de poire"]
+    },
+    {
+      "name": "Liqueur de prune",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Plum liqueur", "Damson liqueur"]
+    },
+    {
+      "name": "Liqueur de prunelle",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Sloe liqueur", "Blackthorn liqueur", "Prunelle"]
+    },
+    {
+      "name": "Liqueur de rhubarbe",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Rhubarb liqueur"]
+    },
+    {
+      "name": "Mirto",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Myrtle liqueur", "Liqueur de myrte"]
+    },
+    {
+      "name": "Pimm's No.1",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Pimm's", "Pimm's No.1 Cup"]
+    },
+    {
+      "name": "Ratafia",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Ratafia liqueur"]
+    },
+    {
+      "name": "Schnapps à la pomme",
+      "category": "cat.liqueurs.fruit",
+      "aliases": ["Apple schnapps", "Liqueur de pomme"]
+    },
+    {
+      "name": "Apéritif au ginseng",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Ginseng aperitif"]
+    },
+    {
+      "name": "Génépi",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Génépy"]
+    },
+    {
+      "name": "Izarra",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Izarra liqueur"]
+    },
+    {
+      "name": "Liqueur de damiana",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Damiana liqueur"]
+    },
+    {
+      "name": "Liqueur de maïs",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Corn liqueur", "Licor de elote"]
+    },
+    {
+      "name": "Liqueur de pin",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["pine liqueur"]
+    },
+    {
+      "name": "Liqueur de pin cembro",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Stone pine liqueur"]
+    },
+    {
+      "name": "Liqueur de réglisse",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Liquorice liqueur", "Licorice liqueur"]
+    },
+    {
+      "name": "Liqueur de sève de bouleau",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Birch sap liqueur", "Liqueur de bouleau"]
+    },
+    {
+      "name": "Liqueur de tabac",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Tobacco liqueur"]
+    },
+    {
+      "name": "Liqueur de thé",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["tea liqueur"]
+    },
+    {
+      "name": "Liqueur de thé vert",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Green tea liqueur"]
+    },
+    {
+      "name": "Liqueur de thym",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Thyme liqueur"]
+    },
+    {
+      "name": "Mastiha",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Mastiha liqueur", "Mastic liqueur"]
+    },
+    {
+      "name": "Sambuca",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Sambuca bianca", "White sambuca", "Sambuca blanche", "Sambuca noire"]
+    },
+    {
+      "name": "Schnapps à la menthe poivrée",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Peppermint schnapps"]
+    },
+    {
+      "name": "Schnapps à la racinette",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Root beer schnapps"]
+    },
+    {
+      "name": "Strega",
+      "category": "cat.liqueurs.herbal",
+      "aliases": ["Liquore Strega"]
+    },
+    {
+      "name": "Crème de châtaigne",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["Chestnut liqueur", "Liqueur de châtaigne"]
+    },
+    {
+      "name": "Crème de noyau",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["Crème de noyaux", "Noyau"]
+    },
+    {
+      "name": "Frangelico",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["Liqueur Frangelico", "Liqueur de noisette italienne"]
+    },
+    {
+      "name": "Liqueur de noix de macadamia",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["Macadamia nut liqueur"],
+      "allergens": ["nuts"]
+    },
+    {
+      "name": "Liqueur de noix de pécan",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["pecan liqueur"]
+    },
+    {
+      "name": "Liqueur de pistache",
+      "category": "cat.liqueurs.nut",
+      "aliases": ["pistachio liqueur"]
+    },
+    {
+      "name": "Cointreau",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Triple sec Cointreau"]
+    },
+    {
+      "name": "Crème de pamplemousse",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Grapefruit liqueur", "Liqueur de pamplemousse"]
+    },
+    {
+      "name": "Fatourada",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Fatourada liqueur"]
+    },
+    {
+      "name": "Grand Marnier",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Grand Marnier Cordon Rouge"]
+    },
+    {
+      "name": "Hesperidina",
+      "category": "cat.liqueurs.orange",
+      "aliases": []
+    },
+    {
+      "name": "Liqueur de bergamote",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Bergamot liqueur", "Rosolio di bergamotto"]
+    },
+    {
+      "name": "Liqueur de cédrat",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["citron liqueur"]
+    },
+    {
+      "name": "Liqueur de chinotto",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Chinotto liqueur"]
+    },
+    {
+      "name": "Liqueur de citron vert",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["lime liqueur"]
+    },
+    {
+      "name": "Liqueur de kumquat",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Kumquat liqueur"]
+    },
+    {
+      "name": "Liqueur de yuzu",
+      "category": "cat.liqueurs.orange",
+      "aliases": ["Yuzu liqueur", "Yuzushu"]
+    },
+    {
+      "name": "Mandarine Napoléon",
+      "category": "cat.liqueurs.orange",
+      "aliases": []
+    },
+    {
+      "name": "Alkermes",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Alchermes"]
+    },
+    {
+      "name": "Glayva",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Glayva liqueur"]
+    },
+    {
+      "name": "Licor 43",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Cuarenta y Tres"]
+    },
+    {
+      "name": "Liqueur de camomille",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Chamomile liqueur"]
+    },
+    {
+      "name": "Liqueur de fleur de sureau",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Elderflower liqueur"]
+    },
+    {
+      "name": "Liqueur de fleur de vigne",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["vine flower liqueur"]
+    },
+    {
+      "name": "Liqueur de gingembre",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Ginger liqueur"]
+    },
+    {
+      "name": "Liqueur de jasmin",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["jasmine liqueur"]
+    },
+    {
+      "name": "Liqueur de miel",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Honey liqueur"]
+    },
+    {
+      "name": "Liqueur de moutarde",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Mustard liqueur"]
+    },
+    {
+      "name": "Liqueur de pain d'épices",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Gingerbread liqueur"]
+    },
+    {
+      "name": "Liqueur de piment",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Chile liqueur", "Chili liqueur"]
+    },
+    {
+      "name": "Liqueur de rose",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Rose liqueur", "Rose petal liqueur", "Crème de rose"]
+    },
+    {
+      "name": "Liqueur de vanille",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Vanilla liqueur", "Crème de vanille"]
+    },
+    {
+      "name": "Liqueur de whiskey au miel",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Honey whiskey liqueur", "Whiskey au miel"]
+    },
+    {
+      "name": "Punsch suédois",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Swedish punsch", "Arrack punsch"]
+    },
+    {
+      "name": "Schnapps à la cannelle",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Cinnamon schnapps", "Liqueur de cannelle"]
+    },
+    {
+      "name": "Southern Comfort",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["SoCo"]
+    },
+    {
+      "name": "St-Germain",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Saint-Germain", "St. Germain"]
+    },
+    {
+      "name": "Tuaca",
+      "category": "cat.liqueurs.spice_honey",
+      "aliases": ["Tuaca liqueur"]
+    },
+    {
+      "name": "Boisson énergisante",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Energy drink"]
+    },
+    {
+      "name": "Salsepareille",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Sarsaparilla", "Soda à la salsepareille"]
+    },
+    {
+      "name": "Soda à l'ananas",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Pineapple soda"]
+    },
+    {
+      "name": "Soda à la fleur de sureau",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Elderflower pressé", "Elderflower soda", "Limonade au sureau"]
+    },
+    {
+      "name": "Soda au yuzu",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Yuzu soda"]
+    },
+    {
+      "name": "Soda citron-citron vert",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Lemon-lime soda", "Limonade"]
+    },
+    {
+      "name": "Soda pissenlit et bardane",
+      "category": "cat.mixers.sodas",
+      "aliases": ["Dandelion and burdock"]
+    },
+    {
+      "name": "Bitter lemon",
+      "category": "cat.mixers.tonic",
+      "aliases": ["Bitter lemon soda", "Tonic au citron"]
+    },
+    {
+      "name": "Pâte d'assaisonnement maison",
+      "category": "cat.preps.batches",
+      "aliases": ["Homemade paste", "Bloody Mary paste"]
+    },
+    {
+      "name": "Sour mix",
+      "category": "cat.preps.batches",
+      "aliases": ["Sweet and sour", "Sweet & sour mix", "Mélange aigre-doux", "Sweet and sour mix"]
+    },
+    {
+      "name": "Cordial de bergamote",
+      "category": "cat.preps.cordials",
+      "aliases": ["Bergamot cordial"]
+    },
+    {
+      "name": "Cordial de noix de coco grillée",
+      "category": "cat.preps.cordials",
+      "aliases": ["Roasted coconut cordial"]
+    },
+    {
+      "name": "Cordial de sarrasin torréfié",
+      "category": "cat.preps.cordials",
+      "aliases": ["Roasted buckwheat cordial"]
+    },
+    {
+      "name": "Cordial fruit de la passion et yuzu",
+      "category": "cat.preps.cordials",
+      "aliases": ["passion fruit and yuzu cordial"]
+    },
+    {
+      "name": "Oleo saccharum citron vert",
+      "category": "cat.preps.cordials",
+      "aliases": ["Lime oleo saccharum"]
+    },
+    {
+      "name": "Oleo saccharum orange",
+      "category": "cat.preps.cordials",
+      "aliases": ["Orange oleo saccharum"]
+    },
+    {
+      "name": "Oleo saccharum pamplemousse",
+      "category": "cat.preps.cordials",
+      "aliases": ["Grapefruit oleo saccharum"]
+    },
+    {
+      "name": "Shrub à l'ananas",
+      "category": "cat.preps.cordials",
+      "aliases": ["pineapple shrub"]
+    },
+    {
+      "name": "Shrub à l'érable",
+      "category": "cat.preps.cordials",
+      "aliases": ["maple shrub"]
+    },
+    {
+      "name": "Shrub à la fraise",
+      "category": "cat.preps.cordials",
+      "aliases": ["Strawberry shrub"]
+    },
+    {
+      "name": "Shrub à la pomme",
+      "category": "cat.preps.cordials",
+      "aliases": ["Apple shrub", "Shrub pomme"]
+    },
+    {
+      "name": "Shrub aux agrumes",
+      "category": "cat.preps.cordials",
+      "aliases": ["Citrus shrub"]
+    },
+    {
+      "name": "Soda au thé à la banane",
+      "category": "cat.preps.sodas",
+      "aliases": ["Banana tea soda"]
+    },
+    {
+      "name": "Solution acide",
+      "category": "cat.preps.solutions",
+      "aliases": ["Acid solution", "Acidic cocktail mixer"]
+    },
+    {
+      "name": "Solution d'acide citrique",
+      "category": "cat.preps.solutions",
+      "aliases": ["Citric acid solution", "Solution acide"]
+    },
+    {
+      "name": "Solution saline",
+      "category": "cat.preps.solutions",
+      "aliases": ["Saline solution", "Eau salée"]
+    },
+    {
+      "name": "Sirop d'ananas",
+      "category": "cat.preps.syrups",
+      "aliases": ["Pineapple syrup", "Pineapple sugar syrup"]
+    },
+    {
+      "name": "Sirop d'anis étoilé",
+      "category": "cat.preps.syrups",
+      "aliases": ["Star anise syrup"]
+    },
+    {
+      "name": "Sirop d'estragon",
+      "category": "cat.preps.syrups",
+      "aliases": ["Tarragon syrup"]
+    },
+    {
+      "name": "Sirop d'hibiscus",
+      "category": "cat.preps.syrups",
+      "aliases": ["Hibiscus syrup"]
+    },
+    {
+      "name": "Sirop de basilic",
+      "category": "cat.preps.syrups",
+      "aliases": ["Basil syrup", "Basil sugar syrup"]
+    },
+    {
+      "name": "Sirop de betterave",
+      "category": "cat.preps.syrups",
+      "aliases": ["Beetroot syrup", "Beet syrup"]
+    },
+    {
+      "name": "Sirop de camomille",
+      "category": "cat.preps.syrups",
+      "aliases": ["Chamomile syrup", "Camomile syrup"]
+    },
+    {
+      "name": "Sirop de cardamome",
+      "category": "cat.preps.syrups",
+      "aliases": ["Cardamom syrup", "Cardamom sugar syrup"]
+    },
+    {
+      "name": "Sirop de céleri",
+      "category": "cat.preps.syrups",
+      "aliases": ["Celery syrup", "Celery saccharum"]
+    },
+    {
+      "name": "Sirop de citronnelle",
+      "category": "cat.preps.syrups",
+      "aliases": ["Lemongrass syrup"]
+    },
+    {
+      "name": "Sirop de coing",
+      "category": "cat.preps.syrups",
+      "aliases": ["Quince syrup"]
+    },
+    {
+      "name": "Sirop de curcuma et miel",
+      "category": "cat.preps.syrups",
+      "aliases": ["Turmeric and honey syrup"]
+    },
+    {
+      "name": "Sirop de fenouil",
+      "category": "cat.preps.syrups",
+      "aliases": ["Fennel syrup"]
+    },
+    {
+      "name": "Sirop de figue",
+      "category": "cat.preps.syrups",
+      "aliases": ["Fig syrup"]
+    },
+    {
+      "name": "Sirop de framboise et cardamome",
+      "category": "cat.preps.syrups",
+      "aliases": ["Raspberry and cardamom syrup"]
+    },
+    {
+      "name": "Sirop de guimauve",
+      "category": "cat.preps.syrups",
+      "aliases": ["Marshmallow syrup", "Marshmallow mix"]
+    },
+    {
+      "name": "Sirop de malt d'orge",
+      "category": "cat.preps.syrups",
+      "aliases": ["Barley malt syrup", "Sirop de malt"]
+    },
+    {
+      "name": "Sirop de pamplemousse",
+      "category": "cat.preps.syrups",
+      "aliases": ["Grapefruit syrup"]
+    },
+    {
+      "name": "Sirop de pandan",
+      "category": "cat.preps.syrups",
+      "aliases": ["Pandan syrup"]
+    },
+    {
+      "name": "Sirop de pastèque",
+      "category": "cat.preps.syrups",
+      "aliases": ["Watermelon syrup"]
+    },
+    {
+      "name": "Sirop de piment",
+      "category": "cat.preps.syrups",
+      "aliases": ["Chili syrup", "Sirop pimenté"]
+    },
+    {
+      "name": "Sirop de poivre",
+      "category": "cat.preps.syrups",
+      "aliases": ["Peppercorn syrup"]
+    },
+    {
+      "name": "Sirop de pomme",
+      "category": "cat.preps.syrups",
+      "aliases": ["Apple syrup"]
+    },
+    {
+      "name": "Sirop de potiron épicé",
+      "category": "cat.preps.syrups",
+      "aliases": ["pumpkin spice syrup"]
+    },
+    {
+      "name": "Sirop de prosecco",
+      "category": "cat.preps.syrups",
+      "aliases": ["prosecco syrup"]
+    },
+    {
+      "name": "Sirop de raisin sec",
+      "category": "cat.preps.syrups",
+      "aliases": ["Raisin syrup"]
+    },
+    {
+      "name": "Sirop de rhubarbe",
+      "category": "cat.preps.syrups",
+      "aliases": ["Rhubarb syrup"]
+    },
+    {
+      "name": "Sirop de romarin",
+      "category": "cat.preps.syrups",
+      "aliases": ["Rosemary syrup"]
+    },
+    {
+      "name": "Sirop de safran",
+      "category": "cat.preps.syrups",
+      "aliases": ["Saffron syrup"]
+    },
+    {
+      "name": "Sirop de safran et miel",
+      "category": "cat.preps.syrups",
+      "aliases": ["Saffron and honey syrup"]
+    },
+    {
+      "name": "Sirop de thé au jasmin",
+      "category": "cat.preps.syrups",
+      "aliases": ["Jasmine syrup", "Jasmine tea syrup"]
+    },
+    {
+      "name": "Sirop de thé Earl Grey",
+      "category": "cat.preps.syrups",
+      "aliases": ["Earl Grey syrup", "Sirop Earl Grey"]
+    },
+    {
+      "name": "Sirop de thé lapsang souchong",
+      "category": "cat.preps.syrups",
+      "aliases": ["Lapsang souchong syrup"]
+    },
+    {
+      "name": "Sirop de thé noir",
+      "category": "cat.preps.syrups",
+      "aliases": ["Black tea syrup", "Breakfast tea syrup"]
+    },
+    {
+      "name": "Sirop de vanille",
+      "category": "cat.preps.syrups",
+      "aliases": ["Vanilla syrup", "Vanilla sugar syrup"]
+    },
+    {
+      "name": "Sirop de vin blanc",
+      "category": "cat.preps.syrups",
+      "aliases": ["White wine syrup"]
+    },
+    {
+      "name": "Sirop de vin rouge",
+      "category": "cat.preps.syrups",
+      "aliases": ["red wine syrup"]
+    },
+    {
+      "name": "Gelée aromatisée en poudre",
+      "category": "cat.seasonings.acids",
+      "aliases": ["Jello", "Jelly crystals"]
+    },
+    {
+      "name": "Assaisonnement au bacon",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Bacon seasoning", "Sel au bacon"]
+    },
+    {
+      "name": "Beurre de cacahuète",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Peanut butter", "Beurre d'arachide"]
+    },
+    {
+      "name": "Bouillon de bœuf",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Beef bouillon", "Consommé de bœuf"]
+    },
+    {
+      "name": "Gros sel",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Kosher salt", "Coarse salt", "Sel casher"]
+    },
+    {
+      "name": "Huile de sésame",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Sesame oil"]
+    },
+    {
+      "name": "Ketchup",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Tomato ketchup"]
+    },
+    {
+      "name": "Mélasse de grenade",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["pomegranate molasses"]
+    },
+    {
+      "name": "Moutarde de Dijon",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Dijon mustard", "Moutarde"]
+    },
+    {
+      "name": "Sauce raifort",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Horseradish sauce", "Raifort"]
+    },
+    {
+      "name": "Sauce soja",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Soy sauce", "Sauce soya"]
+    },
+    {
+      "name": "Vinaigre balsamique",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Balsamic vinegar", "Vinaigre balsamique de Modène", "Aceto balsamico"]
+    },
+    {
+      "name": "Vinaigre de cidre",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Apple cider vinegar", "Cider vinegar"]
+    },
+    {
+      "name": "Vinaigre de malt",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Malt vinegar"]
+    },
+    {
+      "name": "Vinaigre de vin blanc",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["White wine vinegar"]
+    },
+    {
+      "name": "Vinaigre de vin rouge",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Red wine vinegar"]
+    },
+    {
+      "name": "Wasabi",
+      "category": "cat.seasonings.condiments",
+      "aliases": ["Wasabi paste", "Pâte de wasabi"]
+    },
+    {
+      "name": "Antésite",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Concentré de réglisse", "Extrait de réglisse"]
+    },
+    {
+      "name": "Charbon végétal actif",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Activated charcoal", "Charcoal powder"]
+    },
+    {
+      "name": "Colorant alimentaire",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Food coloring", "Food colouring"]
+    },
+    {
+      "name": "Colorant caramel",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Caramel coloring", "Caramel color"]
+    },
+    {
+      "name": "Eau de rose",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Rose water"]
+    },
+    {
+      "name": "Essence d'artichaut",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Artichoke essence"]
+    },
+    {
+      "name": "Extrait d'amande",
+      "category": "cat.seasonings.extracts",
+      "aliases": ["Almond extract", "Arôme d'amande"]
+    },
+    {
+      "name": "Armoise absinthe",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Wormwood", "Grande absinthe"]
+    },
+    {
+      "name": "Citronnelle",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Lemongrass", "Citronnelle fraîche"]
+    },
+    {
+      "name": "Feuille de combava",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Kaffir lime leaf", "Makrut lime leaf"]
+    },
+    {
+      "name": "Feuille de curry",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Curry leaf", "Feuille de kaloupilé"]
+    },
+    {
+      "name": "Feuille de kawakawa",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["kawakawa leaf"]
+    },
+    {
+      "name": "Feuille de wasabi",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Wasabi leaf"]
+    },
+    {
+      "name": "Lavande",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["lavender"]
+    },
+    {
+      "name": "Origan",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["oregano"]
+    },
+    {
+      "name": "Roquette",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Rocket", "Arugula"]
+    },
+    {
+      "name": "Sauge",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Sage", "Feuilles de sauge"]
+    },
+    {
+      "name": "Shiso",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Shiso leaf", "Perilla"]
+    },
+    {
+      "name": "Thym citron",
+      "category": "cat.seasonings.herbs",
+      "aliases": ["Lemon thyme"]
+    },
+    {
+      "name": "Ase fétide",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Asafoetida", "Hing"]
+    },
+    {
+      "name": "Cacao en poudre",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Cocoa powder", "Poudre de cacao"]
+    },
+    {
+      "name": "Cumin",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Cumin seed", "Graine de cumin"]
+    },
+    {
+      "name": "Graine de fenouil",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Fennel seeds", "Graines de fenouil"]
+    },
+    {
+      "name": "Mélange d'épices à la citrouille",
+      "category": "cat.seasonings.spices",
+      "aliases": ["pumpkin pie spice"]
+    },
+    {
+      "name": "Piment en flocons",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Chili flakes", "Piment broyé"]
+    },
+    {
+      "name": "Poivre timut",
+      "category": "cat.seasonings.spices",
+      "aliases": ["Timut pepper", "Timur"]
+    },
+    {
+      "name": "Applejack",
+      "category": "cat.spirits.calvados",
+      "aliases": ["Apple brandy", "Eau-de-vie de pomme"]
+    },
+    {
+      "name": "Eau-de-vie de pomme",
+      "category": "cat.spirits.calvados",
+      "aliases": ["Apple brandy", "Applejack"]
+    },
+    {
+      "name": "Eau-de-vie d'abricot",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Apricot eau-de-vie", "Abricotine"]
+    },
+    {
+      "name": "Eau-de-vie de bouleau",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Birch spirit", "Birch eau-de-vie"]
+    },
+    {
+      "name": "Eau-de-vie de framboise",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Framboise eau-de-vie", "Raspberry eau de vie", "Himbeergeist"]
+    },
+    {
+      "name": "Eau-de-vie de pêche",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["peach brandy"]
+    },
+    {
+      "name": "Eau-de-vie de poire",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Poire Williams", "Pear brandy"]
+    },
+    {
+      "name": "Eau-de-vie de sapin",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Douglas fir eau de vie", "Fir brandy"]
+    },
+    {
+      "name": "Tsipouro",
+      "category": "cat.spirits.fruit_brandy",
+      "aliases": ["Tsikoudia"]
+    },
+    {
+      "name": "Gin aromatisé à l'orange",
+      "category": "cat.spirits.gin",
+      "aliases": ["Orange gin"]
+    },
+    {
+      "name": "Gin aromatisé à la cerise",
+      "category": "cat.spirits.gin",
+      "aliases": ["Cherry gin", "Sour cherry gin"]
+    },
+    {
+      "name": "Gin aromatisé à la fraise",
+      "category": "cat.spirits.gin",
+      "aliases": ["Strawberry gin"]
+    },
+    {
+      "name": "Gin aromatisé au cassis",
+      "category": "cat.spirits.gin",
+      "aliases": ["Blackcurrant gin"]
+    },
+    {
+      "name": "Gin aromatisé au concombre",
+      "category": "cat.spirits.gin",
+      "aliases": ["Cucumber gin", "Gin concombre"]
+    },
+    {
+      "name": "Gin aromatisé au pamplemousse",
+      "category": "cat.spirits.gin",
+      "aliases": ["Grapefruit gin"]
+    },
+    {
+      "name": "Gin rosé",
+      "category": "cat.spirits.gin",
+      "aliases": ["Pink gin"]
+    },
+    {
+      "name": "Rhum aromatisé à l'ananas",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Pineapple rum", "Rhum ananas"]
+    },
+    {
+      "name": "Rhum aromatisé au citron",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Citron rum", "Lemon rum"]
+    },
+    {
+      "name": "Rhum épicé",
+      "category": "cat.spirits.rum.molasses",
+      "aliases": ["Spiced rum"]
+    },
+    {
+      "name": "Prémix à la vodka",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Alcopop", "Vodka premix"]
+    },
+    {
+      "name": "Vodka aromatisée à l'ananas",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Pineapple vodka"]
+    },
+    {
+      "name": "Vodka aromatisée à l'herbe de bison",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Bison grass vodka", "Vodka à l'herbe de bison"]
+    },
+    {
+      "name": "Vodka aromatisée à l'orange",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Orange vodka", "Vodka orange"]
+    },
+    {
+      "name": "Vodka aromatisée à la canneberge",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Cranberry vodka", "Vodka cranberry", "Vodka canneberge"]
+    },
+    {
+      "name": "Vodka aromatisée à la cerise",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Cherry vodka", "Vodka cerise"]
+    },
+    {
+      "name": "Vodka aromatisée à la crème fouettée",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Whipped cream vodka"]
+    },
+    {
+      "name": "Vodka aromatisée à la feijoa",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Feijoa vodka"]
+    },
+    {
+      "name": "Vodka aromatisée à la fraise",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Strawberry vodka", "Vodka fraise"]
+    },
+    {
+      "name": "Vodka aromatisée à la framboise",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Raspberry vodka", "Vodka framboise"]
+    },
+    {
+      "name": "Vodka aromatisée à la pastèque",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Watermelon vodka"]
+    },
+    {
+      "name": "Vodka aromatisée à la pêche",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Peach vodka", "Vodka pêche"]
+    },
+    {
+      "name": "Vodka aromatisée à la poire",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Pear vodka", "Vodka poire"]
+    },
+    {
+      "name": "Vodka aromatisée à la rhubarbe",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Rhubarb vodka", "Vodka rhubarbe"]
+    },
+    {
+      "name": "Vodka aromatisée au caramel",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Caramel vodka", "Vodka caramel"]
+    },
+    {
+      "name": "Vodka aromatisée au cassis",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Blackcurrant vodka", "Vodka cassis"]
+    },
+    {
+      "name": "Vodka aromatisée au chocolat",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Chocolate vodka", "Vodka chocolat"]
+    },
+    {
+      "name": "Vodka aromatisée au citron vert",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Lime vodka", "Vodka citron vert"]
+    },
+    {
+      "name": "Vodka aromatisée au concombre",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Cucumber vodka", "Vodka concombre"]
+    },
+    {
+      "name": "Vodka aromatisée au fruit de la passion",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Passion fruit vodka"]
+    },
+    {
+      "name": "Vodka aromatisée au miel",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Honey vodka", "Vodka miel"]
+    },
+    {
+      "name": "Vodka aromatisée au pamplemousse",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Grapefruit vodka", "Vodka pamplemousse"]
+    },
+    {
+      "name": "Vodka aromatisée au poivre",
+      "category": "cat.spirits.vodka",
+      "aliases": ["Pepper vodka", "Pertsovka", "Vodka poivrée"]
+    },
+    {
+      "name": "Whisky blanc",
+      "category": "cat.spirits.whisky.american",
+      "aliases": ["White whiskey", "White dog", "Unaged whiskey"]
+    },
+    {
+      "name": "Alcool neutre",
+      "category": "cat.spirits.world",
+      "aliases": ["Neutral grain spirit", "Grain alcohol", "Alcool rectifié"]
+    },
+    {
+      "name": "Arrack de Batavia",
+      "category": "cat.spirits.world",
+      "aliases": ["Batavia arrack", "Arrack"]
+    },
+    {
+      "name": "Baijiu",
+      "category": "cat.spirits.world",
+      "aliases": []
+    },
+    {
+      "name": "Poitín",
+      "category": "cat.spirits.world",
+      "aliases": ["Poteen"]
+    },
+    {
+      "name": "Shochu",
+      "category": "cat.spirits.world",
+      "aliases": []
+    },
+    {
+      "name": "Sotol",
+      "category": "cat.spirits.world",
+      "aliases": []
+    },
+    {
+      "name": "Tiquira",
+      "category": "cat.spirits.world",
+      "aliases": ["Eau-de-vie de manioc"]
+    },
+    {
+      "name": "Édulcorant",
+      "category": "cat.sweeteners.sugars",
+      "aliases": ["Sweetener", "Sugar-free sweetener"]
+    },
+    {
+      "name": "Panela",
+      "category": "cat.sweeteners.sugars",
+      "aliases": []
+    },
+    {
+      "name": "Cordial d'ortie",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Nettle cordial"]
+    },
+    {
+      "name": "Cordial de gingembre et citronnelle",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Ginger and lemongrass cordial"]
+    },
+    {
+      "name": "Cordial de groseille à maquereau",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Gooseberry cordial"]
+    },
+    {
+      "name": "Cordial de pomme et prune",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Apple and plum cordial"]
+    },
+    {
+      "name": "Kuromitsu",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Japanese black sugar syrup", "Sirop de sucre noir japonais"]
+    },
+    {
+      "name": "Sirop d'airelle",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["lingonberry syrup"]
+    },
+    {
+      "name": "Sirop d'anis",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Anise syrup", "Aniseed syrup"]
+    },
+    {
+      "name": "Sirop d'orange",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Orange syrup"]
+    },
+    {
+      "name": "Sirop de banane",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Banana syrup"]
+    },
+    {
+      "name": "Sirop de café",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Coffee syrup"]
+    },
+    {
+      "name": "Sirop de caramel",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Caramel syrup", "Salted caramel syrup"]
+    },
+    {
+      "name": "Sirop de caroube",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Algarrobina", "Carob syrup"]
+    },
+    {
+      "name": "Sirop de cassis",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Blackcurrant syrup", "Blackcurrant cordial"]
+    },
+    {
+      "name": "Sirop de cerise",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Cherry syrup"]
+    },
+    {
+      "name": "Sirop de cerises au marasquin",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Maraschino cherry syrup", "Sirop de griottes"]
+    },
+    {
+      "name": "Sirop de chocolat",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Chocolate syrup", "Sauce chocolat"]
+    },
+    {
+      "name": "Sirop de citron",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["lemon syrup"]
+    },
+    {
+      "name": "Sirop de cola",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Cola syrup"]
+    },
+    {
+      "name": "Sirop de concombre",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Cucumber syrup"]
+    },
+    {
+      "name": "Sirop de crème brûlée",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Crème brûlée syrup"]
+    },
+    {
+      "name": "Sirop de curaçao bleu",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Blue curaçao syrup"]
+    },
+    {
+      "name": "Sirop de gomme à l'ananas",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Pineapple gum syrup"]
+    },
+    {
+      "name": "Sirop de groseille",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Redcurrant syrup"]
+    },
+    {
+      "name": "Sirop de kiwi",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["kiwi syrup"]
+    },
+    {
+      "name": "Sirop de lavande",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Lavender syrup"]
+    },
+    {
+      "name": "Sirop de litchi",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Lychee syrup"]
+    },
+    {
+      "name": "Sirop de maïs",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Corn syrup", "Sirop de glucose"]
+    },
+    {
+      "name": "Sirop de mangue",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["mango syrup"]
+    },
+    {
+      "name": "Sirop de mimosa",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["mimosa syrup"]
+    },
+    {
+      "name": "Sirop de mûre",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Blackberry syrup"]
+    },
+    {
+      "name": "Sirop de myrtille",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Blueberry syrup"]
+    },
+    {
+      "name": "Sirop de noisette",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Hazelnut syrup"]
+    },
+    {
+      "name": "Sirop de noix de coco",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Coconut syrup", "Sirop de coco"]
+    },
+    {
+      "name": "Sirop de noix de macadamia",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["macadamia nut syrup"]
+    },
+    {
+      "name": "Sirop de pain d'épices",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Gingerbread syrup"]
+    },
+    {
+      "name": "Sirop de pêche",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["peach syrup"]
+    },
+    {
+      "name": "Sirop de pistache",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["pistachio syrup"]
+    },
+    {
+      "name": "Sirop de pomme verte",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Green apple syrup"]
+    },
+    {
+      "name": "Sirop de pruneau",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["prune syrup"]
+    },
+    {
+      "name": "Sirop de rose",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Rose syrup", "Rose sugar syrup"]
+    },
+    {
+      "name": "Sirop de speculoos",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["speculoos syrup"]
+    },
+    {
+      "name": "Sirop de violette",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["violet syrup"]
+    },
+    {
+      "name": "Sirop de yuzu",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Yuzu syrup"]
+    },
+    {
+      "name": "Sirop piña colada",
+      "category": "cat.sweeteners.syrups",
+      "aliases": ["Piña colada syrup", "Pineapple coconut syrup"]
+    },
+    {
+      "name": "Lillet rosé",
+      "category": "cat.wines.quinquina",
+      "aliases": ["Vin aromatisé rosé"]
+    },
+    {
+      "name": "Lillet rouge",
+      "category": "cat.wines.quinquina",
+      "aliases": ["Lillet red"]
+    },
+    {
+      "name": "Manzanilla",
+      "category": "cat.wines.sherry",
+      "aliases": ["Manzanilla sherry"]
+    },
+    {
+      "name": "Pedro Ximénez",
+      "category": "cat.wines.sherry",
+      "aliases": ["PX", "Xérès Pedro Ximénez"]
+    },
+    {
+      "name": "Hydromel",
+      "category": "cat.wines.still",
+      "aliases": ["Mead"]
+    },
+    {
+      "name": "Sauternes",
+      "category": "cat.wines.still",
+      "aliases": ["Vin liquoreux", "Sauternes wine"]
+    },
+    {
+      "name": "Tokaji",
+      "category": "cat.wines.still",
+      "aliases": ["Tokaji wine", "Tokay"]
+    },
+    {
+      "name": "Vin de glace",
+      "category": "cat.wines.still",
+      "aliases": ["Icewine", "Ice wine", "Eiswein"]
+    },
+    {
+      "name": "Vin rosé",
+      "category": "cat.wines.still",
+      "aliases": ["Rosé wine", "Rosé"]
+    },
+    {
+      "name": "Pineau des Charentes",
+      "category": "cat.wines.vdn",
+      "aliases": ["Pineau"]
+    },
+    {
+      "name": "Pommeau",
+      "category": "cat.wines.vdn",
+      "aliases": ["Pommeau de Normandie", "Pommeau de Bretagne"]
+    },
+    {
+      "name": "Vin de gingembre",
+      "category": "cat.wines.vdn",
+      "aliases": ["Ginger wine", "Green ginger wine"]
+    },
+    {
+      "name": "Vermouth rosé",
+      "category": "cat.wines.vermouth",
+      "aliases": ["rosato vermouth"]
+    }
+  ]
+}

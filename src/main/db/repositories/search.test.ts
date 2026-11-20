@@ -10,7 +10,7 @@ import { categories } from '../schema'
 import { IngredientRepository } from './ingredients'
 import { ProductRepository } from './products'
 import { RecipeRepository } from './recipes'
-import { SearchRepository, toMatchQuery } from './search'
+import { SearchRepository, toMatchQuery, toPhraseQuery } from './search'
 
 const MIGRATIONS = path.resolve(__dirname, '../../../../resources/migrations')
 
@@ -106,6 +106,18 @@ describe('SearchRepository', () => {
     expect(() => repo.search('negroni" OR * NEAR(^gin)')).not.toThrow()
     expect(toMatchQuery('negroni or *')).toBe('"negroni"')
     expect(toMatchQuery('a "b"')).toBeNull()
+    expect(toPhraseQuery('say "hi"')).toBe('"say ""hi"""')
+  })
+
+  it('finds a name made of short words or punctuation among many recipes sharing a word', () => {
+    // 400 recipes containing « tie » push « My Tie » out of the first rows of the term query.
+    for (let i = 0; i < 400; i += 1) recipesRepo.create({ name: `Tie Break ${i}`, lines: [] })
+    const myTie = recipesRepo.create({ name: 'My Tie', lines: [] }).id
+    const att = recipesRepo.create({ name: 'AT&T', lines: [] }).id
+    const daisy = recipesRepo.create({ name: 'Whiskey Daisy No.2', lines: [] }).id
+    expect(repo.search('My Tie', 5)[0]).toMatchObject({ id: myTie, match: 'exact' })
+    expect(repo.search('AT&T', 5)[0]).toMatchObject({ id: att, match: 'exact' })
+    expect(repo.search('whiskey daisy no.2', 5)[0]).toMatchObject({ id: daisy, match: 'exact' })
   })
 
   it('leaves deleted recipes out and favours recently viewed items', () => {

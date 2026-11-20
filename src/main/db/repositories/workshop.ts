@@ -168,7 +168,11 @@ export class WorkshopRepository {
       const cid = String(row['cid'])
       const rid = str(row['rid'])
       if (rid === null) sheets.set(cid, (sheets.get(cid) ?? 0) + 1)
-      else recipesOf.set(cid, [...(recipesOf.get(cid) ?? []), rid])
+      else {
+        const list = recipesOf.get(cid)
+        if (list) list.push(rid)
+        else recipesOf.set(cid, [rid])
+      }
     }
     return this.all(
       'SELECT * FROM collections WHERE deleted_at IS NULL ORDER BY sort_order, updated_at DESC',

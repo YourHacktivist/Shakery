@@ -20,9 +20,9 @@ import { DomainError } from '../../errors'
 import type { Db, Ids } from '../client'
 import { ingredients, recipeHistory, recipeLines, recipes } from '../schema'
 import type { IngredientRepository } from './ingredients'
-import { indexEntity, removeFromIndex } from './search-index'
+import { indexEntity, type IndexedFields, removeFromIndex } from './search-index'
 
-type RecipeRow = typeof recipes.$inferSelect
+export type RecipeRow = typeof recipes.$inferSelect
 
 export type SaveOptions = {
   /** false: a simple correction, saved without a new version (section 7). */
@@ -118,48 +118,7 @@ export class RecipeRepository {
       .from(ingredients)
       .where(and(eq(ingredients.prepRecipeId, id), isNull(ingredients.deletedAt)))
       .get()
-    return {
-      id: row.id,
-      name: row.name,
-      kind: row.kind,
-      status: row.status,
-      origin: row.origin,
-      credit: row.credit,
-      family: row.family,
-      method: row.method,
-      glassId: row.glassId,
-      iceId: row.iceId,
-      garnish: row.garnish,
-      steps: row.steps,
-      notes: row.notes,
-      tags: row.tags,
-      dilutionOverridePct: row.dilutionOverridePct,
-      parentRecipeId: row.parentRecipeId,
-      yieldMl: row.yieldMl,
-      shelfLifeDays: row.shelfLifeDays,
-      storageNotes: row.storageNotes,
-      drinkLength: row.drinkLength,
-      servingMoment: row.servingMoment,
-      profile: row.profile,
-      garnishCostHtCents: row.garnishCostHtCents,
-      prepCategoryId: prepIngredient?.categoryId ?? null,
-      version: row.version,
-      isFavorite: row.isFavorite,
-      createdAt: row.createdAt,
-      updatedAt: row.updatedAt,
-      lines: lines.map((l) => ({
-        id: l.id,
-        ingredientId: l.ingredientId,
-        preferredProductId: l.preferredProductId,
-        quantity: l.quantity,
-        unit: l.unit,
-        topEstimateMl: l.topEstimateMl,
-        isOptional: l.isOptional,
-        isGarnish: l.isGarnish,
-        note: l.note,
-      })),
-      history,
-    }
+    return recipeDetailFromRows(row, lines, history, prepIngredient?.categoryId ?? null)
   }
 
   create(input: RecipeInput, options: { label?: string | null } = {}): RecipeDetail {
@@ -175,7 +134,7 @@ export class RecipeRepository {
       if (data.kind === 'prep') this.ensurePrepIngredient(id, data)
       this.assertNoPrepCycle(id)
       this.snapshot(id, 1, options.label ?? null, now)
-      this.index(id, data)
+      this.index(id, data, { fresh: true })
     })
     return this.get(id)
   }
@@ -446,12 +405,75 @@ export class RecipeRepository {
       .run()
   }
 
-  private index(id: string, data: RecipeInputParsed): void {
-    indexEntity(this.db.$client, 'recipe', id, {
-      title: data.name,
-      aliases: data.tags,
-      body: [data.notes, data.garnish, data.profile, data.credit, ...data.steps],
-    })
+  private index(id: string, data: RecipeInputParsed, options: { fresh?: boolean } = {}): void {
+    indexEntity(this.db.$client, 'recipe', id, recipeIndexFields(data), options)
+  }
+}
+
+/** What the search index holds for a recipe (shared with the bulk seed loader). */
+export function recipeIndexFields(
+  data: Pick<RecipeInputParsed, 'name' | 'tags' | 'notes' | 'garnish' | 'profile' | 'credit' | 'steps'>,
+): IndexedFields {
+  return {
+    title: data.name,
+    aliases: data.tags,
+    body: [data.notes, data.garnish, data.profile, data.credit, ...data.steps],
+  }
+}
+
+type RecipeLineRow = typeof recipeLines.$inferSelect
+
+/**
+ * The detail of a recipe from its rows. Shared by `get` and by the bulk seed loader, so that the
+ * first snapshot of a seed recipe is exactly what `get` returns.
+ */
+export function recipeDetailFromRows(
+  row: RecipeRow,
+  lines: readonly RecipeLineRow[],
+  history: RecipeDetail['history'],
+  prepCategoryId: string | null,
+): RecipeDetail {
+  return {
+    id: row.id,
+    name: row.name,
+    kind: row.kind,
+    status: row.status,
+    origin: row.origin,
+    credit: row.credit,
+    family: row.family,
+    method: row.method,
+    glassId: row.glassId,
+    iceId: row.iceId,
+    garnish: row.garnish,
+    steps: row.steps,
+    notes: row.notes,
+    tags: row.tags,
+    dilutionOverridePct: row.dilutionOverridePct,
+    parentRecipeId: row.parentRecipeId,
+    yieldMl: row.yieldMl,
+    shelfLifeDays: row.shelfLifeDays,
+    storageNotes: row.storageNotes,
+    drinkLength: row.drinkLength,
+    servingMoment: row.servingMoment,
+    profile: row.profile,
+    garnishCostHtCents: row.garnishCostHtCents,
+    prepCategoryId,
+    version: row.version,
+    isFavorite: row.isFavorite,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+    lines: lines.map((l) => ({
+      id: l.id,
+      ingredientId: l.ingredientId,
+      preferredProductId: l.preferredProductId,
+      quantity: l.quantity,
+      unit: l.unit,
+      topEstimateMl: l.topEstimateMl,
+      isOptional: l.isOptional,
+      isGarnish: l.isGarnish,
+      note: l.note,
+    })),
+    history,
   }
 }
 
