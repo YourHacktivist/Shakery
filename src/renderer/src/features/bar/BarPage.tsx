@@ -494,6 +494,9 @@ function BottlesCard({ ingredientId, ingredientName }: { ingredientId: string; i
                   {details.length > 0 ? (
                     <span className="nums text-small text-fg-muted">{details.join(' · ')}</span>
                   ) : null}
+                  {product.source === 'off' ? (
+                    <span className="text-caption text-fg-muted">{t.offAttribution}</span>
+                  ) : null}
                 </div>
                 {product.owned ? (
                   <span className="text-caption font-semibold text-status-ok">{t.bottle.owned}</span>

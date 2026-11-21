@@ -294,6 +294,19 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Risque** : les conditions du site interdisent de bâtir un catalogue concurrent et de republier en masse. Si Shakery devait un jour être diffusé, retirer ces recettes ou obtenir d'abord une autorisation écrite de l'éditeur.
 - **Validation** : l'utilisateur, le 19 novembre 2026.
 
+### D-037 Export, partage et Open Food Facts (phase 10)
+
+- **Date** : 2026-11-20
+- **Contexte** : section 12.4 et phase 10. Chaque installation contient les mêmes 7 000 classiques (D-036) sous ses propres identifiants : un export suivi d'un import doit les reconnaître au lieu de les recréer.
+- **Choix** :
+  - Export complet (`src/main/services/export.ts`) : toutes les lignes des tables que l'import connaît, supprimées comprises, et toutes les photos WebP du dossier média. Les réglages et les vues récentes ne partent pas.
+  - Import (`import.ts`) : un classique est reconnu par son `seed_key`, un ingrédient de départ aussi. Intact dans l'archive, il est ignoré avec ses lignes et ses versions. Modifié dans l'archive et intact ici (favori, nouvelle version, statut, suppression), l'état de l'archive est repris. Modifié des deux côtés, c'est un conflit tranché par le choix de l'utilisateur ; « Garder les deux » fait de la copie une fiche à lui, sans `seed_key`. Les identifiants des instantanés de versions sont convertis, les alias déjà présents ne sont pas recopiés, seules les lignes écrites sont réindexées. L'aperçu compte de la même façon.
+  - Export partiel (fiche ou collection) : les fiches, les préparations qu'elles utilisent (récursivement), leurs ingrédients avec alias et les référentiels. Dégustations, notes du carnet et bouteilles (prix payés) sont exclues sauf case cochée ; les liens vers ce qui ne part pas sont vidés.
+  - Fiche en Markdown (copie par le main, ou fichier `.md`) et en image PNG dessinée sur un canvas du renderer, aux couleurs de l'application et avec le logo fourni.
+  - CSV (fiches, journal, ingrédients) écrit par le main : séparateur point-virgule, UTF-8 avec BOM, en-têtes en français dans `csv.ts` (ce sont des données du fichier, pas des textes d'interface), cellules commençant par `=`, `+`, `-` ou `@` neutralisées.
+  - Open Food Facts : réglage `off.enabled`, activé par défaut et désactivable dans Paramètres ; requête depuis le main (`fetch` de Node), cache de 30 jours ; l'utilisateur coche les champs repris et la bouteille passe en `source = 'off'` avec la mention ODbL. Le bouton disparaît hors ligne ou réglage désactivé ; Entrée dans le champ code-barres lance la recherche (une douchette tape le code puis Entrée).
+- **Validation** : non requise (aucun changement de modèle : `products.source` et `off_cache` existaient).
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

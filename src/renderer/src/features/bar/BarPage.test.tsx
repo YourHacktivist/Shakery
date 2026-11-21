@@ -50,6 +50,7 @@ const BOTTLE: Product = {
   owned: false,
   personalNotes: null,
   allergens: [],
+  source: 'user',
 }
 
 let api: FakeShakery

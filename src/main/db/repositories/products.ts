@@ -26,6 +26,7 @@ function toProduct(row: ProductRow): Product {
     owned: row.owned,
     personalNotes: row.personalNotes,
     allergens: row.allergens as Product['allergens'],
+    source: row.source,
   }
 }
 
@@ -63,7 +64,7 @@ export class ProductRepository {
     this.db.transaction(() => {
       this.db
         .insert(products)
-        .values({ id, createdAt: now, updatedAt: now, ...data, source: 'user' })
+        .values({ id, createdAt: now, updatedAt: now, ...data })
         .run()
       indexEntity(this.db.$client, 'product', id, {
         title: data.name,

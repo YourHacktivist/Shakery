@@ -60,10 +60,10 @@ Légende du statut : **fait** (phase 0), **partiel** (une partie est en place, l
 
 ## Réseau
 
-| Mesure                                                                                                                                                                          | Statut          | Implémentation          | Vérification                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------- | --------------------------------------------------------------------------------- |
-| Seul le service Open Food Facts du main émet des requêtes : hôte codé en dur, HTTPS, `User-Agent` Shakery, timeout de 8 s, réponse plafonnée, limiteur de débit, validation Zod | prévu, phase 10 | `src/main/services/`    | tests du service                                                                  |
-| Réglage désactivé : aucune requête sortante                                                                                                                                     | prévu, phase 10 | réglage Open Food Facts | test « aucune requête réseau quand Open Food Facts est désactivé » (section 13.1) |
+| Mesure                                                                                                                                                                          | Statut         | Implémentation                                                                                       | Vérification                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Seul le service Open Food Facts du main émet des requêtes : hôte codé en dur, HTTPS, `User-Agent` Shakery, timeout de 8 s, réponse plafonnée, limiteur de débit, validation Zod | fait, phase 10 | `src/main/services/off.ts` (redirections refusées, réponse brute en cache 30 jours dans `off_cache`) | `src/main/services/off.test.ts`                                                         |
+| Réglage désactivé : aucune requête sortante                                                                                                                                     | fait, phase 10 | réglage `off.enabled` (`src/shared/settings.ts`), lu avant toute requête                             | test « sends no request at all when the setting is off », e2e `tests/e2e/share.spec.ts` |
 
 ## Dépendances
 
@@ -80,16 +80,20 @@ Légende du statut : **fait** (phase 0), **partiel** (une partie est en place, l
 - Instance unique (`requestSingleInstanceLock`) dans `src/main/index.ts`, vérifiée par l'e2e « a second instance on the same data exits and leaves the first one alone ».
 - Menu applicatif supprimé (D-010).
 - Le dossier de données ne peut être remplacé par variable d'environnement que hors build packagé (D-012).
+- Export (phase 10) : chaque fichier est écrit à l'emplacement choisi dans la boîte d'enregistrement du main, jamais à un chemin venu du renderer ; nom proposé nettoyé des caractères refusés par Windows ; une image envoyée par le renderer doit porter la signature PNG et rester sous 10 Mo (`src/main/ipc/share.ts`).
+- CSV : une cellule qui commence par `=`, `+`, `-` ou `@` est préfixée d'une apostrophe, pour qu'un tableur ne l'exécute jamais comme une formule (`src/main/services/csv.ts`, testé).
+- Presse-papiers : la copie d'une fiche passe par le main (`export.copyText`), la session gardant toutes les permissions refusées au renderer.
+- Export partiel : un lien vers ce qui n'est pas exporté (fiche parente, bouteille préférée, guide de référence) est vidé, et les données personnelles (dégustations, carnet, prix des bouteilles) ne partent que sur demande explicite.
 - Journal local sans donnée personnelle : les messages citent des identifiants, des codes et des origines d'URL, jamais le contenu des fiches ni des chemins de documents (`src/main/logger.ts`).
 
 ## Tests de sécurité exigés par la section 13.1
 
-| Test                                                                    | Statut                  |
-| ----------------------------------------------------------------------- | ----------------------- |
-| `window.require`, `process` et `ipcRenderer` indéfinis dans le renderer | fait (e2e)              |
-| Navigation externe bloquée                                              | fait (e2e)              |
-| `window.open` ne crée aucune fenêtre                                    | fait (e2e)              |
-| Le protocole média refuse `..` et les chemins absolus                   | fait (unitaires et e2e) |
-| Un ZIP contenant `../../x` est refusé                                   | prévu, phase 10         |
-| Une recherche contenant `" OR *` ne lève pas d'erreur                   | prévu, phase 5          |
-| Aucune requête réseau quand Open Food Facts est désactivé               | prévu, phase 10         |
+| Test                                                                    | Statut                                              |
+| ----------------------------------------------------------------------- | --------------------------------------------------- |
+| `window.require`, `process` et `ipcRenderer` indéfinis dans le renderer | fait (e2e)                                          |
+| Navigation externe bloquée                                              | fait (e2e)                                          |
+| `window.open` ne crée aucune fenêtre                                    | fait (e2e)                                          |
+| Le protocole média refuse `..` et les chemins absolus                   | fait (unitaires et e2e)                             |
+| Un ZIP contenant `../../x` est refusé                                   | fait (unitaire, `src/main/services/import.test.ts`) |
+| Une recherche contenant `" OR *` ne lève pas d'erreur                   | fait (unitaire, `search.test.ts`)                   |
+| Aucune requête réseau quand Open Food Facts est désactivé               | fait (unitaire, `off.test.ts`)                      |

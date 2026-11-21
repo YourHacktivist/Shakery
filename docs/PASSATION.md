@@ -1,11 +1,11 @@
 # Passation
 
-Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 20 novembre 2026.
+Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 21 novembre 2026.
 
 ## Lire d'abord
 
 1. `CLAUDE.md`, puis `docs/SPEC.md` en entier.
-2. `docs/DECISIONS.md` : décisions D-001 à D-027 et le tableau « À valider plus tard ».
+2. `docs/DECISIONS.md` : décisions D-001 à D-037 et le tableau « À valider plus tard ».
 3. `docs/proposals/2026-11-17-modele-donnees-maf.md` (modèle de données MAF validé) et `docs/maf-mapping.md`.
 4. `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_SOURCES.md`.
 
@@ -19,11 +19,28 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
-## Reprendre ici (20 novembre 2026)
+## Reprendre ici (21 novembre 2026)
 
-Tout est committé (`feat(seed): 7 000 classics of 24cocktails built into the app`). `npm run check` passe (333 tests), `npm run test:e2e` passe (20 tests ; un plantage ponctuel du processus de Playwright, code 0xC0000409, a disparu en relançant).
+Tout est committé (`feat(share): phase 10, export, sharing, import and Open Food Facts`). `npm run check` passe (346 tests), `npm run test:e2e` passe (21 tests ; un plantage ponctuel du processus de Playwright, code 0xC0000409, peut arriver : il disparaît en relançant).
 
-**Fait les 19 et 20 novembre** : les recettes de 24cocktails.com sont intégrées (D-036, spec sections 2 et 9, `docs/DATA_SOURCES.md`).
+**Prochaine étape** : phase 11 (assistant de premier lancement, écran « À propos » avec licences et attributions, passe d'accessibilité, packaging, guide utilisateur). Aucune décision en attente.
+
+## Phase 10 livrée (export, partage, import, Open Food Facts)
+
+Choix consignés dans D-037.
+
+- Export : `src/main/services/export.ts` (complet : toutes les tables de l'import, lignes supprimées et photos WebP comprises ; partiel : fiches, préparations utilisées, ingrédients, référentiels, et sur demande dégustations, carnet, bouteilles). IPC `export.notebook`, `export.csv`, `export.saveFile`, `export.copyText` dans `src/main/ipc/share.ts` : le main demande toujours où enregistrer.
+- Import (`import.ts`) : classiques et ingrédients de départ reconnus par `seed_key` ; repris s'ils ont changé dans l'archive et pas ici, conflit sinon ; instantanés de versions convertis ; alias déjà présents sautés ; seules les lignes écrites sont réindexées ; l'aperçu compte comme l'import.
+- CSV (`services/csv.ts`) : fiches, journal, ingrédients ; point-virgule, BOM, formules neutralisées.
+- Fiche : bouton « Partager » (`ShareRecipeDialog`, `share.ts`) : copie Markdown, fichier `.md`, image PNG dessinée sur un canvas avec le logo, export `.shakery` pour un collègue. Collection : bouton « Partager » (`ShareCollectionDialog`).
+- Paramètres : `ExportCard` (export complet, CSV) et `OffCard` (réglage `off.enabled`).
+- Open Food Facts : `services/off.ts` (tests dans `off.test.ts`), `OffLookup.tsx` dans le formulaire de bouteille (Entrée dans le champ code-barres lance la recherche), mention ODbL sur les bouteilles `source = 'off'`.
+- Palette : à chaque nouvelle liste de résultats, la sélection revient sur le premier (sinon Entrée ouvrait une variante restée sélectionnée pendant la frappe).
+- Tests : `export.test.ts` (aller-retour d'un carnet dans une installation neuve, classiques modifiés, photos, conflits, export partiel), `csv.test.ts`, `off.test.ts`, `share.test.tsx`, `CommandPalette.test.tsx`, e2e `tests/e2e/share.spec.ts`.
+
+## Recettes de 24cocktails (19 et 20 novembre 2026)
+
+Les recettes de 24cocktails.com sont intégrées (D-036, spec sections 2 et 9, `docs/DATA_SOURCES.md`).
 
 - Pipeline : `scripts/seed/cocktails24-fetch.ts` (export en cache), `cocktails24.ts` (lecture des lignes, assemblage), `24c-map.json` (unités, verres, méthodes, noms réparés, 2 404 libellés vers le référentiel), `24c-ingredients.json` (469 ingrédients nouveaux), `24c-garnish-fr.json` (2 517 décorations traduites). `build.ts` écrit `resources/seed/recipes-24c.json` : 7 064 cocktails (90 écartés car portant le nom d'un classique IBA ou en double).
 - Application : `bundled.ts` lit ce fichier au démarrage (`withClassics`, `seedFolder()`). `load.ts` charge les cocktails en bloc (`bulkCocktailWriter`, requêtes préparées une fois, instantané construit par `recipeDetailFromRows` comme `get`), le tout dans une transaction : environ 3 à 5 s au premier lancement, 0,1 à 0,3 s ensuite. Toutes les fiches sont `origin = 'classic'`, sans crédit ni lien.
@@ -33,8 +50,6 @@ Tout est committé (`feat(seed): 7 000 classics of 24cocktails built into the ap
 - Revue des phases 7 à 9 faite à la main sur les points signalés : rien de grave (le `setState` d'`AbvCalculator` est le schéma documenté par React ; boucle de `listCollections` simplifiée).
 
 **Limites connues** : l'export ne donne ni étapes ni famille, ces champs restent vides sur les 7 064 fiches (les zones d'équilibre ne s'appuient donc que sur les fiches qui ont une famille) ; 469 ingrédients nouveaux sans degré ni composition ; la fenêtre n'apparaît qu'après le premier chargement (3 à 5 s, une seule fois).
-
-**Prochaine étape** : phase 10 (export et partage, Open Food Facts), qui n'attend plus aucune décision.
 
 ## État au 18 novembre 2026 (soir)
 
@@ -129,8 +144,8 @@ Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WA
 
 - Phase 8 (livrée) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 (livrée) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
-- Phase 10 (prochaine) : export et partage, Open Food Facts.
-- Phase 11 : finitions, packaging, documentation.
+- Phase 10 (livrée) : export et partage, Open Food Facts.
+- Phase 11 (prochaine) : finitions, packaging, documentation.
 
 ## Commandes utiles
 

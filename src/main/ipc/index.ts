@@ -9,6 +9,7 @@ import { createJournalHandlers } from './journal'
 import { createWorkshopHandlers } from './workshop'
 import { createSearchHandlers } from './search'
 import { createImportHandlers } from './import'
+import { createShareHandlers } from './share'
 import { createDatabaseHandlers, type DatabaseHandlerDeps } from './database'
 import { dispatch, type IpcHandlers } from './dispatch'
 
@@ -20,6 +21,7 @@ export function createHandlers(deps: HandlerDeps): IpcHandlers {
     ...createDatabaseHandlers(deps),
     ...createCatalogHandlers(deps.manager),
     ...createImportHandlers(deps.manager),
+    ...createShareHandlers(deps.manager),
     ...createSearchHandlers(deps.manager),
     ...createJournalHandlers(deps.manager),
     ...createWorkshopHandlers(deps.manager),

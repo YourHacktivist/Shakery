@@ -9,12 +9,14 @@
  * 4. Apply in one transaction, foreign keys checked at commit: conflicts are ignored,
  *    replaced or duplicated (new ids, references remapped). Any failure rolls everything back.
  */
+import type { Statement } from 'better-sqlite3'
 import { getTableConfig, type SQLiteTable } from 'drizzle-orm/sqlite-core'
 import { mkdir, stat, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
 import type { Db, Ids } from '../db/client'
+import { recipeIndexFields } from '../db/repositories/recipes'
 import { indexEntity } from '../db/repositories/search-index'
 import * as s from '../db/schema'
 import { isPathInside } from '../security-policy'
@@ -156,13 +158,16 @@ function isJson(text: string): boolean {
 
 export type ConflictStrategy = 'ignore' | 'replace' | 'duplicate'
 
+/** Rows that follow their recipe: kept, replaced or duplicated with it. */
+const RECIPE_CHILDREN = new Set(['recipe_lines', 'recipe_history'])
+
 export type TablePreview = {
   readonly table: string
   readonly total: number
   readonly added: number
-  /** Matched with an existing category, glass, ice type or ingredient. */
+  /** Matched with an existing category, glass, ice type, ingredient or classic. */
   readonly matched: number
-  /** Same identifier already in the notebook. */
+  /** Same identifier already in the notebook, or a classic changed on both sides. */
   readonly conflicts: number
 }
 
@@ -173,6 +178,11 @@ type Plan = {
   readonly conflicts: Map<string, Set<string>>
   /** Imported ids matched with an existing row (never inserted). */
   readonly matched: Set<string>
+  /**
+   * Imported ids of seed rows (classics, seed ingredients) whose state replaces the matching row
+   * of the notebook: changed in the archive while untouched here, or a conflict replaced.
+   */
+  readonly adopted: Set<string>
 }
 
 function liveRows(db: Db, table: string, columns: string): Row[] {
@@ -189,10 +199,19 @@ function str(value: unknown): string | null {
   return typeof value === 'string' ? value : null
 }
 
+/** A seed row the user changed: edited (new version, favourite, status), or deleted. */
+function touched(row: Row, table: 'recipes' | 'ingredients'): boolean {
+  if (row['updated_at'] !== row['created_at'] || row['deleted_at'] !== null) return true
+  if (table === 'ingredients') return false
+  return row['version'] !== 1 || row['is_favorite'] === 1 || row['status'] !== 'final'
+}
+
 function plan(db: Db, data: ImportData, strategy: ConflictStrategy, ids: Ids): Plan {
   const idMap = new Map<string, string>()
   const matched = new Set<string>()
   const conflicts = new Map<string, Set<string>>()
+  const adopted = new Set<string>()
+  const seedConflicts = new Map<string, Set<string>>()
 
   const matchBy = (
     table: string,
@@ -242,8 +261,40 @@ function plan(db: Db, data: ImportData, strategy: ConflictStrategy, ids: Ids): P
     )
   }
 
-  // Ingredients: same normalized name in the (mapped) same category, or a known alias.
-  const ingredientRows = liveRows(db, 'ingredients', 'id, name_normalized, category_id')
+  /**
+   * A seed row of the archive and the row with the same seed_key here: the same entry. Untouched
+   * in the archive, nothing to bring. Changed there and untouched here, the archive state is
+   * adopted. Changed on both sides, it is a conflict the strategy decides.
+   */
+  const settleSeedRow = (table: 'recipes' | 'ingredients', row: Row, existing: Row): void => {
+    const id = String(row['id'])
+    idMap.set(id, String(existing['id']))
+    if (!touched(row, table)) {
+      matched.add(id)
+      return
+    }
+    if (!touched(existing, table)) {
+      adopted.add(id)
+      return
+    }
+    const set = seedConflicts.get(table) ?? new Set<string>()
+    set.add(id)
+    seedConflicts.set(table, set)
+    if (strategy === 'replace') adopted.add(id)
+    else if (strategy === 'duplicate' && table === 'recipes') idMap.set(id, ids.newId())
+    else matched.add(id)
+  }
+
+  // Ingredients: same seed_key; otherwise the same normalized name in the (mapped) same
+  // category, or a known alias.
+  const ingredientRows = liveRows(
+    db,
+    'ingredients',
+    'id, name_normalized, category_id, seed_key, created_at, updated_at, deleted_at',
+  )
+  const ingredientsBySeed = new Map(
+    ingredientRows.filter((r) => str(r['seed_key']) !== null).map((r) => [String(r['seed_key']), r]),
+  )
   const aliasRows = liveRows(db, 'ingredient_aliases', 'ingredient_id, alias_normalized')
   const byName = new Map(
     ingredientRows.map((r) => [
@@ -255,21 +306,46 @@ function plan(db: Db, data: ImportData, strategy: ConflictStrategy, ids: Ids): P
   for (const row of data.tables.get('ingredients') ?? []) {
     const id = str(row['id'])
     if (id === null) continue
+    const seed = str(row['seed_key'])
+    const sameSeed = seed === null ? undefined : ingredientsBySeed.get(seed)
+    if (sameSeed !== undefined && String(sameSeed['id']) !== id) {
+      settleSeedRow('ingredients', row, sameSeed)
+      continue
+    }
     const category = String(row['category_id'])
     const name = normalizeName(String(row['name']))
     const existing = byName.get(`${idMap.get(category) ?? category}|${name}`) ?? byAlias.get(name)
-    if (existing !== undefined) {
+    if (existing !== undefined && existing !== id) {
       idMap.set(id, existing)
       matched.add(id)
     }
   }
 
+  // Classics: the same seed_key, deleted rows included (a deleted classic stays deleted).
+  const recipesBySeed = new Map(
+    (
+      db.$client
+        .prepare(
+          `SELECT id, seed_key, version, is_favorite, status, created_at, updated_at, deleted_at
+           FROM recipes WHERE seed_key IS NOT NULL`,
+        )
+        .all() as Row[]
+    ).map((r) => [String(r['seed_key']), r]),
+  )
+  for (const row of data.tables.get('recipes') ?? []) {
+    const seed = str(row['seed_key'])
+    const existing = seed === null ? undefined : recipesBySeed.get(seed)
+    if (existing !== undefined && String(existing['id']) !== String(row['id'])) {
+      settleSeedRow('recipes', row, existing)
+    }
+  }
+
   for (const [table, rows] of data.tables) {
     const existing = idsOf(db, table)
-    const set = new Set<string>()
+    const set = new Set<string>(seedConflicts.get(table) ?? [])
     for (const row of rows) {
       const id = str(row['id'])
-      if (id === null || matched.has(id) || !existing.has(id)) continue
+      if (id === null || matched.has(id) || adopted.has(id) || !existing.has(id)) continue
       set.add(id)
       if (strategy === 'duplicate') idMap.set(id, ids.newId())
     }
@@ -286,25 +362,67 @@ function plan(db: Db, data: ImportData, strategy: ConflictStrategy, ids: Ids): P
     const current = guideKeys.get(key)
     if (current !== undefined && current !== id) conflicts.get('study_guides')?.add(id)
   }
-  return { idMap, conflicts, matched }
+  return { idMap, conflicts, matched, adopted }
 }
 
 export function previewImport(db: Db, data: ImportData, ids: Ids): TablePreview[] {
-  const { conflicts, matched } = plan(db, data, 'ignore', ids)
+  const { idMap, conflicts, matched, adopted } = plan(db, data, 'ignore', ids)
+  const recipeConflicts = conflicts.get('recipes') ?? new Set<string>()
+  const aliasExists = db.$client.prepare(
+    'SELECT 1 FROM ingredient_aliases WHERE ingredient_id = ? AND alias_normalized = ? AND deleted_at IS NULL',
+  )
+  /** The same reading as applyImport: a row is new, already here, or a conflict. */
+  const classify = (table: string, row: Row): 'added' | 'matched' | 'conflict' => {
+    const id = String(row['id'])
+    if (RECIPE_CHILDREN.has(table)) {
+      const recipe = String(row['recipe_id'])
+      if (recipeConflicts.has(recipe)) return 'conflict'
+      if (matched.has(recipe) && !adopted.has(recipe)) return 'matched'
+    }
+    if (conflicts.get(table)?.has(id)) return 'conflict'
+    if (matched.has(id) || adopted.has(id)) return 'matched'
+    if (table === 'ingredient_aliases') {
+      const ingredient = String(row['ingredient_id'])
+      if (aliasExists.get(idMap.get(ingredient) ?? ingredient, row['alias_normalized'])) return 'matched'
+    }
+    return 'added'
+  }
   return [...data.tables].map(([table, rows]) => {
-    const tableConflicts = conflicts.get(table)?.size ?? 0
-    const tableMatched = rows.filter((r) => matched.has(String(r['id']))).length
+    const counts = { added: 0, matched: 0, conflict: 0 }
+    for (const row of rows) counts[classify(table, row)] += 1
     return {
       table,
       total: rows.length,
-      matched: tableMatched,
-      conflicts: tableConflicts,
-      added: rows.length - tableMatched - tableConflicts,
+      matched: counts.matched,
+      conflicts: counts.conflict,
+      added: counts.added,
     }
   })
 }
 
 export type ImportResult = { readonly inserted: number; readonly updated: number; readonly skipped: number }
+
+/** Ids inside a version snapshot point to rows of the notebook it was taken in. */
+function remapSnapshot(snapshot: string, map: (id: unknown) => unknown): string {
+  try {
+    const value = JSON.parse(snapshot) as Record<string, unknown>
+    for (const key of ['id', 'glassId', 'iceId', 'parentRecipeId', 'prepCategoryId']) {
+      if (typeof value[key] === 'string') value[key] = map(value[key])
+    }
+    if (Array.isArray(value['lines'])) {
+      value['lines'] = (value['lines'] as Array<Record<string, unknown>>).map((line) => ({
+        ...line,
+        id: map(line['id']),
+        ingredientId: map(line['ingredientId']),
+        preferredProductId:
+          typeof line['preferredProductId'] === 'string' ? map(line['preferredProductId']) : null,
+      }))
+    }
+    return JSON.stringify(value)
+  } catch {
+    return snapshot
+  }
+}
 
 export async function applyImport(
   db: Db,
@@ -314,10 +432,41 @@ export async function applyImport(
   const { data } = content
   const { strategy, ids } = options
   const result = { inserted: 0, updated: 0, skipped: 0 }
+  const written = { recipes: new Set<string>(), ingredients: new Set<string>(), products: new Set<string>() }
+  const fresh = new Set<string>()
 
   const sqlite = db.$client
+  const statements = new Map<string, Statement>()
+  const prepared = (sql: string): Statement => {
+    let statement = statements.get(sql)
+    if (!statement) {
+      statement = sqlite.prepare(sql)
+      statements.set(sql, statement)
+    }
+    return statement
+  }
   const run = sqlite.transaction(() => {
-    const { idMap, conflicts, matched } = plan(db, data, strategy, ids)
+    const { idMap, conflicts, matched, adopted } = plan(db, data, strategy, ids)
+    const mapped = (id: unknown): unknown => (typeof id === 'string' ? (idMap.get(id) ?? id) : id)
+    /** Recipes whose lines and versions stay as they are here. */
+    const keptRecipes = new Set<string>()
+    /** Recipes whose lines and versions come from the archive in place of those here. */
+    const adoptedRecipes = new Set<string>()
+    const childIds = new Map<string, { lines: string[]; history: string[] }>()
+    for (const [table, key] of [
+      ['recipe_lines', 'lines'],
+      ['recipe_history', 'history'],
+    ] as const) {
+      for (const child of data.tables.get(table) ?? []) {
+        const recipe = String(child['recipe_id'])
+        const entry = childIds.get(recipe) ?? { lines: [], history: [] }
+        entry[key].push(String(child['id']))
+        childIds.set(recipe, entry)
+      }
+    }
+    const exists = (table: string, id: unknown) =>
+      prepared(`SELECT 1 FROM ${table} WHERE id = ?`).get(id) !== undefined
+    const now = ids.now()
     // Foreign keys are checked at commit, so circular references (recipes and their
     // preparation ingredients) can be inserted in any order.
     sqlite.pragma('defer_foreign_keys = ON')
@@ -328,37 +477,66 @@ export async function applyImport(
       if (!info || !rows) continue
       for (const original of rows) {
         const id = String(original['id'])
-        if (matched.has(id)) {
+        if (RECIPE_CHILDREN.has(name) && keptRecipes.has(String(original['recipe_id']))) {
           result.skipped += 1
           continue
         }
         const isConflict = conflicts.get(name)?.has(id) ?? false
-        if (isConflict && strategy === 'ignore') {
+        const adopt = adopted.has(id)
+        if ((matched.has(id) && !adopt) || (isConflict && strategy === 'ignore' && !adopt)) {
+          if (name === 'recipes') keptRecipes.add(id)
           result.skipped += 1
           continue
         }
         const row: Row = { ...original, id: idMap.get(id) ?? id }
-        for (const [column] of info.foreignKeys) {
-          const value = row[column]
-          if (typeof value === 'string') row[column] = idMap.get(value) ?? value
-        }
+        for (const [column] of info.foreignKeys) row[column] = mapped(row[column])
         if (name === 'study_guides' && isConflict && strategy === 'duplicate') row['import_key'] = null
+        // A duplicated classic becomes the user's own copy: the seed keeps its key here.
+        if (isConflict && strategy === 'duplicate' && !adopt && 'seed_key' in row) row['seed_key'] = null
+        if (name === 'recipe_history' && typeof row['snapshot'] === 'string') {
+          row['snapshot'] = remapSnapshot(row['snapshot'], mapped)
+        }
+        if (name === 'ingredient_aliases') {
+          const exists = prepared(
+            'SELECT 1 FROM ingredient_aliases WHERE ingredient_id = ? AND alias_normalized = ? AND deleted_at IS NULL',
+          ).get(row['ingredient_id'], row['alias_normalized'])
+          if (exists) {
+            result.skipped += 1
+            continue
+          }
+        }
+        if (adopt && name === 'recipes') {
+          // The archive's lines and versions replace those of the classic here: what the archive
+          // does not carry is removed (a version number is unique per recipe).
+          adoptedRecipes.add(id)
+          const children = childIds.get(id) ?? { lines: [], history: [] }
+          prepared(
+            `UPDATE recipe_lines SET deleted_at = ?, updated_at = ? WHERE recipe_id = ? AND deleted_at IS NULL
+             AND id NOT IN (SELECT value FROM json_each(?))`,
+          ).run(now, now, row['id'], JSON.stringify(children.lines))
+          prepared(
+            'DELETE FROM recipe_history WHERE recipe_id = ? AND id NOT IN (SELECT value FROM json_each(?))',
+          ).run(row['id'], JSON.stringify(children.history))
+        }
         const columns = Object.keys(row)
-        if (isConflict && strategy === 'replace') {
+        const followsAdopted = RECIPE_CHILDREN.has(name) && adoptedRecipes.has(String(original['recipe_id']))
+        if ((isConflict && strategy === 'replace') || adopt || (followsAdopted && exists(name, row['id']))) {
           const sets = columns.filter((c) => c !== 'id').map((c) => `${c} = @${c}`)
-          sqlite.prepare(`UPDATE ${name} SET ${sets.join(', ')} WHERE id = @id`).run(row)
+          prepared(`UPDATE ${name} SET ${sets.join(', ')} WHERE id = @id`).run(row)
           result.updated += 1
         } else {
-          sqlite
-            .prepare(
-              `INSERT INTO ${name} (${columns.join(', ')}) VALUES (${columns.map((c) => `@${c}`).join(', ')})`,
-            )
-            .run(row)
+          prepared(
+            `INSERT INTO ${name} (${columns.join(', ')}) VALUES (${columns.map((c) => `@${c}`).join(', ')})`,
+          ).run(row)
           result.inserted += 1
+          fresh.add(String(row['id']))
         }
+        if (name === 'recipes' || name === 'ingredients' || name === 'products')
+          written[name].add(String(row['id']))
+        if (name === 'ingredient_aliases') written.ingredients.add(String(row['ingredient_id']))
       }
     }
-    reindex(db, data, idMap)
+    reindex(db, written, fresh)
   })
   run()
 
@@ -377,49 +555,86 @@ export async function applyImport(
   return result
 }
 
-/** The imported recipes, ingredients and bottles enter the search index. */
-function reindex(db: Db, data: ImportData, idMap: Map<string, string>): void {
-  const mapped = (id: unknown): string => idMap.get(String(id)) ?? String(id)
-  for (const row of data.tables.get('recipes') ?? []) {
-    const id = mapped(row['id'])
-    const recipe = db.$client
-      .prepare('SELECT name, notes, garnish, profile, credit FROM recipes WHERE id = ?')
-      .get(id) as Row | undefined
-    if (recipe) {
-      indexEntity(db.$client, 'recipe', id, {
-        title: String(recipe['name']),
-        body: [str(recipe['notes']), str(recipe['garnish']), str(recipe['profile']), str(recipe['credit'])],
-      })
-    }
+/**
+ * The recipes, ingredients and bottles written by the import enter the search index. Only
+ * those: an untouched classic of a full archive is not read again. A new row cannot be in the
+ * index yet, so it skips the removal (a scan of the FTS5 table).
+ */
+function reindex(
+  db: Db,
+  written: { recipes: Set<string>; ingredients: Set<string>; products: Set<string> },
+  fresh: Set<string>,
+): void {
+  const sqlite = db.$client
+  const recipe = sqlite.prepare(
+    'SELECT name, notes, garnish, profile, credit, steps, tags FROM recipes WHERE id = ? AND deleted_at IS NULL',
+  )
+  for (const id of written.recipes) {
+    const row = recipe.get(id) as Row | undefined
+    if (!row) continue
+    indexEntity(
+      sqlite,
+      'recipe',
+      id,
+      recipeIndexFields({
+        name: String(row['name']),
+        notes: str(row['notes']),
+        garnish: str(row['garnish']),
+        profile: str(row['profile']),
+        credit: str(row['credit']),
+        steps: parseList(row['steps']),
+        tags: parseList(row['tags']),
+      }),
+      { fresh: fresh.has(id) },
+    )
   }
-  for (const row of data.tables.get('ingredients') ?? []) {
-    const id = mapped(row['id'])
-    const ingredient = db.$client
-      .prepare('SELECT name, description FROM ingredients WHERE id = ?')
-      .get(id) as Row | undefined
-    if (!ingredient) continue
-    const aliases = (
-      db.$client
-        .prepare('SELECT alias FROM ingredient_aliases WHERE ingredient_id = ? AND deleted_at IS NULL')
-        .all(id) as Array<{ alias: string }>
-    ).map((a) => a.alias)
-    indexEntity(db.$client, 'ingredient', id, {
-      title: String(ingredient['name']),
-      aliases,
-      body: [str(ingredient['description'])],
-    })
+  const ingredient = sqlite.prepare(
+    'SELECT name, description FROM ingredients WHERE id = ? AND deleted_at IS NULL',
+  )
+  const aliases = sqlite.prepare(
+    'SELECT alias FROM ingredient_aliases WHERE ingredient_id = ? AND deleted_at IS NULL',
+  )
+  for (const id of written.ingredients) {
+    const row = ingredient.get(id) as Row | undefined
+    if (!row) continue
+    indexEntity(
+      sqlite,
+      'ingredient',
+      id,
+      {
+        title: String(row['name']),
+        aliases: (aliases.all(id) as Array<{ alias: string }>).map((a) => a.alias),
+        body: [str(row['description'])],
+      },
+      { fresh: fresh.has(id) },
+    )
   }
-  for (const row of data.tables.get('products') ?? []) {
-    const id = mapped(row['id'])
-    const product = db.$client
-      .prepare('SELECT name, brand, personal_notes FROM products WHERE id = ?')
-      .get(id) as Row | undefined
-    if (product) {
-      indexEntity(db.$client, 'product', id, {
-        title: String(product['name']),
-        aliases: [str(product['brand']) ?? ''],
-        body: [str(product['personal_notes'])],
-      })
-    }
+  const product = sqlite.prepare(
+    'SELECT name, brand, personal_notes FROM products WHERE id = ? AND deleted_at IS NULL',
+  )
+  for (const id of written.products) {
+    const row = product.get(id) as Row | undefined
+    if (!row) continue
+    indexEntity(
+      sqlite,
+      'product',
+      id,
+      {
+        title: String(row['name']),
+        aliases: [str(row['brand']) ?? ''],
+        body: [str(row['personal_notes'])],
+      },
+      { fresh: fresh.has(id) },
+    )
+  }
+}
+
+function parseList(value: unknown): string[] {
+  if (typeof value !== 'string') return []
+  try {
+    const parsed: unknown = JSON.parse(value)
+    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string') : []
+  } catch {
+    return []
   }
 }

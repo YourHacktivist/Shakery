@@ -81,6 +81,15 @@ export const workshop = {
     deleted: (name: string) => `Collection ${quote(name)} supprimée.`,
     exportPdf: 'Exporter en PDF',
     exported: 'PDF enregistré.',
+    shareOpen: 'Partager',
+    share: {
+      title: (name: string) => `Partager ${quote(name)}`,
+      description:
+        'Un fichier .shakery avec la collection, ses fiches, leurs préparations et leurs ingrédients, à importer dans un autre Shakery.',
+      export: 'Exporter',
+      cancel: 'Annuler',
+      done: 'Collection exportée.',
+    },
     practice: 'Réviser',
     addRecipes: 'Ajouter des fiches',
     addPlaceholder: 'Cherche une fiche à ajouter',

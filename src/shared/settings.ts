@@ -14,6 +14,8 @@ export const settingsSchemas = {
   'pricing.vatRateBp': z.number().int().min(0).max(10_000),
   'pricing.menuRoundingStepCents': z.number().int().positive().max(100_000),
   'pricing.menuRounding': z.enum(['up', 'nearest']),
+  /** Optional bottle lookup by barcode on Open Food Facts (section 9); false = no request. */
+  'off.enabled': z.boolean(),
 } as const
 
 export type SettingKey = keyof typeof settingsSchemas
@@ -26,6 +28,7 @@ export const SETTING_DEFAULTS: Settings = {
   'pricing.vatRateBp': 2000,
   'pricing.menuRoundingStepCents': 50,
   'pricing.menuRounding': 'up',
+  'off.enabled': true,
 }
 
 export const SETTING_KEYS = Object.keys(settingsSchemas) as SettingKey[]

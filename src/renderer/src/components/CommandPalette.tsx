@@ -100,11 +100,30 @@ function PaletteBody({
             ),
     }))
     .filter((group) => group.items.length > 0)
+  // A new list selects its first item again: the results of a longer query come after those of
+  // its first letters, and Enter must open what is now first (the exact name), not an item kept
+  // selected from the previous list.
+  const firstId = visible[0]?.items[0]?.id ?? ''
+  const listKey = visible.map((group) => group.items.map((item) => item.id).join(',')).join('|')
+  const [selected, setSelected] = useState(firstId)
+  const [shownKey, setShownKey] = useState(listKey)
+  if (shownKey !== listKey) {
+    setShownKey(listKey)
+    setSelected(firstId)
+  }
   const t = fr.shell.palette
   const keys = fr.shell.keys
 
   return (
-    <Command label={t.label} loop vimBindings={false} shouldFilter={false} className="flex min-h-0 flex-col">
+    <Command
+      label={t.label}
+      loop
+      vimBindings={false}
+      shouldFilter={false}
+      value={selected}
+      onValueChange={setSelected}
+      className="flex min-h-0 flex-col"
+    >
       <div className="flex items-center gap-3 border-b border-border px-5 focus-within:border-border-strong">
         <Search size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
         <Command.Input

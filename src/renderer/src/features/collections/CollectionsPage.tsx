@@ -7,6 +7,7 @@ import {
   Pencil,
   Plus,
   ScrollText,
+  Share2,
   Trash2,
 } from 'lucide-react'
 import { useMemo, useState, type CSSProperties } from 'react'
@@ -22,6 +23,7 @@ import { Select } from '@renderer/components/Select'
 import { StatusBadge } from '@renderer/components/StatusBadge'
 import { Textarea } from '@renderer/components/Textarea'
 import { toast } from '@renderer/components/Toast'
+import { ShareCollectionDialog } from '@renderer/features/collections/ShareCollectionDialog'
 import { errorMessage, notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
@@ -173,6 +175,7 @@ function CollectionPanel({
   const restore = useRestoreCollection()
   const reorder = useReorderCollection()
   const [exporting, setExporting] = useState(false)
+  const [sharing, setSharing] = useState(false)
   const summary = collections.data?.find((collection) => collection.id === id)
 
   const candidates = useMemo(() => {
@@ -215,6 +218,15 @@ function CollectionPanel({
 
   return (
     <div className="flex animate-fade-in flex-col gap-4">
+      <ShareCollectionDialog
+        open={sharing}
+        onClose={() => {
+          setSharing(false)
+        }}
+        collectionId={id}
+        name={collection.name}
+        recipeIds={summary.recipeIds}
+      />
       <Card className="gap-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 flex-col gap-1">
@@ -243,6 +255,17 @@ function CollectionPanel({
               onClick={() => void exportPdf()}
             >
               {t.exportPdf}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              icon={<Share2 size={14} aria-hidden="true" />}
+              disabled={summary.recipeIds.length === 0}
+              onClick={() => {
+                setSharing(true)
+              }}
+            >
+              {t.shareOpen}
             </Button>
             <IconButton
               variant="ghost"

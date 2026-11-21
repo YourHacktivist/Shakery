@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ALLERGEN_CODES } from '../domain/allergens'
 import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
 import {
   ingredientDetailSchema,
@@ -56,6 +57,19 @@ export const appVersionSchema = z
 
 const idInput = z.object({ id: z.string().min(1).max(36) }).strict()
 const done = z.null()
+
+const savedSchema = z.object({ saved: z.boolean() }).strict()
+
+const offProductSchema = z
+  .object({
+    barcode: z.string().max(14),
+    name: z.string().max(120).nullable(),
+    brand: z.string().max(120).nullable(),
+    volumeMl: z.number().int().positive().nullable(),
+    abv: z.number().min(0).max(100).nullable(),
+    allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
+  })
+  .strict()
 
 const tablePreviewSchema = z
   .object({
@@ -174,6 +188,50 @@ export const ipcContract = {
     output: z
       .object({ inserted: z.number().int(), updated: z.number().int(), skipped: z.number().int() })
       .strict(),
+  },
+  /** Full archive, or a few recipes to share (section 12.4); the main asks where to save. */
+  'export.notebook': {
+    input: z.discriminatedUnion('kind', [
+      z.object({ kind: z.literal('full') }).strict(),
+      z
+        .object({
+          kind: z.literal('partial'),
+          recipeIds: z.array(z.string().min(1).max(36)).min(1).max(10_000),
+          includePrivate: z.boolean(),
+          collectionId: z.string().min(1).max(36).nullable().default(null),
+          label: z.string().trim().min(1).max(120).nullable().default(null),
+        })
+        .strict(),
+    ]),
+    output: savedSchema,
+  },
+  'export.csv': {
+    input: z.object({ table: z.enum(['recipes', 'journal', 'ingredients']) }).strict(),
+    output: savedSchema,
+  },
+  /** A recipe as Markdown text or as a PNG image (base64), saved where the user chooses. */
+  'export.saveFile': {
+    input: z
+      .object({
+        kind: z.enum(['markdown', 'png']),
+        name: z.string().trim().min(1).max(120),
+        content: z.string().min(1).max(14_000_000),
+      })
+      .strict(),
+    output: savedSchema,
+  },
+  /** Text to the clipboard: the session refuses the clipboard permission to the renderer. */
+  'export.copyText': { input: z.object({ text: z.string().min(1).max(200_000) }).strict(), output: done },
+  'off.status': { input: noInput, output: z.object({ enabled: z.boolean() }).strict() },
+  'off.setEnabled': { input: z.object({ enabled: z.boolean() }).strict(), output: done },
+  /** Bottle lookup by barcode on Open Food Facts (section 9); refused when turned off. */
+  'off.lookup': {
+    input: z
+      .object({
+        barcode: z.string().regex(/^\d{6,14}$/),
+      })
+      .strict(),
+    output: z.object({ product: offProductSchema.nullable() }).strict(),
   },
   /** Ctrl+K search over recipes, ingredients and bottles (section 12.1). */
   'search.query': {

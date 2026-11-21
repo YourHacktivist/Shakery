@@ -143,6 +143,8 @@ export const productInputSchema = z
     owned: z.boolean().default(false),
     personalNotes: optionalText(4000).default(null),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14).default([]),
+    /** `off` when the bottle was filled from Open Food Facts (attribution, section 9). */
+    source: z.enum(['user', 'off']).default('user'),
   })
   .strict()
   .refine((p) => p.purchasePriceCents === null || p.purchasePriceBasis !== null, {
@@ -172,6 +174,7 @@ export const productSchema = z
     owned: z.boolean(),
     personalNotes: z.string().nullable(),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
+    source: z.enum(['user', 'off']),
   })
   .strict()
 

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -13,9 +13,11 @@ import {
   NumberField,
 } from '@renderer/features/shared/fields'
 import { errorMessage } from '@renderer/features/shared/notify'
+import { useOffEnabled } from '@renderer/features/settings/OffCard'
 import { fr } from '@renderer/i18n/fr'
 import { fieldErrorMessage } from '@renderer/lib/forms'
 import { useCreateProduct, useUpdateProduct } from '@renderer/lib/queries'
+import { OffLookup } from './OffLookup'
 import { PACK_UNIT_VALUES, productInputSchema, type Product, type ProductInput } from '@shared/domain/catalog'
 import type { z } from 'zod'
 
@@ -46,6 +48,7 @@ function toInput(ingredientId: string, product: Product | null): ProductInput {
       owned: false,
       personalNotes: null,
       allergens: [],
+      source: 'user',
     }
   }
   const { id: _id, ...rest } = product
@@ -96,10 +99,14 @@ function ProductForm({
   const create = useCreateProduct()
   const update = useUpdateProduct()
   const [failure, setFailure] = useState<string | null>(null)
+  const offEnabled = useOffEnabled()
+  const lookupRef = useRef<(() => void) | null>(null)
   const {
     control,
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<ProductInput, unknown, ProductValues>({
     resolver: zodResolver(productInputSchema),
@@ -128,6 +135,41 @@ function ProductForm({
         void submit(event)
       }}
     >
+      {/* A USB scanner types the code then Enter: Enter starts the lookup instead of saving. */}
+      <div
+        className="flex flex-col gap-2"
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter' || !(event.target instanceof HTMLInputElement)) return
+          const start = lookupRef.current
+          if (!start) return
+          event.preventDefault()
+          start()
+        }}
+      >
+        <NullableTextField
+          control={control}
+          name="barcode"
+          label={tp.barcode}
+          description={tp.barcodeHint}
+          maxLength={14}
+          invalidMessage={tp.barcodeInvalid}
+        />
+        <OffLookup
+          enabled={offEnabled}
+          lookupRef={lookupRef}
+          barcode={() => getValues('barcode') ?? null}
+          onApply={(found, fields) => {
+            const options = { shouldDirty: true, shouldValidate: true }
+            if (fields.has('brand')) setValue('brand', found.brand, options)
+            if (fields.has('name') && found.name) setValue('name', found.name, options)
+            if (fields.has('volumeMl')) setValue('volumeMl', found.volumeMl, options)
+            if (fields.has('abv')) setValue('abv', found.abv, options)
+            if (fields.has('allergens')) setValue('allergens', [...found.allergens], options)
+            setValue('source', 'off')
+            toast.show({ message: tp.lookupApplied })
+          }}
+        />
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <NullableTextField control={control} name="brand" label={tp.brand} maxLength={120} />
         <Input
@@ -202,14 +244,6 @@ function ProductForm({
           errorMessage={tp.packTogether}
         />
       </div>
-      <NullableTextField
-        control={control}
-        name="barcode"
-        label={tp.barcode}
-        description={tp.barcodeHint}
-        maxLength={14}
-        invalidMessage={tp.barcodeInvalid}
-      />
       <NullableTextField control={control} name="personalNotes" label={tp.notes} maxLength={4000} multiline />
       <AllergenField control={control} name="allergens" label={tp.allergens} />
       <Checkbox {...register('owned')} label={tp.owned} />

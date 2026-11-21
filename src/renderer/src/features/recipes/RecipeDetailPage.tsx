@@ -1,5 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, ChefHat, CopyPlus, FlaskConical, NotebookPen, Pencil, Star, Trash2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  ChefHat,
+  CopyPlus,
+  FlaskConical,
+  NotebookPen,
+  Pencil,
+  Share2,
+  Star,
+  Trash2,
+} from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -16,6 +26,7 @@ import { AddToCollection } from '@renderer/features/collections/AddToCollection'
 import { TastingCard } from '@renderer/features/journal/JournalPage'
 import { ComputedPanel } from '@renderer/features/recipes/ComputedPanel'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
+import { ShareRecipeDialog } from '@renderer/features/recipes/ShareRecipeDialog'
 import { categoryPath } from '@renderer/features/shared/categories'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
@@ -91,6 +102,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   const setFavorite = useSetRecipeFavorite()
   const deleteRecipe = useDeleteRecipe()
   const [variantOpen, setVariantOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
   const openTasting = useOverlayStore((state) => state.openTasting)
   const tastings = useTastings({ recipeId: recipe.id })
 
@@ -188,6 +200,15 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             onClick={() => void navigate(`/prepare/${recipe.id}`)}
           >
             {fr.recipes.prepare.open}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<Share2 size={16} aria-hidden="true" />}
+            onClick={() => {
+              setShareOpen(true)
+            }}
+          >
+            {fr.recipes.share.open}
           </Button>
           <FilterPill
             label={td.status}
@@ -403,6 +424,18 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
         recipe={recipe}
         onClose={() => {
           setVariantOpen(false)
+        }}
+      />
+      <ShareRecipeDialog
+        open={shareOpen}
+        onClose={() => {
+          setShareOpen(false)
+        }}
+        recipe={recipe}
+        context={{
+          ingredientName: (id) => names.get(id) ?? id,
+          glass: glass?.name ?? null,
+          ice: ice?.name ?? null,
         }}
       />
     </div>

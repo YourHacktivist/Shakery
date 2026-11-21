@@ -44,6 +44,27 @@ export const settings = {
     } as Record<string, string>,
     otherTables: 'Autres éléments',
   },
+  export: {
+    eyebrow: 'Exporter',
+    title: 'Exporter le carnet',
+    description:
+      'Tout le carnet dans un fichier .shakery, photos comprises : à garder en lieu sûr ou à réimporter sur un autre ordinateur.',
+    full: 'Exporter tout le carnet',
+    running: 'Export en cours…',
+    done: 'Carnet exporté.',
+    csvTitle: 'Tableaux CSV',
+    csvDescription: 'Pour un tableur : fiches avec leurs ingrédients, journal de dégustation, ingrédients.',
+    csv: { recipes: 'Fiches', journal: 'Journal', ingredients: 'Ingrédients' },
+    csvDone: 'Tableau enregistré.',
+  },
+  off: {
+    eyebrow: 'Open Food Facts',
+    title: 'Recherche par code-barres',
+    description:
+      'Remplit une bouteille depuis la base libre Open Food Facts (marque, nom, contenance, degré, allergènes). C’est la seule fonction de Shakery qui utilise Internet. Désactivée, aucune requête ne part.',
+    toggle: 'Recherche par code-barres',
+    attribution: '© contributeurs Open Food Facts, ODbL',
+  },
   rest: {
     title: 'Les autres réglages',
     text: 'Unités, dilution, sauvegardes, impression et apparence arrivent au fil des phases.',

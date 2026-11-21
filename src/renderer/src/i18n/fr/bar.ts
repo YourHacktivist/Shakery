@@ -133,7 +133,17 @@ export const bar = {
     basisRequired: 'Indique si ce prix est HT ou TTC.',
     packTogether: 'La quantité et l’unité du lot vont ensemble.',
     barcodeInvalid: 'Un code-barres compte de 6 à 14 chiffres.',
+    lookup: 'Rechercher sur Open Food Facts',
+    lookupRunning: 'Recherche…',
+    lookupHint: 'Scanne la bouteille ou tape son code, puis Entrée.',
+    lookupNotFound: 'Aucun produit trouvé pour ce code.',
+    lookupFound: 'Trouvé sur Open Food Facts : coche ce que tu reprends.',
+    lookupApply: 'Reprendre',
+    lookupApplied: 'Champs repris d’Open Food Facts.',
+    lookupField: (label: string, value: string) => `${label}${colon} ${value}`,
   },
+  /** Shown wherever data from Open Food Facts appears (ODbL). */
+  offAttribution: '© contributeurs Open Food Facts, ODbL',
   packUnits: {
     piece: 'pièce',
     leaf: 'feuille',

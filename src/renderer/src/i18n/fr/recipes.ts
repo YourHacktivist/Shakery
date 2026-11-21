@@ -65,6 +65,24 @@ export const recipes = {
   dose: (value: string, quantity: number, unit: Unit) =>
     `${value}${NBSP}${quantity >= 2 ? (UNIT_PLURALS[unit] ?? units[unit]) : units[unit]}`,
   doseMissing: 'dose à définir',
+  share: {
+    open: 'Partager',
+    title: 'Partager la fiche',
+    description: 'Pour l’envoyer dans une messagerie ou à un collègue. Rien ne part sans ton choix.',
+    copyMarkdown: 'Copier en Markdown',
+    copied: 'Fiche copiée en Markdown.',
+    saveMarkdown: 'Enregistrer en Markdown',
+    saveImage: 'Enregistrer en image',
+    saved: 'Fichier enregistré.',
+    colleague: 'Exporter pour un collègue',
+    colleagueHint:
+      'Un fichier .shakery avec la fiche, ses préparations et ses ingrédients, à importer dans un autre Shakery.',
+    includePrivate: 'Inclure mes dégustations, mes notes du carnet et les prix de mes bouteilles',
+    exported: 'Fiche exportée.',
+    garnish: (text: string) => `**Décoration**${colon} ${text}`,
+    garnishPlain: (text: string) => `Décoration${colon} ${text}`,
+    footer: 'Fiche Shakery',
+  },
   doseTopEstimate: (ml: string) => `à compléter, environ ${ml}${NBSP}ml`,
   kinds: { cocktail: 'Cocktail', prep: 'Préparation' } satisfies Record<Kind, string>,
   methods: {
