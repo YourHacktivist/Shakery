@@ -17,6 +17,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Les recettes de 24cocktails font partie de Shakery comme des classiques : jamais de lien ni de bouton vers le site, jamais d'origine « Autre », jamais d'export ou d'import demandé à l'utilisateur. Ne plus rouvrir la question (D-036).
 - Toujours le logo fourni (`design/assets/`) pour les icônes et visuels, jamais de variante redessinée.
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
+- Dépôt distant : https://github.com/YourHacktivist/Shakery (privé, il contient les recettes de 24cocktails réservées à l'usage personnel : ne jamais le rendre public sans retirer `resources/seed/recipes-24c.json`). Pousser uniquement avec le compte YourHacktivist de l'utilisateur, déjà enregistré dans le gestionnaire d'identifiants Git ; jamais de push forcé.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
 ## Reprendre ici (21 novembre 2026)
