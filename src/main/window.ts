@@ -28,6 +28,8 @@ export function createMainWindow(): BrowserWindow {
     height: 900,
     minWidth: 1100,
     minHeight: 700,
+    // Sizes of the content area: the 1100 x 700 minimum of section 3 is for the page, not the frame.
+    useContentSize: true,
     show: false,
     title: 'Shakery',
     backgroundColor: '#0A0807',
