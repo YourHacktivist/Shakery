@@ -601,6 +601,8 @@ function bulkCocktailWriter(db: Db, ids: Ids) {
   const insertLine = bulkInsert(db, recipeLines)
   const insertHistory = bulkInsert(db, recipeHistory)
   const insertIndex = db.$client.prepare(INSERT_INDEX_ROW)
+  // One time for the whole load: « Dernière activité » then lists the classics alphabetically.
+  const now = ids.now()
   return {
     write(
       seed: z.output<typeof recipeSeedSchema>,
@@ -608,7 +610,6 @@ function bulkCocktailWriter(db: Db, ids: Ids) {
       glassId: string | null,
       iceId: string | null,
     ): string {
-      const now = ids.now()
       const row: RecipeRow = {
         id: ids.newId(),
         createdAt: now,

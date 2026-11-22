@@ -16,57 +16,43 @@ Schéma des frontières : [`architecture.png`](architecture.png) (section 5 de l
 
 Le preload tourne en bac à sable (`sandbox: true`) : il ne peut charger que le module `electron`. Il est donc empaqueté avec tout son code (`externalizeDeps: false` dans `electron.vite.config.ts`) et n'importe que `channels.ts`, qui n'a aucune dépendance.
 
-## Arborescence actuelle (fin de phase 0)
+## Arborescence
 
 ```
 shakery/
 ├─ .github/workflows/ci.yml     lint, typage, tests, build, audit, e2e
 ├─ electron.vite.config.ts      build main / preload / renderer, CSP en balise meta
 ├─ electron-builder.yml         installeurs NSIS et DMG, fuses
-├─ eslint.config.mjs            lint typé et règles de frontière
-├─ playwright.config.ts         tests de bout en bout sur Electron
-├─ vitest.config.mts            tests unitaires (fuseau Europe/Paris)
-├─ tsconfig*.json               quatre projets TypeScript (voir plus bas)
-├─ build/                       ressources de packaging (icône maître)
-├─ resources/                   icône de fenêtre en développement
+├─ build/                       ressources de packaging (icônes)
+├─ resources/                   icône de fenêtre et base de départ embarquée
 ├─ design/                      maquettes, tokens et logo de référence (non embarqués)
-├─ docs/                        SPEC, DECISIONS, SECURITY, ARCHITECTURE, DATA_SOURCES
+├─ data/seed/                   données de départ relues
+├─ docs/                        SPEC, DECISIONS, SECURITY, ARCHITECTURE, DATA_SOURCES, PASSATION
+├─ scripts/                     icônes, licences, import MAF, performances, base de départ
 ├─ src/
 │  ├─ main/
 │  │  ├─ index.ts               verrou d'instance unique, démarrage, cycle de vie
-│  │  ├─ window.ts              fenêtre principale et réglages webPreferences
+│  │  ├─ window.ts              fenêtre, barre de titre masquée, webPreferences
 │  │  ├─ security.ts            navigation, fenêtres, permissions, CSP, liens externes
 │  │  ├─ security-policy.ts     règles de sécurité en fonctions pures (testées)
 │  │  ├─ protocol.ts            protocole shakery-media://
-│  │  ├─ logger.ts              journal local electron-log
-│  │  ├─ paths.ts               chemins : renderer, preload, médias, données
-│  │  ├─ errors.ts              DomainError
-│  │  ├─ ipc/
-│  │  │  ├─ index.ts            enregistrement des handlers, contrôle de l'expéditeur
-│  │  │  ├─ dispatch.ts         validation Zod et exécution (testé)
-│  │  │  └─ app.ts              handlers du domaine app
-│  │  ├─ db/                    phase 1
-│  │  ├─ services/              phases 1 et 10
-│  │  └─ seed/                  phase 4
+│  │  ├─ logger.ts              journal local electron-log, sans chemin personnel
+│  │  ├─ ipc/                   enregistrement, validation, un fichier par domaine
+│  │  ├─ db/                    connexion, migrations, schéma, repositories
+│  │  ├─ services/              sauvegardes, export, import, impression, Open Food Facts
+│  │  └─ seed/                  chargement de la base de départ
 │  ├─ preload/index.ts          window.shakery
-│  ├─ shared/ipc/
-│  │  ├─ channels.ts            liste fermée des opérations
-│  │  ├─ contract.ts            schémas Zod d'entrée et de sortie
-│  │  ├─ api.ts                 type ShakeryApi dérivé du contrat
-│  │  └─ result.ts              IpcResult et codes d'erreur
-│  ├─ core/index.ts             logique métier (vide en phase 0)
-│  └─ renderer/
-│     ├─ index.html
-│     └─ src/
-│        ├─ main.tsx            point d'entrée React
-│        ├─ app/App.tsx         page provisoire de la phase 0
-│        ├─ lib/ipc.ts          client IPC typé (unwrap, ShakeryError)
-│        ├─ i18n/fr.ts          toutes les chaînes françaises
-│        ├─ styles/             tokens Tailwind v4, polices Manrope embarquées
-│        ├─ assets/             logo
-│        ├─ features/  components/  print/   phases suivantes
-├─ scripts/seed/  data/seed/    données de départ (phase 4)
-└─ tests/e2e/                   scénarios Playwright (sécurité, démarrage)
+│  ├─ shared/                   contrat IPC, schémas, réglages, routes d'impression
+│  ├─ core/                     logique métier pure
+│  └─ renderer/src/
+│     ├─ app/                   coquille, navigation, scènes, thème, raccourcis
+│     ├─ components/            composants de base
+│     ├─ features/              un dossier par écran
+│     ├─ print/                 gabarits imprimés
+│     ├─ i18n/                  toutes les chaînes françaises
+│     ├─ styles/                tokens Tailwind v4, scènes, polices embarquées
+│     └─ assets/                logo, licences
+└─ tests/                       e2e/ (Playwright sur Electron) et screens/ (revue des écrans)
 ```
 
 ## Flux d'un appel IPC
@@ -141,3 +127,10 @@ Une fois la fenêtre ouverte, une sauvegarde quotidienne est faite si la derniè
 **Ajouter une table ou une colonne** : modifier `schema.ts`, lancer `npx drizzle-kit generate --name <nom>`, relire le SQL produit, compléter les tests de `src/main/db/migrate.test.ts`. Une migration ne supprime jamais de données utilisateur sans étape de conversion (section 7).
 
 **Tests du module natif** : better-sqlite3 est compilé en Node-API et se charge aussi bien sous Node que sous Electron (D-021). Les tests qui touchent la base tournent donc sous Vitest, sur des bases en mémoire ou dans un dossier temporaire.
+
+## Apparence, écrans et impression (phase 11)
+
+- Thèmes : `src/renderer/src/styles/tokens.css` (copie de `design/tokens.css`). Aucune couleur propre à un thème dans un composant : utiliser les jetons (`bg-tint/4` pour un survol, `shadow-pop` pour un élément flottant).
+- Écrans : `app/scenes.tsx` nomme la scène d'une adresse, `styles/scenes.css` porte son entrée et son motif. Un nouvel écran y ajoute sa scène, sa largeur est `max-w-page`.
+- Fenêtre : `src/main/window.ts` (barre de titre masquée, couleurs des boutons natifs) ; les zones `window-drag` déplacent la fenêtre.
+- Impression : une route `/print/…` hors coquille, rendue dans une fenêtre cachée (`src/main/services/print.ts`).

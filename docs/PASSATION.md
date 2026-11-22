@@ -1,11 +1,11 @@
 # Passation
 
-Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 21 novembre 2026.
+Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 22 novembre 2026.
 
 ## Lire d'abord
 
 1. `CLAUDE.md`, puis `docs/SPEC.md` en entier.
-2. `docs/DECISIONS.md` : décisions D-001 à D-037 et le tableau « À valider plus tard ».
+2. `docs/DECISIONS.md` : décisions D-001 à D-038 et le tableau « À valider plus tard ».
 3. `docs/proposals/2026-11-17-modele-donnees-maf.md` (modèle de données MAF validé) et `docs/maf-mapping.md`.
 4. `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_SOURCES.md`.
 
@@ -20,11 +20,33 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Dépôt distant : https://github.com/YourHacktivist/Shakery (privé, il contient les recettes de 24cocktails réservées à l'usage personnel : ne jamais le rendre public sans retirer `resources/seed/recipes-24c.json`). Pousser uniquement avec le compte YourHacktivist de l'utilisateur, déjà enregistré dans le gestionnaire d'identifiants Git ; jamais de push forcé.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
-## Reprendre ici (21 novembre 2026)
+## Reprendre ici (22 novembre 2026)
 
-Tout est committé (`feat(share): phase 10, export, sharing, import and Open Food Facts`). `npm run check` passe (346 tests), `npm run test:e2e` passe (21 tests ; un plantage ponctuel du processus de Playwright, code 0xC0000409, peut arriver : il disparaît en relançant).
+Phases 0 à 11 développées, sauf un critère de la phase 11 : **les DMG macOS ne sont pas construits** (impossible depuis Windows ; un workflow GitHub sur macOS serait une nouvelle configuration, à faire valider par l'utilisateur). Au 22 novembre : `npm run check` passe (359 tests), `npm run test:e2e` passe (26 tests, deux passages complets), `npm run perf` tient ses budgets, la revue des écrans (90 captures) ne relève aucun défaut mesuré.
 
-**Prochaine étape** : phase 11 (assistant de premier lancement, écran « À propos » avec licences et attributions, passe d'accessibilité, packaging, guide utilisateur). Aucune décision en attente.
+**Prochaine étape** : ce que l'utilisateur choisira. Rien de la liste qui suit n'est commencé.
+
+Écarts restants avec la spec :
+
+- photos de fiche et de dégustation, import d'image (10.4, 10.6) ;
+- gras, italique et listes dans les textes libres ;
+- filtres de 10.4 (spiritueux, verre, collection, tags, profil, allergène) et actions de palette manquantes, recherche dans le carnet et le journal ;
+- paramètres de 10.14 : dilution par méthode, équivalences d'unités, pas de l'atelier, mode performance, corbeille et réinitialisation ;
+- étiquette de bouteille et impression du batch ;
+- 7 064 classiques sans étapes ni famille, 469 ingrédients sans degré.
+
+Non vérifié : impression sur une vraie imprimante, installation par l'installeur, DevTools coupés dans l'application installée, macOS, lecteur d'écran, contrastes des dialogues et des textes sur dégradé (hors de la mesure automatique), résultat de la CI GitHub.
+
+## Phase 11 livrée pour Windows (finitions)
+
+Choix consignés dans D-038, repères dans `docs/ARCHITECTURE.md` (« Apparence, écrans et impression »).
+
+- Premier lancement : `services/onboarding.ts` et `features/onboarding/` ; les tests e2e le sautent par `SHAKERY_SKIP_ONBOARDING=1` (hors build packagé seulement).
+- Paramètres : `src/main/ipc/settings.ts`, cartes dans `features/settings/`, « À propos » avec `assets/licenses.json` (`npm run licenses` après tout changement de dépendance). Guide : `/guide`.
+- Fiche imprimée : Ctrl+P, `print/RecipeSheet.tsx`, une seule page (`fitSheet.ts`), test e2e sur les classiques les plus longs.
+- Recherche : Entrée tapée avant les résultats les attend (`resultsFor` de `CommandPalette`, même règle pour « @ » dans le carnet). Toute nouvelle recherche asynchrone validée par Entrée doit faire de même.
+- Audit des écrans : `tests/e2e/page-audit.ts`, revue complète par `tests/screens/review.spec.ts`.
+- Installeur Windows sans téléchargement : `npm run build` puis `npx electron-builder --win --publish never -c.electronDist=node_modules/electron/dist`. Pour l'essayer sans créer de carnet dans le profil de l'utilisateur, lancer `app.asar` avec l'Electron de `node_modules` et `SHAKERY_USER_DATA_DIR` : l'exécutable packagé ignore cette variable.
 
 ## Phase 10 livrée (export, partage, import, Open Food Facts)
 
@@ -134,7 +156,7 @@ Reste hors phase 7 : la palette ne cherche pas encore dans le carnet et le journ
 - Écrans : `features/preps/PrepsPage.tsx`, `features/collections/CollectionsPage.tsx` (+ `AddToCollection.tsx` sur la fiche), `features/practice/PracticePage.tsx` (+ `corpus.ts` qui écrit les libellés français), `features/calculators/CalculatorsPage.tsx`, gabarit `print/CollectionPrint.tsx` (route `/print/collection/:id` hors coquille). Mon bar : liste d'achats et bascule « je l'ai » (D-035). Barre latérale : préparations à surveiller et carte « Ce soir » réelles (`features/shared/tonight.ts`).
 - E2e `tests/e2e/workshop.spec.ts` : collection, export PDF réel (boîte d'enregistrement remplacée dans le main), révision complète, fabrication.
 
-Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WARNING_DAYS` en attendant l'écran Paramètres), étiquette de bouteille et impression du batch (le gabarit de collection montre la voie), générateurs de révision restants (D-034), glisser-déposer dans une collection (les flèches suffisent au clavier).
+Reste : étiquette de bouteille et impression du batch (le gabarit de collection montre la voie), générateurs de révision restants (D-034), glisser-déposer dans une collection (les flèches suffisent au clavier).
 
 ## Phase 9 livrée (accueil)
 
@@ -146,7 +168,7 @@ Reste : seuil d'alerte des préparations réglable (constante `DEFAULT_EXPIRY_WA
 - Phase 8 (livrée) : Mon bar complet, préparations maison, collections, révision (pratique MAF), calculateurs.
 - Phase 9 (livrée) : accueil sur données réelles (cible : `design/maquettes/png/Main.png`).
 - Phase 10 (livrée) : export et partage, Open Food Facts.
-- Phase 11 (prochaine) : finitions, packaging, documentation.
+- Phase 11 (livrée pour Windows, DMG macOS à construire) : finitions, packaging, documentation.
 
 ## Commandes utiles
 
@@ -179,6 +201,7 @@ npx electron scripts/icons/generate.mjs
 - L'outil d'écriture de fichiers transforme les séquences `\uXXXX` en caractères réels : pour une espace insécable ou un tiret spécial dans le code, utiliser `String.fromCharCode`.
 - Les heredocs Bash contenant des apostrophes échouent : écrire le script Python dans un fichier du dossier temporaire avec l'outil d'écriture, puis `python -I fichier.py`. `python -I` ignore `PYTHONIOENCODING` : pour afficher de l'UTF-8, `sys.stdout.reconfigure(encoding='utf-8')`.
 - Prettier reformate les fichiers après coup : relire un fichier avant un remplacement par motif, sinon le motif ne correspond plus.
+- Un test e2e qui change `location.hash` doit attendre `main[data-scene]` avant de lire l'écran : la route est rendue un instant après.
 - Windows verrouille les fichiers ouverts : toujours fermer une base SQLite avant de la supprimer, y compris dans les `catch`.
 - Les scripts lancés avec `tsx` sont en CommonJS : pas de `await` au niveau supérieur, envelopper dans une fonction `main`.
 - `better-sqlite3` est en Node-API : pas de recompilation pour Electron (D-021), `npmRebuild: false`.

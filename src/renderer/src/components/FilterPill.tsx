@@ -84,7 +84,7 @@ export function FilterPill<T extends string>(props: FilterPillProps<T>) {
           align={align}
           sideOffset={6}
           collisionPadding={8}
-          className="animate-pop-in z-50 max-h-[min(20rem,var(--radix-dropdown-menu-content-available-height))] min-w-[var(--radix-dropdown-menu-trigger-width)] overflow-y-auto rounded-nested border border-border-strong bg-surface-2 p-1 shadow-[0_16px_40px_-12px_rgb(0_0_0/0.7)]"
+          className="animate-pop-in z-50 max-h-[min(20rem,var(--radix-dropdown-menu-content-available-height))] min-w-[var(--radix-dropdown-menu-trigger-width)] overflow-y-auto rounded-nested border border-border-strong bg-surface-2 p-1 shadow-pop"
         >
           {props.multiple ? (
             <MultipleItems {...props} />

@@ -4,6 +4,7 @@
  */
 import { writeFile } from 'node:fs/promises'
 import { app, BrowserWindow, clipboard, dialog } from 'electron'
+import { recipePrintRoute } from '../../shared/print'
 import { systemIds } from '../db/client'
 import type { DatabaseManager } from '../db/manager'
 import { SqliteSettingsRepository } from '../db/repositories/settings'
@@ -13,6 +14,7 @@ import { writeArchive } from '../services/archive'
 import { buildCsv } from '../services/csv'
 import { buildExport } from '../services/export'
 import { createOffClient } from '../services/off'
+import { printRoute, savePdf } from '../services/print'
 import type { IpcHandlers } from './dispatch'
 
 type Kind = 'shakery' | 'csv' | 'markdown' | 'png'
@@ -61,6 +63,8 @@ export function createShareHandlers(
   | 'export.csv'
   | 'export.saveFile'
   | 'export.copyText'
+  | 'export.recipePdf'
+  | 'export.printRecipe'
   | 'off.status'
   | 'off.setEnabled'
   | 'off.lookup'
@@ -71,6 +75,13 @@ export function createShareHandlers(
     return manager.db
   }
   const settings = () => new SqliteSettingsRepository(ready(), ids.now)
+  const recipeName = (id: string) => {
+    const row = ready()
+      .$client.prepare('SELECT name FROM recipes WHERE id = ? AND deleted_at IS NULL')
+      .get(id) as { name: string } | undefined
+    if (!row) throw new DomainError('NOT_FOUND', 'Recipe not found')
+    return row.name
+  }
   const off = createOffClient({
     enabled: () => settings().get('off.enabled'),
     fetch: (input, init) => fetch(input, init),
@@ -143,6 +154,14 @@ export function createShareHandlers(
     'export.copyText': ({ text }) => {
       void clipboard.writeText(text)
       return null
+    },
+    'export.recipePdf': async ({ id, paper, indicators }) => {
+      const name = recipeName(id)
+      return { saved: await savePdf(recipePrintRoute(id, { paper, indicators }), name, paper) }
+    },
+    'export.printRecipe': async ({ id, paper, indicators }) => {
+      recipeName(id) // an unknown recipe is refused before any window opens
+      return { printed: await printRoute(recipePrintRoute(id, { paper, indicators }), paper) }
     },
     'off.status': () => ({ enabled: settings().get('off.enabled') }),
     'off.setEnabled': ({ enabled }) => {

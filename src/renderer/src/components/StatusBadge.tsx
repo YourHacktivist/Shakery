@@ -8,7 +8,7 @@ const t = fr.components.display
 
 const STATUS_STYLES: Record<RecipeStatus, string> = {
   idea: 'bg-status-warning/12 text-status-warning',
-  draft: 'bg-[rgb(255_235_220/0.06)] text-fg-secondary',
+  draft: 'bg-tint/6 text-fg-secondary',
   testing: 'bg-accent/14 text-accent-soft',
   final: 'bg-status-ok/12 text-status-ok',
   archived: 'border border-border-strong bg-transparent text-fg-muted',

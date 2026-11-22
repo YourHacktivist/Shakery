@@ -307,6 +307,20 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Open Food Facts : réglage `off.enabled`, activé par défaut et désactivable dans Paramètres ; requête depuis le main (`fetch` de Node), cache de 30 jours ; l'utilisateur coche les champs repris et la bouteille passe en `source = 'off'` avec la mention ODbL. Le bouton disparaît hors ligne ou réglage désactivé ; Entrée dans le champ code-barres lance la recherche (une douchette tape le code puis Entrée).
 - **Validation** : non requise (aucun changement de modèle : `products.source` et `off_cache` existaient).
 
+### D-038 Finitions : thèmes, barre de titre, animations, fiche imprimée (phase 11)
+
+- **Date** : 2026-11-22
+- **Contexte** : phase 11 et demandes de l'utilisateur : thème clair (pas forcément blanc) avec bouton de bascule, barre de titre de la couleur du fond, animations soignées qui distinguent les écrans, PDF d'une fiche pour l'impression, adaptation à la taille de la fenêtre.
+- **Choix** :
+  - Thèmes : mêmes jetons, valeurs du thème clair sous `:root[data-theme='light']` (`tokens.css`). La carte héros reste en cuivre profond dans les deux thèmes. Réglage `appearance.theme`, copie dans localStorage pour le premier rendu.
+  - Barre de titre : `titleBarStyle: 'hidden'` et boutons natifs transparents ; la barre du haut (48 px) déplace la fenêtre. `useContentSize` : le minimum de 1100 x 700 vaut pour la page.
+  - Animations : une chorégraphie, une lumière et un motif par écran (`styles/scenes.css`), une seule fois, coupés par le réglage ou par le système.
+  - Adaptation : largeur de page de 1180, 1400 puis 1760 px ; lignes de l'éditeur et de l'atelier qui passent sur deux rangs quand la place manque. Un test de bout en bout mesure débordements, contrastes et noms des contrôles sur chaque écran.
+  - Fiche imprimée : A4 ou A5, avec ou sans indicateurs, aperçu, PDF ou impression directe (Ctrl+P). La taille du texte diminue jusqu'à tenir sur une page.
+  - Premier lancement : la base est toujours complète (D-036), l'étape « familles à importer » devient une présentation de son contenu. Un carnet déjà utilisé ne voit pas l'assistant.
+  - Unité d'affichage : les doses enregistrées ne changent jamais ; calculateurs et révision gardent l'unité de saisie.
+- **Validation** : demandes de l'utilisateur du 21 novembre 2026 ; modifications de la spec (sections 10.15, 11 et 12.2).
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

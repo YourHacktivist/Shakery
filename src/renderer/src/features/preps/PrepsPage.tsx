@@ -14,7 +14,13 @@ import { errorMessage, notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { daysLeftFromNow, formatDate, formatNumber } from '@renderer/lib/format'
-import { useCreateBatch, useDeleteBatch, usePreps, useSetBatchStatus } from '@renderer/lib/queries'
+import {
+  useCreateBatch,
+  useDeleteBatch,
+  usePreps,
+  useSetBatchStatus,
+  useSetting,
+} from '@renderer/lib/queries'
 import type { Batch, PrepOverview } from '@shared/domain/workshop'
 
 const t = fr.workshop.preps
@@ -59,7 +65,7 @@ export function PrepsPage() {
   )
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.count(list.length)}</span>
@@ -160,6 +166,7 @@ function BatchRow({ batch, name }: { batch: Batch; name: string }) {
   const setStatus = useSetBatchStatus()
   const remove = useDeleteBatch()
   const recreate = useCreateBatch()
+  const warningDays = useSetting('preps.warningDays')
   const days = daysLeftFromNow(batch.bestBefore)
   const expired = days !== null && days < 0
 
@@ -195,7 +202,7 @@ function BatchRow({ batch, name }: { batch: Batch; name: string }) {
             .join(' · ')}
         </span>
       </div>
-      <ExpiryPill days={days} />
+      <ExpiryPill days={days} warningDays={warningDays} />
       <IconButton
         variant="ghost"
         size="sm"

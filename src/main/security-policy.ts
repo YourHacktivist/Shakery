@@ -117,6 +117,20 @@ export function isTrustedRendererUrl(rawUrl: string, target: RendererTarget): bo
   return actualPath !== null && actualPath === normalize(expected.pathname)
 }
 
+/**
+ * A log line without the paths of the user (section 13.3): a quoted absolute path, as in the
+ * errors of Node (« EBUSY, open 'C:\…\Negroni.pdf' »), disappears with its file name, and the
+ * home folder, which carries the account name, becomes ~ everywhere else.
+ */
+export function redactPaths(text: string, home: string): string {
+  const hidden = text.replace(/(['"])(?:[A-Za-z]:[\\/]|\\\\|\/|~[\\/])[^'"\n]*\1/g, '$1(path)$1')
+  if (home === '') return hidden
+  return [home, home.replaceAll('\\', '/'), home.replaceAll('\\', '\\\\')].reduce(
+    (line, form) => line.replaceAll(form, '~'),
+    hidden,
+  )
+}
+
 type PathApi = Pick<typeof path, 'resolve' | 'relative' | 'isAbsolute' | 'sep' | 'join'>
 
 /** True when `candidate` is strictly inside `root` (never equal to it). */

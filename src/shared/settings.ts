@@ -16,6 +16,16 @@ export const settingsSchemas = {
   'pricing.menuRounding': z.enum(['up', 'nearest']),
   /** Optional bottle lookup by barcode on Open Food Facts (section 9); false = no request. */
   'off.enabled': z.boolean(),
+  /** Unit in which the doses in ml, cl or oz are shown (section 10.15); stored doses never change. */
+  'display.unit': z.enum(['ml', 'cl', 'oz']),
+  /** First-launch assistant done (section 10.15). */
+  'onboarding.done': z.boolean(),
+  /** Days before its best-before date when a preparation is flagged (section 10.9). */
+  'preps.warningDays': z.number().int().min(0).max(60),
+  /** Interface animations; the system « reduce motion » setting is always respected. */
+  'appearance.animations': z.boolean(),
+  /** Dark (the default) or warm light theme, title bar included (D-038). */
+  'appearance.theme': z.enum(['dark', 'light']),
 } as const
 
 export type SettingKey = keyof typeof settingsSchemas
@@ -29,9 +39,42 @@ export const SETTING_DEFAULTS: Settings = {
   'pricing.menuRoundingStepCents': 50,
   'pricing.menuRounding': 'up',
   'off.enabled': true,
+  'display.unit': 'ml',
+  'onboarding.done': false,
+  'preps.warningDays': 2,
+  'appearance.animations': true,
+  'appearance.theme': 'dark',
 }
 
 export const SETTING_KEYS = Object.keys(settingsSchemas) as SettingKey[]
+
+/** Settings the renderer may change. The backup folder is only set through the folder dialog of the main. */
+export const RENDERER_SETTING_KEYS = [
+  'pricing.multiplier',
+  'pricing.vatRateBp',
+  'pricing.menuRoundingStepCents',
+  'pricing.menuRounding',
+  'off.enabled',
+  'display.unit',
+  'onboarding.done',
+  'preps.warningDays',
+  'appearance.animations',
+  'appearance.theme',
+] as const satisfies readonly SettingKey[]
+
+export type RendererSettingKey = (typeof RENDERER_SETTING_KEYS)[number]
+
+/** One change of a renderer setting, validated with the schema of its key. */
+export const settingChangeSchema = z.union(
+  RENDERER_SETTING_KEYS.map((key) =>
+    z.object({ key: z.literal(key), value: settingsSchemas[key] }).strict(),
+  ) as unknown as [
+    z.ZodObject<{ key: z.ZodLiteral<RendererSettingKey>; value: z.ZodType }>,
+    z.ZodObject<{ key: z.ZodLiteral<RendererSettingKey>; value: z.ZodType }>,
+  ],
+)
+
+export const settingsValuesSchema = z.object(settingsSchemas).strict()
 
 export function isSettingKey(value: string): value is SettingKey {
   return Object.hasOwn(settingsSchemas, value)

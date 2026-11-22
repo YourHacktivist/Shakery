@@ -46,4 +46,51 @@ describe('CommandPalette', () => {
     await user.keyboard('{Enter}')
     expect(opened).toHaveBeenCalledWith('Negroni')
   })
+
+  it.each([[[]], [['Negroni and the Goat']]])(
+    'keeps an Enter typed before the results arrive (shown meanwhile: %j)',
+    async (stale: string[]) => {
+      const user = userEvent.setup()
+      const opened = vi.fn()
+      const view = render(
+        <CommandPalette
+          open
+          onClose={() => undefined}
+          initialQuery="negroni"
+          resultsFor="negr"
+          groups={results(stale, opened)}
+        />,
+      )
+      await user.keyboard('{Enter}')
+      expect(opened).not.toHaveBeenCalled()
+      view.rerender(
+        <CommandPalette
+          open
+          onClose={() => undefined}
+          initialQuery="negroni"
+          resultsFor="negroni"
+          groups={results(['Negroni', 'Negroni and the Goat'], opened)}
+        />,
+      )
+      expect(opened).toHaveBeenCalledExactlyOnceWith('Negroni')
+    },
+  )
+
+  it('forgets a waiting Enter when the text changes', async () => {
+    const user = userEvent.setup()
+    const opened = vi.fn()
+    const palette = (resultsFor: string | null, labels: string[]) => (
+      <CommandPalette
+        open
+        onClose={() => undefined}
+        initialQuery="negroni"
+        resultsFor={resultsFor}
+        groups={results(labels, opened)}
+      />
+    )
+    const view = render(palette(null, []))
+    await user.keyboard('{Enter} bianco')
+    view.rerender(palette('negroni bianco', ['Negroni Bianco']))
+    expect(opened).not.toHaveBeenCalled()
+  })
 })

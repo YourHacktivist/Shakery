@@ -32,7 +32,7 @@ export const home = {
     title: 'Ton carnet est vide',
     description: `Note une idée en quelques secondes${NBSP}: un nom, deux ingrédients, c’est tout. Tu la travailleras ensuite dans l’atelier.`,
     firstIdea: 'Noter une première idée',
-    classics: 'Parcourir les classiques IBA',
+    classics: 'Parcourir les classiques',
   },
   hero: {
     title: 'Atelier',

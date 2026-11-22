@@ -75,6 +75,14 @@ export function useGlobalShortcuts(): void {
           void navigate(`/lab/${shown}`)
           return
         }
+        case 'print': {
+          // Ctrl+P: the sheet of the recipe on screen (section 12.2).
+          const recipe = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]
+          if (!recipe || recipe === 'new' || isModalOpen()) return
+          event.preventDefault()
+          overlays.open('print')
+          return
+        }
         case 'prepMode': {
           // From an open recipe only (section 10.12).
           const recipe = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]

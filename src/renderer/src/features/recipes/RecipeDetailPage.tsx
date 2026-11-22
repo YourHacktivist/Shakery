@@ -6,6 +6,7 @@ import {
   FlaskConical,
   NotebookPen,
   Pencil,
+  Printer,
   Share2,
   Star,
   Trash2,
@@ -38,6 +39,7 @@ import {
   useCategories,
   useCreateVariant,
   useDeleteRecipe,
+  useDisplayUnit,
   useGlasses,
   useIceTypes,
   useIngredients,
@@ -78,7 +80,7 @@ export function RecipeDetailPage() {
     return (
       <EmptyState
         title={td.notFound}
-        className="mx-auto min-h-[320px] max-w-[1120px] p-8"
+        className="mx-auto min-h-[320px] max-w-page p-8"
         action={
           <Link to="/recipes" className="text-body font-semibold text-accent-soft hover:text-accent">
             {td.backToList}
@@ -103,6 +105,8 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   const deleteRecipe = useDeleteRecipe()
   const [variantOpen, setVariantOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
+  const displayUnit = useDisplayUnit()
+  const openPrint = useOverlayStore((state) => state.open)
   const openTasting = useOverlayStore((state) => state.openTasting)
   const tastings = useTastings({ recipeId: recipe.id })
 
@@ -142,7 +146,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <Link
         to="/recipes"
         className="inline-flex w-fit items-center gap-1.5 rounded-md text-small font-medium text-fg-secondary hover:text-fg"
@@ -200,6 +204,16 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             onClick={() => void navigate(`/prepare/${recipe.id}`)}
           >
             {fr.recipes.prepare.open}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<Printer size={16} aria-hidden="true" />}
+            aria-keyshortcuts="Control+P"
+            onClick={() => {
+              openPrint('print')
+            }}
+          >
+            {fr.recipes.sheet.open}
           </Button>
           <Button
             variant="outline"
@@ -436,6 +450,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           ingredientName: (id) => names.get(id) ?? id,
           glass: glass?.name ?? null,
           ice: ice?.name ?? null,
+          display: displayUnit,
         }}
       />
     </div>
@@ -443,6 +458,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
 }
 
 function LinesCard({ recipe, names }: { recipe: RecipeDetail; names: ReadonlyMap<string, string> }) {
+  const display = useDisplayUnit()
   return (
     <Card aria-label={td.sections.lines}>
       <h2 className="m-0 text-body font-semibold text-fg">{td.sections.lines}</h2>
@@ -463,7 +479,7 @@ function LinesCard({ recipe, names }: { recipe: RecipeDetail; names: ReadonlyMap
                     : 'text-fg',
                 )}
               >
-                {formatDose(line)}
+                {formatDose(line, display)}
               </span>
               <span className="flex min-w-0 flex-col gap-0.5">
                 <span className="flex flex-wrap items-center gap-2 text-body text-fg">

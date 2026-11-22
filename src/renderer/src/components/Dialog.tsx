@@ -14,7 +14,7 @@ import { IconButton } from '@renderer/components/Button'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 
-export type DialogSize = 'sm' | 'md' | 'lg'
+export type DialogSize = 'sm' | 'md' | 'lg' | 'xl'
 
 type DialogProps = {
   open: boolean
@@ -41,6 +41,7 @@ const SIZES: Record<DialogSize, string> = {
   sm: 'w-[min(400px,calc(100vw-32px))]',
   md: 'w-[min(520px,calc(100vw-32px))]',
   lg: 'w-[min(640px,calc(100vw-32px))]',
+  xl: 'w-[min(780px,calc(100vw-32px))]',
 }
 
 /** Focuses the element marked `data-autofocus`, caret at the end for a text field. */
@@ -155,7 +156,7 @@ export function Dialog({
       onPointerDown={handlePointerDown}
       onClick={handleClick}
       className={cn(
-        'max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-bg-base/70 backdrop:animate-fade-in',
+        'max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in',
         placement === 'top' ? 'mx-auto mt-[12vh] mb-auto' : 'm-auto',
         SIZES[size],
       )}
@@ -163,7 +164,7 @@ export function Dialog({
       {open ? (
         <div
           className={cn(
-            'glass flex max-h-[calc(100vh-64px)] animate-pop-in flex-col overflow-hidden rounded-card shadow-[0_24px_64px_rgb(0_0_0/0.55)]',
+            'glass flex max-h-[calc(100vh-64px)] animate-pop-in flex-col overflow-hidden rounded-card shadow-dialog',
             className,
           )}
         >

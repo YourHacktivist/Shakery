@@ -14,6 +14,8 @@ import {
 import { unwrap } from '@renderer/lib/ipc'
 import type { IpcResult } from '@shared/ipc/result'
 import type { RecipeInput } from '@shared/domain/catalog'
+import type { IpcInput } from '@shared/ipc/contract'
+import { SETTING_DEFAULTS } from '@shared/settings'
 
 /** Read lazily: tests install their own `window.shakery` after the imports. */
 const api = () => window.shakery
@@ -281,4 +283,35 @@ export async function restoreRecipe(client: QueryClient, id: string) {
   const recipe = await unwrap(api().recipes.restore({ id }))
   await invalidateCatalog(client)
   return recipe
+}
+
+// ---------------------------------------------------------------------------------------------
+// Settings (section 10.14)
+// ---------------------------------------------------------------------------------------------
+
+export function useSettings() {
+  return useQuery({ queryKey: ['settings'], queryFn: () => unwrap(api().settings.getAll()) })
+}
+
+/** One setting, with its default while the settings load. */
+export function useSetting<K extends keyof typeof SETTING_DEFAULTS>(key: K): (typeof SETTING_DEFAULTS)[K] {
+  const settings = useSettings()
+  return settings.data?.[key] ?? SETTING_DEFAULTS[key]
+}
+
+export function useSetSetting() {
+  const client = useQueryClient()
+  return useMutation({
+    mutationFn: (change: IpcInput<'settings.set'>) => unwrap(api().settings.set(change)),
+    onSuccess: () =>
+      Promise.all([
+        client.invalidateQueries({ queryKey: ['settings'] }),
+        client.invalidateQueries({ queryKey: ['off'] }),
+      ]),
+  })
+}
+
+/** Unit in which the doses are shown (section 10.15). */
+export function useDisplayUnit(): 'ml' | 'cl' | 'oz' {
+  return useSetting('display.unit')
 }

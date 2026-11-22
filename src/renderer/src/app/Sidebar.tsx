@@ -1,18 +1,27 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
-import { ArrowRight, Keyboard, Milk, PanelLeftClose, PanelLeftOpen, RotateCcw, Wine } from 'lucide-react'
+import {
+  ArrowRight,
+  CircleHelp,
+  Keyboard,
+  Milk,
+  PanelLeftClose,
+  PanelLeftOpen,
+  RotateCcw,
+  Wine,
+} from 'lucide-react'
 import { useId, type ReactNode } from 'react'
-import { Link, NavLink, useLocation } from 'react-router'
-import { NAV_ITEMS, type NavItem } from '@renderer/app/navigation'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router'
+import { activeNavIndex, NAV_ITEMS, type NavItem } from '@renderer/app/navigation'
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { useAppVersion } from '@renderer/app/useAppVersion'
 import logoUrl from '@renderer/assets/logo-160.png'
 import { IconButton } from '@renderer/components/Button'
-import { DEFAULT_EXPIRY_WARNING_DAYS, ExpiryPill } from '@renderer/components/ExpiryPill'
+import { ExpiryPill } from '@renderer/components/ExpiryPill'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { daysLeftFromNow } from '@renderer/lib/format'
 import { useTonight } from '@renderer/features/shared/tonight'
-import { usePreps, useTastings } from '@renderer/lib/queries'
+import { usePreps, useSetting, useTastings } from '@renderer/lib/queries'
 
 const SCROLLBAR = '[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]'
 
@@ -52,7 +61,7 @@ function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
           className={({ isActive }) =>
             cn(
               'group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft',
-              isActive ? 'text-fg' : 'text-fg-secondary hover:bg-[rgb(255_235_220/0.04)] hover:text-fg',
+              isActive ? 'text-fg' : 'text-fg-secondary hover:bg-tint/4 hover:text-fg',
             )
           }
         >
@@ -73,13 +82,6 @@ function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
         </NavLink>
       </SideTooltip>
     </li>
-  )
-}
-
-/** Index of the navigation entry of the current screen, or -1 (preparation mode, kit). */
-function activeIndex(pathname: string): number {
-  return NAV_ITEMS.findIndex((item) =>
-    item.path === '/' ? pathname === '/' : pathname === item.path || pathname.startsWith(`${item.path}/`),
   )
 }
 
@@ -130,7 +132,7 @@ function RetestBlock() {
             <li key={note.id}>
               <Link
                 to={`/recipes/${note.recipeId}`}
-                className="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-[rgb(255_235_220/0.04)]"
+                className="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
               >
                 <span className="truncate text-small font-medium text-fg">{note.recipeName}</span>
                 <span className="line-clamp-2 text-caption leading-snug text-fg-secondary">
@@ -158,13 +160,14 @@ function RetestBlock() {
 function PrepsBlock() {
   const t = fr.shell.side.preps
   const preps = usePreps()
+  const warningDays = useSetting('preps.warningDays')
   const watched = (preps.data ?? [])
     .flatMap((prep) =>
       prep.batches
         .filter((batch) => batch.status === 'active')
         .map((batch) => ({ prep, batch, days: daysLeftFromNow(batch.bestBefore) })),
     )
-    .filter((entry) => entry.days !== null && entry.days <= DEFAULT_EXPIRY_WARNING_DAYS)
+    .filter((entry) => entry.days !== null && entry.days <= warningDays)
     .sort((a, b) => (a.days ?? 0) - (b.days ?? 0))
   return (
     <SideBlock icon={<Milk size={14} strokeWidth={1.75} aria-hidden="true" />} title={t.title}>
@@ -176,10 +179,10 @@ function PrepsBlock() {
             <li key={batch.id}>
               <Link
                 to="/preps"
-                className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-[rgb(255_235_220/0.04)]"
+                className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
               >
                 <span className="truncate text-small font-medium text-fg">{prep.name}</span>
-                <ExpiryPill days={days} />
+                <ExpiryPill days={days} warningDays={warningDays} />
               </Link>
             </li>
           ))}
@@ -197,7 +200,7 @@ function TonightCard() {
   return (
     <section
       aria-labelledby={id}
-      className="flex flex-col gap-1.5 rounded-nested border border-border bg-[linear-gradient(160deg,rgb(161_56_23/0.22),rgb(26_19_16/0.9)_60%)] p-3"
+      className="flex flex-col gap-1.5 rounded-nested border border-border bg-tonight p-3"
     >
       <h2
         id={id}
@@ -269,6 +272,7 @@ export function Sidebar({ className }: { className?: string }) {
   const toggle = useSidebarStore((state) => state.toggle)
   const openOverlay = useOverlayStore((state) => state.open)
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const t = fr.shell
   const toggleLabel = collapsed ? t.sidebar.expand : t.sidebar.collapse
 
@@ -277,13 +281,13 @@ export function Sidebar({ className }: { className?: string }) {
       aria-label={t.sidebar.label}
       data-collapsed={collapsed ? 'true' : 'false'}
       className={cn(
-        'flex h-full shrink-0 flex-col overflow-hidden border-r border-border bg-[linear-gradient(180deg,rgb(255_235_220/0.02),rgb(255_235_220/0)_40%)] transition-[width] duration-250 ease-out-soft',
+        'flex h-full shrink-0 flex-col overflow-hidden border-r border-border bg-sidebar transition-[width] duration-250 ease-out-soft',
         collapsed ? 'w-[56px]' : 'w-[220px]',
         className,
       )}
     >
-      <div className="flex items-center gap-2.5 px-3 pt-4 pb-4 whitespace-nowrap">
-        <span className="logo-halo flex size-8 shrink-0 items-center justify-center rounded-full">
+      <div className="window-drag sidebar-brand group/brand flex items-center gap-2.5 px-3 pt-4 pb-4 whitespace-nowrap">
+        <span className="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full">
           <img src={logoUrl} alt="" width={28} height={28} className="size-7" />
         </span>
         <span className={cn('flex min-w-0 flex-col gap-0.5', FADE, collapsed && 'opacity-0')}>
@@ -303,7 +307,7 @@ export function Sidebar({ className }: { className?: string }) {
         <Tooltip.Provider delayDuration={250}>
           <nav aria-label={t.nav.label}>
             <ul className="relative m-0 flex list-none flex-col gap-0.5 p-0">
-              <ActiveIndicator index={activeIndex(pathname)} />
+              <ActiveIndicator index={activeNavIndex(pathname)} />
               {NAV_ITEMS.map((item) => (
                 <NavEntry key={item.id} item={item} collapsed={collapsed} />
               ))}
@@ -314,7 +318,7 @@ export function Sidebar({ className }: { className?: string }) {
         <div
           inert={collapsed}
           aria-hidden={collapsed || undefined}
-          className={cn('flex w-[196px] flex-col gap-4', FADE, collapsed && 'opacity-0')}
+          className={cn('flex w-[184px] flex-col gap-4', FADE, collapsed && 'opacity-0')}
         >
           <div className="flex flex-col gap-3 px-1">
             <RetestBlock />
@@ -327,6 +331,13 @@ export function Sidebar({ className }: { className?: string }) {
       <div className="flex items-center justify-end gap-1 border-t border-border px-3.5 py-2">
         <VersionCaption collapsed={collapsed} />
         <span inert={collapsed} className={cn('flex shrink-0', FADE, collapsed && 'opacity-0')}>
+          <IconButton
+            variant="ghost"
+            size="sm"
+            label={t.sidebar.guide}
+            icon={<CircleHelp size={16} strokeWidth={1.75} aria-hidden="true" />}
+            onClick={() => void navigate('/guide')}
+          />
           <IconButton
             variant="ghost"
             size="sm"

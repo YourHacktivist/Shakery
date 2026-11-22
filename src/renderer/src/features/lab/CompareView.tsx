@@ -7,7 +7,7 @@ import { computationInput, detailToInput, formatDose } from '@renderer/features/
 import { fr } from '@renderer/i18n/fr'
 import { formatDelta, formatNumber } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
-import { useGlasses } from '@renderer/lib/queries'
+import { useDisplayUnit, useGlasses } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeDetail, RecipeInputParsed } from '@shared/domain/catalog'
 import { compareRecipes, metricDelta } from '@core/compare'
 
@@ -35,6 +35,7 @@ export function CompareView({
   draft: RecipeInputParsed
   names: ReadonlyMap<string, string>
 }) {
+  const display = useDisplayUnit()
   const glasses = useGlasses()
   const versions = [...recipe.history].sort((a, b) => b.version - a.version)
   const [selected, setSelected] = useState<number[]>([recipe.version, DRAFT])
@@ -202,7 +203,7 @@ export function CompareView({
                 {(column.data?.lines ?? []).map((line, lineIndex) => (
                   <li key={lineIndex} className="flex justify-between gap-2">
                     <span className="truncate text-fg-secondary">{names.get(line.ingredientId) ?? ''}</span>
-                    <span className="nums shrink-0 text-fg">{formatDose(line)}</span>
+                    <span className="nums shrink-0 text-fg">{formatDose(line, display)}</span>
                   </li>
                 ))}
               </ul>

@@ -7,6 +7,7 @@ import {
   isTrustedRendererUrl,
   resolveMediaPath,
   type RendererTarget,
+  redactPaths,
 } from './security-policy'
 
 describe('buildCsp', () => {
@@ -182,5 +183,31 @@ describe('resolveMediaPath', () => {
     expect(
       resolveMediaPath('C:\\Users\\me\\AppData\\Shakery\\media', 'shakery-media://media/a.webp', path.win32),
     ).toEqual({ ok: true, path: 'C:\\Users\\me\\AppData\\Shakery\\media\\a.webp' })
+  })
+})
+
+describe('redactPaths', () => {
+  const home = 'C:\\Users\\prenom'
+
+  it('removes quoted paths with their file name', () => {
+    const line = redactPaths(
+      "Error: EBUSY: resource busy or locked, open 'C:\\Users\\prenom\\Documents\\Negroni secret.pdf'",
+      home,
+    )
+    expect(line).toBe("Error: EBUSY: resource busy or locked, open '(path)'")
+    expect(redactPaths("ENOENT, stat '/Users/prenom/carnet.shakery'", home)).toBe("ENOENT, stat '(path)'")
+  })
+
+  it('hides the account name in a stack trace', () => {
+    const stack = redactPaths(
+      'at run (C:\\Users\\prenom\\AppData\\app.js:1:2) file:///C:/Users/prenom/x.js',
+      home,
+    )
+    expect(stack).not.toContain('prenom')
+    expect(stack).toContain('app.js:1:2')
+  })
+
+  it('leaves ordinary messages alone', () => {
+    expect(redactPaths("IPC 'recipes.get' failed", home)).toBe("IPC 'recipes.get' failed")
   })
 })

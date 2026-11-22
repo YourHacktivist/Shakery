@@ -267,7 +267,7 @@ export function Combobox({
               align="start"
               sideOffset={6}
               collisionPadding={8}
-              className="animate-pop-in z-50 w-[var(--radix-popover-trigger-width)] rounded-nested border border-border-strong bg-surface-2 p-1 shadow-[0_16px_40px_-12px_rgb(0_0_0/0.7)]"
+              className="animate-pop-in z-50 w-[var(--radix-popover-trigger-width)] rounded-nested border border-border-strong bg-surface-2 p-1 shadow-pop"
               // The focus stays in the field while the list is open.
               onOpenAutoFocus={(event) => {
                 event.preventDefault()

@@ -102,7 +102,7 @@ export function SegmentedControl<T extends string>({
       <span
         ref={thumbRef}
         aria-hidden="true"
-        className="pointer-events-none absolute top-1 bottom-1 left-0 rounded-[7px] border border-border-strong bg-surface-3 opacity-0 shadow-[inset_0_1px_0_rgb(255_235_220/0.06),0_4px_12px_-4px_rgb(0_0_0/0.7)] transition-[transform,width,opacity] duration-200 ease-out-soft"
+        className="pointer-events-none absolute top-1 bottom-1 left-0 rounded-[7px] border border-border-strong bg-surface-3 opacity-0 shadow-thumb transition-[transform,width,opacity] duration-200 ease-out-soft"
       />
       {options.map((option, index) => {
         const checked = option.value === value

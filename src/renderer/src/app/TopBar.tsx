@@ -1,19 +1,23 @@
 import { Plus, Search, Settings } from 'lucide-react'
 import { Link } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
+import { ThemeToggle } from '@renderer/app/ThemeToggle'
 import { Button } from '@renderer/components/Button'
 import { Kbd } from '@renderer/components/Kbd'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { ariaKeyShortcut, shortcutText } from '@renderer/lib/shortcuts'
 
-/** Top bar of every screen: search (opens the palette), quick idea, settings. */
+/**
+ * Top bar of every screen: search (opens the palette), quick idea, theme, settings. It is
+ * also the title bar: its empty parts move the window, the window buttons sit on its right.
+ */
 export function TopBar({ className }: { className?: string }) {
   const openOverlay = useOverlayStore((state) => state.open)
   const t = fr.shell.topbar
 
   return (
-    <header aria-label={t.label} className={cn('flex flex-wrap items-center gap-2', className)}>
+    <header aria-label={t.label} className={cn('window-drag flex items-center gap-2', className)}>
       <button
         type="button"
         aria-haspopup="dialog"
@@ -43,6 +47,7 @@ export function TopBar({ className }: { className?: string }) {
           <Kbd tone="onAccent">{shortcutText('quickIdea')}</Kbd>
         </span>
       </Button>
+      <ThemeToggle />
       <Link
         to="/settings"
         aria-label={t.settings}

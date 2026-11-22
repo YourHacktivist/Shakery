@@ -1,5 +1,7 @@
 import { z } from 'zod'
+import { RECIPE_PAPERS } from '../print'
 import { ALLERGEN_CODES } from '../domain/allergens'
+import { settingChangeSchema, settingsValuesSchema } from '../settings'
 import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
 import {
   ingredientDetailSchema,
@@ -59,6 +61,12 @@ const idInput = z.object({ id: z.string().min(1).max(36) }).strict()
 const done = z.null()
 
 const savedSchema = z.object({ saved: z.boolean() }).strict()
+
+const backupDirectorySchema = z.object({ directory: z.string().max(1024), isDefault: z.boolean() }).strict()
+
+const recipePrintInput = z
+  .object({ id: z.string().min(1).max(36), paper: z.enum(RECIPE_PAPERS), indicators: z.boolean() })
+  .strict()
 
 const offProductSchema = z
   .object({
@@ -222,6 +230,9 @@ export const ipcContract = {
   },
   /** Text to the clipboard: the session refuses the clipboard permission to the renderer. */
   'export.copyText': { input: z.object({ text: z.string().min(1).max(200_000) }).strict(), output: done },
+  /** The technical sheet of a recipe (section 12.2), as a PDF or through the system print dialog. */
+  'export.recipePdf': { input: recipePrintInput, output: savedSchema },
+  'export.printRecipe': { input: recipePrintInput, output: z.object({ printed: z.boolean() }).strict() },
   'off.status': { input: noInput, output: z.object({ enabled: z.boolean() }).strict() },
   'off.setEnabled': { input: z.object({ enabled: z.boolean() }).strict(), output: done },
   /** Bottle lookup by barcode on Open Food Facts (section 9); refused when turned off. */
@@ -246,6 +257,14 @@ export const ipcContract = {
   },
   /** Preparation mode (section 10.12): full screen and screen kept awake, or back to normal. */
   'app.setPrepMode': { input: z.object({ active: z.boolean() }).strict(), output: done },
+  /** Opens the folder of the local logs (section 13.3, « À propos »). */
+  'app.openLogs': { input: noInput, output: done },
+  'settings.getAll': { input: noInput, output: settingsValuesSchema },
+  'settings.set': { input: settingChangeSchema, output: done },
+  'backups.directory': { input: noInput, output: backupDirectorySchema },
+  /** Folder dialog of the main; null when the user cancels. */
+  'backups.chooseDirectory': { input: noInput, output: backupDirectorySchema.nullable() },
+  'backups.useDefaultDirectory': { input: noInput, output: backupDirectorySchema },
   /** Snapshot of a past version, for the lab comparison (section 10.5). */
   'recipes.getVersion': {
     input: z

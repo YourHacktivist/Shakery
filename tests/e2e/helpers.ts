@@ -24,12 +24,17 @@ export function testEnv(userDataDir: string): Record<string, string> {
   delete env['ELECTRON_RENDERER_URL']
   delete env['ELECTRON_RUN_AS_NODE']
   env['SHAKERY_USER_DATA_DIR'] = userDataDir
+  // The first-launch assistant has its own test (onboarding.spec.ts).
+  env['SHAKERY_SKIP_ONBOARDING'] = '1'
   return env
 }
 
-export async function launchApp(userDataDir?: string): Promise<LaunchedApp> {
+export async function launchApp(
+  userDataDir?: string,
+  extraEnv: Record<string, string> = {},
+): Promise<LaunchedApp> {
   const dir = userDataDir ?? (await createUserDataDir())
-  const app = await electron.launch({ args: [projectRoot], env: testEnv(dir) })
+  const app = await electron.launch({ args: [projectRoot], env: { ...testEnv(dir), ...extraEnv } })
   const page = await app.firstWindow()
   await page.waitForLoadState('domcontentloaded')
   return { app, page, userDataDir: dir }

@@ -113,7 +113,7 @@ function ToastView({ entry }: { entry: ToastEntry }) {
 
   return (
     <div
-      className="pointer-events-auto flex animate-pop-in items-center gap-2 rounded-nested border border-border-strong bg-surface-2 py-1.5 pr-1.5 pl-3 shadow-[0_12px_32px_rgb(0_0_0/0.45)]"
+      className="pointer-events-auto flex animate-pop-in items-center gap-2 rounded-nested border border-border-strong bg-surface-2 py-1.5 pr-1.5 pl-3 shadow-pop"
       onPointerEnter={() => {
         setHovered(true)
       }}

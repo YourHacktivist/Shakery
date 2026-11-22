@@ -110,6 +110,16 @@ describe('archive reading', () => {
     await expect(readArchive(file)).rejects.toBeInstanceOf(ArchiveError)
   })
 
+  it('refuses a decompression bomb on the size it declares, before inflating it', async () => {
+    const file = path.join(dir, 'bomb.shakery')
+    await rawZip(file, { 'manifest.json': Buffer.from('{}') })
+    const bytes = await readFile(file)
+    // Uncompressed size in the central directory: 2 GB for a file of a few bytes.
+    bytes.writeUInt32LE(2_000_000_000, bytes.indexOf(Buffer.from([0x50, 0x4b, 0x01, 0x02])) + 24)
+    await writeFile(file, bytes)
+    await expect(readArchive(file)).rejects.toMatchObject({ code: 'TOO_LARGE' })
+  })
+
   it('refuses a fake WebP and a broken manifest', async () => {
     const fake = path.join(dir, 'fake.shakery')
     await writeArchive(fake, {

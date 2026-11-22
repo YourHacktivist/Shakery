@@ -119,7 +119,7 @@ export function RecipeEditorPage() {
     return (
       <EmptyState
         title={t.detail.notFound}
-        className="mx-auto min-h-[320px] max-w-[1120px] p-8"
+        className="mx-auto min-h-[320px] max-w-page p-8"
         action={
           <Link to="/recipes" className="text-body font-semibold text-accent-soft hover:text-accent">
             {t.detail.backToList}
@@ -218,7 +218,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col">
+    <div className="mx-auto flex max-w-page flex-col">
       <form
         noValidate
         aria-labelledby="recipe-editor-title"
@@ -252,7 +252,7 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
           </div>
         </header>
 
-        <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-4">
+        <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-4 max-[1360px]:grid-cols-[minmax(0,1fr)_292px]">
           <div className="flex min-w-0 flex-col gap-4">
             <Section title={te.sections.essentials}>
               <Input
@@ -264,8 +264,8 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
                 autoFocus={recipe === null}
                 error={fieldErrorMessage(errors.name, { required: t.form.nameRequired })}
               />
-              <div className="grid grid-cols-3 gap-4">
-                <div className="flex flex-col gap-1.5">
+              <div className="flex flex-wrap gap-4">
+                <div className="flex shrink-0 flex-col gap-1.5">
                   <span aria-hidden="true" className="text-small font-medium text-fg-secondary">
                     {tf.kind}
                   </span>
@@ -286,8 +286,18 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
                     )}
                   />
                 </div>
-                <Select {...register('status')} label={tf.status} options={statusOptions} />
-                <Select {...register('origin')} label={tf.origin} options={originOptions} />
+                <Select
+                  {...register('status')}
+                  label={tf.status}
+                  options={statusOptions}
+                  className="min-w-36 flex-1"
+                />
+                <Select
+                  {...register('origin')}
+                  label={tf.origin}
+                  options={originOptions}
+                  className="min-w-36 flex-1"
+                />
               </div>
               <NullableText
                 control={control}
@@ -945,11 +955,12 @@ function LineRow({
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={cn(
-        'flex flex-col gap-1.5 rounded-nested border bg-surface-2/50 p-2 transition-colors duration-150 ease-out-soft',
+        '@container flex flex-col gap-1.5 rounded-nested border bg-surface-2/50 p-2 transition-colors duration-150 ease-out-soft',
         dropTarget ? 'border-accent' : 'border-border',
       )}
     >
-      <div className="flex items-start gap-2">
+      {/* Too narrow for one row: the ingredient keeps the first one, dose and unit go below. */}
+      <div className="flex flex-wrap items-start gap-2 @min-[35rem]:flex-nowrap">
         <span
           aria-hidden="true"
           title={tl.drag(position)}
@@ -980,7 +991,7 @@ function LineRow({
                 onCreate(index, label)
               }}
               error={fieldErrorMessage(fieldState.error, { required: t.form.ingredientRequired })}
-              className="min-w-0 flex-1"
+              className="min-w-0 flex-1 basis-[calc(100%-4rem)] @min-[35rem]:basis-0"
             />
           )}
         />
@@ -1001,7 +1012,7 @@ function LineRow({
               onBlur={field.onBlur}
               onChange={field.onChange}
               error={fieldErrorMessage(fieldState.error, { numeric: true })}
-              className="w-20 shrink-0"
+              className="ml-[2.875rem] w-20 shrink-0 @min-[35rem]:ml-0"
             />
           )}
         />
@@ -1012,7 +1023,7 @@ function LineRow({
           options={unitOptions}
           className="w-32 shrink-0"
         />
-        <div className="mt-0.5 flex shrink-0 items-center gap-0.5">
+        <div className="mt-0.5 ml-auto flex shrink-0 items-center gap-0.5 @min-[35rem]:ml-0">
           <IconButton
             data-move=""
             size="sm"

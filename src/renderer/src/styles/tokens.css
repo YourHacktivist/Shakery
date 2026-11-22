@@ -28,6 +28,9 @@
   --color-border: rgb(255 235 220 / 0.07);
   --color-border-strong: rgb(255 235 220 / 0.14);
   --color-glass-fill: rgb(26 19 16 / 0.72);
+  /* Faint overlay of hovers and tracks: light on dark, brown on sand */
+  --color-tint: #FFEBDC;
+  --color-veil: rgb(10 8 7 / 0.6);
 
   /* Text */
   --color-fg: #F5EFEA;
@@ -41,6 +44,7 @@
   --color-accent-ink: #1A0B05;
   /* Warm highlight of the copper gradients (buttons, active states, curves) */
   --color-accent-gold: #F8C7A0;
+  --color-accent-disabled: #6B4A39;
 
   /* States */
   --color-status-ok: #3FBF8A;
@@ -65,8 +69,11 @@
   --radius-hero: 16px;
 
   /* Depth: a hairline of light on top, a soft shadow below; a copper glow for the main action */
-  --shadow-card: inset 0 1px 0 rgb(255 235 220 / 0.035), 0 12px 32px -20px rgb(0 0 0 / 0.9);
-  --shadow-float: 0 24px 64px -16px rgb(0 0 0 / 0.75);
+  --shadow-card: inset 0 1px 0 var(--shade-highlight), 0 12px 32px -20px var(--shade-card);
+  --shadow-float: 0 24px 64px -16px var(--shade-float);
+  --shadow-pop: 0 16px 40px -12px var(--shade-pop);
+  --shadow-dialog: 0 24px 64px var(--shade-pop);
+  --shadow-thumb: inset 0 1px 0 var(--shade-highlight), 0 4px 12px -4px var(--shade-pop);
   --shadow-glow: 0 6px 20px -6px rgb(239 120 43 / 0.55);
 
   /* Motion: 150 to 250 ms, no bounce */
@@ -75,7 +82,14 @@
 
 /* Hero card gradient, the only gradient surface of the interface */
 @utility bg-hero {
-  background: radial-gradient(120% 120% at 100% 0%, #A13817 0%, #3C140C 45%, #120D0B 100%);
+  /* The hero stays deep copper in both themes: its content keeps the dark theme colours. */
+  --color-fg: #F5EFEA;
+  --color-fg-secondary: #D9C9BE;
+  --color-accent-soft: #F4B183;
+  --color-bg-base: #0A0807;
+  --color-tint: #FFEBDC;
+  background: var(--hero-gradient);
+  color: var(--color-fg);
 }
 
 /* Main action and checked controls: copper, lighter on top-left. Dark ink stays above 7:1. */
@@ -86,19 +100,91 @@
 /* Regular card: a faint light from above on surface-1, no blur (section 11) */
 @utility bg-card {
   background:
-    linear-gradient(180deg, rgb(255 235 220 / 0.03) 0%, rgb(255 235 220 / 0) 140px),
+    linear-gradient(180deg, var(--card-sheen) 0%, transparent 140px),
     var(--color-surface-1);
 }
 
 /* Big titles and figures that carry the brand */
 @utility text-copper {
-  background: linear-gradient(100deg, #F8D2B4 0%, #F4A46C 55%, #EF782B 100%);
+  background: var(--copper-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
+/* Side bar: a faint light from above */
+@utility bg-sidebar {
+  background: linear-gradient(180deg, var(--sidebar-sheen), transparent 40%);
+}
+
+/* « Ce soir » of the side bar */
+@utility bg-tonight {
+  background: linear-gradient(160deg, var(--tonight-from), var(--tonight-to) 60%);
+}
+
 /* Tabular figures for doses, ratings and amounts */
 @utility nums {
   font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Values that are not utilities, one set per theme. Dark is the default theme; the light one
+ * is a warm sand, never a pure white (D-038). Shadows and gradients read these variables,
+ * because Tailwind inlines the value of a shadow token.
+ */
+:root {
+  color-scheme: dark;
+  --glow-top: rgb(161 56 23 / 0.17);
+  --glow-bottom: rgb(239 120 43 / 0.06);
+  --card-sheen: rgb(255 235 220 / 0.03);
+  --sidebar-sheen: rgb(255 235 220 / 0.02);
+  --tonight-from: rgb(161 56 23 / 0.22);
+  --tonight-to: rgb(26 19 16 / 0.9);
+  --shade-highlight: rgb(255 235 220 / 0.035);
+  --shade-card: rgb(0 0 0 / 0.9);
+  --shade-float: rgb(0 0 0 / 0.75);
+  --shade-pop: rgb(0 0 0 / 0.6);
+  --hero-gradient: radial-gradient(120% 120% at 100% 0%, #A13817 0%, #3C140C 45%, #120D0B 100%);
+  --copper-text: linear-gradient(100deg, #F8D2B4 0%, #F4A46C 55%, #EF782B 100%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg-base: #F3E8DC;
+  --color-surface-1: #FBF5EE;
+  --color-surface-2: #F0E3D5;
+  --color-surface-3: #E7D7C6;
+  --color-border: rgb(74 38 20 / 0.13);
+  --color-border-strong: rgb(74 38 20 / 0.26);
+  --color-glass-fill: rgb(251 245 238 / 0.9);
+  --color-tint: #4A2614;
+  --color-veil: rgb(58 28 14 / 0.34);
+
+  --color-fg: #2A1710;
+  --color-fg-secondary: #58413A;
+  --color-fg-muted: #694F44;
+
+  --color-accent: #A63F0E;
+  --color-accent-soft: #843010;
+  --color-accent-deep: #7A2A12;
+  --color-accent-gold: #D9742E;
+  --color-accent-disabled: #DDBFA9;
+
+  --color-status-ok: #12603F;
+  --color-status-warning: #6D4C00;
+  --color-status-danger: #A81F26;
+
+  --glow-top: rgb(239 120 43 / 0.2);
+  --glow-bottom: rgb(217 116 46 / 0.12);
+  --card-sheen: rgb(255 255 255 / 0.65);
+  --sidebar-sheen: rgb(255 255 255 / 0.4);
+  --tonight-from: rgb(239 120 43 / 0.26);
+  --tonight-to: rgb(251 245 238 / 0.9);
+  --shade-highlight: rgb(255 255 255 / 0.8);
+  --shade-card: rgb(92 45 20 / 0.32);
+  --shade-float: rgb(92 45 20 / 0.36);
+  --shade-pop: rgb(92 45 20 / 0.3);
+  --hero-gradient: radial-gradient(120% 120% at 100% 0%, #B8481C 0%, #6A2410 50%, #3C140C 100%);
+  --copper-text: linear-gradient(100deg, #6E250D 0%, #963810 55%, #A63F0E 100%);
 }

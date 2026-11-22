@@ -32,7 +32,7 @@ type Tab = 'batch' | 'abv' | 'convert' | 'cost'
 export function CalculatorsPage() {
   const [tab, setTab] = useState<Tab>('batch')
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
         <SegmentedControl

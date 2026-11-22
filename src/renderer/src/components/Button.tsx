@@ -17,9 +17,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const VARIANTS: Record<ButtonVariant, string> = {
   // Text on the accent is dark: white on #EF782B fails WCAG (section 11).
   solid:
-    'border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-[#6B4A39] disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100',
+    'border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100',
   outline:
-    'border border-border-strong bg-[rgb(255_235_220/0.015)] text-fg hover:border-[rgb(255_235_220/0.22)] hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
+    'border border-border-strong bg-tint/[0.015] text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
   ghost:
     'border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50',
   danger:

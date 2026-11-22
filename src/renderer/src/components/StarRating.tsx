@@ -86,7 +86,7 @@ export function StarRating({
               aria-checked={value === star}
               aria-label={optionLabel(star)}
               tabIndex={star === tabbable ? 0 : -1}
-              className="group/star flex size-8 cursor-pointer items-center justify-center rounded-field transition-colors duration-150 hover:bg-[rgb(255_235_220/0.05)]"
+              className="group/star flex size-8 cursor-pointer items-center justify-center rounded-field transition-colors duration-150 hover:bg-tint/5"
               onPointerEnter={() => {
                 setHover(star)
               }}

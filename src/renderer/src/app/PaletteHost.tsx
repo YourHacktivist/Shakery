@@ -102,6 +102,7 @@ export function PaletteHost() {
       groups={groups}
       initialQuery={paletteQuery}
       onQueryChange={setQuery}
+      resultsFor={search.isPending || search.isPlaceholderData ? null : query.trim()}
     />
   )
 }

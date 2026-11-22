@@ -82,7 +82,10 @@ export function filterRecipes(
         (filters.view === 'makeable' && recipe.missingIngredientIds.length === 0)),
   )
   return kept.sort((a, b) =>
-    filters.sort === 'name' ? collator.compare(a.name, b.name) : b.updatedAt - a.updatedAt,
+    filters.sort === 'name'
+      ? collator.compare(a.name, b.name)
+      : // The classics were all loaded at the same moment: same time, then alphabetical.
+        b.updatedAt - a.updatedAt || collator.compare(a.name, b.name),
   )
 }
 
@@ -163,7 +166,7 @@ export function RecipesPage() {
   const total = all?.length ?? 0
 
   return (
-    <div className="mx-auto flex h-full max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex h-full max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">

@@ -31,7 +31,8 @@
     "dist:win": "npm run build && electron-builder --win",
     "dist:mac": "npm run build && electron-builder --mac",
     "maf:convert": "tsx scripts/maf-import/convert.ts",
-    "perf": "tsx scripts/perf/budgets.ts"
+    "perf": "tsx scripts/perf/budgets.ts",
+    "licenses": "tsx scripts/licenses.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "7.0.7",

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
-import { useGlasses, useIceTypes, useIngredients, useRecipe } from '@renderer/lib/queries'
+import { useDisplayUnit, useGlasses, useIceTypes, useIngredients, useRecipe } from '@renderer/lib/queries'
 import { formatDose } from '@renderer/features/recipes/model'
 
 const t = fr.recipes.prepare
@@ -14,6 +14,7 @@ const t = fr.recipes.prepare
  * (`?ids=a,b,c`), screen kept awake. Escape leaves.
  */
 export function PrepModePage() {
+  const display = useDisplayUnit()
   const { id = '' } = useParams()
   const [params] = useSearchParams()
   const navigate = useNavigate()
@@ -65,8 +66,8 @@ export function PrepModePage() {
   ].filter((part): part is string => part !== null)
 
   return (
-    <div className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-bg-base px-12 py-8 text-fg">
-      <header className="flex items-start justify-between gap-6">
+    <div className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-bg-base px-12 py-12 text-fg">
+      <header className="window-drag flex items-start justify-between gap-6">
         <div className="flex min-w-0 flex-col gap-2">
           <span className="text-lead text-fg-muted">{t.eyebrow}</span>
           <h1 className="m-0 text-[48px] leading-tight font-normal tracking-[-0.02em]">
@@ -101,7 +102,7 @@ export function PrepModePage() {
                     )}
                   >
                     <span className="nums text-right text-[48px] leading-none font-normal text-accent-soft">
-                      {formatDose(line)}
+                      {formatDose(line, display)}
                     </span>
                     <span className="text-[32px] leading-tight">
                       {names.get(line.ingredientId) ?? ''}
@@ -149,7 +150,7 @@ export function PrepModePage() {
                     aria-hidden="true"
                     className={cn(
                       'mt-1 flex size-10 shrink-0 items-center justify-center rounded-full border-2',
-                      checked ? 'border-status-ok bg-status-ok text-accent-ink' : 'border-border-strong',
+                      checked ? 'border-status-ok bg-status-ok text-bg-base' : 'border-border-strong',
                     )}
                   >
                     {checked ? <Check size={24} /> : <span className="nums text-[20px]">{index + 1}</span>}

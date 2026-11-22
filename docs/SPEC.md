@@ -501,7 +501,7 @@ Unités et équivalences, dilution par méthode, pas de réglage de l'atelier, s
 
 ### 10.15 Premier lancement
 
-Assistant en trois étapes : unité d'affichage, familles à importer depuis la base de départ, dossier de sauvegarde. Il se termine sur l'accueil avec une invitation à noter une première idée.
+Assistant en trois étapes : unité d'affichage et thème, présentation de la base de départ (toujours complète, D-036 et D-038), dossier de sauvegarde. Il se termine sur l'accueil avec une invitation à noter une première idée.
 
 ## 11. Design system
 
@@ -563,7 +563,7 @@ Contraste. Le blanc sur `#EF782B` ne donne qu'environ 2,8:1 et échoue au WCAG. 
 **Performance**
 
 - `backdrop-filter` uniquement sur les éléments flottants, jamais sur une carte ni un élément de liste.
-- Aucun fond animé. Animations limitées à `transform` et `opacity`, de 150 à 250 ms, sans rebond. `prefers-reduced-motion` est respecté et un réglage coupe toutes les animations.
+- Aucun fond animé en boucle. Animations limitées à `transform` et `opacity`, sans rebond, de 150 à 250 ms pour les réactions de l'interface. Chaque écran a sa propre entrée et son motif, qui arrivent en moins d'une seconde puis restent immobiles ; seule la bascule de thème anime un `clip-path` (D-038). `prefers-reduced-motion` est respecté et un réglage coupe toutes les animations.
 - Au repos, l'application ne consomme pas de CPU : pas de minuterie ni de rendu en boucle.
 
 **Typographie**
@@ -578,7 +578,7 @@ Grille de 4 px. Rayons de 10 px (boutons, champs), 12 px (cartes imbriquées), 1
 
 **Composants à construire** : `Card`, `HeroCard`, `StatTile` (libellé, grand chiffre, variation), `Sparkline`, `RangeGauge`, `DoseStepper`, `RatingScale` (–2 à +2), `VersionDiff`, `StatusBadge`, `FilterPill`, `SegmentedControl`, `Button` (plein, contour, discret, danger), `Input`, `NumberWithUnit`, `Combobox` (autocomplétion d'ingrédient avec création), `AllergenBadge`, `ExpiryPill`, `Toast`, `Dialog`, `CommandPalette`, `Kbd`, `EmptyState`, `VirtualTable`.
 
-**Validation visuelle.** En développement uniquement, une route `/dev/kit` montre chaque token et chaque composant dans tous ses états (normal, survol, focus, désactivé, erreur, vide), ainsi qu'une maquette statique de l'accueil remplie de données de démonstration clairement étiquetées. L'utilisateur la valide avant la construction des écrans. Le thème est uniquement sombre en version 1, mais les tokens sont nommés pour permettre un thème clair plus tard.
+**Validation visuelle.** En développement uniquement, une route `/dev/kit` montre chaque token et chaque composant dans tous ses états (normal, survol, focus, désactivé, erreur, vide), ainsi qu'une maquette statique de l'accueil remplie de données de démonstration clairement étiquetées. L'utilisateur la valide avant la construction des écrans. Deux thèmes, sombre par défaut et clair chaud (sable, jamais blanc pur), avec un bouton de bascule sur chaque écran. La barre de titre du système est masquée : la barre du haut de l'application en tient lieu (D-038).
 
 ## 12. Recherche, impression, sauvegarde, import et export
 
@@ -594,7 +594,7 @@ Grille de 4 px. Rayons de 10 px (boutons, champs), 12 px (cartes imbriquées), 1
 
 ### 12.2 Impression
 
-- Gabarits React dédiés dans `renderer/src/print/`, thème clair noir sur blanc, sans décor.
+- Gabarits React dédiés dans `renderer/src/print/`, toujours clairs. Collection : noir sur blanc, sans décor. Fiche technique : papier blanc, bandeau cuivré avec le logo, une seule page (D-038).
 - Rendu dans une fenêtre cachée (mêmes réglages de sécurité et même CSP), puis `webContents.printToPDF` pour un PDF ou `webContents.print` pour une impression directe.
 - Gabarits : fiche technique A4 et A5 (avec ou sans indicateurs), collection en PDF, résultat de batch, étiquette de bouteille maison (nom, date de fabrication, date limite) sur rouleau ou planche A4.
 

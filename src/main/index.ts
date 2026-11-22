@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { app, BrowserWindow, Menu, session } from 'electron'
 import { systemIds } from './db/client'
 import { DatabaseManager } from './db/manager'
+import { SqliteSettingsRepository } from './db/repositories/settings'
 import { createHandlers, registerIpcHandlers } from './ipc'
 import { log, setupLogging } from './logger'
 import {
@@ -18,7 +19,8 @@ import { handleMediaProtocol, registerMediaScheme } from './protocol'
 import { hardenAllWebContents, hardenSession } from './security'
 import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './seed/bundled'
 import { loadSeedData } from './seed/load'
-import { createMainWindow } from './window'
+import { settleOnboarding } from './services/onboarding'
+import { applyWindowTheme, createMainWindow } from './window'
 
 // The data folder must be fixed before the single instance lock, which is tied to it.
 applyUserDataOverride()
@@ -44,13 +46,22 @@ if (!app.requestSingleInstanceLock()) {
     seed: (db, ids) => {
       const added = loadSeedData(db, ids, withClassics(BUNDLED_SEED, join(seedFolder(), CLASSICS_FILE)))
       log.info(`Seed data added: ${JSON.stringify(added)}`)
+      // End-to-end tests skip the first-launch assistant, outside a packaged build only.
+      settleOnboarding(db, ids.now, {
+        skip: !app.isPackaged && process.env['SHAKERY_SKIP_ONBOARDING'] === '1',
+      })
     },
   })
 
   let mainWindow: BrowserWindow | null = null
 
+  const savedTheme = () =>
+    database.status === 'ready'
+      ? new SqliteSettingsRepository(database.db, systemIds().now).get('appearance.theme')
+      : 'dark'
+
   const openMainWindow = (): void => {
-    mainWindow = createMainWindow()
+    mainWindow = createMainWindow(savedTheme())
     mainWindow.on('closed', () => {
       mainWindow = null
     })
@@ -102,7 +113,11 @@ if (!app.requestSingleInstanceLock()) {
         createHandlers({
           manager: database,
           onRestored: () => {
-            setImmediate(() => mainWindow?.webContents.reload())
+            setImmediate(() => {
+              // The restored notebook brings its own settings, theme included.
+              applyWindowTheme(savedTheme())
+              mainWindow?.webContents.reload()
+            })
           },
         }),
       )

@@ -49,6 +49,13 @@ export const NAV_ITEMS: readonly NavItem[] = [
 
 export const KIT_PATH = '/dev/kit'
 
+/** Index of the navigation entry of an address, or -1 (preparation mode, kit). */
+export function activeNavIndex(pathname: string): number {
+  return NAV_ITEMS.findIndex((item) =>
+    item.path === '/' ? pathname === '/' : pathname === item.path || pathname.startsWith(`${item.path}/`),
+  )
+}
+
 export function navItem(id: ScreenId): NavItem {
   const item = NAV_ITEMS.find((entry) => entry.id === id)
   if (!item) throw new Error(`Unknown screen ${id}`)

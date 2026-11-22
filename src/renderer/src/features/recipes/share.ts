@@ -6,7 +6,7 @@
 import logoUrl from '@renderer/assets/logo-160.png'
 import { fr } from '@renderer/i18n/fr'
 import type { RecipeDetail } from '@shared/domain/catalog'
-import { formatDose } from './model'
+import { type DisplayUnit, formatDose } from './model'
 
 const t = fr.recipes
 
@@ -14,6 +14,8 @@ export type ShareContext = {
   readonly ingredientName: (id: string) => string
   readonly glass: string | null
   readonly ice: string | null
+  /** Display unit of the settings. */
+  readonly display?: DisplayUnit
 }
 
 /** Family, method, glass and ice, in that order, when known. */
@@ -33,7 +35,11 @@ function lineParts(recipe: RecipeDetail, context: ShareContext) {
       line.isGarnish ? t.detail.garnishLine : null,
       line.note,
     ].filter((part): part is string => part !== null && part !== '')
-    return { dose: formatDose(line), name: context.ingredientName(line.ingredientId), extras }
+    return {
+      dose: formatDose(line, context.display),
+      name: context.ingredientName(line.ingredientId),
+      extras,
+    }
   })
 }
 

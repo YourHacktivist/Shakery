@@ -110,7 +110,7 @@ export function HomePage() {
   const empty = inProgress.length === 0 && view === 'current'
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">

@@ -165,7 +165,7 @@ export function Sparkline({
             x2={width}
             y1={yAt(reference)}
             y2={yAt(reference)}
-            className="stroke-[rgb(255_235_220/0.10)]"
+            className="stroke-tint/10"
             strokeWidth={1}
             strokeDasharray="3 4"
           />

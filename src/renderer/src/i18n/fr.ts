@@ -1,9 +1,11 @@
 import type { IpcErrorCode } from '@shared/ipc/result'
 import { bar } from './fr/bar'
 import { components } from './fr/components'
+import { guide } from './fr/guide'
 import { journal } from './fr/journal'
 import { home } from './fr/home'
 import { kit } from './fr/kit'
+import { onboarding } from './fr/onboarding'
 import { recipes } from './fr/recipes'
 import { settings } from './fr/settings'
 import { shell } from './fr/shell'
@@ -17,12 +19,6 @@ export const fr = {
   app: {
     name: 'Shakery',
     tagline: 'Carnet de création',
-  },
-  boot: {
-    version: (version: string) => `Version ${version}`,
-    versionUnknown: 'Version inconnue',
-    phase: 'Phase 0 : fondations. Les écrans arrivent aux phases suivantes.',
-    logoAlt: 'Logo de Shakery, un shaker entouré d’un ruban cuivré',
   },
   errors: {
     UNKNOWN_CHANNEL: 'Opération inconnue.',
@@ -42,4 +38,6 @@ export const fr = {
   recipes,
   bar,
   settings,
+  guide,
+  onboarding,
 } as const

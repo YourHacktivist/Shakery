@@ -1,6 +1,6 @@
 import { Command } from 'cmdk'
 import { CornerDownLeft, Search } from 'lucide-react'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { normalizeName } from '@core/normalize'
 import { Dialog } from '@renderer/components/Dialog'
 import { Kbd } from '@renderer/components/Kbd'
@@ -34,6 +34,11 @@ type CommandPaletteProps = {
   initialQuery?: string
   /** Called with the typed text, so that the screen can search with it. */
   onQueryChange?: (query: string) => void
+  /**
+   * Text that the pre-filtered groups answer, null while they are not known. Enter typed before
+   * they answer the text in the field waits for them. Left out when nothing is searched.
+   */
+  resultsFor?: string | null
   className?: string
 }
 
@@ -47,6 +52,7 @@ export function CommandPalette({
   groups,
   initialQuery = '',
   onQueryChange,
+  resultsFor,
   className,
 }: CommandPaletteProps) {
   return (
@@ -65,6 +71,7 @@ export function CommandPalette({
         initialQuery={initialQuery}
         onClose={onClose}
         onQueryChange={onQueryChange}
+        resultsFor={resultsFor}
       />
     </Dialog>
   )
@@ -76,11 +83,13 @@ function PaletteBody({
   initialQuery,
   onClose,
   onQueryChange,
+  resultsFor,
 }: {
   groups: readonly CommandPaletteGroup[]
   initialQuery: string
   onClose: () => void
   onQueryChange?: ((query: string) => void) | undefined
+  resultsFor?: string | null | undefined
 }) {
   const [query, setQuery] = useState(initialQuery)
   useEffect(() => {
@@ -111,6 +120,19 @@ function PaletteBody({
     setShownKey(listKey)
     setSelected(firstId)
   }
+  // A fast typist presses Enter before the results: it opens the first of them when they arrive,
+  // never an item left from the first letters.
+  const typed = query.trim()
+  const pending = resultsFor !== undefined && typed !== '' && resultsFor !== typed
+  const enterWaits = useRef(false)
+  const first = visible[0]?.items[0]
+  useEffect(() => {
+    if (pending || !enterWaits.current) return
+    enterWaits.current = false
+    if (!first) return
+    first.onSelect()
+    onClose()
+  }, [first, onClose, pending])
   const t = fr.shell.palette
   const keys = fr.shell.keys
 
@@ -122,6 +144,11 @@ function PaletteBody({
       shouldFilter={false}
       value={selected}
       onValueChange={setSelected}
+      onKeyDown={(event) => {
+        if (!pending || event.key !== 'Enter' || event.nativeEvent.isComposing) return
+        event.preventDefault()
+        enterWaits.current = true
+      }}
       className="flex min-h-0 flex-col"
     >
       <div className="flex items-center gap-3 border-b border-border px-5 focus-within:border-border-strong">
@@ -129,7 +156,10 @@ function PaletteBody({
         <Command.Input
           data-autofocus=""
           value={query}
-          onValueChange={setQuery}
+          onValueChange={(text) => {
+            enterWaits.current = false
+            setQuery(text)
+          }}
           placeholder={t.placeholder}
           className="h-12 min-w-0 flex-1 border-0 bg-transparent font-sans text-lead text-fg outline-none placeholder:text-fg-muted focus-visible:outline-none"
         />

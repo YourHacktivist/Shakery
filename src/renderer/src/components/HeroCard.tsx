@@ -8,7 +8,7 @@ import { cn } from '@renderer/lib/cn'
  * stays readable on the copper gradient, as in the mockups. Marked important because cn()
  * does not merge conflicting utilities.
  */
-export const heroSecondaryActionClass = 'border-[rgb(255_235_220/0.24)]! bg-bg-base/35! hover:bg-bg-base/55!'
+export const heroSecondaryActionClass = 'border-tint/24! bg-bg-base/35! hover:bg-bg-base/55!'
 
 type HeroCardProps = {
   title: string

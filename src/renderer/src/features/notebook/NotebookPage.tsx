@@ -117,7 +117,7 @@ export function NotebookPage() {
   )
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.count(entries.length)}</span>
@@ -161,7 +161,7 @@ export function NotebookPage() {
                       'flex w-full cursor-pointer flex-col gap-1 rounded-nested border px-3 py-2 text-left transition-[background-color,border-color] duration-150 ease-out-soft',
                       entry.id === selectedId
                         ? 'border-accent/30 bg-[linear-gradient(90deg,rgb(239_120_43/0.13),rgb(239_120_43/0.03))]'
-                        : 'border-transparent hover:bg-[rgb(255_235_220/0.04)]',
+                        : 'border-transparent hover:bg-tint/4',
                     )}
                     onClick={() => {
                       setSelectedId(entry.id)
@@ -314,7 +314,15 @@ function Editor({
       const hit = hits[active]
       if (!hit) return
       event.preventDefault()
-      pick(hit)
+      if (!search.isPlaceholderData) {
+        pick(hit)
+        return
+      }
+      // The list still answers the first letters: the name typed decides, once its results are there.
+      void search.refetch({ cancelRefetch: false }).then(({ data }) => {
+        const best = data?.[0]
+        if (best && bodyRef.current?.value === draft.body) pick(best)
+      })
     } else if (event.key === 'Escape') {
       event.preventDefault()
       event.stopPropagation()

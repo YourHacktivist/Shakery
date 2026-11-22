@@ -30,7 +30,7 @@ export const useSidebarStore = create<SidebarState>()(
 )
 
 /** Floating elements owned by the shell. Only one is open at a time. */
-export type Overlay = 'palette' | 'quickIdea' | 'shortcuts' | 'tasting'
+export type Overlay = 'palette' | 'quickIdea' | 'shortcuts' | 'tasting' | 'print'
 
 type OverlayState = {
   current: Overlay | null

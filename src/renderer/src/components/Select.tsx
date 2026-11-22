@@ -68,7 +68,7 @@ export function Select({
           disabled={disabled}
           aria-invalid={error ? true : undefined}
           aria-describedby={ids.describedBy}
-          className="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg [color-scheme:dark] outline-none disabled:cursor-not-allowed"
+          className="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg outline-none disabled:cursor-not-allowed"
           {...rest}
         >
           {placeholder === undefined ? null : <option value="">{placeholder}</option>}

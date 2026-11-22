@@ -2,7 +2,7 @@
 
 Ce fichier recense chaque source de données, sa licence, sa date de récupération et les choix de tri (section 9 de `docs/SPEC.md`). Toute valeur par défaut présentée dans l'interface (durées, taux de dilution, équivalences d'unités, teneurs en sucre et en acide) y est sourcée (section 1, règle 9). L'écran « À propos » affiche les attributions.
 
-État : base de départ en cours de constitution (phase 4). Pipeline dans `scripts/seed/`, réponses réseau en cache dans `scripts/seed/.cache/`.
+État : base de départ livrée avec l'application (phases 4 et suivantes, D-036). Pipeline dans `scripts/seed/`, réponses réseau en cache dans `scripts/seed/.cache/`.
 
 ## Base de départ (générée au build, jamais à l'exécution)
 

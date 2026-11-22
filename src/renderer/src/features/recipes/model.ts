@@ -2,6 +2,7 @@
  * Conversions between what the main process returns and what the editor and the
  * calculations take. No business rule here: the calculations stay in core/ (recipes.compute).
  */
+import { DEFAULT_EQUIVALENCES } from '@core/units'
 import { fr } from '@renderer/i18n/fr'
 import { formatNumber } from '@renderer/lib/format'
 import type { RecipeDetail, RecipeInput, RecipeInputParsed } from '@shared/domain/catalog'
@@ -110,12 +111,45 @@ export function computationInput(values: RecipeInput): RecipeInput | null {
   }
 }
 
+export type DisplayUnit = 'ml' | 'cl' | 'oz'
+
+const ML_PER: Record<DisplayUnit, number> = { ml: 1, cl: 10, oz: DEFAULT_EQUIVALENCES.ozMl }
+
+/** An ounce reads in quarters, as long as that moves the dose by a tenth at most. */
+const QUARTER_TOLERANCE = 0.1
+
+/**
+ * A volume in ml, cl or oz shown in the display unit chosen in the settings (section 10.15):
+ * ml to one decimal, cl to two (22,5 ml is 2,25 cl), oz to the quarter when it stays true to
+ * the dose, else to two decimals (2,5 ml is never 0 oz). The stored dose never changes.
+ */
+export function inDisplayUnit(
+  quantity: number,
+  unit: string,
+  display: DisplayUnit,
+): { quantity: number; unit: string } {
+  if (!(unit in ML_PER) || unit === display) return { quantity, unit }
+  const value = (quantity * ML_PER[unit as DisplayUnit]) / ML_PER[display]
+  if (display === 'ml') return { quantity: Math.round(value * 10) / 10, unit: display }
+  const quarter = Math.round(value * 4) / 4
+  if (display === 'oz' && Math.abs(quarter - value) <= value * QUARTER_TOLERANCE) {
+    return { quantity: quarter, unit: display }
+  }
+  return { quantity: Math.round(value * 100) / 100, unit: display }
+}
+
 /** « 45 ml », « 2 traits », « à compléter, environ 60 ml », « dose à définir ». */
-export function formatDose(line: Pick<RecipeLineValues, 'quantity' | 'unit' | 'topEstimateMl'>): string {
+export function formatDose(
+  line: Pick<RecipeLineValues, 'quantity' | 'unit' | 'topEstimateMl'>,
+  display: DisplayUnit = 'ml',
+): string {
   if (line.unit === 'top') {
-    return line.topEstimateMl === null ? t.units.top : t.doseTopEstimate(formatNumber(line.topEstimateMl))
+    if (line.topEstimateMl === null) return t.units.top
+    const estimate = inDisplayUnit(line.topEstimateMl, 'ml', display)
+    return t.doseTopEstimate(formatNumber(estimate.quantity), estimate.unit)
   }
   if (line.unit === 'to_taste') return t.units.to_taste
   if (line.quantity === null) return t.doseMissing
-  return t.dose(formatNumber(line.quantity), line.quantity, line.unit)
+  const shown = inDisplayUnit(line.quantity, line.unit, display)
+  return t.dose(formatNumber(shown.quantity), shown.quantity, shown.unit as typeof line.unit)
 }

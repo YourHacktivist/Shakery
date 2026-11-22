@@ -84,6 +84,42 @@ describe('NotebookPage', () => {
     expect(saved?.data.links).toEqual([{ entityType: 'recipe', entityId: 'recipe-1' }])
   })
 
+  it('Enter typed before the results picks for the whole name, not for its first letters', async () => {
+    const user = userEvent.setup()
+    const hit = (id: string, title: string) => ({
+      entityType: 'recipe' as const,
+      id,
+      title,
+      detail: null,
+      status: 'final' as const,
+      parentId: null,
+      match: 'prefix' as const,
+    })
+    api.notebook.list.mockResolvedValue(ok([entry({ body: '' })]))
+    api.notebook.update.mockImplementation(({ id }) => Promise.resolve(ok(entry({ id }))))
+    let answer = () => {}
+    api.search.query.mockImplementation(({ text }) =>
+      text === 'Negroni'
+        ? new Promise((resolve) => {
+            answer = () => {
+              resolve(ok([hit('exact', 'Negroni'), hit('variant', 'Negroni and the Goat')]))
+            }
+          })
+        : Promise.resolve(ok([hit('variant', 'Negroni and the Goat')])),
+    )
+    renderRoutes([{ path: '/notebook', element: <NotebookPage /> }], '/notebook')
+    await user.click(await screen.findByRole('button', { name: /Fraise et basilic/ }))
+    const body = screen.getByRole('combobox', { name: t.body })
+    await user.type(body, '@Negr')
+    await screen.findByRole('option', { name: /Negroni and the Goat/ })
+    await user.type(body, 'oni{Enter}')
+    expect((body as HTMLTextAreaElement).value).toBe('@Negroni')
+    answer()
+    await waitFor(() => {
+      expect((body as HTMLTextAreaElement).value).toBe('Negroni ')
+    })
+  })
+
   it('turns a note into a recipe idea', async () => {
     const user = userEvent.setup()
     api.notebook.list.mockResolvedValue(ok([entry()]))

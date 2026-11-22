@@ -5,7 +5,14 @@ import { formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { formatDate, formatEuros } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
-import { queryKeys, useCollection, useGlasses, useIngredients } from '@renderer/lib/queries'
+import {
+  queryKeys,
+  useCollection,
+  useDisplayUnit,
+  useGlasses,
+  useIngredients,
+  useSettings,
+} from '@renderer/lib/queries'
 import { PRINT_READY_TITLE } from '@shared/print'
 
 const t = fr.workshop
@@ -15,6 +22,8 @@ const t = fr.workshop
  * in a hidden window; the title tells the main process when everything is on the page.
  */
 export function CollectionPrint() {
+  const display = useDisplayUnit()
+  const settings = useSettings()
   const { id = '' } = useParams()
   const collection = useCollection(id)
   const [printedAt] = useState(() => Date.now())
@@ -34,6 +43,7 @@ export function CollectionPrint() {
     [ingredients.data],
   )
   const ready =
+    !settings.isPending &&
     collection.isSuccess &&
     ingredients.isSuccess &&
     glasses.isSuccess &&
@@ -86,7 +96,9 @@ export function CollectionPrint() {
                   <ul className="mt-1.5 mb-0 list-none p-0">
                     {recipe.lines.map((line) => (
                       <li key={line.id} className="flex gap-3">
-                        <span className="w-[90px] shrink-0 text-right tabular-nums">{formatDose(line)}</span>
+                        <span className="w-[90px] shrink-0 text-right tabular-nums">
+                          {formatDose(line, display)}
+                        </span>
                         <span>{names.get(line.ingredientId) ?? ''}</span>
                       </li>
                     ))}

@@ -175,8 +175,7 @@ function parseJson(buffer: Buffer): unknown {
 }
 
 /**
- * Writes a .shakery archive. Used by the import tests and the MAF conversion script; the
- * full and partial exports of the notebook arrive in phase 10.
+ * Writes a .shakery archive: exports of the notebook, MAF conversion script, import tests.
  */
 export function writeArchive(
   file: string,

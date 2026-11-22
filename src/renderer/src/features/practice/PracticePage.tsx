@@ -77,7 +77,7 @@ export function PracticePage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex flex-col gap-1">
         <span className="text-caption text-fg-muted">{t.subtitle}</span>
         <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>

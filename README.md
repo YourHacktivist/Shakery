@@ -1,77 +1,77 @@
+<p align="center">
+  <img src="docs/assets/banner.png" alt="Shakery, le couteau suisse du barman : crée, ajuste, note, révise, sans connexion" width="100%">
+</p>
+
 # Shakery
 
-Carnet de création personnel du barman, installé sur son propre PC. Shakery conserve les fiches, fait évoluer les recettes de l'idée à la version finale, note les dégustations, simule l'équilibre d'un mélange et aide à réviser une carte ou un concours. Tout est local et hors ligne : pas de compte, pas de serveur, pas de télémétrie.
+Le carnet de création du barman, installé sur son PC. Tout est local et hors ligne : pas de compte, pas de serveur, pas de télémétrie.
 
-Application de bureau Electron, React, Tailwind CSS v4 et TypeScript. Le cahier des charges complet est dans [`docs/SPEC.md`](docs/SPEC.md).
+## Ce que fait Shakery
 
-## État d'avancement
+|                                |                                                                                                                                         |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **7 166 cocktails intégrés**   | Les classiques sont dans l'application. Ctrl K, quelques lettres, Entrée : la fiche s'ouvre, même avec une faute de frappe.             |
+| **Atelier**                    | Change une dose et vois degré, sucre, acidité et volume bouger. Versions, variantes et comparaison.                                     |
+| **Journal et carnet**          | Note chaque essai, la prochaine étape à tester, et les idées qui ne sont pas encore des fiches.                                         |
+| **Mon bar**                    | Tes bouteilles, ce que tu peux faire ce soir, les achats qui débloquent le plus de fiches. Code-barres facultatif avec Open Food Facts. |
+| **Préparations**               | Sirops, cordiaux, fabrications en cours et dates limites.                                                                               |
+| **Collections et révision**    | Une carte ou un concours, en PDF, avec ses quiz et ses cartes mémoire.                                                                  |
+| **Fiche technique imprimable** | A4 ou A5, en PDF ou sur papier, avec Ctrl P.                                                                                            |
+| **Partage**                    | Markdown, image, CSV, et fichier `.shakery` pour un collègue ou un autre PC.                                                            |
+| **Deux thèmes**                | Sombre ou clair chaud, jusque dans la barre de titre.                                                                                   |
+| **Mode préparation**           | La fiche en plein écran, lisible à un mètre, avec F11.                                                                                  |
 
-| Phase  | Contenu                                                                                                    | État                                   |
-| ------ | ---------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 0      | Fondations : projet, durcissement Electron, contrat IPC, CI, instance unique, journaux                     | livrée, validée                        |
-| 1      | Données et sauvegarde : SQLite, schéma complet avec l'extension MAF, migrations, référentiels, sauvegardes | livrée                                 |
-| 2      | Design system : composants, coquille, raccourcis, palette, accueil vide, icônes, page /dev/kit             | livrée                                 |
-| 3      | Ingrédients, bouteilles et fiches : éditeur, versions, variantes, idée rapide, calculs, import `.shakery`  | livrée                                 |
-| 4      | Base de départ : 308 ingrédients (Wikidata, Ciqual, rédaction), 102 cocktails IBA, 10 préparations         | livrée, relecture à faire              |
-| 5      | Recherche Ctrl+K (plein texte et approchée), fiches réalisables, mode préparation                          | livrée                                 |
-| 6      | Atelier : doses en direct, zones de référence, versions, variantes, comparaison                            | livrée                                 |
-| 7 à 11 | Journal, bar, accueil, export, finitions                                                                   | à venir, dans l'ordre de la section 14 |
+Le guide d'utilisation est dans l'application : bouton **?** en bas de la barre latérale, ou Paramètres puis Guide.
 
-L'application gère les ingrédients, les bouteilles et les fiches (création, édition, statuts, versions, variantes, idée rapide), calcule volume, degré, sucre, acidité, coût et allergènes, et importe un carnet `.shakery` depuis les paramètres.
+## Installer
 
-## Prérequis
+L'installeur Windows se construit avec `npm run dist:win` : `dist/Shakery-<version>-setup.exe`. Il s'installe pour l'utilisateur courant, sans droits administrateur. Il n'est pas signé : Windows SmartScreen affiche un avertissement au premier lancement.
 
-- Node.js 22.12 ou plus récent (testé avec Node 24).
-- Windows 10 ou 11 en 64 bits (cible principale) ou macOS.
+Les DMG macOS (arm64 et x64) se construisent avec `npm run dist:mac`, sur un Mac uniquement. Ils ne sont ni signés ni notarisés.
 
-## Installation
+Au premier lancement, le chargement des classiques prend quelques secondes, une seule fois.
+
+## Développer
+
+Il faut Node.js 22.12 ou plus récent (testé avec Node 24).
 
 ```bash
 npm install
 ```
 
-Si le binaire Electron n'a pas été téléchargé (dossier `node_modules/electron/dist` absent, erreur « Electron failed to install correctly »), lance son installation à la main :
+```bash
+npm run dev
+```
+
+Si le binaire Electron manque (« Electron failed to install correctly ») :
 
 ```bash
 node node_modules/electron/install.js
 ```
 
-## Scripts
-
-| Commande              | Rôle                                                                                                                        |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`         | Lance l'application avec rechargement à chaud. F12 ouvre les outils de développement.                                       |
-| `npm run build`       | Construit main, preload et renderer dans `out/`.                                                                            |
-| `npm run typecheck`   | Vérifie les types des quatre projets TypeScript (main, renderer, code pur, tests e2e).                                      |
-| `npm run lint`        | ESLint avec règles typées et règles de frontière entre processus.                                                           |
-| `npm run format`      | Formate le code avec Prettier (`format:check` pour vérifier sans modifier).                                                 |
-| `npm test`            | Tests unitaires Vitest.                                                                                                     |
-| `npm run test:e2e`    | Construit l'application puis lance les tests Playwright sur Electron.                                                       |
-| `npm run check`       | Typage, lint, formatage et tests unitaires, comme la CI.                                                                    |
-| `npm run screens`     | Construit l'application puis capture ses écrans principaux dans `test-results/screens`.                                     |
-| `npm run perf`        | Génère une base de 5 000 ingrédients, 2 000 fiches et 10 000 notes, puis mesure recherche, ouverture et calcul d'une fiche. |
-| `npm run maf:convert` | Convertit les carnets MAF de `imports/maf/` en archive `.shakery` (données personnelles).                                   |
-| `npm run dist:win`    | Construit l'installeur NSIS Windows dans `dist/`.                                                                           |
-| `npm run dist:mac`    | Construit les DMG macOS (arm64 et x64) dans `dist/`.                                                                        |
-
-Les installeurs ne sont pas signés : Windows SmartScreen affiche un avertissement et macOS bloque une application non notarisée. La signature reste à décider avant toute diffusion publique.
+| Commande              | Rôle                                                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `npm run check`       | Types, lint, format et tests unitaires, comme la CI.                                                            |
+| `npm run test:e2e`    | Construit l'application puis lance les tests Playwright sur Electron.                                           |
+| `npm run screens`     | Capture chaque écran dans les deux thèmes et trois tailles, avec un rapport des débordements et des contrastes. |
+| `npm run perf`        | Mesure chargement, recherche, ouverture et calcul sur un gros carnet.                                           |
+| `npm run licenses`    | Met à jour les licences affichées dans « À propos ».                                                            |
+| `npm run maf:convert` | Convertit les carnets MAF de `imports/maf/` (données personnelles, hors de git).                                |
+| `npm run dist:win`    | Construit l'installeur Windows.                                                                                 |
+| `npm run dist:mac`    | Construit les DMG macOS.                                                                                        |
 
 ## Architecture en bref
 
-- `src/main/` : processus principal. Fenêtre, sécurité, IPC, et plus tard base SQLite, sauvegardes, export.
-- `src/preload/` : expose `window.shakery`, une liste fermée de fonctions dérivée du contrat IPC.
-- `src/shared/` : contrat IPC (noms, schémas Zod, types), partagé par tous les processus.
-- `src/core/` : logique métier pure, sans Electron, Node ni DOM, réutilisable par la future version téléphone.
-- `src/renderer/` : interface React. Toutes les chaînes françaises sont dans `src/renderer/src/i18n/fr.ts`.
+- `src/main/` : processus principal. Fenêtre, sécurité, base SQLite, sauvegardes, export, impression.
+- `src/preload/` : expose `window.shakery`, une liste fermée de fonctions issue du contrat IPC.
+- `src/shared/` : contrat IPC et schémas, partagés par tous les processus.
+- `src/core/` : logique métier pure, sans Electron, Node ni DOM.
+- `src/renderer/` : interface React. Les textes français sont dans `src/renderer/src/i18n/fr/`.
 
-Détails : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Sécurité, point par point : [`docs/SECURITY.md`](docs/SECURITY.md). Décisions prises hors de la spec : [`docs/DECISIONS.md`](docs/DECISIONS.md). Sources des données : [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).
-
-## Dossiers de référence
-
-- `design/` : maquettes de l'accueil et du kit de composants, tokens, logo et police Manrope (licence OFL). Les noms et valeurs visibles dans les maquettes sont fictifs et ne doivent pas se retrouver dans l'application.
-- `CLAUDE.md` : consignes de travail pour l'agent de développement.
-- `imports/` : fichiers extraits des carnets personnels de l'utilisateur, exclus de git.
+Documentation : [cahier des charges](docs/SPEC.md), [architecture](docs/ARCHITECTURE.md), [sécurité](docs/SECURITY.md), [décisions](docs/DECISIONS.md), [sources des données](docs/DATA_SOURCES.md).
 
 ## Données et confidentialité
 
-Le carnet sera un fichier SQLite dans le dossier de données de l'application (`userData`), à partir de la phase 1. Aucune donnée ne quitte le PC. La seule fonction réseau prévue, la recherche facultative d'une bouteille par code-barres sur Open Food Facts, sera désactivable.
+Le carnet est un fichier SQLite dans le dossier de données de l'application, sauvegardé chaque jour. Une seule fonction utilise Internet, la recherche d'une bouteille par code-barres, et elle se coupe dans les paramètres.
+
+Les formules des classiques viennent de l'IBA et de 24cocktails.com. Ces dernières sont réservées à un usage personnel : ce dépôt doit rester privé tant qu'il contient `resources/seed/recipes-24c.json`.

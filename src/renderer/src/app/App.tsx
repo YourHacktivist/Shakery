@@ -1,16 +1,19 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   createHashRouter,
   Navigate,
   Outlet,
   RouterProvider,
   useLocation,
+  useMatch,
   type RouteObject,
 } from 'react-router'
+import { AppearanceSync } from '@renderer/app/AppearanceSync'
 import { KIT_PATH } from '@renderer/app/navigation'
 import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
 import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
+import { SceneBackdrop, sceneOf, type SceneId } from '@renderer/app/scenes'
 import { Sidebar } from '@renderer/app/Sidebar'
 import { TastingDialog } from '@renderer/app/TastingDialog'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -22,19 +25,26 @@ import { KitPage } from '@renderer/dev/KitPage'
 import { BarPage } from '@renderer/features/bar/BarPage'
 import { CalculatorsPage } from '@renderer/features/calculators/CalculatorsPage'
 import { CollectionsPage } from '@renderer/features/collections/CollectionsPage'
+import { GuidePage } from '@renderer/features/guide/GuidePage'
 import { HomePage } from '@renderer/features/home/HomePage'
 import { JournalPage } from '@renderer/features/journal/JournalPage'
 import { LabPage } from '@renderer/features/lab/LabPage'
 import { NotebookPage } from '@renderer/features/notebook/NotebookPage'
+import { Onboarding } from '@renderer/features/onboarding/OnboardingDialog'
 import { PracticePage } from '@renderer/features/practice/PracticePage'
 import { PrepsPage } from '@renderer/features/preps/PrepsPage'
 import { PrepModePage } from '@renderer/features/prepare/PrepModePage'
 import { RecipeDetailPage } from '@renderer/features/recipes/RecipeDetailPage'
+import { PrintRecipeDialog } from '@renderer/features/recipes/PrintRecipeDialog'
 import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
 import { createQueryClient } from '@renderer/lib/queries'
 import { CollectionPrint } from '@renderer/print/CollectionPrint'
+import { RecipePrint } from '@renderer/print/RecipePrint'
+
+/** Longest choreography of a screen, delays included. */
+const ENTRANCE_MS = 900
 
 const SCREENS: RouteObject[] = [
   { path: '/', element: <HomePage /> },
@@ -52,6 +62,7 @@ const SCREENS: RouteObject[] = [
   { path: '/practice', element: <PracticePage /> },
   { path: '/calculators', element: <CalculatorsPage /> },
   { path: '/settings', element: <SettingsPage /> },
+  { path: '/guide', element: <GuidePage /> },
   ...(import.meta.env.DEV ? [{ path: KIT_PATH, element: <KitPage /> }] : []),
   { path: '*', element: <Navigate to="/" replace /> },
 ]
@@ -67,62 +78,61 @@ export function App() {
     createHashRouter([
       { path: '/prepare/:id', element: <PrepModePage /> },
       { path: '/print/collection/:id', element: <CollectionPrint /> },
+      { path: '/print/recipe/:id', element: <RecipePrint /> },
       { element: <Shell />, children: SCREENS },
     ]),
   )
   return (
     <QueryClientProvider client={queryClient}>
+      <AppearanceSync />
       <RouterProvider router={router} />
     </QueryClientProvider>
   )
 }
 
-/** True when the system or the « animations » setting asks for no motion (section 11). */
-export function motionReduced(): boolean {
-  return (
-    document.documentElement.classList.contains('no-motion') ||
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-}
-
 /**
- * Each new screen rises in (opacity and transform, 220 ms). The page is not remounted, so a
- * screen that only changes its address (the lab after a save) keeps its state.
+ * The screen and the moment it is entering, for its choreography (styles/scenes.css). The
+ * virtual list mounts rows while scrolling: they only animate during the entrance.
  */
-function usePageEntrance() {
-  const ref = useRef<HTMLElement>(null)
+function useScene() {
   const { pathname } = useLocation()
-  useLayoutEffect(() => {
-    const element = ref.current
-    if (!element || typeof element.animate !== 'function' || motionReduced()) return
-    element.animate(
-      [
-        { opacity: 0, transform: 'translateY(6px)' },
-        { opacity: 1, transform: 'none' },
-      ],
-      { duration: 220, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
-    )
-  }, [pathname])
-  return ref
+  const scene = sceneOf(pathname)
+  const [settled, setSettled] = useState<SceneId | null>(null)
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setSettled(scene)
+    }, ENTRANCE_MS)
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [scene])
+  return { scene, entering: settled !== scene }
 }
 
 function Shell() {
   useGlobalShortcuts()
-  const pageRef = usePageEntrance()
+  const { scene, entering } = useScene()
+  const shownRecipe = useMatch('/recipes/:id')?.params.id ?? null
   const overlay = useOverlayStore((state) => state.current)
   const closeOverlay = useOverlayStore((state) => state.close)
   const tasting = useOverlayStore((state) => state.tasting)
 
   return (
-    <div className="flex h-full min-w-[1100px] overflow-hidden">
+    <div className="app-shell flex h-full overflow-hidden">
       <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <TopBar className="px-4 pt-3 pb-3" />
-        <main ref={pageRef} className="min-h-0 flex-1 overflow-y-auto px-4 pt-2 pb-8">
+      <div className="relative isolate flex min-w-0 flex-1 flex-col">
+        <SceneBackdrop scene={scene} />
+        <TopBar className="window-controls-space h-12 shrink-0 pl-4" />
+        <main
+          data-scene={scene}
+          data-entering={entering ? '' : undefined}
+          className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8"
+        >
           <Outlet />
         </main>
       </div>
       <PaletteHost />
+      <Onboarding />
       <QuickIdeaDialog open={overlay === 'quickIdea'} onClose={closeOverlay} />
       <ShortcutsDialog open={overlay === 'shortcuts'} onClose={closeOverlay} />
       <TastingDialog
@@ -131,6 +141,7 @@ function Shell() {
         version={tasting.version}
         onClose={closeOverlay}
       />
+      <PrintRecipeDialog recipeId={overlay === 'print' ? shownRecipe : null} onClose={closeOverlay} />
       <Toaster />
     </div>
   )

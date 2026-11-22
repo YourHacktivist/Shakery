@@ -14,6 +14,7 @@ export const shell = {
   version: (version: string) => `Version ${version}`,
   versionUnknown: 'Version inconnue',
   sidebar: {
+    guide: 'Guide d’utilisation',
     label: 'Barre latérale',
     collapse: 'Replier la barre latérale',
     expand: 'Déplier la barre latérale',
@@ -54,6 +55,7 @@ export const shell = {
     search: 'Rechercher une fiche, un ingrédient, une note',
     quickIdea: 'Idée rapide',
     settings: 'Paramètres',
+    theme: { light: 'Passer au thème clair', dark: 'Passer au thème sombre' },
   },
   keys: {
     mod: 'Ctrl',
@@ -113,7 +115,7 @@ export const shell = {
   },
   shortcuts: {
     title: 'Raccourcis clavier',
-    description: `Ceux marqués ${quote('Bientôt')} arriveront avec les prochaines phases.`,
+    description: 'Tout se fait au clavier, depuis n’importe quel écran.',
     soon: 'Bientôt',
     items: {
       palette: 'Ouvrir la palette de recherche',
@@ -127,63 +129,6 @@ export const shell = {
       prepMode: 'Passer en mode préparation',
       back: 'Fermer la fenêtre ouverte ou revenir en arrière',
       help: 'Afficher les raccourcis',
-    },
-  },
-  screens: {
-    lab: {
-      eyebrow: 'Arrive à la phase 6',
-      title: 'Atelier',
-      emptyTitle: 'L’atelier, pour ajuster tes doses',
-      emptyText:
-        'Règle chaque dose et vois le degré, le sucre, l’acidité et la dilution bouger en direct, puis compare tes versions côte à côte. Il arrive à la phase 6.',
-    },
-    journal: {
-      eyebrow: 'Arrive à la phase 7',
-      title: 'Journal',
-      emptyTitle: 'Ton journal de dégustation',
-      emptyText:
-        'Note chaque essai de 1 à 5, critère par critère, et garde la prochaine étape à tester. Il arrive à la phase 7.',
-    },
-    notebook: {
-      eyebrow: 'Arrive à la phase 7',
-      title: 'Carnet',
-      emptyTitle: 'Tes notes libres',
-      emptyText: `Associations de saveurs, techniques, inspirations, bouteilles à goûter${colon} tout ce qui n’est pas encore une recette. Le carnet arrive à la phase 7.`,
-    },
-    preps: {
-      eyebrow: 'Arrive à la phase 8',
-      title: 'Préparations',
-      emptyTitle: 'Tes préparations maison',
-      emptyText:
-        'Sirops, cordiaux, oleo saccharum. Suis chaque fabrication et sa date limite. Elles arrivent à la phase 8.',
-    },
-    collections: {
-      eyebrow: 'Arrive à la phase 8',
-      title: 'Collections',
-      emptyTitle: 'Tes collections de fiches',
-      emptyText:
-        'Regroupe des fiches pour une carte, un concours ou un thème, dans l’ordre que tu veux, avec un export PDF. Elles arrivent à la phase 8.',
-    },
-    practice: {
-      eyebrow: 'Arrive à la phase 8',
-      title: 'Révision',
-      emptyTitle: 'Révise tes recettes',
-      emptyText:
-        'Cartes mémoire et quiz sur une collection, avec ton score et les erreurs à revoir. La révision arrive à la phase 8.',
-    },
-    calculators: {
-      eyebrow: 'Arrive à la phase 8',
-      title: 'Calculateurs',
-      emptyTitle: 'Tes calculateurs',
-      emptyText:
-        'Batch, degré et dilution, conversion d’unités et coût, seuls ou à partir d’une fiche. Ils arrivent à la phase 8.',
-    },
-    settings: {
-      eyebrow: 'Arrive au fil des phases',
-      title: 'Paramètres',
-      emptyTitle: 'Tes réglages',
-      emptyText:
-        'Unités, dilution, sauvegardes, impression et apparence. Les premiers réglages, les unités et la dilution, arrivent à la phase 3.',
     },
   },
 } as const

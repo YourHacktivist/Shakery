@@ -1,0 +1,398 @@
+/*
+ * One choreography per screen (D-038). Only transform, translate, rotate, scale and opacity
+ * move; nothing loops. `backwards` and not `both`: once an animation is over the element gets
+ * its own transform back, and fixed descendants keep the window as their reference.
+ */
+
+/* ------------------------------------------------------------------ Backdrop of each screen */
+
+.scene-backdrop {
+  --scene-tone: #ef782b;
+  --scene-x: 88%;
+  --scene-from: rotate(-10deg) scale(0.9);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    760px 420px at var(--scene-x) 0%,
+    color-mix(in srgb, var(--scene-tone) 13%, transparent),
+    transparent 72%
+  );
+  animation: scene-light 600ms var(--ease-out-soft) backwards;
+}
+
+.scene-motif {
+  position: absolute;
+  right: -70px;
+  bottom: -70px;
+  color: var(--scene-tone);
+  opacity: 0.1;
+  animation: scene-motif 700ms var(--ease-out-soft) backwards;
+}
+
+:root[data-theme='light'] .scene-motif {
+  opacity: 0.16;
+}
+
+.scene-backdrop[data-scene='home'] {
+  --scene-tone: #ef782b;
+  --scene-x: 92%;
+  --scene-from: translateY(50px) scale(0.92);
+}
+.scene-backdrop[data-scene='recipes'] {
+  --scene-tone: #d9a441;
+  --scene-x: 8%;
+  --scene-from: perspective(800px) rotateY(35deg);
+}
+.scene-backdrop[data-scene='detail'] {
+  --scene-tone: #f4a46c;
+  --scene-x: 50%;
+  --scene-from: translateY(-50px) rotate(6deg);
+}
+.scene-backdrop[data-scene='editor'] {
+  --scene-tone: #c98a5e;
+  --scene-x: 30%;
+  --scene-from: translate(60px, -60px);
+}
+.scene-backdrop[data-scene='lab'] {
+  --scene-tone: #c8553d;
+  --scene-x: 70%;
+  --scene-from: rotate(28deg) scale(0.86);
+}
+.scene-backdrop[data-scene='journal'] {
+  --scene-tone: #b4637a;
+  --scene-x: 20%;
+  --scene-from: translateX(90px);
+}
+.scene-backdrop[data-scene='notebook'] {
+  --scene-tone: #e0bc6a;
+  --scene-x: 62%;
+  --scene-from: rotate(16deg) translateY(30px);
+}
+.scene-backdrop[data-scene='bar'] {
+  --scene-tone: #a8324a;
+  --scene-x: 80%;
+  --scene-from: rotate(-22deg);
+}
+.scene-backdrop[data-scene='preps'] {
+  --scene-tone: #d88a3d;
+  --scene-x: 38%;
+  --scene-from: translateY(-80px);
+}
+.scene-backdrop[data-scene='collections'] {
+  --scene-tone: #bd7b4b;
+  --scene-x: 12%;
+  --scene-from: scale(1.25);
+}
+.scene-backdrop[data-scene='practice'] {
+  --scene-tone: #cf9f52;
+  --scene-x: 50%;
+  --scene-from: translateY(-40px) rotate(-18deg);
+}
+.scene-backdrop[data-scene='calculators'] {
+  --scene-tone: #9c6b4f;
+  --scene-x: 96%;
+  --scene-from: scale(0.7);
+}
+.scene-backdrop[data-scene='settings'] {
+  --scene-tone: #8e7a6d;
+  --scene-x: 50%;
+  --scene-from: rotate(-50deg);
+}
+
+.scene-backdrop[data-scene='guide'] {
+  --scene-tone: #e6ae6e;
+  --scene-x: 26%;
+  --scene-from: perspective(700px) rotateX(40deg);
+}
+
+@keyframes scene-light {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes scene-motif {
+  from {
+    opacity: 0;
+    transform: var(--scene-from);
+  }
+}
+
+/* ------------------------------------------------------------------ Entrance of each screen */
+
+/*
+ * The blocks of a screen are the children of its root. --enter is the movement of the blocks,
+ * --item-enter the one of the cards that use `animate-rise` inside them.
+ */
+main[data-scene] > * > * {
+  animation: var(--enter, scene-rise) var(--enter-ms, 380ms) var(--ease-out-soft) backwards;
+  animation-delay: calc(var(--order, 0) * var(--enter-step, 60ms));
+}
+main[data-scene] > * > :nth-child(2) {
+  --order: 1;
+}
+main[data-scene] > * > :nth-child(3) {
+  --order: 2;
+}
+main[data-scene] > * > :nth-child(4) {
+  --order: 3;
+}
+main[data-scene] > * > :nth-child(5) {
+  --order: 4;
+}
+main[data-scene] > * > :nth-child(n + 6) {
+  --order: 5;
+}
+
+/* Home: poured from above, the cards land one after the other. */
+main[data-scene='home'] {
+  --enter: scene-pour;
+  --item-enter: item-land;
+}
+/* Recipes: a deck of cards dealt from the left, row after row. */
+main[data-scene='recipes'] {
+  --enter: scene-deal;
+  --enter-step: 45ms;
+}
+main[data-scene='recipes'][data-entering] [role='option'] {
+  animation: row-deal 360ms var(--ease-out-soft) backwards;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(2) {
+  animation-delay: 40ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(3) {
+  animation-delay: 70ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(4) {
+  animation-delay: 100ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(5) {
+  animation-delay: 130ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(6) {
+  animation-delay: 160ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(7) {
+  animation-delay: 190ms;
+}
+main[data-scene='recipes'][data-entering] [role='option']:nth-child(n + 8) {
+  animation-delay: 220ms;
+}
+/* A recipe: a menu that unfolds. */
+main[data-scene='detail'] {
+  --enter: scene-unfold;
+  --enter-ms: 420ms;
+}
+/* Editor: a sheet of paper slid on the table. */
+main[data-scene='editor'] {
+  --enter: scene-sheet;
+  --enter-ms: 420ms;
+}
+/* Lab: the blocks come from both sides and meet, like a mix. */
+main[data-scene='lab'] {
+  --enter: scene-mix-left;
+}
+main[data-scene='lab'] > * > :nth-child(even) {
+  --enter: scene-mix-right;
+}
+/* Journal: a timeline that runs in from the right. */
+main[data-scene='journal'] {
+  --enter: scene-timeline;
+  --item-enter: item-timeline;
+}
+/* Notebook: a page that turns. */
+main[data-scene='notebook'] {
+  --enter: scene-page;
+  --item-enter: item-page;
+  --enter-ms: 440ms;
+}
+/* Bar: bottles put on the shelf. */
+main[data-scene='bar'] {
+  --enter: scene-shelf;
+  --item-enter: item-shelf;
+}
+/* Preparations: drops that fall and spread. */
+main[data-scene='preps'] {
+  --enter: scene-drop;
+  --item-enter: item-drop;
+}
+/* Collections: cards that fan out. */
+main[data-scene='collections'] {
+  --enter: scene-fan;
+  --item-enter: item-fan;
+}
+/* Practice: flash cards that flip. */
+main[data-scene='practice'] {
+  --enter: scene-flip;
+  --item-enter: item-flip;
+}
+/* Calculators: keys that press in. */
+main[data-scene='calculators'] {
+  --enter: scene-press;
+  --item-enter: item-press;
+  --enter-step: 40ms;
+}
+/* Settings: drawers that open. */
+main[data-scene='settings'] {
+  --enter: scene-drawer;
+}
+
+/* Guide: a book that opens. */
+main[data-scene='guide'] {
+  --enter: scene-page;
+  --item-enter: item-page;
+}
+
+@keyframes scene-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes scene-pour {
+  from {
+    opacity: 0;
+    transform: translateY(-26px) scaleY(1.04);
+  }
+}
+@keyframes item-land {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) rotate(-1.5deg) scale(1.03);
+  }
+}
+@keyframes scene-deal {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+/* `translate` and not `transform`: the rows of the virtual list are placed with transform. */
+@keyframes row-deal {
+  from {
+    opacity: 0;
+    translate: -44px 0;
+  }
+}
+@keyframes scene-unfold {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(-16deg) translateY(-14px);
+  }
+}
+@keyframes scene-sheet {
+  from {
+    opacity: 0;
+    transform: translateY(44px) rotate(0.7deg);
+  }
+}
+@keyframes scene-mix-left {
+  from {
+    opacity: 0;
+    transform: translateX(-36px) rotate(-0.8deg);
+  }
+}
+@keyframes scene-mix-right {
+  from {
+    opacity: 0;
+    transform: translateX(36px) rotate(0.8deg);
+  }
+}
+@keyframes scene-timeline {
+  from {
+    opacity: 0;
+    transform: translateX(34px);
+  }
+}
+@keyframes item-timeline {
+  from {
+    opacity: 0;
+    transform: translateX(60px) scale(0.98);
+  }
+}
+@keyframes scene-page {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) translateX(-12px) rotateY(12deg);
+  }
+}
+@keyframes item-page {
+  from {
+    opacity: 0;
+    transform: perspective(600px) rotateY(38deg);
+  }
+}
+@keyframes scene-shelf {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+}
+@keyframes item-shelf {
+  from {
+    opacity: 0;
+    transform: translateY(22px) rotate(2deg);
+  }
+}
+@keyframes scene-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.94, 1.06);
+  }
+}
+@keyframes item-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.9, 1.1);
+  }
+}
+@keyframes scene-fan {
+  from {
+    opacity: 0;
+    transform: translate(-20px, 14px) rotate(-1.2deg);
+  }
+}
+@keyframes item-fan {
+  from {
+    opacity: 0;
+    transform: translateX(-24px) rotate(-5deg);
+  }
+}
+@keyframes scene-flip {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(24deg);
+  }
+}
+@keyframes item-flip {
+  from {
+    opacity: 0;
+    transform: perspective(800px) rotateY(-55deg);
+  }
+}
+@keyframes scene-press {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+@keyframes item-press {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+@keyframes scene-drawer {
+  from {
+    opacity: 0;
+    transform: perspective(900px) translateZ(-60px) translateY(-10px);
+  }
+}

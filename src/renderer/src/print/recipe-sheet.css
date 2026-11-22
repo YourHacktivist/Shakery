@@ -1,0 +1,363 @@
+/*
+ * The printed recipe (section 12.2, D-038): paper colours whatever the theme. Every size is in
+ * em, so that A5 and the preview of the dialog are the same sheet, only smaller.
+ */
+
+.sheet {
+  --ink: #24140d;
+  --ink-soft: #6a5046;
+  --copper: #9c3a0f;
+  --line: #e4d3c5;
+  --wash: #faf2ea;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4em;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 11pt;
+  line-height: 1.38;
+  text-align: left;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.sheet :is(h1, h2, p, ul, ol, dl, dd) {
+  margin: 0;
+  padding: 0;
+}
+
+.sheet :is(ul, ol) {
+  list-style: none;
+}
+
+/* Inside the margins of the printer: a millimetre less, so that nothing creates a second page. */
+.sheet[data-paper='a4'] {
+  width: 184mm;
+  min-height: 270mm;
+}
+
+.sheet[data-paper='a5'] {
+  width: 127mm;
+  min-height: 188mm;
+  font-size: 8.3pt;
+}
+
+/* On screen, the margins of the paper are drawn by the sheet itself. */
+.sheet[data-preview][data-paper='a4'] {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 13mm;
+}
+
+.sheet[data-preview][data-paper='a5'] {
+  width: 148mm;
+  min-height: 210mm;
+  padding: 10.5mm;
+}
+
+.sheet-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+  min-height: 11.5em;
+  padding: 1.5em 1.8em;
+  border-radius: 1.3em;
+  /* The rings of a glass left on the bar: in the background, a PDF clips it to the corners. */
+  background:
+    radial-gradient(
+      circle at calc(100% - 3.5em) 0.5em,
+      transparent 8.4em,
+      rgb(255 214 182 / 0.22) 8.45em 8.52em,
+      transparent 8.57em
+    ),
+    radial-gradient(
+      circle at calc(100% - 3.5em) 0.5em,
+      transparent 6.4em,
+      rgb(255 214 182 / 0.22) 6.45em 6.52em,
+      transparent 6.57em
+    ),
+    radial-gradient(
+      circle at calc(100% - 13em) 130%,
+      transparent 5.9em,
+      rgb(255 214 182 / 0.22) 5.95em 6.02em,
+      transparent 6.07em
+    ),
+    radial-gradient(130% 170% at 100% 0%, #c2541f 0%, #6a2410 48%, #24100a 100%);
+  color: #fff6ee;
+  break-inside: avoid;
+}
+
+.sheet-logo {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 7.6em;
+  height: 7.6em;
+  border: 1px solid rgb(255 214 182 / 0.45);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(255 190 140 / 0.42), rgb(255 190 140 / 0.06));
+}
+
+.sheet-logo img {
+  width: 6.6em;
+  height: 6.6em;
+}
+
+.sheet-title {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.sheet-eyebrow {
+  color: #f4b183;
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.sheet .sheet-name {
+  font-size: 2.7em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.07;
+  overflow-wrap: anywhere;
+}
+
+.sheet .sheet-name[data-long] {
+  font-size: 1.85em;
+}
+
+.sheet-credit {
+  color: #e8cdbb;
+  font-size: 0.85em;
+}
+
+.sheet-facts {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  break-inside: avoid;
+}
+
+.sheet-fact {
+  padding: 0 0.9em;
+  border-left: 1px solid var(--line);
+}
+
+.sheet-fact:first-child {
+  border-left: 0;
+}
+
+.sheet-label {
+  color: var(--ink-soft);
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sheet .sheet-value {
+  margin-top: 0.15em;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.sheet-body {
+  display: grid;
+  gap: 1.4em 2em;
+}
+
+.sheet-body[data-steps] {
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+}
+
+.sheet-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  color: var(--copper);
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sheet-heading::after {
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+  content: '';
+}
+
+.sheet-lines {
+  margin-top: 0.5em !important;
+}
+
+.sheet-line {
+  display: grid;
+  grid-template-columns: 6.6em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1em;
+  padding: 0.5em 0;
+  border-bottom: 1px dotted var(--line);
+  break-inside: avoid;
+}
+
+.sheet-line:last-child {
+  border-bottom: 0;
+}
+
+.sheet[data-dense] .sheet-line {
+  padding: 0.26em 0;
+}
+
+.sheet-dose {
+  color: var(--copper);
+  font-size: 1.16em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  text-align: right;
+}
+
+.sheet-ingredient {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.sheet-note {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.74em;
+  font-weight: 400;
+}
+
+.sheet-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  margin-top: 0.9em !important;
+  counter-reset: step;
+}
+
+.sheet-steps li {
+  display: grid;
+  grid-template-columns: 1.7em minmax(0, 1fr);
+  gap: 0.7em;
+  break-inside: avoid;
+  counter-increment: step;
+}
+
+.sheet-steps li::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--copper);
+  color: #fff6ee;
+  content: counter(step);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sheet-garnish {
+  padding: 0.8em 1.1em;
+  border-left: 0.28em solid var(--copper);
+  border-radius: 0.5em;
+  background: var(--wash);
+  break-inside: avoid;
+}
+
+.sheet .sheet-garnish p:last-child {
+  margin-top: 0.2em;
+  font-size: 1.04em;
+}
+
+.sheet-figures {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 0.6em;
+  break-inside: avoid;
+}
+
+.sheet-figure {
+  padding: 0.65em 0.9em;
+  border: 1px solid var(--line);
+  border-radius: 0.7em;
+}
+
+.sheet .sheet-figure dd {
+  margin-top: 0.15em;
+  font-size: 1.65em;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-unit {
+  color: var(--ink-soft);
+  font-size: 0.5em;
+}
+
+.sheet-allergens {
+  font-size: 0.85em;
+}
+
+.sheet .sheet-text {
+  margin-top: 0.6em;
+  color: var(--ink-soft);
+  white-space: pre-line;
+}
+
+.sheet-writing {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 5em;
+  break-inside: avoid;
+}
+
+.sheet-rules {
+  position: relative;
+  min-height: 3em;
+  flex: 1;
+}
+
+/* Out of the flow: the lines take the room left and never push a second page. */
+.sheet-rules-list {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.sheet-rules-list > span {
+  display: block;
+  box-sizing: border-box;
+  height: 2em;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet-rules-list > span[hidden] {
+  display: none;
+}
+
+.sheet-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.75em;
+}

@@ -286,7 +286,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   ] as const
 
   return (
-    <div className="mx-auto flex max-w-[1180px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
           <span className="text-small text-fg-muted">{t.eyebrow(version)}</span>
@@ -350,7 +350,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                 return (
                   <li
                     key={line.key}
-                    className={`flex items-center gap-2 rounded-nested border border-border px-2 py-1.5 ${line.enabled ? 'bg-surface-2/50' : 'opacity-50'}`}
+                    className={`flex flex-wrap items-center gap-2 rounded-nested border border-border px-2 py-1.5 ${line.enabled ? 'bg-surface-2/50' : 'opacity-50'}`}
                   >
                     <Toggle
                       label={t.lineOn(name)}
@@ -360,38 +360,40 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         changeLine(line.key, { enabled })
                       }}
                     />
-                    <span className="min-w-0 flex-1 truncate text-body text-fg">{name}</span>
-                    <DoseStepper
-                      label={t.dose(name)}
-                      hideLabel
-                      value={line.quantity}
-                      unit={fr.recipes.units[line.unit]}
-                      step={stepFor(line.unit)}
-                      disabled={line.unit === 'top' || line.unit === 'to_taste'}
-                      onChange={(quantity) => {
-                        changeLine(line.key, { quantity })
-                      }}
-                      className="w-40 shrink-0"
-                    />
-                    <Select
-                      label={t.unit(name)}
-                      hideLabel
-                      value={line.unit}
-                      options={UNIT_VALUES.map((unit) => ({ value: unit, label: fr.recipes.units[unit] }))}
-                      onChange={(event) => {
-                        changeLine(line.key, { unit: event.target.value as LabLine['unit'] })
-                      }}
-                      className="w-28 shrink-0"
-                    />
-                    <IconButton
-                      size="sm"
-                      variant="ghost"
-                      label={t.remove(name)}
-                      icon={<Trash2 size={14} aria-hidden="true" />}
-                      onClick={() => {
-                        change({ ...draft, lines: draft.lines.filter((other) => other.key !== line.key) })
-                      }}
-                    />
+                    <span className="min-w-36 flex-1 text-body text-fg">{name}</span>
+                    <div className="ml-auto flex shrink-0 items-center gap-2">
+                      <DoseStepper
+                        label={t.dose(name)}
+                        hideLabel
+                        value={line.quantity}
+                        unit={fr.recipes.units[line.unit]}
+                        step={stepFor(line.unit)}
+                        disabled={line.unit === 'top' || line.unit === 'to_taste'}
+                        onChange={(quantity) => {
+                          changeLine(line.key, { quantity })
+                        }}
+                        className="w-44 shrink-0"
+                      />
+                      <Select
+                        label={t.unit(name)}
+                        hideLabel
+                        value={line.unit}
+                        options={UNIT_VALUES.map((unit) => ({ value: unit, label: fr.recipes.units[unit] }))}
+                        onChange={(event) => {
+                          changeLine(line.key, { unit: event.target.value as LabLine['unit'] })
+                        }}
+                        className="w-28 shrink-0"
+                      />
+                      <IconButton
+                        size="sm"
+                        variant="ghost"
+                        label={t.remove(name)}
+                        icon={<Trash2 size={14} aria-hidden="true" />}
+                        onClick={() => {
+                          change({ ...draft, lines: draft.lines.filter((other) => other.key !== line.key) })
+                        }}
+                      />
+                    </div>
                   </li>
                 )
               })}

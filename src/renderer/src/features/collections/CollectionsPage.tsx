@@ -74,7 +74,7 @@ export function CollectionsPage() {
   )
 
   return (
-    <div className="mx-auto flex max-w-[1120px] flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.count(list.length)}</span>
@@ -108,7 +108,7 @@ export function CollectionsPage() {
                       'flex w-full cursor-pointer flex-col gap-0.5 rounded-nested border px-3 py-2 text-left transition-[background-color,border-color] duration-150',
                       collection.id === selectedId
                         ? 'border-accent/30 bg-[linear-gradient(90deg,rgb(239_120_43/0.13),rgb(239_120_43/0.03))]'
-                        : 'border-transparent hover:bg-[rgb(255_235_220/0.04)]',
+                        : 'border-transparent hover:bg-tint/4',
                     )}
                     onClick={() => {
                       select(collection.id)
