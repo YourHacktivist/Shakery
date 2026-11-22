@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { RECIPE_PAPERS } from '../print'
+import { BATCH_TARGETS, LABEL_FORMAT_VALUES, MAX_LABELS, PRINT_TARGETS, RECIPE_PAPERS } from '../print'
 import { ALLERGEN_CODES } from '../domain/allergens'
 import { settingChangeSchema, settingsValuesSchema } from '../settings'
 import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
@@ -67,6 +67,30 @@ const backupDirectorySchema = z.object({ directory: z.string().max(1024), isDefa
 
 const recipePrintInput = z
   .object({ id: z.string().min(1).max(36), paper: z.enum(RECIPE_PAPERS), indicators: z.boolean() })
+  .strict()
+
+const batchPrintInput = z
+  .object({
+    id: z.string().min(1).max(36),
+    to: z.enum(PRINT_TARGETS),
+    target: z.enum(BATCH_TARGETS),
+    amount: z.number().positive().max(100_000),
+    stepMl: z.number().positive().max(1000),
+    water: z.boolean(),
+    garnish: z.boolean(),
+  })
+  .strict()
+
+const labelPrintInput = z
+  .object({
+    id: z.string().min(1).max(36),
+    batchId: z.string().min(1).max(36),
+    to: z.enum(PRINT_TARGETS),
+    format: z.enum(LABEL_FORMAT_VALUES),
+    count: z.number().int().min(1).max(MAX_LABELS),
+    skip: z.number().int().min(0).max(40),
+    allergens: z.boolean(),
+  })
   .strict()
 
 const offProductSchema = z
@@ -234,6 +258,8 @@ export const ipcContract = {
   /** The technical sheet of a recipe (section 12.2), as a PDF or through the system print dialog. */
   'export.recipePdf': { input: recipePrintInput, output: savedSchema },
   'export.printRecipe': { input: recipePrintInput, output: z.object({ printed: z.boolean() }).strict() },
+  'export.batch': { input: batchPrintInput, output: z.object({ done: z.boolean() }).strict() },
+  'export.labels': { input: labelPrintInput, output: z.object({ done: z.boolean() }).strict() },
   'off.status': { input: noInput, output: z.object({ enabled: z.boolean() }).strict() },
   'off.setEnabled': { input: z.object({ enabled: z.boolean() }).strict(), output: done },
   /** Bottle lookup by barcode on Open Food Facts (section 9); refused when turned off. */

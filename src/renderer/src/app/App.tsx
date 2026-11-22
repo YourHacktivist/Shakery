@@ -40,7 +40,9 @@ import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
 import { createQueryClient } from '@renderer/lib/queries'
+import { BatchPrint } from '@renderer/print/BatchPrint'
 import { CollectionPrint } from '@renderer/print/CollectionPrint'
+import { LabelPrint } from '@renderer/print/LabelPrint'
 import { RecipePrint } from '@renderer/print/RecipePrint'
 
 /** Longest choreography of a screen, delays included. */
@@ -79,6 +81,8 @@ export function App() {
       { path: '/prepare/:id', element: <PrepModePage /> },
       { path: '/print/collection/:id', element: <CollectionPrint /> },
       { path: '/print/recipe/:id', element: <RecipePrint /> },
+      { path: '/print/batch/:id', element: <BatchPrint /> },
+      { path: '/print/label/:id/:batchId', element: <LabelPrint /> },
       { element: <Shell />, children: SCREENS },
     ]),
   )

@@ -1,0 +1,83 @@
+/* Bottle labels (section 12.2, D-042): measured in millimetres, sizes in em to shrink as one. */
+
+.bottle-label {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  gap: 0.2em;
+  padding: 2mm 2.5mm;
+  overflow: hidden;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-sans);
+  line-height: 1.15;
+  text-align: left;
+}
+
+.bottle-label :is(p, dl, dd) {
+  margin: 0;
+}
+
+.bottle-label > * {
+  flex-shrink: 0;
+}
+
+.bottle-label-name {
+  padding-bottom: 0.15em;
+  border-bottom: 0.4pt solid #000000;
+  font-size: 1em;
+  font-weight: 800;
+  overflow-wrap: break-word;
+}
+
+.bottle-label dl {
+  font-size: 0.68em;
+}
+
+.bottle-label dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6em;
+}
+
+.bottle-label dt,
+.bottle-label dd {
+  white-space: nowrap;
+}
+
+.bottle-label dd {
+  font-variant-numeric: tabular-nums;
+}
+
+.bottle-label-before {
+  font-weight: 800;
+}
+
+.bottle-label-blank {
+  display: inline-block;
+  width: 6em;
+  border-bottom: 0.4pt solid #000000;
+}
+
+.bottle-label-allergens {
+  font-size: 0.64em;
+  font-weight: 800;
+  overflow-wrap: break-word;
+}
+
+/* A label page has no margin of its own: the paper is the label, or the sheet of labels. */
+.label-page {
+  position: relative;
+  overflow: hidden;
+  break-after: page;
+  background: #ffffff;
+}
+
+.label-page:last-child {
+  break-after: auto;
+}
+
+.label-slot {
+  position: absolute;
+}

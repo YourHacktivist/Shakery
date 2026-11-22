@@ -360,6 +360,17 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Listes déroulantes : 100 lignes affichées au plus, le reste se trouve en tapant (7 000 fiches).
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-042 Batch imprimé et étiquettes de bouteille
+
+- **Date** : 2026-11-22
+- **Contexte** : sections 8, 10.9, 10.13 et 12.2. En branchant l'impression, le batch s'est révélé non conforme à la section 8 : les jus, l'œuf et la crème étaient comptés dans la bouteille à garder, il n'y avait ni cible en volume ni pas d'arrondi, et les pièces n'étaient pas arrondies au supérieur.
+- **Choix** :
+  - Batch corrigé : seule la part qui se garde va dans la bouteille, le frais et le service sont listés à part avec un avertissement, cible en verres ou en ml, arrondi réglable, pièces à l'unité supérieure, décorations exclues par défaut. L'eau reste V0 × d × N.
+  - Étiquettes : trois rouleaux (62 × 29, 89 × 36, 57 × 32 mm) et deux planches A4 (21 et 8), page sans marge, première case libre au choix. Le texte rétrécit, rien n'est coupé.
+  - L'étiquette porte les allergènes déclarés (désactivable) et une ligne à remplir quand aucune durée de conservation n'est définie : Shakery n'en propose jamais.
+  - IPC `export.batch` et `export.labels` : des identifiants et des options validés, jamais de HTML ni de chemin.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

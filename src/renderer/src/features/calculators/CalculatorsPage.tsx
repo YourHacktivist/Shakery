@@ -1,6 +1,16 @@
-import { Calculator, Droplets, Euro, FlaskConical, Plus, Repeat, Trash2 } from 'lucide-react'
+import {
+  Calculator,
+  Droplets,
+  Euro,
+  FileDown,
+  FlaskConical,
+  Plus,
+  Printer,
+  Repeat,
+  Trash2,
+} from 'lucide-react'
 import { useMemo, useState, type ReactNode } from 'react'
-import { scaleBatch, type BatchHint } from '@core/batch'
+import { BATCH_STEPS_ML, type BatchHint } from '@core/batch'
 import { DEFAULT_PRICING, salePrice } from '@core/cost'
 import { dilutionFor } from '@core/dilution'
 import { APPROXIMATE_UNITS, DEFAULT_EQUIVALENCES, lineVolumeMl } from '@core/units'
@@ -10,19 +20,18 @@ import { Combobox } from '@renderer/components/Combobox'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Select } from '@renderer/components/Select'
+import { toast } from '@renderer/components/Toast'
 import { Toggle } from '@renderer/components/Toggle'
+import { useBatch } from '@renderer/features/calculators/useBatch'
+import { notifyError } from '@renderer/features/shared/notify'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { formatNumber } from '@renderer/lib/format'
-import {
-  useCategories,
-  useIngredients,
-  useRecipe,
-  useRecipeComputation,
-  useRecipes,
-} from '@renderer/lib/queries'
+import { unwrap } from '@renderer/lib/ipc'
+import { useIngredients, useRecipe, useRecipeComputation, useRecipes } from '@renderer/lib/queries'
 import type { RecipeDetail } from '@shared/domain/catalog'
+import type { BatchPrintOptions, PrintTarget } from '@shared/print'
 
 const t = fr.workshop.calculators
 
@@ -136,102 +145,182 @@ function BatchCalculator() {
   )
 }
 
-function BatchResult({ recipe }: { recipe: RecipeDetail }) {
-  const ingredients = useIngredients()
-  const categories = useCategories()
-  const [servings, setServings] = useState<number | null>(10)
-  const [includeWater, setIncludeWater] = useState(recipe.method === 'stir' || recipe.method === 'build')
-  const dilution = dilutionFor(recipe)
+const BATCH_GROUPS: readonly BatchHint[] = ['ok', 'fresh', 'add_at_service']
 
-  const result = useMemo(() => {
-    if (servings === null || servings < 1) return null
-    const ingredientOf = new Map((ingredients.data ?? []).map((ingredient) => [ingredient.id, ingredient]))
-    const hintOf = new Map((categories.data ?? []).map((category) => [category.id, category.batchHint]))
-    return scaleBatch(
-      recipe.lines.map((line) => {
-        const ingredient = ingredientOf.get(line.ingredientId)
-        return {
-          id: line.id,
-          label: ingredient?.name ?? '',
-          quantity: line.quantity,
-          unit: line.unit,
-          topEstimateMl: line.topEstimateMl,
-          hint: (ingredient ? hintOf.get(ingredient.categoryId) : undefined) ?? ('ok' satisfies BatchHint),
-          isGarnish: line.isGarnish,
-          isOptional: line.isOptional,
-        }
-      }),
-      { servings: Math.round(servings), dilution, includeWater },
-    )
-  }, [recipe, servings, includeWater, dilution, ingredients.data, categories.data])
+function BatchResult({ recipe }: { recipe: RecipeDetail }) {
+  const [target, setTarget] = useState<BatchPrintOptions['target']>('servings')
+  const [servings, setServings] = useState<number | null>(10)
+  const [bottle, setBottle] = useState<number | null>(700)
+  const [stepMl, setStepMl] = useState<number>(BATCH_STEPS_ML[0])
+  const [water, setWater] = useState(recipe.method === 'stir' || recipe.method === 'build')
+  const [garnish, setGarnish] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const amount = (target === 'servings' ? servings : bottle) ?? 0
+  const options: BatchPrintOptions = { target, amount, stepMl, water, garnish }
+  const { ready, result } = useBatch(recipe, options)
+
+  async function send(to: PrintTarget) {
+    setBusy(true)
+    try {
+      const { done } = await unwrap(window.shakery.export.batch({ id: recipe.id, to, ...options }))
+      if (done) toast.show({ message: to === 'pdf' ? t.batch.saved : t.batch.sent })
+    } catch (error) {
+      notifyError(error)
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <Card className="gap-4">
       <div className="flex flex-wrap items-end gap-4">
-        <NumberWithUnit
-          label={t.batch.servings}
-          className="w-[160px]"
-          value={servings}
-          onChange={setServings}
-          min={1}
-          max={500}
-          step={1}
-          decimals={0}
+        <SegmentedControl
+          label={t.batch.target}
+          value={target}
+          onChange={setTarget}
+          options={[
+            { value: 'servings', label: t.batch.byServings },
+            { value: 'volume', label: t.batch.byVolume },
+          ]}
         />
+        {target === 'servings' ? (
+          <NumberWithUnit
+            key="servings"
+            label={t.batch.servings}
+            className="w-[160px]"
+            value={servings}
+            onChange={setServings}
+            min={1}
+            max={500}
+            step={1}
+            decimals={0}
+          />
+        ) : (
+          <NumberWithUnit
+            key="volume"
+            label={t.batch.targetVolume}
+            className="w-[160px]"
+            unit="ml"
+            value={bottle}
+            onChange={setBottle}
+            min={50}
+            max={100_000}
+            step={50}
+            decimals={0}
+          />
+        )}
+        <Select
+          label={t.batch.step}
+          className="w-[150px]"
+          value={String(stepMl)}
+          options={BATCH_STEPS_ML.map((value) => ({ value: String(value), label: t.batch.stepValue(value) }))}
+          onChange={(event) => {
+            setStepMl(Number(event.target.value))
+          }}
+        />
+      </div>
+      <div className="flex flex-wrap items-start gap-x-6 gap-y-3">
         <div className="flex flex-col gap-1">
-          <Toggle label={t.batch.includeWater} checked={includeWater} onCheckedChange={setIncludeWater} />
+          <Toggle label={t.batch.includeWater} checked={water} onCheckedChange={setWater} />
           <span className="text-caption text-fg-muted">{t.batch.waterHint}</span>
         </div>
+        <Toggle label={t.batch.includeGarnish} checked={garnish} onCheckedChange={setGarnish} />
       </div>
       {result ? (
         <>
-          <table className="w-full border-collapse text-body">
+          {target === 'volume' ? (
+            <p className="nums m-0 text-small text-fg-secondary">
+              {t.batch.drinks(formatNumber(Math.round(result.servings * 10) / 10))}
+            </p>
+          ) : null}
+          <table className="w-full table-fixed border-collapse text-body">
+            <colgroup>
+              <col />
+              <col className="w-[110px]" />
+              <col className="w-[96px]" />
+            </colgroup>
             <thead>
               <tr className="text-left text-caption text-fg-muted">
                 <th className="py-1.5 font-medium">{t.batch.ingredient}</th>
                 <th className="py-1.5 text-right font-medium">{t.batch.quantity}</th>
                 <th className="py-1.5 text-right font-medium">{t.batch.volume}</th>
-                <th className="py-1.5 pl-4 font-medium">{t.batch.when}</th>
               </tr>
             </thead>
-            <tbody>
-              {result.lines.map((line) => (
-                <tr key={line.id} className="border-t border-border">
-                  <td className="py-2 text-fg">
-                    {line.label}
-                    {line.isGarnish ? (
-                      <span className="text-caption text-fg-muted">{` · ${t.batch.garnish}`}</span>
-                    ) : null}
-                    {line.isOptional ? (
-                      <span className="text-caption text-fg-muted">{` · ${t.batch.optional}`}</span>
-                    ) : null}
-                  </td>
-                  <td className="nums py-2 text-right text-fg-secondary">
-                    {line.quantity === null
-                      ? '–'
-                      : formatDose({ quantity: line.quantity, unit: line.unit, topEstimateMl: null })}
-                  </td>
-                  <td className="nums py-2 text-right text-fg">
-                    {line.ml === null ? '–' : `${formatNumber(line.ml)} ml`}
-                  </td>
-                  <td className="py-2 pl-4 text-small text-fg-secondary">{t.batch.hints[line.hint]}</td>
-                </tr>
-              ))}
-              {result.waterMl > 0 ? (
-                <tr className="border-t border-border">
-                  <td className="py-2 text-fg">{t.batch.water}</td>
-                  <td />
-                  <td className="nums py-2 text-right text-fg">{`${formatNumber(result.waterMl)} ml`}</td>
-                  <td className="py-2 pl-4 text-small text-fg-secondary">{t.batch.hints.ok}</td>
-                </tr>
-              ) : null}
-            </tbody>
+            {BATCH_GROUPS.map((hint) => {
+              const lines = result.lines.filter((line) => line.hint === hint)
+              const addsWater = hint === 'ok' && result.waterMl > 0
+              if (lines.length === 0 && !addsWater) return null
+              return (
+                <tbody key={hint}>
+                  <tr>
+                    <th scope="rowgroup" colSpan={3} className="pt-4 pb-1.5 text-left">
+                      <span className="block text-caption font-semibold text-accent-soft">
+                        {t.batch.hints[hint]}
+                      </span>
+                      {hint === 'fresh' ? (
+                        <span className="block text-caption font-normal text-fg-secondary">
+                          {t.batch.freshWarning}
+                        </span>
+                      ) : null}
+                    </th>
+                  </tr>
+                  {lines.map((line) => (
+                    <tr key={line.id} className="border-t border-border">
+                      <td className="py-2 break-words text-fg">
+                        {line.label}
+                        {line.isGarnish ? (
+                          <span className="text-caption text-fg-muted">{` · ${t.batch.garnish}`}</span>
+                        ) : null}
+                        {line.isOptional ? (
+                          <span className="text-caption text-fg-muted">{` · ${t.batch.optional}`}</span>
+                        ) : null}
+                      </td>
+                      <td className="nums py-2 text-right text-fg-secondary">
+                        {line.quantity === null
+                          ? '–'
+                          : formatDose({ quantity: line.quantity, unit: line.unit, topEstimateMl: null })}
+                      </td>
+                      <td className="nums py-2 text-right text-fg">
+                        {line.ml === null ? '–' : `${formatNumber(line.ml)} ml`}
+                      </td>
+                    </tr>
+                  ))}
+                  {addsWater ? (
+                    <tr className="border-t border-border">
+                      <td className="py-2 text-fg">{t.batch.water}</td>
+                      <td />
+                      <td className="nums py-2 text-right text-fg">{`${formatNumber(result.waterMl)} ml`}</td>
+                    </tr>
+                  ) : null}
+                </tbody>
+              )
+            })}
           </table>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <Result label={t.batch.bottle} value={formatNumber(result.bottleMl)} unit="ml" strong />
+            <Result label={t.batch.fresh} value={formatNumber(result.freshMl)} unit="ml" />
             <Result label={t.batch.service} value={formatNumber(result.serviceMl)} unit="ml" />
           </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              icon={<FileDown size={16} aria-hidden="true" />}
+              disabled={busy}
+              onClick={() => void send('pdf')}
+            >
+              {t.batch.savePdf}
+            </Button>
+            <Button
+              variant="outline"
+              icon={<Printer size={16} aria-hidden="true" />}
+              disabled={busy}
+              onClick={() => void send('printer')}
+            >
+              {t.batch.print}
+            </Button>
+          </div>
         </>
+      ) : ready && amount > 0 ? (
+        <p className="m-0 text-small text-fg-secondary">{t.batch.nothingKeeps}</p>
       ) : null}
     </Card>
   )

@@ -11,13 +11,31 @@ import { secureWebPreferences } from '../window'
 
 const READY_TIMEOUT_MS = 20_000
 
-type Paper = 'a4' | 'a5'
+/** A named paper, or a label page in millimetres, printed without margin. */
+type Paper = 'a4' | 'a5' | { readonly width: number; readonly height: number }
 
 /** Paper, window width at 96 dpi and margins in inches. */
 const PAPERS = {
   a4: { size: 'A4', width: 794, height: 1123, margin: 0.5 },
   a5: { size: 'A5', width: 559, height: 794, margin: 0.4 },
 } as const
+
+const MM_PER_INCH = 25.4
+
+function pageOf(paper: Paper) {
+  if (typeof paper === 'string') {
+    const { size, width, height, margin } = PAPERS[paper]
+    return { pdfSize: size, printSize: size, width, height, margin }
+  }
+  return {
+    // printToPDF counts in inches, print in microns.
+    pdfSize: { width: paper.width / MM_PER_INCH, height: paper.height / MM_PER_INCH },
+    printSize: { width: Math.round(paper.width * 1000), height: Math.round(paper.height * 1000) },
+    width: Math.ceil((paper.width / MM_PER_INCH) * 96),
+    height: Math.ceil((paper.height / MM_PER_INCH) * 96),
+    margin: 0,
+  }
+}
 
 /** Loads `#/<route>` of the renderer in a hidden window, hands it over, then destroys it. */
 async function withPrintWindow<T>(
@@ -27,8 +45,9 @@ async function withPrintWindow<T>(
 ): Promise<T> {
   const window = new BrowserWindow({
     show: false,
-    width: PAPERS[paper].width,
-    height: PAPERS[paper].height,
+    useContentSize: true,
+    width: pageOf(paper).width,
+    height: pageOf(paper).height,
     backgroundColor: '#FFFFFF',
     webPreferences: secureWebPreferences(),
   })
@@ -56,10 +75,10 @@ async function withPrintWindow<T>(
 
 /** Renders `#/<route>` of the renderer to a PDF, A4 unless told otherwise. */
 export function renderToPdf(route: string, paper: Paper = 'a4'): Promise<Buffer> {
-  const { size, margin } = PAPERS[paper]
+  const { pdfSize, margin } = pageOf(paper)
   return withPrintWindow(route, paper, (window) =>
     window.webContents.printToPDF({
-      pageSize: size,
+      pageSize: pdfSize,
       printBackground: true,
       margins: { top: margin, bottom: margin, left: margin, right: margin },
     }),
@@ -68,7 +87,7 @@ export function renderToPdf(route: string, paper: Paper = 'a4'): Promise<Buffer>
 
 /** The system print dialog on the route. False when the user cancels. */
 export function printRoute(route: string, paper: Paper): Promise<boolean> {
-  const { size, margin } = PAPERS[paper]
+  const { printSize, margin } = pageOf(paper)
   const pixels = Math.round(margin * 96)
   return withPrintWindow(
     route,
@@ -79,8 +98,11 @@ export function printRoute(route: string, paper: Paper): Promise<boolean> {
           {
             silent: false,
             printBackground: true,
-            pageSize: size,
-            margins: { marginType: 'custom', top: pixels, bottom: pixels, left: pixels, right: pixels },
+            pageSize: printSize,
+            margins:
+              margin === 0
+                ? { marginType: 'none' }
+                : { marginType: 'custom', top: pixels, bottom: pixels, left: pixels, right: pixels },
           },
           (success, reason) => {
             if (success || /cancel/i.test(reason)) resolve(success)

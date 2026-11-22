@@ -55,6 +55,8 @@ export const IPC_CHANNELS = [
   'export.copyText',
   'export.recipePdf',
   'export.printRecipe',
+  'export.batch',
+  'export.labels',
   'off.status',
   'off.setEnabled',
   'off.lookup',

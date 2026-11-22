@@ -1,0 +1,86 @@
+/* The printed batch (section 12.2, D-042): black on white, a box to tick per line. */
+
+.batch-sheet {
+  --ink: #24140d;
+  --copper: #9c3a0f;
+  --line: #d9c8bb;
+  display: flex;
+  flex-direction: column;
+  gap: 18pt;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 11pt;
+  line-height: 1.4;
+}
+
+.batch-sheet :is(h1, h2, p) {
+  margin: 0;
+}
+
+.batch-head {
+  padding-bottom: 10pt;
+  border-bottom: 1.5pt solid var(--copper);
+}
+
+.batch-head h1 {
+  font-size: 22pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.batch-eyebrow,
+.batch-sheet h2 {
+  color: var(--copper);
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.batch-sheet section {
+  break-inside: avoid;
+}
+
+.batch-warning {
+  font-size: 9.5pt;
+  font-weight: 700;
+}
+
+.batch-sheet table {
+  width: 100%;
+  margin-top: 5pt;
+  border-collapse: collapse;
+}
+
+.batch-sheet td {
+  padding: 5pt 6pt;
+  border-bottom: 0.5pt solid var(--line);
+}
+
+.batch-sheet tfoot td {
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+.batch-box {
+  width: 16pt;
+}
+
+.batch-box span {
+  display: block;
+  width: 10pt;
+  height: 10pt;
+  border: 0.75pt solid var(--ink);
+  border-radius: 2pt;
+}
+
+.batch-figure {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.batch-ml {
+  width: 70pt;
+  color: #6a5046;
+}

@@ -2,7 +2,7 @@
 process.env['TZ'] = 'Europe/Paris'
 
 import { describe, expect, it } from 'vitest'
-import { scaleBatch, type BatchLineInput } from './batch'
+import { scaleBatch, servingsForVolume, type BatchLineInput } from './batch'
 import {
   generateQuestions,
   isRightAnswer,
@@ -84,12 +84,44 @@ describe('batch', () => {
       ['vermouth', 300, 'ml', 300],
       ['bitters', 20, 'dash', 5],
       ['soda', 600, 'ml', 600],
-      ['orange', 10, 'slice', null],
     ])
     // Water on the whole drink: (300 + 300 + 5 + 600) × 0.2.
     expect(result.waterMl).toBe(241)
     expect(result.bottleMl).toBe(605 + 241)
     expect(result.serviceMl).toBe(600)
+  })
+
+  it('keeps what is fresh out of the bottle, and rounds pieces up (section 8)', () => {
+    const result = scaleBatch(
+      [
+        line('gin', 50, 'ml'),
+        line('lemon', 25, 'ml', { hint: 'fresh' }),
+        line('egg', 0.5, 'piece', { hint: 'fresh' }),
+        line('bitters', 2, 'dash'),
+        line('cherry', 1, 'piece', { isGarnish: true }),
+      ],
+      { servings: 7, dilution: 0.25, includeWater: false, stepMl: 25, includeGarnish: true },
+    )
+    expect(result.lines.map((l) => [l.id, l.quantity, l.ml])).toEqual([
+      ['gin', 350, 350],
+      ['lemon', 175, 175],
+      ['egg', 4, null],
+      // Four millilitres would round to nothing at a step of 25.
+      ['bitters', 14, 4],
+      ['cherry', 7, null],
+    ])
+    expect(result.bottleMl).toBe(354)
+    expect(result.freshMl).toBe(175)
+  })
+
+  it('finds the drinks that fill a bottle, or none when nothing keeps', () => {
+    const lines = [line('gin', 50, 'ml'), line('lemon', 25, 'ml', { hint: 'fresh' })]
+    const how = { dilution: 0.2, includeWater: true }
+    // 50 ml that keep and 15 ml of water for each drink.
+    const servings = servingsForVolume(lines, 650, how) ?? 0
+    expect(servings).toBeCloseTo(10, 9)
+    expect(scaleBatch(lines, { ...how, servings }).bottleMl).toBe(650)
+    expect(servingsForVolume([line('juice', 90, 'ml', { hint: 'fresh' })], 700, how)).toBeNull()
   })
 
   it('leaves the water out on request and counts sugar in grams through its density', () => {

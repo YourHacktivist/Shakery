@@ -1,4 +1,4 @@
-import { CalendarClock, Check, FlaskRound, Milk, Plus, Trash2, X } from 'lucide-react'
+import { CalendarClock, Check, FlaskRound, Milk, Plus, Tag, Trash2, X } from 'lucide-react'
 import { useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { bestBeforeFrom } from '@core/shelf-life'
@@ -10,6 +10,7 @@ import { ExpiryPill } from '@renderer/components/ExpiryPill'
 import { Input } from '@renderer/components/Input'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
 import { toast } from '@renderer/components/Toast'
+import { LabelDialog } from '@renderer/features/preps/LabelDialog'
 import { errorMessage, notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
@@ -52,6 +53,7 @@ export function PrepsPage() {
   const navigate = useNavigate()
   const preps = usePreps()
   const [making, setMaking] = useState<PrepOverview | null>(null)
+  const [labelling, setLabelling] = useState<Batch | null>(null)
   const list = preps.data ?? []
 
   const newPrep = (
@@ -95,12 +97,19 @@ export function PrepsPage() {
                 onMake={() => {
                   setMaking(prep)
                 }}
+                onLabel={setLabelling}
               />
             </li>
           ))}
         </ul>
       )}
 
+      <LabelDialog
+        batch={labelling}
+        onClose={() => {
+          setLabelling(null)
+        }}
+      />
       <BatchDialog
         prep={making}
         onClose={() => {
@@ -111,7 +120,15 @@ export function PrepsPage() {
   )
 }
 
-function PrepCard({ prep, onMake }: { prep: PrepOverview; onMake: () => void }) {
+function PrepCard({
+  prep,
+  onMake,
+  onLabel,
+}: {
+  prep: PrepOverview
+  onMake: () => void
+  onLabel: (batch: Batch) => void
+}) {
   const active = prep.batches.filter((batch) => batch.status === 'active')
   const past = prep.batches.filter((batch) => batch.status !== 'active')
   return (
@@ -139,7 +156,7 @@ function PrepCard({ prep, onMake }: { prep: PrepOverview; onMake: () => void }) 
       ) : (
         <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
           {active.map((batch) => (
-            <BatchRow key={batch.id} batch={batch} name={prep.name} />
+            <BatchRow key={batch.id} batch={batch} name={prep.name} onLabel={onLabel} />
           ))}
         </ul>
       )}
@@ -162,7 +179,7 @@ function PrepCard({ prep, onMake }: { prep: PrepOverview; onMake: () => void }) 
   )
 }
 
-function BatchRow({ batch, name }: { batch: Batch; name: string }) {
+function BatchRow({ batch, name, onLabel }: { batch: Batch; name: string; onLabel: (batch: Batch) => void }) {
   const setStatus = useSetBatchStatus()
   const remove = useDeleteBatch()
   const recreate = useCreateBatch()
@@ -203,6 +220,15 @@ function BatchRow({ batch, name }: { batch: Batch; name: string }) {
         </span>
       </div>
       <ExpiryPill days={days} warningDays={warningDays} />
+      <IconButton
+        variant="ghost"
+        size="sm"
+        label={t.label.action}
+        icon={<Tag size={14} aria-hidden="true" />}
+        onClick={() => {
+          onLabel(batch)
+        }}
+      />
       <IconButton
         variant="ghost"
         size="sm"

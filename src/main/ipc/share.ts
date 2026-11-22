@@ -4,7 +4,7 @@
  */
 import { writeFile } from 'node:fs/promises'
 import { app, BrowserWindow, clipboard, dialog } from 'electron'
-import { recipePrintRoute } from '../../shared/print'
+import { batchPrintRoute, LABEL_FORMATS, labelPrintRoute, recipePrintRoute } from '../../shared/print'
 import { systemIds } from '../db/client'
 import type { DatabaseManager } from '../db/manager'
 import { SqliteSettingsRepository } from '../db/repositories/settings'
@@ -65,6 +65,8 @@ export function createShareHandlers(
   | 'export.copyText'
   | 'export.recipePdf'
   | 'export.printRecipe'
+  | 'export.batch'
+  | 'export.labels'
   | 'off.status'
   | 'off.setEnabled'
   | 'off.lookup'
@@ -162,6 +164,24 @@ export function createShareHandlers(
     'export.printRecipe': async ({ id, paper, indicators }) => {
       recipeName(id) // an unknown recipe is refused before any window opens
       return { printed: await printRoute(recipePrintRoute(id, { paper, indicators }), paper) }
+    },
+    'export.batch': async ({ id, to, ...options }) => {
+      const name = recipeName(id)
+      const route = batchPrintRoute(id, options)
+      const done = to === 'pdf' ? await savePdf(route, `Batch ${name}`) : await printRoute(route, 'a4')
+      return { done }
+    },
+    'export.labels': async ({ id, batchId, to, ...options }) => {
+      const name = recipeName(id)
+      const batch = ready()
+        .$client.prepare('SELECT id FROM prep_batches WHERE id = ? AND recipe_id = ? AND deleted_at IS NULL')
+        .get(batchId, id)
+      if (!batch) throw new DomainError('NOT_FOUND', 'Unknown batch')
+      const route = labelPrintRoute(id, batchId, options)
+      const { page } = LABEL_FORMATS[options.format]
+      const done =
+        to === 'pdf' ? await savePdf(route, `Étiquette ${name}`, page) : await printRoute(route, page)
+      return { done }
     },
     'off.status': () => ({ enabled: settings().get('off.enabled') }),
     'off.setEnabled': ({ enabled }) => {
