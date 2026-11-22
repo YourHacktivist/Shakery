@@ -68,6 +68,20 @@ export const general = topic(
     item(shell.sidebar.shortcuts, 'La liste des raccourcis, aussi ouverte par la touche ?.'),
   ),
   section(
+    'Les onze écrans',
+    item(shell.nav.home, 'Où en sont tes créations.'),
+    item(shell.nav.recipes, 'Tous les cocktails et préparations, avec filtres et tri.'),
+    item(shell.nav.lab, 'Régler une recette en direct.'),
+    item(shell.nav.journal, 'Tes dégustations et ce qu’il reste à retester.'),
+    item(shell.nav.notebook, 'Tes notes libres.'),
+    item(shell.nav.bar, 'Ingrédients, bouteilles et liste d’achats.'),
+    item(shell.nav.preps, 'Fabrications maison, dates limites et étiquettes.'),
+    item(shell.nav.collections, 'Cartes, concours et thèmes.'),
+    item(shell.nav.practice, 'Cartes mémoire et QCM sur une collection.'),
+    item(shell.nav.calculators, 'Batch, degré, conversion et coût.'),
+    item(shell.nav.settings, 'Réglages, sauvegardes et données.'),
+  ),
+  section(
     palette.title,
     item(
       palette.groupRecipes,

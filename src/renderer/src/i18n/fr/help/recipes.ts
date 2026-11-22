@@ -256,6 +256,11 @@ export const recipeDetail = topic(
   ),
   missing,
   section(
+    'Une dégustation dans la fiche',
+    item(journal.nextStepDone, 'Coche la prochaine étape une fois essayée, comme dans le journal.'),
+    item(journal.delete, 'Met la note à la corbeille, avec « Annuler » pendant 8 secondes.'),
+  ),
+  section(
     'Les marques',
     item(detail.optional, 'La ligne est facultative.'),
     item(detail.garnishLine, 'La ligne est une décoration.'),
@@ -399,6 +404,8 @@ export const recipeEditor = topic(
     ),
     item(r.ingredientDialog.create, 'Crée l’ingrédient et le place sur la ligne.'),
   ),
+  calculations,
+  missing,
   statuses,
   families,
   methods,
@@ -412,6 +419,7 @@ export const lab = topic(
   section(
     l.pickTitle,
     item(l.filter, 'Filtre les cocktails par nom. La liste en montre 60 : tape pour trouver les autres.'),
+    item('Une ligne de la liste', 'Le nom et la version courante. Un clic ouvre ce cocktail dans l’atelier.'),
     item(l.blank, 'Ouvre un atelier vide, avec un nom à donner.'),
   ),
   section(

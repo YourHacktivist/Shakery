@@ -22,6 +22,7 @@ export const bar = topic(
     item(b.newIngredient, 'Crée un ingrédient avec sa catégorie et sa composition.'),
     item(b.search, 'Par nom ou alias, sans tenir compte des accents.'),
     item('Les catégories', 'Les ingrédients y sont rangés par ordre alphabétique.'),
+    item('Choisir', 'Un clic sur un nom ouvre l’ingrédient à droite : composition, bouteilles et fiches.'),
     item(b.prep, 'Cet ingrédient vient d’une de tes préparations.'),
     item(b.staple, 'Toujours considéré comme disponible, comme l’eau, la glace ou le sucre.'),
   ),
