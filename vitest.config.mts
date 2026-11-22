@@ -14,6 +14,9 @@ export default defineConfig({
   test: {
     // Local dates (shelf life, backup rotation) are tested in a fixed time zone with DST.
     env: { TZ: 'Europe/Paris' },
+    // The notebook of 7 000 classics takes 3 to 6 s to load in several tests, more on a CI runner.
+    testTimeout: 30_000,
+    hookTimeout: 30_000,
     coverage: {
       provider: 'v8',
       include: ['src/core/**'],
