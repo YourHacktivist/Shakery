@@ -180,7 +180,8 @@ export function Dialog({
             </>
           ) : (
             <>
-              <div className="flex min-h-0 flex-col gap-5 overflow-y-auto p-4">
+              {/* Without a ring of its own: cut by the panel, it was a lone copper line above the footer. */}
+              <div className="flex min-h-0 flex-col gap-5 overflow-y-auto p-4 outline-none">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 flex-col gap-1.5">
                     {heading}

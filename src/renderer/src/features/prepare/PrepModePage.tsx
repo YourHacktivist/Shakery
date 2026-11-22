@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, CircleHelp, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { useHelpStore } from '@renderer/app/help'
@@ -100,6 +100,7 @@ export function PrepModePage() {
             }}
             className="inline-flex h-12 shrink-0 cursor-pointer items-center gap-2 rounded-field border border-border-strong px-4 text-lead text-fg hover:bg-surface-2"
           >
+            <CircleHelp size={20} aria-hidden="true" />
             {fr.shell.topbar.help}
           </button>
           <button
@@ -123,14 +124,22 @@ export function PrepModePage() {
                   <li
                     key={line.id}
                     className={cn(
-                      'grid grid-cols-[minmax(9rem,auto)_minmax(0,1fr)] items-baseline gap-6 border-b border-border py-4',
+                      // One column of doses for all the lines, so the names share an edge and stay out of the steps.
+                      'grid grid-cols-[13rem_minmax(0,1fr)] items-baseline gap-6 border-b border-border py-4',
                       line.isOptional && 'opacity-70',
                     )}
                   >
-                    <span className="nums text-right text-[48px] leading-none font-normal text-accent-soft">
+                    <span
+                      className={cn(
+                        'nums min-w-0 text-right font-normal break-words text-accent-soft',
+                        formatDose(line, display).length > 8
+                          ? 'text-[32px] leading-tight'
+                          : 'text-[48px] leading-none',
+                      )}
+                    >
                       {formatDose(line, display)}
                     </span>
-                    <span className="text-[32px] leading-tight">
+                    <span className="min-w-0 text-[32px] leading-tight break-words">
                       {names.get(line.ingredientId) ?? ''}
                       {line.isOptional ? (
                         <span className="text-[24px] text-fg-muted">{` (${t.optional})`}</span>

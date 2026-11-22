@@ -21,7 +21,7 @@ import { EmptyState } from '@renderer/components/EmptyState'
 import { FilterPill } from '@renderer/components/FilterPill'
 import { Input } from '@renderer/components/Input'
 import { Sparkline } from '@renderer/components/Sparkline'
-import { StatusBadge, VersionBadge } from '@renderer/components/StatusBadge'
+import { StatusDot, VersionBadge } from '@renderer/components/StatusBadge'
 import { toast } from '@renderer/components/Toast'
 import { AddToCollection } from '@renderer/features/collections/AddToCollection'
 import { TastingCard } from '@renderer/features/journal/JournalPage'
@@ -158,14 +158,66 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
         {td.back}
       </Link>
 
-      <header className="flex flex-col gap-4">
+      <header className="@container flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <span className="text-small text-fg-muted">{context.join(' · ')}</span>
-          <h1 className="m-0 text-title leading-tight font-semibold tracking-[-0.02em] text-fg">
-            {recipe.name}
-          </h1>
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="m-0 min-w-0 text-title leading-tight font-semibold tracking-[-0.02em] break-words text-fg">
+              {recipe.name}
+            </h1>
+            <div data-row="state" className="flex shrink-0 items-center gap-2">
+              <FilterPill
+                label={td.status}
+                shape="field"
+                align="end"
+                lead={<StatusDot status={recipe.status} />}
+                options={statusOptions}
+                value={recipe.status}
+                onChange={(status) => {
+                  setStatus.mutate(
+                    { id: recipe.id, status },
+                    {
+                      onSuccess: () => {
+                        toast.show({ message: td.statusChanged(fr.components.display.status[status]) })
+                      },
+                      onError: notifyError,
+                    },
+                  )
+                }}
+              />
+              <IconButton
+                label={recipe.isFavorite ? td.favoriteRemove : td.favoriteAdd}
+                aria-pressed={recipe.isFavorite}
+                icon={
+                  <Star
+                    size={16}
+                    aria-hidden="true"
+                    className={cn(recipe.isFavorite ? 'fill-accent text-accent' : 'text-fg-secondary')}
+                  />
+                }
+                onClick={() => {
+                  setFavorite.mutate(
+                    { id: recipe.id, favorite: !recipe.isFavorite },
+                    {
+                      onSuccess: (summary) => {
+                        toast.show({ message: summary.isFavorite ? td.favoriteAdded : td.favoriteRemoved })
+                      },
+                      onError: notifyError,
+                    },
+                  )
+                }}
+              />
+              <Button
+                variant="danger"
+                icon={<Trash2 size={16} aria-hidden="true" />}
+                disabled={deleteRecipe.isPending}
+                onClick={remove}
+              >
+                {td.delete}
+              </Button>
+            </div>
+          </div>
           <div className="flex flex-wrap items-center gap-2">
-            <StatusBadge status={recipe.status} />
             <VersionBadge version={recipe.version} />
             {recipe.credit && recipe.credit !== TYPICAL_STEPS_CREDIT ? (
               <span className="text-small text-fg-secondary">{td.credit(recipe.credit)}</span>
@@ -184,12 +236,39 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Eight actions in equal columns, two rows of four or one of eight: none ends alone on a row. */}
+        <div data-row="actions" className="grid grid-cols-4 gap-2 @min-[105rem]:grid-cols-8">
           <Button
             icon={<Pencil size={16} aria-hidden="true" />}
             onClick={() => void navigate(`/recipes/${recipe.id}/edit`)}
           >
             {td.edit}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<FlaskConical size={16} aria-hidden="true" />}
+            aria-keyshortcuts="Control+E"
+            onClick={() => void navigate(`/lab/${recipe.id}`)}
+          >
+            {td.lab}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<ChefHat size={16} aria-hidden="true" />}
+            aria-keyshortcuts="F11"
+            onClick={() => void navigate(`/prepare/${recipe.id}`)}
+          >
+            {fr.recipes.prepare.open}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<NotebookPen size={16} aria-hidden="true" />}
+            aria-keyshortcuts="Control+J"
+            onClick={() => {
+              openTasting(recipe.id, recipe.version)
+            }}
+          >
+            {td.taste}
           </Button>
           <Button
             variant="outline"
@@ -200,14 +279,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           >
             {td.variant}
           </Button>
-          <Button
-            variant="outline"
-            icon={<ChefHat size={16} aria-hidden="true" />}
-            aria-keyshortcuts="F11"
-            onClick={() => void navigate(`/prepare/${recipe.id}`)}
-          >
-            {fr.recipes.prepare.open}
-          </Button>
+          <AddToCollection recipeId={recipe.id} recipeName={recipe.name} />
           <Button
             variant="outline"
             icon={<Printer size={16} aria-hidden="true" />}
@@ -226,72 +298,6 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
             }}
           >
             {fr.recipes.share.open}
-          </Button>
-          <FilterPill
-            label={td.status}
-            options={statusOptions}
-            value={recipe.status}
-            onChange={(status) => {
-              setStatus.mutate(
-                { id: recipe.id, status },
-                {
-                  onSuccess: () => {
-                    toast.show({ message: td.statusChanged(fr.components.display.status[status]) })
-                  },
-                  onError: notifyError,
-                },
-              )
-            }}
-          />
-          <IconButton
-            label={recipe.isFavorite ? td.favoriteRemove : td.favoriteAdd}
-            aria-pressed={recipe.isFavorite}
-            icon={
-              <Star
-                size={16}
-                aria-hidden="true"
-                className={cn(recipe.isFavorite ? 'fill-accent text-accent' : 'text-fg-secondary')}
-              />
-            }
-            onClick={() => {
-              setFavorite.mutate(
-                { id: recipe.id, favorite: !recipe.isFavorite },
-                {
-                  onSuccess: (summary) => {
-                    toast.show({ message: summary.isFavorite ? td.favoriteAdded : td.favoriteRemoved })
-                  },
-                  onError: notifyError,
-                },
-              )
-            }}
-          />
-          <Button
-            variant="outline"
-            icon={<FlaskConical size={16} aria-hidden="true" />}
-            aria-keyshortcuts="Control+E"
-            onClick={() => void navigate(`/lab/${recipe.id}`)}
-          >
-            {td.lab}
-          </Button>
-          <Button
-            variant="outline"
-            icon={<NotebookPen size={16} aria-hidden="true" />}
-            aria-keyshortcuts="Control+J"
-            onClick={() => {
-              openTasting(recipe.id, recipe.version)
-            }}
-          >
-            {td.taste}
-          </Button>
-          <AddToCollection recipeId={recipe.id} recipeName={recipe.name} />
-          <Button
-            variant="danger"
-            className="ml-auto"
-            icon={<Trash2 size={16} aria-hidden="true" />}
-            disabled={deleteRecipe.isPending}
-            onClick={remove}
-          >
-            {td.delete}
           </Button>
         </div>
       </header>
@@ -481,7 +487,7 @@ function LinesCard({ recipe, names }: { recipe: RecipeDetail; names: ReadonlyMap
           {recipe.lines.map((line) => (
             <li
               key={line.id}
-              className="grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-3 border-b border-border py-2 last:border-b-0"
+              className="grid grid-cols-[8rem_minmax(0,1fr)] items-baseline gap-3 border-b border-border py-2 last:border-b-0"
             >
               <span
                 className={cn(

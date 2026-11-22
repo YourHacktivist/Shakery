@@ -48,7 +48,7 @@ export function CalculatorsPage() {
   const [tab, setTab] = useState<Tab>('batch')
   return (
     <div className="mx-auto flex max-w-page flex-col gap-4">
-      <header className="flex items-end justify-between gap-4">
+      <header className="flex items-center justify-between gap-4">
         <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
         <SegmentedControl
           label={t.title}
@@ -105,7 +105,8 @@ function Result({
   strong?: boolean
 }) {
   return (
-    <div className="flex flex-col gap-0.5 rounded-nested border border-border bg-surface-2 px-4 py-3">
+    // Side by side, their figures share a baseline whatever the length of their labels.
+    <div className="flex flex-col justify-between gap-0.5 rounded-nested border border-border bg-surface-2 px-4 py-3">
       <span className="text-caption font-medium text-fg-muted">{label}</span>
       <span className="nums flex items-baseline gap-1">
         <span className={cn('font-light text-fg', strong ? 'text-metric text-copper' : 'text-title')}>
@@ -179,7 +180,7 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
 
   return (
     <Card className="gap-4">
-      <div className="flex flex-wrap items-end gap-4">
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)] items-end gap-3">
         <SegmentedControl
           label={t.batch.target}
           value={target}
@@ -193,7 +194,6 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
           <NumberWithUnit
             key="servings"
             label={t.batch.servings}
-            className="w-[160px]"
             value={servings}
             onChange={setServings}
             min={1}
@@ -205,7 +205,6 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
           <NumberWithUnit
             key="volume"
             label={t.batch.targetVolume}
-            className="w-[160px]"
             unit="ml"
             value={bottle}
             onChange={setBottle}
@@ -217,7 +216,6 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
         )}
         <Select
           label={t.batch.step}
-          className="w-[150px]"
           value={String(stepMl)}
           options={BATCH_STEPS_ML.map((value) => ({ value: String(value), label: t.batch.stepValue(value) }))}
           onChange={(event) => {
@@ -225,7 +223,7 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
           }}
         />
       </div>
-      <div className="flex flex-wrap items-start gap-x-6 gap-y-3">
+      <div className="flex flex-col items-start gap-3">
         <div className="flex flex-col gap-1">
           <Toggle label={t.batch.includeWater} checked={water} onCheckedChange={setWater} />
           <span className="text-caption text-fg-muted">{t.batch.waterHint}</span>
@@ -511,7 +509,7 @@ function ConvertCalculator() {
             />
           )
         })}
-        <p className="col-span-3 m-0 text-caption text-fg-muted">
+        <p className="col-span-3 m-0 text-caption text-fg-muted w-fit rounded-md bg-bg-base/90 px-2 py-1">
           {`1 oz = ${formatNumber(equivalences.ozMl)} ml · 1 ${fr.recipes.units.dash} = ${formatNumber(equivalences.dashMl, 2)} ml · 1 ${fr.recipes.units.barspoon} = ${formatNumber(equivalences.barspoonMl)} ml`}
         </p>
       </div>

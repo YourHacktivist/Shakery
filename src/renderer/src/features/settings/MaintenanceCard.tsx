@@ -33,7 +33,7 @@ export function MaintenanceCard() {
 
   return (
     <SettingCard eyebrow={t.eyebrow} title={t.title} description={t.description}>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Button
           variant="outline"
           size="sm"
@@ -58,6 +58,7 @@ export function MaintenanceCard() {
         <Button
           variant="danger"
           size="sm"
+          className="col-span-2"
           icon={<RotateCcw size={14} aria-hidden="true" />}
           onClick={() => {
             setOpen('reset')

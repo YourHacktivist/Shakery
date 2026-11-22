@@ -434,6 +434,18 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Choix** : bouton Aide et F1 sur chaque écran, mode préparation compris, par-dessus la saisie en cours. Les termes reprennent les libellés des écrans (`i18n/fr/help/`). Le guide affiche le même détail.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026.
 
+### D-049 Alignement vérifié en image
+
+- **Date** : 2026-11-22
+- **Contexte** : capture de l'utilisateur, « les boutons ne sont pas alignés ça ne va pas. Il faut que tu regardes aussi visuellement les choses comme ça ». L'audit automatique mesurait débordements, contrastes et noms, jamais l'alignement.
+- **Choix** :
+  - Boutons, champs, pastilles et contrôles segmentés font 32 px dans une même rangée (28 px en petit, toute la rangée). Le bouton contour est opaque : aucun dessin de fond ne traverse un libellé.
+  - Page d'une fiche : statut, favori et suppression à côté du titre, huit actions en colonnes égales (deux rangées de quatre, une de huit sur très grand écran).
+  - Filtres des fiches : grille de douze cases. Un filtre sans choix est grisé au lieu d'être masqué, ce qui amende D-040.
+  - Rangées refaites dans l'éditeur, l'atelier, les collections, les préparations, Mon bar, les paramètres et le mode préparation.
+  - `tests/e2e/alignment.spec.ts` mesure centres, hauteurs, retours à la ligne et libellés coupés avec des noms longs, à trois largeurs, barre ouverte ou fermée. Il ne remplace pas le regard : chaque écran modifié se relit en image.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026, rendu à confirmer par l'utilisateur.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

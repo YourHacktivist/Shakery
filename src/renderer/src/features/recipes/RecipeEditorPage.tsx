@@ -282,8 +282,8 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
                 autoFocus={recipe === null}
                 error={fieldErrorMessage(errors.name, { required: t.form.nameRequired })}
               />
-              <div className="flex flex-wrap gap-4">
-                <div className="flex shrink-0 flex-col gap-1.5">
+              <div className="grid grid-cols-2 items-start gap-4">
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <span aria-hidden="true" className="text-small font-medium text-fg-secondary">
                     {tf.kind}
                   </span>
@@ -304,26 +304,16 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
                     )}
                   />
                 </div>
-                <Select
-                  {...register('status')}
-                  label={tf.status}
-                  options={statusOptions}
-                  className="min-w-36 flex-1"
-                />
-                <Select
-                  {...register('origin')}
-                  label={tf.origin}
-                  options={originOptions}
-                  className="min-w-36 flex-1"
+                <Select {...register('status')} label={tf.status} options={statusOptions} />
+                <Select {...register('origin')} label={tf.origin} options={originOptions} />
+                <NullableText
+                  control={control}
+                  name="credit"
+                  label={tf.credit}
+                  description={tf.creditHint}
+                  maxLength={200}
                 />
               </div>
-              <NullableText
-                control={control}
-                name="credit"
-                label={tf.credit}
-                description={tf.creditHint}
-                maxLength={200}
-              />
             </Section>
 
             <Section title={te.sections.lines}>
@@ -986,176 +976,184 @@ function LineRow({
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={cn(
-        '@container flex flex-col gap-1.5 rounded-nested border bg-surface-2/50 p-2 transition-colors duration-150 ease-out-soft',
+        '@container rounded-nested border bg-surface-2/50 p-2 transition-colors duration-150 ease-out-soft',
         dropTarget ? 'border-accent' : 'border-border',
       )}
     >
-      {/* Too narrow for one row: the ingredient keeps the first one, dose and unit go below. */}
-      <div className="flex flex-wrap items-start gap-2 @min-[35rem]:flex-nowrap">
+      <div className="grid grid-cols-[14px_16px_minmax(0,1fr)] items-start gap-2">
         <span
           aria-hidden="true"
           title={tl.drag(position)}
-          className="mt-2 flex cursor-grab text-fg-muted hover:text-fg active:cursor-grabbing"
+          className="flex h-8 cursor-grab items-center text-fg-muted hover:text-fg active:cursor-grabbing"
           onPointerDown={onHandleDown}
         >
           <GripVertical size={14} />
         </span>
-        <span aria-hidden="true" className="nums mt-2 w-4 shrink-0 text-right text-caption text-fg-muted">
+        <span
+          aria-hidden="true"
+          className="nums flex h-8 items-center justify-end text-caption text-fg-muted"
+        >
           {position}
         </span>
-        <Controller
-          control={control}
-          name={`lines.${index}.ingredientId`}
-          render={({ field, fieldState }) => (
-            <Combobox
-              ref={field.ref}
-              label={tl.ingredient(position)}
-              hideLabel
-              placeholder={tl.ingredientPlaceholder}
-              options={options}
-              value={field.value ? field.value : null}
-              onSelect={(id) => {
-                field.onChange(id)
-                setValue(`lines.${index}.preferredProductId`, null)
-              }}
-              onCreate={(label) => {
-                onCreate(index, label)
-              }}
-              error={fieldErrorMessage(fieldState.error, { required: t.form.ingredientRequired })}
-              className="min-w-0 flex-1 basis-[calc(100%-4rem)] @min-[35rem]:basis-0"
+        <div className="flex min-w-0 flex-col gap-2">
+          {/* Too narrow for one row: the ingredient keeps the first one, dose and unit go below. */}
+          <div className="grid grid-cols-[5rem_minmax(0,1fr)_auto] items-start gap-2 @min-[35rem]:grid-cols-[minmax(0,1fr)_5rem_9rem_auto]">
+            <Controller
+              control={control}
+              name={`lines.${index}.ingredientId`}
+              render={({ field, fieldState }) => (
+                <Combobox
+                  ref={field.ref}
+                  label={tl.ingredient(position)}
+                  hideLabel
+                  placeholder={tl.ingredientPlaceholder}
+                  options={options}
+                  value={field.value ? field.value : null}
+                  onSelect={(id) => {
+                    field.onChange(id)
+                    setValue(`lines.${index}.preferredProductId`, null)
+                  }}
+                  onCreate={(label) => {
+                    onCreate(index, label)
+                  }}
+                  error={fieldErrorMessage(fieldState.error, { required: t.form.ingredientRequired })}
+                  className="col-span-2 min-w-0 @min-[35rem]:col-span-1"
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name={`lines.${index}.quantity`}
-          render={({ field, fieldState }) => (
-            <NumberWithUnit
-              ref={field.ref}
-              name={field.name}
-              label={tl.quantity(position)}
-              hideLabel
-              min={0}
-              max={100_000}
-              step={unitStep(unit ?? 'ml')}
-              disabled={noQuantity}
-              value={field.value ?? null}
-              onBlur={field.onBlur}
-              onChange={field.onChange}
-              error={fieldErrorMessage(fieldState.error, { numeric: true })}
-              className="ml-[2.875rem] w-20 shrink-0 @min-[35rem]:ml-0"
+            <Controller
+              control={control}
+              name={`lines.${index}.quantity`}
+              render={({ field, fieldState }) => (
+                <NumberWithUnit
+                  ref={field.ref}
+                  name={field.name}
+                  label={tl.quantity(position)}
+                  hideLabel
+                  min={0}
+                  max={100_000}
+                  step={unitStep(unit ?? 'ml')}
+                  disabled={noQuantity}
+                  value={field.value ?? null}
+                  onBlur={field.onBlur}
+                  onChange={field.onChange}
+                  error={fieldErrorMessage(fieldState.error, { numeric: true })}
+                  className="col-start-1 row-start-2 min-w-0 @min-[35rem]:col-start-2 @min-[35rem]:row-start-1"
+                />
+              )}
             />
-          )}
-        />
-        <Select
-          {...register(`lines.${index}.unit`)}
-          label={tl.unit(position)}
-          hideLabel
-          options={unitOptions}
-          className="w-32 shrink-0"
-        />
-        <div className="mt-0.5 ml-auto flex shrink-0 items-center gap-0.5 @min-[35rem]:ml-0">
-          <IconButton
-            data-move=""
-            size="sm"
-            variant="ghost"
-            label={tl.moveUp(position)}
-            icon={<ArrowUp size={14} aria-hidden="true" />}
-            disabled={index === 0}
-            onClick={(event) => {
-              onMove(index, index - 1, event.currentTarget)
-            }}
-          />
-          <IconButton
-            data-move=""
-            size="sm"
-            variant="ghost"
-            label={tl.moveDown(position)}
-            icon={<ArrowDown size={14} aria-hidden="true" />}
-            disabled={index === total - 1}
-            onClick={(event) => {
-              onMove(index, index + 1, event.currentTarget)
-            }}
-          />
-          <IconButton
-            size="sm"
-            variant="ghost"
-            label={tl.remove(position)}
-            icon={<Trash2 size={14} aria-hidden="true" />}
-            onClick={onRemove}
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pl-10">
-        {unit === 'top' ? (
-          <Controller
-            control={control}
-            name={`lines.${index}.topEstimateMl`}
-            render={({ field, fieldState }) => (
-              <NumberWithUnit
-                ref={field.ref}
-                name={field.name}
-                label={tl.topEstimate(position)}
-                hideLabel
-                placeholder={tl.topEstimateShort}
-                unit={t.panel.units.ml}
-                min={0}
-                max={10_000}
-                step={10}
-                value={field.value ?? null}
-                onBlur={field.onBlur}
-                onChange={field.onChange}
-                error={fieldErrorMessage(fieldState.error, { numeric: true })}
-                className="w-40"
-              />
-            )}
-          />
-        ) : null}
-        <Checkbox {...register(`lines.${index}.isOptional`)} label={tl.optional} />
-        <Checkbox {...register(`lines.${index}.isGarnish`)} label={tl.garnish} />
-        {bottles.length > 0 ? (
-          <Controller
-            control={control}
-            name={`lines.${index}.preferredProductId`}
-            render={({ field }) => (
-              <Select
-                ref={field.ref}
-                name={field.name}
-                label={tl.bottle}
-                hideLabel
-                placeholder={tl.bottleAny}
-                options={bottles}
-                value={field.value ?? ''}
-                onBlur={field.onBlur}
-                onChange={(event) => {
-                  field.onChange(event.target.value === '' ? null : event.target.value)
+            <Select
+              {...register(`lines.${index}.unit`)}
+              label={tl.unit(position)}
+              hideLabel
+              options={unitOptions}
+              className="col-span-2 col-start-2 row-start-2 min-w-0 @min-[35rem]:col-span-1 @min-[35rem]:col-start-3 @min-[35rem]:row-start-1"
+            />
+            <div className="col-start-3 row-start-1 flex items-center gap-0.5 @min-[35rem]:col-start-4">
+              <IconButton
+                data-move=""
+                variant="ghost"
+                label={tl.moveUp(position)}
+                icon={<ArrowUp size={14} aria-hidden="true" />}
+                disabled={index === 0}
+                onClick={(event) => {
+                  onMove(index, index - 1, event.currentTarget)
                 }}
-                className="w-56"
               />
-            )}
-          />
-        ) : null}
-        <Controller
-          control={control}
-          name={`lines.${index}.note`}
-          render={({ field }) => (
-            <Input
-              ref={field.ref}
-              name={field.name}
-              label={tl.note(position)}
-              hideLabel
-              placeholder={tl.notePlaceholder}
-              maxLength={500}
-              autoComplete="off"
-              value={field.value ?? ''}
-              onBlur={field.onBlur}
-              onChange={(event) => {
-                field.onChange(textOrNull(event.target.value))
-              }}
-              className="min-w-[10rem] flex-1"
-            />
-          )}
-        />
+              <IconButton
+                data-move=""
+                variant="ghost"
+                label={tl.moveDown(position)}
+                icon={<ArrowDown size={14} aria-hidden="true" />}
+                disabled={index === total - 1}
+                onClick={(event) => {
+                  onMove(index, index + 1, event.currentTarget)
+                }}
+              />
+              <IconButton
+                variant="ghost"
+                label={tl.remove(position)}
+                icon={<Trash2 size={14} aria-hidden="true" />}
+                onClick={onRemove}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 @min-[48rem]:flex-row @min-[48rem]:gap-4">
+            <div className="flex min-h-8 shrink-0 items-center gap-4">
+              {unit === 'top' ? (
+                <Controller
+                  control={control}
+                  name={`lines.${index}.topEstimateMl`}
+                  render={({ field, fieldState }) => (
+                    <NumberWithUnit
+                      ref={field.ref}
+                      name={field.name}
+                      label={tl.topEstimate(position)}
+                      hideLabel
+                      placeholder={tl.topEstimateShort}
+                      unit={t.panel.units.ml}
+                      min={0}
+                      max={10_000}
+                      step={10}
+                      value={field.value ?? null}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      error={fieldErrorMessage(fieldState.error, { numeric: true })}
+                      className="w-32"
+                    />
+                  )}
+                />
+              ) : null}
+              <Checkbox {...register(`lines.${index}.isOptional`)} label={tl.optional} />
+              <Checkbox {...register(`lines.${index}.isGarnish`)} label={tl.garnish} />
+            </div>
+            <div className={cn('grid min-w-0 flex-1 gap-2', bottles.length > 0 && 'grid-cols-2')}>
+              {bottles.length > 0 ? (
+                <Controller
+                  control={control}
+                  name={`lines.${index}.preferredProductId`}
+                  render={({ field }) => (
+                    <Select
+                      ref={field.ref}
+                      name={field.name}
+                      label={tl.bottle}
+                      hideLabel
+                      placeholder={tl.bottleAny}
+                      options={bottles}
+                      value={field.value ?? ''}
+                      onBlur={field.onBlur}
+                      onChange={(event) => {
+                        field.onChange(event.target.value === '' ? null : event.target.value)
+                      }}
+                      className="min-w-0"
+                    />
+                  )}
+                />
+              ) : null}
+              <Controller
+                control={control}
+                name={`lines.${index}.note`}
+                render={({ field }) => (
+                  <Input
+                    ref={field.ref}
+                    name={field.name}
+                    label={tl.note(position)}
+                    hideLabel
+                    placeholder={tl.notePlaceholder}
+                    maxLength={500}
+                    autoComplete="off"
+                    value={field.value ?? ''}
+                    onBlur={field.onBlur}
+                    onChange={(event) => {
+                      field.onChange(textOrNull(event.target.value))
+                    }}
+                    className="min-w-0"
+                  />
+                )}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </li>
   )

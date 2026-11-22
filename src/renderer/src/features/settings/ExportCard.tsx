@@ -49,7 +49,7 @@ export function ExportCard() {
       <div className="flex flex-col gap-2 border-t border-border pt-3">
         <h3 className="m-0 text-small font-semibold text-fg">{t.csvTitle}</h3>
         <p className="m-0 text-small text-fg-secondary">{t.csvDescription}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {(['recipes', 'journal', 'ingredients'] as const).map((table) => (
             <Button
               key={table}

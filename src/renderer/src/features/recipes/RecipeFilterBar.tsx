@@ -1,3 +1,4 @@
+import { ArrowUpDown } from 'lucide-react'
 import { useMemo } from 'react'
 import { Button } from '@renderer/components/Button'
 import { FilterPill, type FilterOption } from '@renderer/components/FilterPill'
@@ -27,13 +28,15 @@ const allergenOptions = ALLERGEN_CODES.map((value) => ({
   label: tl.without(fr.components.display.allergens[value]),
 }))
 
+/** A filter fills its cell of the grid: name on the left, chevron on the right. */
+const CELL = 'min-w-0 justify-between'
 const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
 
 function byLabel(options: FilterOption<string>[]): FilterOption<string>[] {
   return options.sort((a, b) => collator.compare(a.label, b.label))
 }
 
-/** Every filter of section 10.4 and the sort; a filter without any choice is not shown. */
+/** Every filter of section 10.4 and the sort; one without any choice is greyed, so the grid holds. */
 export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
   const filters = useRecipeFilters()
   const categories = useCategories()
@@ -100,61 +103,75 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
 
   return (
     <>
-      <div role="group" aria-label={tl.label} className="flex flex-wrap items-center gap-2">
-        <SegmentedControl<View>
-          label={tl.view}
-          value={filters.view}
-          onChange={(view) => {
-            filters.set({ view })
-          }}
-          options={[
-            { value: 'all', label: tl.all },
-            { value: 'favorites', label: tl.favorites },
-            { value: 'makeable', label: tl.makeable },
-          ]}
-        />
-        <FilterPill
-          multiple
-          label={tl.status}
-          allLabel={tl.allStatuses}
-          options={statusOptions}
-          value={filters.statuses}
-          onChange={(statuses) => {
-            filters.set({ statuses })
-          }}
-        />
-        <FilterPill
-          multiple
-          label={tl.family}
-          allLabel={tl.allFamilies}
-          options={familyOptions}
-          value={filters.families}
-          onChange={(families) => {
-            filters.set({ families })
-          }}
-        />
-        <FilterPill
-          multiple
-          label={tl.origin}
-          allLabel={tl.allOrigins}
-          options={originOptions}
-          value={filters.origins}
-          onChange={(origins) => {
-            filters.set({ origins })
-          }}
-        />
-        <FilterPill
-          multiple
-          label={tl.method}
-          allLabel={tl.allMethods}
-          options={methodOptions}
-          value={filters.methods}
-          onChange={(methods) => {
-            filters.set({ methods })
-          }}
-        />
-        {spiritOptions.length > 0 || filters.spirits.length > 0 ? (
+      <div role="group" aria-label={tl.label} className="@container flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-2">
+          <SegmentedControl<View>
+            label={tl.view}
+            value={filters.view}
+            onChange={(view) => {
+              filters.set({ view })
+            }}
+            options={[
+              { value: 'all', label: tl.all },
+              { value: 'favorites', label: tl.favorites },
+              { value: 'makeable', label: tl.makeable },
+            ]}
+          />
+          {isFiltered(filters) ? (
+            <Button variant="ghost" size="sm" onClick={filters.reset}>
+              {tl.reset}
+            </Button>
+          ) : null}
+        </div>
+        {/* Twelve cells, always, the sort taking two: two rows of six, three of four, or one, never a pill alone. */}
+        <div className="grid grid-cols-4 gap-2 @min-[62rem]:grid-cols-6 @min-[105rem]:grid-cols-12">
           <FilterPill
+            className={CELL}
+            multiple
+            label={tl.status}
+            allLabel={tl.allStatuses}
+            options={statusOptions}
+            value={filters.statuses}
+            onChange={(statuses) => {
+              filters.set({ statuses })
+            }}
+          />
+          <FilterPill
+            className={CELL}
+            multiple
+            label={tl.family}
+            allLabel={tl.allFamilies}
+            options={familyOptions}
+            value={filters.families}
+            onChange={(families) => {
+              filters.set({ families })
+            }}
+          />
+          <FilterPill
+            className={CELL}
+            multiple
+            label={tl.origin}
+            allLabel={tl.allOrigins}
+            options={originOptions}
+            value={filters.origins}
+            onChange={(origins) => {
+              filters.set({ origins })
+            }}
+          />
+          <FilterPill
+            className={CELL}
+            multiple
+            label={tl.method}
+            allLabel={tl.allMethods}
+            options={methodOptions}
+            value={filters.methods}
+            onChange={(methods) => {
+              filters.set({ methods })
+            }}
+          />
+          <FilterPill
+            className={CELL}
+            disabled={spiritOptions.length === 0 && filters.spirits.length === 0}
             multiple
             label={tl.spirit}
             allLabel={tl.allSpirits}
@@ -164,9 +181,9 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
               filters.set({ spirits })
             }}
           />
-        ) : null}
-        {glassOptions.length > 0 || filters.glasses.length > 0 ? (
           <FilterPill
+            className={CELL}
+            disabled={glassOptions.length === 0 && filters.glasses.length === 0}
             multiple
             label={tl.glass}
             allLabel={tl.allGlasses}
@@ -176,9 +193,9 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
               filters.set({ glasses: values })
             }}
           />
-        ) : null}
-        {flavorOptions.length > 0 || filters.flavors.length > 0 ? (
           <FilterPill
+            className={CELL}
+            disabled={flavorOptions.length === 0 && filters.flavors.length === 0}
             multiple
             label={tl.flavor}
             allLabel={tl.allFlavors}
@@ -188,9 +205,9 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
               filters.set({ flavors })
             }}
           />
-        ) : null}
-        {collectionOptions.length > 0 || filters.collections.length > 0 ? (
           <FilterPill
+            className={CELL}
+            disabled={collectionOptions.length === 0 && filters.collections.length === 0}
             multiple
             label={tl.collection}
             allLabel={tl.allCollections}
@@ -200,9 +217,9 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
               filters.set({ collections: values })
             }}
           />
-        ) : null}
-        {tagOptions.length > 0 || filters.tags.length > 0 ? (
           <FilterPill
+            className={CELL}
+            disabled={tagOptions.length === 0 && filters.tags.length === 0}
             multiple
             label={tl.tag}
             allLabel={tl.allTags}
@@ -212,32 +229,29 @@ export function RecipeFilterBar({ facets }: Pick<FilterData, 'facets'>) {
               filters.set({ tags })
             }}
           />
-        ) : null}
-        <FilterPill
-          multiple
-          label={tl.allergen}
-          allLabel={tl.allAllergens}
-          options={allergenOptions}
-          value={filters.without}
-          onChange={(without) => {
-            filters.set({ without })
-          }}
-        />
-        {isFiltered(filters) ? (
-          <Button variant="ghost" size="sm" onClick={filters.reset}>
-            {tl.reset}
-          </Button>
-        ) : null}
-        <FilterPill<Sort>
-          className="ml-auto"
-          align="end"
-          label={tl.sort}
-          options={sortOptions}
-          value={filters.sort}
-          onChange={(sort) => {
-            filters.set({ sort })
-          }}
-        />
+          <FilterPill
+            className={CELL}
+            multiple
+            label={tl.allergen}
+            allLabel={tl.allAllergens}
+            options={allergenOptions}
+            value={filters.without}
+            onChange={(without) => {
+              filters.set({ without })
+            }}
+          />
+          <FilterPill<Sort>
+            className={`${CELL} col-span-2`}
+            align="end"
+            lead={<ArrowUpDown size={13} strokeWidth={2} aria-hidden="true" className="shrink-0" />}
+            label={tl.sort}
+            options={sortOptions}
+            value={filters.sort}
+            onChange={(sort) => {
+              filters.set({ sort })
+            }}
+          />
+        </div>
       </div>
       {filters.without.length > 0 ? (
         <p role="note" className="m-0 text-caption text-fg-secondary">

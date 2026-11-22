@@ -34,7 +34,7 @@ export function AboutCard() {
           ) : null}
         </div>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Button
           size="sm"
           icon={<BookOpenText size={14} aria-hidden="true" />}

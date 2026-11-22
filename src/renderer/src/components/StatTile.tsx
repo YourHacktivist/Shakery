@@ -127,7 +127,7 @@ export function StatTile({
           <span className="nums text-metric leading-none font-light tracking-[-0.02em] text-fg">
             {formatNumber(value, decimals)}
           </span>
-          {unit ? <span className="text-small text-fg-muted">{unit}</span> : null}
+          {unit ? <span className="text-small whitespace-nowrap text-fg-muted">{unit}</span> : null}
         </div>
       )}
       {deltaPlacement === 'below' && deltaNode ? <div>{deltaNode}</div> : null}

@@ -16,7 +16,7 @@ import { activeNavIndex, NAV_ITEMS, type NavItem } from '@renderer/app/navigatio
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { useAppVersion } from '@renderer/app/useAppVersion'
 import logoUrl from '@renderer/assets/logo-160.png'
-import { IconButton } from '@renderer/components/Button'
+import { IconButton, type ButtonSize } from '@renderer/components/Button'
 import { ExpiryPill } from '@renderer/components/ExpiryPill'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
@@ -254,13 +254,13 @@ function TonightCard() {
   )
 }
 
-function CloseButton() {
+function CloseButton({ size = 'md' }: { size?: ButtonSize }) {
   const toggleClosed = useSidebarStore((state) => state.toggleClosed)
   return (
     <IconButton
       id={SIDEBAR_CLOSE_ID}
       variant="ghost"
-      size="sm"
+      size={size}
       label={fr.shell.sidebar.close}
       aria-keyshortcuts={ariaKeyShortcut('sidebar')}
       icon={<PanelLeftClose size={16} strokeWidth={1.75} aria-hidden="true" />}
@@ -320,7 +320,7 @@ export function Sidebar({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="window-drag sidebar-brand group/brand flex items-center gap-2.5 px-3 pt-4 pb-4 whitespace-nowrap">
+      <div className="window-drag sidebar-brand group/brand flex h-12 shrink-0 items-center gap-2.5 px-3 whitespace-nowrap">
         <span className="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full">
           <img src={logoUrl} alt="" width={28} height={28} className="size-7" />
         </span>
@@ -339,7 +339,7 @@ export function Sidebar({ className }: { className?: string }) {
 
       <div
         className={cn(
-          'flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto px-3 pb-4',
+          'flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto px-3 pt-2 pb-4',
           SCROLLBAR,
         )}
       >
@@ -369,7 +369,7 @@ export function Sidebar({ className }: { className?: string }) {
 
       {collapsed ? (
         <div className="flex justify-end border-t border-border px-3.5 pt-2">
-          <CloseButton />
+          <CloseButton size="sm" />
         </div>
       ) : null}
       <div

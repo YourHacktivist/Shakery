@@ -253,7 +253,6 @@ export function TastingCard({
             variant="ghost"
             size="sm"
             label={t.delete}
-            className="opacity-0 transition-opacity duration-150 group-hover/note:opacity-100 focus-visible:opacity-100"
             icon={<Trash2 size={14} strokeWidth={1.75} aria-hidden="true" />}
             onClick={deleteNote}
           />

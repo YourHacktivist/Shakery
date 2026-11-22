@@ -161,7 +161,7 @@ export function DoseStepper({
             if (!event.defaultPrevented) field.handleKeyDown(event)
           }}
         />
-        <span aria-hidden="true" className="shrink-0 pr-1 text-small text-fg-muted">
+        <span aria-hidden="true" className="shrink-0 pr-1 pl-1.5 text-small text-fg-muted">
           {unit}
         </span>
         <IconButton

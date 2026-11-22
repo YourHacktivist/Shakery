@@ -28,6 +28,7 @@ export const bar = {
   noSelection: {
     title: 'Choisis un ingrédient',
     description: 'Sa composition, ses bouteilles et les fiches qui l’utilisent s’affichent ici.',
+    hint: 'Choisis un ingrédient pour voir sa composition, ses bouteilles et ses fiches.',
   },
   prep: 'Préparation maison',
   staple: 'De base',

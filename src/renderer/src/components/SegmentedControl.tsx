@@ -93,7 +93,8 @@ export function SegmentedControl<T extends string>({
       aria-label={label}
       aria-disabled={disabled || undefined}
       className={cn(
-        'relative inline-flex gap-1 rounded-nested border border-border bg-surface-1 p-1',
+        // As high as a button and a field (32 px), so that a row of them holds on one line.
+        'relative inline-flex h-8 w-fit shrink-0 items-stretch gap-0.5 rounded-field border border-border-strong bg-surface-1 p-[3px]',
         disabled && 'opacity-55',
         className,
       )}
@@ -102,7 +103,7 @@ export function SegmentedControl<T extends string>({
       <span
         ref={thumbRef}
         aria-hidden="true"
-        className="pointer-events-none absolute top-1 bottom-1 left-0 rounded-[7px] border border-border-strong bg-surface-3 opacity-0 shadow-thumb transition-[transform,width,opacity] duration-200 ease-out-soft"
+        className="pointer-events-none absolute top-[3px] bottom-[3px] left-0 rounded-[5px] border border-border-strong bg-surface-3 opacity-0 shadow-thumb transition-[transform,width,opacity] duration-200 ease-out-soft"
       />
       {options.map((option, index) => {
         const checked = option.value === value
@@ -117,7 +118,7 @@ export function SegmentedControl<T extends string>({
             tabIndex={focusable ? 0 : -1}
             disabled={disabled}
             className={cn(
-              'relative inline-flex cursor-pointer items-center gap-1.5 rounded-[7px] px-3.5 py-2 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed',
+              'relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed',
               checked ? 'text-fg' : 'text-fg-muted hover:text-fg-secondary',
             )}
             onClick={() => {

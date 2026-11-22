@@ -54,7 +54,9 @@ export function auditPage(page: Page): Promise<PageAudit> {
       const style = getComputedStyle(element)
       if (style.visibility === 'hidden' || element.classList.contains('sr-only')) continue
 
-      const clipped = style.textOverflow === 'ellipsis' || style.overflowX === 'auto'
+      // A list fades its choice out before the chevron: its frame holds it.
+      const clipped =
+        style.textOverflow === 'ellipsis' || style.overflowX === 'auto' || element.matches('select')
       if (!clipped && element.clientWidth > 24 && element.scrollWidth > element.clientWidth + 2) {
         overflow.push(label(element))
       }

@@ -204,11 +204,12 @@ function BatchRow({ batch, name, onLabel }: { batch: Batch; name: string; onLabe
   return (
     <li
       className={cn(
-        'flex items-center gap-3 rounded-nested border px-3 py-2',
+        // What it is on the first line, what can be done on the second.
+        'grid grid-cols-[minmax(0,1fr)_repeat(4,auto)] items-center gap-x-1 gap-y-2 rounded-nested border px-3 py-2',
         expired ? 'border-status-danger/30 bg-status-danger/6' : 'border-border bg-surface-2',
       )}
     >
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="col-span-full flex min-w-0 flex-col">
         <span className="nums text-small text-fg">{t.batch.madeOn(formatDate(batch.madeAt))}</span>
         <span className="nums text-caption text-fg-muted">
           {[
@@ -219,7 +220,7 @@ function BatchRow({ batch, name, onLabel }: { batch: Batch; name: string; onLabe
             .join(' · ')}
         </span>
       </div>
-      <ExpiryPill days={days} warningDays={warningDays} />
+      <ExpiryPill days={days} warningDays={warningDays} className="justify-self-start" />
       <IconButton
         variant="ghost"
         size="sm"

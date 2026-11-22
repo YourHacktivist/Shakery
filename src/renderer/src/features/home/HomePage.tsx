@@ -143,13 +143,13 @@ export function HomePage() {
 
       {empty ? (
         <div className="grid grid-cols-[minmax(0,1fr)_356px] gap-4">
-          <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong px-5 py-14 text-center">
+          <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong bg-bg-base/90 px-5 py-14 text-center">
             <div className="flex size-16 items-center justify-center rounded-nested border border-border-strong bg-surface-2 text-accent">
               <Lightbulb size={26} strokeWidth={1.6} aria-hidden="true" />
             </div>
             <h2 className="m-0 mt-2 text-heading font-normal text-fg">{t.empty.title}</h2>
             <p className="m-0 max-w-md text-body leading-relaxed text-fg-secondary">{t.empty.description}</p>
-            <div className="mt-3 flex items-center gap-5">
+            <div className="mt-3 flex flex-col items-center gap-3">
               <Button
                 icon={<Plus size={16} aria-hidden="true" />}
                 onClick={() => {
@@ -179,7 +179,7 @@ export function HomePage() {
             </div>
           ))}
           {shown.length === 0 ? (
-            <div className="col-span-3 flex flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong p-8 text-center">
+            <div className="col-span-3 flex flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong bg-bg-base/90 p-8 text-center">
               <span className="text-body font-semibold text-fg">
                 {view === 'favorites' && pool.length === 0 ? t.noFavorite.title : t.noMatch}
               </span>
@@ -192,7 +192,7 @@ export function HomePage() {
               <button
                 key={`slot-${String(index)}`}
                 type="button"
-                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong text-small font-semibold text-fg-muted transition-colors duration-150 hover:border-accent/50 hover:text-accent-soft"
+                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong bg-bg-base/90 text-small font-semibold text-fg-muted transition-colors duration-150 hover:border-accent/50 hover:text-accent-soft"
                 onClick={() => {
                   openOverlay('quickIdea')
                 }}
@@ -257,7 +257,7 @@ function CreationCard({ recipe, notes }: { recipe: RecipeSummary; notes: readonl
         </Link>
       </div>
       <div className="flex min-w-0 flex-col gap-0.5">
-        <h2 className="m-0 truncate text-lead font-semibold text-fg">{recipe.name}</h2>
+        <h2 className="m-0 line-clamp-2 text-lead font-semibold break-words text-fg">{recipe.name}</h2>
         <span className="text-caption text-fg-muted">
           {recipe.family ? fr.recipes.families[recipe.family] : ' '}
         </span>
@@ -344,7 +344,7 @@ function FocusPanel({ recipeId, notes }: { recipeId: string; notes: readonly Tas
           <span className="text-small text-fg-muted">
             {`${t.focus.eyebrow} · ${lastNote ? t.focus.lastTasting(formatRelative(lastNote.tastedAt)) : t.focus.neverTasted}`}
           </span>
-          <h2 className="m-0 truncate text-[44px] leading-tight font-light tracking-tight text-fg">
+          <h2 className="m-0 line-clamp-2 text-[44px] leading-tight break-words font-light tracking-tight text-fg">
             {detail.name}
           </h2>
           <div className="flex items-center gap-2">

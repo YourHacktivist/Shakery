@@ -14,6 +14,19 @@ const STATUS_STYLES: Record<RecipeStatus, string> = {
   archived: 'border border-border-strong bg-transparent text-fg-muted',
 }
 
+const DOT_STYLES: Record<RecipeStatus, string> = {
+  idea: 'bg-status-warning',
+  draft: 'bg-fg-secondary',
+  testing: 'bg-accent',
+  final: 'bg-status-ok',
+  archived: 'border border-fg-muted',
+}
+
+/** The colour of a status alone, beside a control that already says the word. */
+export function StatusDot({ status }: { status: RecipeStatus }) {
+  return <span aria-hidden="true" className={cn('size-2 shrink-0 rounded-full', DOT_STYLES[status])} />
+}
+
 type StatusBadgeProps = {
   status: RecipeStatus
   className?: string

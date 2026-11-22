@@ -302,7 +302,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   ] as const
 
   return (
-    <div className="mx-auto flex max-w-page flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-4 min-h-full">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
           <span className="text-small text-fg-muted">{t.eyebrow(version)}</span>
@@ -366,13 +366,13 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
         <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] items-start gap-4">
           <Card aria-label={t.lines}>
             <h2 className="m-0 text-body font-semibold text-fg">{t.lines}</h2>
-            <ul className="m-0 flex list-none flex-col gap-1 p-0">
+            <ul className="@container m-0 flex list-none flex-col gap-1 p-0">
               {draft.lines.map((line) => {
                 const name = names.get(line.ingredientId) ?? ''
                 return (
                   <li
                     key={line.key}
-                    className={`flex flex-wrap items-center gap-2 rounded-nested border border-border px-2 py-1.5 ${line.enabled ? 'bg-surface-2/50' : 'opacity-50'}`}
+                    className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-nested border border-border p-2 @min-[36rem]:grid-cols-[auto_minmax(0,1fr)_auto_auto] ${line.enabled ? 'bg-surface-2/50' : 'opacity-50'}`}
                   >
                     <Toggle
                       label={t.lineOn(name)}
@@ -382,8 +382,9 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         changeLine(line.key, { enabled })
                       }}
                     />
-                    <span className="min-w-36 flex-1 text-body text-fg">{name}</span>
-                    <div className="ml-auto flex shrink-0 items-center gap-2">
+                    <span className="min-w-0 text-body break-words text-fg">{name}</span>
+                    {/* Under the name while the card is narrow, beside it once it fits. */}
+                    <div className="col-span-2 col-start-2 row-start-2 flex min-w-0 items-center gap-2 @min-[36rem]:col-span-1 @min-[36rem]:col-start-3 @min-[36rem]:row-start-1">
                       <DoseStepper
                         label={t.dose(name)}
                         hideLabel
@@ -404,18 +405,18 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         onChange={(event) => {
                           changeLine(line.key, { unit: event.target.value as LabLine['unit'] })
                         }}
-                        className="w-28 shrink-0"
-                      />
-                      <IconButton
-                        size="sm"
-                        variant="ghost"
-                        label={t.remove(name)}
-                        icon={<Trash2 size={14} aria-hidden="true" />}
-                        onClick={() => {
-                          change({ ...draft, lines: draft.lines.filter((other) => other.key !== line.key) })
-                        }}
+                        className="min-w-0 flex-1 @min-[36rem]:w-36 @min-[36rem]:flex-none"
                       />
                     </div>
+                    <IconButton
+                      variant="ghost"
+                      className="col-start-3 row-start-1 @min-[36rem]:col-start-4"
+                      label={t.remove(name)}
+                      icon={<Trash2 size={14} aria-hidden="true" />}
+                      onClick={() => {
+                        change({ ...draft, lines: draft.lines.filter((other) => other.key !== line.key) })
+                      }}
+                    />
                   </li>
                 )
               })}
@@ -505,7 +506,8 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
         </div>
       )}
 
-      <footer className="sticky bottom-0 flex flex-wrap items-center gap-2 border-t border-border bg-bg-base py-3">
+      {/* Down to the edge of the window, over the bottom padding of the screen. */}
+      <footer className="sticky -bottom-8 mt-auto -mb-8 flex flex-wrap items-center gap-2 border-t border-border bg-bg-base py-1.5">
         {recipe ? (
           <>
             <Button

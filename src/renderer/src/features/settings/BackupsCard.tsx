@@ -68,7 +68,7 @@ export function BackupsCard() {
           {folder.directory.directory}
         </p>
       ) : null}
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Button
           size="sm"
           icon={<Save size={14} aria-hidden="true" />}
@@ -89,7 +89,13 @@ export function BackupsCard() {
           {t.choose}
         </Button>
         {folder.directory && !folder.directory.isDefault ? (
-          <Button variant="ghost" size="sm" disabled={folder.busy} onClick={folder.reset}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="col-span-2"
+            disabled={folder.busy}
+            onClick={folder.reset}
+          >
             {t.useDefault}
           </Button>
         ) : null}

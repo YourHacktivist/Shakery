@@ -232,8 +232,8 @@ function CollectionPanel({
         recipeIds={summary.recipeIds}
       />
       <Card className="gap-3">
-        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-          <div className="flex min-w-[200px] flex-1 flex-col gap-1">
+        <div className="flex flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-1">
             <span className="text-caption font-medium text-accent-soft">{t.kinds[collection.kind]}</span>
             <h2 className="m-0 truncate text-title font-semibold tracking-tight text-fg">
               {collection.name}
@@ -242,7 +242,7 @@ function CollectionPanel({
               <RichText text={collection.description} className="text-body text-fg-secondary" />
             ) : null}
           </div>
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
             <Button
               variant="outline"
               icon={<ChefHat size={14} aria-hidden="true" />}
@@ -286,6 +286,7 @@ function CollectionPanel({
             <IconButton
               variant="ghost"
               size="sm"
+              className="ml-auto"
               label={t.edit}
               icon={<Pencil size={14} aria-hidden="true" />}
               onClick={() => {
@@ -391,98 +392,103 @@ function ItemRow({
   }
 
   return (
-    <Card className="flex-row items-center gap-3 py-3 transition-colors duration-150 hover:border-border-strong">
+    <Card className="flex-row items-start gap-3 py-3 transition-colors duration-150 hover:border-border-strong">
       <span className="nums flex size-7 shrink-0 items-center justify-center rounded-full bg-surface-2 text-small font-semibold text-fg-secondary">
         {index + 1}
       </span>
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-        <div className="flex items-center gap-2">
-          {item.recipeId ? (
-            <Link
-              to={`/recipes/${item.recipeId}`}
-              className="truncate text-body font-semibold text-fg transition-colors hover:text-accent-soft"
-            >
-              {item.title}
-            </Link>
-          ) : (
-            <span className="flex items-center gap-1.5 truncate text-body font-semibold text-fg">
-              <ScrollText size={14} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
-              {item.title}
-            </span>
-          )}
-          {item.status ? (
-            <StatusBadge status={item.status} />
-          ) : (
-            <span className="text-caption text-fg-muted">{t.sheet}</span>
-          )}
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <div className="flex h-7 items-center gap-1">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            {item.recipeId ? (
+              <Link
+                to={`/recipes/${item.recipeId}`}
+                className="truncate text-body font-semibold text-fg transition-colors hover:text-accent-soft"
+              >
+                {item.title}
+              </Link>
+            ) : (
+              <span className="flex items-center gap-1.5 truncate text-body font-semibold text-fg">
+                <ScrollText size={14} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
+                {item.title}
+              </span>
+            )}
+            {item.status ? (
+              <StatusBadge status={item.status} />
+            ) : (
+              <span className="text-caption text-fg-muted">{t.sheet}</span>
+            )}
+          </div>
+          <IconButton
+            variant="ghost"
+            size="sm"
+            label={t.moveUp(item.title)}
+            disabled={index === 0}
+            icon={<ArrowUp size={14} aria-hidden="true" />}
+            onClick={() => {
+              onMove(-1)
+            }}
+          />
+          <IconButton
+            variant="ghost"
+            size="sm"
+            label={t.moveDown(item.title)}
+            disabled={last}
+            icon={<ArrowDown size={14} aria-hidden="true" />}
+            onClick={() => {
+              onMove(1)
+            }}
+          />
+          <IconButton
+            variant="ghost"
+            size="sm"
+            label={t.remove(item.title)}
+            icon={<Trash2 size={14} aria-hidden="true" />}
+            onClick={() => {
+              remove.mutate(
+                { id: item.id },
+                { onSuccess: () => toast.show({ message: t.removed(item.title) }), onError: notifyError },
+              )
+            }}
+          />
         </div>
-        <Input
-          label={t.note}
-          hideLabel
-          placeholder={t.notePlaceholder}
-          value={note}
-          maxLength={1000}
-          autoComplete="off"
-          onChange={(event) => {
-            setNote(event.target.value)
-          }}
-          onBlur={() => {
-            save({ note })
-          }}
-        />
+        <div className="flex items-start gap-2">
+          <Input
+            label={t.note}
+            hideLabel
+            className="min-w-0 flex-1"
+            placeholder={t.notePlaceholder}
+            value={note}
+            maxLength={1000}
+            autoComplete="off"
+            onChange={(event) => {
+              setNote(event.target.value)
+            }}
+            onBlur={() => {
+              save({ note })
+            }}
+          />
+          {item.recipeId ? (
+            <NumberWithUnit
+              label={t.price}
+              hideLabel
+              placeholder={t.price}
+              className="w-[130px] shrink-0"
+              value={price}
+              unit="€"
+              min={0}
+              max={100_000}
+              step={0.5}
+              decimals={2}
+              onChange={(value) => {
+                setPrice(value)
+              }}
+              onBlur={() => {
+                save({ price })
+              }}
+            />
+          ) : null}
+        </div>
       </div>
-      {item.recipeId ? (
-        <NumberWithUnit
-          label={t.price}
-          className="w-[130px]"
-          value={price}
-          unit="€"
-          min={0}
-          max={100_000}
-          step={0.5}
-          decimals={2}
-          onChange={(value) => {
-            setPrice(value)
-          }}
-          onBlur={() => {
-            save({ price })
-          }}
-        />
-      ) : null}
-      <div className="flex shrink-0 flex-col">
-        <IconButton
-          variant="ghost"
-          size="sm"
-          label={t.moveUp(item.title)}
-          disabled={index === 0}
-          icon={<ArrowUp size={14} aria-hidden="true" />}
-          onClick={() => {
-            onMove(-1)
-          }}
-        />
-        <IconButton
-          variant="ghost"
-          size="sm"
-          label={t.moveDown(item.title)}
-          disabled={last}
-          icon={<ArrowDown size={14} aria-hidden="true" />}
-          onClick={() => {
-            onMove(1)
-          }}
-        />
-      </div>
-      <IconButton
-        variant="ghost"
-        size="sm"
-        label={t.remove(item.title)}
-        icon={<Trash2 size={14} aria-hidden="true" />}
-        onClick={() => {
-          remove.mutate(
-            { id: item.id },
-            { onSuccess: () => toast.show({ message: t.removed(item.title) }), onError: notifyError },
-          )
-        }}
-      />
     </Card>
   )
 }

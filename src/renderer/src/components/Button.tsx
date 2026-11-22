@@ -19,11 +19,12 @@ const VARIANTS: Record<ButtonVariant, string> = {
   solid:
     'border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100',
   outline:
-    'border border-border-strong bg-tint/[0.015] text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
+    // Opaque: the engraving of the screen never runs through a label.
+    'border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60',
   ghost:
     'border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50',
   danger:
-    'border border-status-danger/40 bg-transparent text-status-danger hover:bg-status-danger/10 disabled:opacity-50',
+    'border border-status-danger/40 bg-surface-1 text-status-danger hover:bg-status-danger/10 disabled:opacity-50',
 }
 
 const SIZES: Record<ButtonSize, string> = {

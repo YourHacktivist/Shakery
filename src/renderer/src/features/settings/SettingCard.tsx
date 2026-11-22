@@ -28,7 +28,7 @@ export function SettingCard({
 /** A label on the left, its control on the right. */
 export function SettingRow({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+    <div className="flex min-h-8 flex-wrap items-center justify-between gap-x-4 gap-y-2">
       <span aria-hidden="true" className="text-body text-fg">
         {label}
       </span>

@@ -14,7 +14,8 @@ export function AddToCollection({ recipeId, recipeName }: { recipeId: string; re
   const add = useAddToCollection()
   const list = collections.data ?? []
   return (
-    <DropdownMenu.Root>
+    // Not modal, as FilterPill: a modal menu injects a style that the CSP refuses.
+    <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild>
         <Button variant="outline" icon={<Layers size={16} aria-hidden="true" />}>
           {t.addToCollection}

@@ -1,5 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronDown } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 
@@ -16,7 +17,16 @@ type FilterPillBaseProps<T extends string> = {
   options: readonly FilterOption<T>[]
   disabled?: boolean
   align?: 'start' | 'end'
+  /** `field` among buttons: their corners and their text, so that the row reads as one. */
+  shape?: 'pill' | 'field'
+  /** Before the selection, e.g. the colour of a status. */
+  lead?: ReactNode
   className?: string
+}
+
+const SHAPES = {
+  pill: 'rounded-full bg-surface-2 text-caption font-medium',
+  field: 'rounded-field bg-surface-1 text-body font-semibold',
 }
 
 type SingleProps<T extends string> = {
@@ -60,7 +70,7 @@ function ItemCheck() {
 
 /** Compact rounded filter with a chevron, opening a menu of single or multiple choice. */
 export function FilterPill<T extends string>(props: FilterPillProps<T>) {
-  const { label, options, disabled = false, align = 'start', className } = props
+  const { label, options, disabled = false, align = 'start', shape = 'pill', lead, className } = props
   const summary = summarize(props)
   const active = props.multiple === true && props.value.length > 0
 
@@ -71,13 +81,17 @@ export function FilterPill<T extends string>(props: FilterPillProps<T>) {
         disabled={disabled}
         aria-label={t.name(label, summary)}
         className={cn(
-          'inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-border-strong bg-surface-2 px-3 text-caption font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg',
+          'inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg',
+          SHAPES[shape],
           active ? 'text-fg' : 'text-fg-secondary',
           className,
         )}
       >
-        <span className="nums">{summary}</span>
-        <ChevronDown size={14} strokeWidth={2} aria-hidden="true" />
+        <span className="flex min-w-0 items-center gap-1.5">
+          {lead}
+          <span className="nums min-w-0 truncate">{summary}</span>
+        </span>
+        <ChevronDown size={14} strokeWidth={2} aria-hidden="true" className="shrink-0" />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content

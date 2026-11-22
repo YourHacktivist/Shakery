@@ -257,50 +257,56 @@ function IngredientPanel({
   return (
     <div className="flex min-w-0 flex-col gap-4">
       <Card className="gap-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex min-w-0 flex-col gap-1.5">
-            <span className="text-small text-fg-muted">
-              {categoryPath(categories.data, ingredient.categoryId)}
-            </span>
-            <h2 className="m-0 text-title font-semibold tracking-tight text-fg">{ingredient.name}</h2>
+        <div className="flex flex-col gap-1.5">
+          <span className="text-small text-fg-muted">
+            {categoryPath(categories.data, ingredient.categoryId)}
+          </span>
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="m-0 min-w-0 text-title font-semibold tracking-tight break-words text-fg">
+              {ingredient.name}
+            </h2>
+            <div className="flex shrink-0 items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                icon={<Pencil size={14} aria-hidden="true" />}
+                onClick={onEdit}
+              >
+                {td.edit}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                icon={<Merge size={14} aria-hidden="true" />}
+                onClick={onMerge}
+              >
+                {td.merge}
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                icon={<Trash2 size={14} aria-hidden="true" />}
+                onClick={onDelete}
+              >
+                {td.delete}
+              </Button>
+            </div>
+          </div>
+          {ingredient.prepRecipeId || ingredient.isStaple ? (
             <div className="flex flex-wrap gap-2">
               {ingredient.prepRecipeId ? <Tag>{t.prep}</Tag> : null}
               {ingredient.isStaple ? <Tag>{t.staple}</Tag> : null}
             </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              icon={<Pencil size={14} aria-hidden="true" />}
-              onClick={onEdit}
-            >
-              {td.edit}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={<Merge size={14} aria-hidden="true" />}
-              onClick={onMerge}
-            >
-              {td.merge}
-            </Button>
-            <Button
-              variant="danger"
-              size="sm"
-              icon={<Trash2 size={14} aria-hidden="true" />}
-              onClick={onDelete}
-            >
-              {td.delete}
-            </Button>
-          </div>
+          ) : null}
         </div>
 
-        <div className="grid grid-cols-4 gap-3">
-          <StatTile label={td.abv} value={ingredient.defaultAbv} unit={td.abvUnit} />
-          <StatTile label={td.sugar} value={ingredient.sugarGPerL} unit={td.perLitre} />
-          <StatTile label={td.acid} value={ingredient.acidGPerL} unit={td.perLitre} />
-          <StatTile label={td.density} value={ingredient.densityGPerMl} unit={td.densityUnit} />
+        <div className="@container">
+          <div className="grid grid-cols-2 gap-3 @min-[34rem]:grid-cols-4">
+            <StatTile label={td.abv} value={ingredient.defaultAbv} unit={td.abvUnit} />
+            <StatTile label={td.sugar} value={ingredient.sugarGPerL} unit={td.perLitre} />
+            <StatTile label={td.acid} value={ingredient.acidGPerL} unit={td.perLitre} />
+            <StatTile label={td.density} value={ingredient.densityGPerMl} unit={td.densityUnit} />
+          </div>
         </div>
         {source ? <p className="m-0 text-small text-fg-secondary">{td.source(source, confidence)}</p> : null}
         {ingredient.defaultAbv === null ? (
@@ -379,7 +385,7 @@ function BarOverview({ onSelect }: { onSelect: (id: string) => void }) {
           </span>
           <div className="flex flex-col">
             <span className="text-lead font-semibold text-fg">{tw.makeable(tonight.makeable)}</span>
-            <span className="text-small text-fg-secondary">{t.noSelection.description}</span>
+            <span className="text-small text-fg-secondary">{t.noSelection.hint}</span>
           </div>
         </div>
       </Card>
