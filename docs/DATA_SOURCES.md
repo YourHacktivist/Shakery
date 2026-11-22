@@ -75,6 +75,11 @@ Relevés le 22 novembre 2026 dans `scripts/seed/abv.json`, qui donne la valeur d
 
 Le degré fourni par l'export de 24cocktails n'est pas utilisé (valeur calculée par mots-clés, fausse pour les liqueurs).
 
+## Allergènes et profils aromatiques (D-040)
+
+- Allergènes : les 14 de l'annexe II du [règlement (UE) 1169/2011](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32011R1169), attribués à la main dans `scripts/seed/allergens.json` d'après la composition habituelle de chaque type de produit. Ils ne remplacent pas l'étiquette.
+- Profils aromatiques : descripteurs rédigés pour Shakery (`scripts/seed/profiles.ts`), sans source externe. Ils n'entrent dans aucun calcul.
+
 ## Valeurs par défaut modifiables
 
 Valeurs proposées, modifiables dans les paramètres et affichées comme approximations. **À valider par l'utilisateur en fin de phase 3** (section 8).

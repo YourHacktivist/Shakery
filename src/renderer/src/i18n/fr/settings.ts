@@ -50,6 +50,10 @@ export const settings = {
     sources: [
       { name: 'Wikidata', text: 'Noms d’ingrédients et degrés, CC0.' },
       {
+        name: 'Allergènes',
+        text: 'Liste du règlement (UE) 1169/2011, attribuée par type de produit. L’étiquette de la bouteille fait foi.',
+      },
+      {
         name: 'Degrés de référence',
         text: 'Règlements (UE) 2019/787, 251/2014 et 1308/2013, Wikipédia en anglais (CC BY-SA 4.0), fiches des fabricants et des distributeurs.',
       },

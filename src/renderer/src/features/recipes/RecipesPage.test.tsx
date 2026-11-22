@@ -4,8 +4,10 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { fr } from '@renderer/i18n/fr'
 import { installShakery, renderRoutes, type FakeShakery } from '@renderer/test/shakery'
 import type { RecipeSummary } from '@shared/domain/catalog'
+import type { RecipeFacets } from '@shared/domain/facets'
 import { ok } from '@shared/ipc/result'
-import { filterRecipes, RecipesPage, useRecipeFilters } from './RecipesPage'
+import { filterRecipes, useRecipeFilters } from './filters'
+import { RecipesPage } from './RecipesPage'
 
 const t = fr.recipes.list
 
@@ -125,5 +127,46 @@ describe('RecipesPage', () => {
     renderRoutes([{ path: '/recipes', element: <RecipesPage /> }], '/recipes')
     expect(await screen.findByText(t.empty.title)).toBeDefined()
     expect(screen.getAllByRole('button', { name: new RegExp(t.newRecipe) }).length).toBeGreaterThan(0)
+  })
+})
+
+describe('filterRecipes, « without » (D-040)', () => {
+  const facet = (
+    id: string,
+    allergens: RecipeFacets['allergens'],
+    allergensUnknown = false,
+  ): [string, RecipeFacets] => [
+    id,
+    {
+      id,
+      glassId: null,
+      spirit: 'none',
+      tags: [],
+      flavors: [],
+      allergens,
+      allergensUnknown,
+      rating: id === 'c' ? 4.5 : null,
+    },
+  ]
+
+  it('hides what contains the allergen and what nobody can vouch for', () => {
+    const facets = new Map<string, RecipeFacets>([facet('a', ['milk']), facet('b', [], true), facet('c', [])])
+    const ids = (...without: RecipeFacets['allergens']) =>
+      filterRecipes(RECIPES, { without }, { facets }).map((recipe) => recipe.id)
+    expect(ids('milk')).toEqual(['c'])
+    expect(ids('nuts').sort()).toEqual(['a', 'c'])
+  })
+
+  it('claims nothing while the allergens load', () => {
+    expect(filterRecipes(RECIPES, { without: ['milk'] })).toEqual([])
+  })
+
+  it('sorts by grade, the recipes without grade last', () => {
+    const facets = new Map<string, RecipeFacets>([facet('a', []), facet('b', []), facet('c', [])])
+    expect(filterRecipes(RECIPES, { sort: 'rating' }, { facets }).map((recipe) => recipe.id)).toEqual([
+      'c',
+      'a',
+      'b',
+    ])
   })
 })

@@ -6,6 +6,7 @@
 import type { AllergenCode } from '../shared/domain/allergens'
 import { ALLERGEN_CODES } from '../shared/domain/allergens'
 import type { FactsResolver, LineInput, RecipeInput } from './model'
+import { normalizeName } from './normalize'
 
 export type AllergenResult = {
   readonly required: readonly AllergenCode[]
@@ -13,6 +14,29 @@ export type AllergenResult = {
   readonly optional: readonly AllergenCode[]
   /** Lines whose ingredient is unknown or loops through preparations. */
   readonly unresolvedLineIds: readonly string[]
+}
+
+/**
+ * Words of a line note that name an allergen the generic ingredient does not carry: a whisky
+ * « aromatisé au beurre de cacahuète », a gin « infusé aux crevettes » (D-040). Only words that
+ * leave no doubt; a note that says « sans céleri » counts too, which is the careful mistake.
+ */
+const NAMED_IN_NOTES: ReadonlyArray<readonly [AllergenCode, RegExp]> = [
+  ['peanuts', /\b(cacahuetes?|cacahouetes?|arachides?|peanuts?)\b/],
+  ['nuts', /\b(amandes?|almonds?|hazelnuts?|pistaches?|pralines?|noix de (cajou|pecan|grenoble))\b/],
+  ['celery', /\b(celeri|celery)\b/],
+  ['crustaceans', /\b(crevettes?|langoustines?|homards?)\b/],
+  ['molluscs', /\b(huitres?|palourdes?)\b/],
+  ['mustard', /\b(moutarde|mustard)\b/],
+  ['sesame', /\b(sesame|tahini)\b/],
+  ['soy', /\b(soja|soy)\b/],
+  ['milk', /\b(beurre sale|salted caramel|lait de vache|creme fouettee|chantilly|mascarpone)\b/],
+]
+
+export function allergensNamedIn(note: string | null | undefined): AllergenCode[] {
+  if (!note) return []
+  const text = normalizeName(note)
+  return NAMED_IN_NOTES.filter(([, pattern]) => pattern.test(text)).map(([code]) => code)
 }
 
 const ORDER = new Map(ALLERGEN_CODES.map((code, index) => [code, index]))
@@ -49,6 +73,7 @@ function lineAllergens(
   const ingredient = resolver.ingredient(line.ingredientId)
   if (!ingredient) return null
   const codes = new Set<AllergenCode>(ingredient.allergens)
+  for (const code of allergensNamedIn(line.note)) codes.add(code)
   if (line.preferredProductId !== null) {
     for (const code of resolver.product(line.preferredProductId)?.allergens ?? []) codes.add(code)
   }

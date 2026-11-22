@@ -18,6 +18,7 @@ import {
 } from '../domain/catalog'
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import { searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
+import { recipeFacetsSchema } from '../domain/facets'
 import { referenceZonesSchema } from '../domain/zones'
 import {
   notebookEntrySchema,
@@ -274,6 +275,7 @@ export const ipcContract = {
   },
   /** Reference zones of each family (section 8), cached until a recipe or an ingredient changes. */
   'recipes.referenceZones': { input: noInput, output: referenceZonesSchema },
+  'recipes.facets': { input: noInput, output: z.array(recipeFacetsSchema).max(50_000) },
   /** Tasting journal (section 10.6). */
   'tastingNotes.list': {
     input: z

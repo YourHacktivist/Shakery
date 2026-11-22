@@ -80,6 +80,7 @@ export const ingredientSeedSchema = z
     composition_confidence: z.enum(['sourced', 'estimated']).nullable(),
     density_g_per_ml: z.number().gt(0).max(5).nullable(),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
+    flavor_tags: z.array(z.string().min(1).max(40)).max(30).default([]),
     is_staple: z.boolean(),
     source: z.enum(['seed', 'wikidata']),
     external_ref: z
@@ -374,7 +375,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
     for (const item of checked.ingredients) {
       if (ingredientKeys.has(item.seed_key)) {
         fillComposition(tx, item, now)
-        fillDegree(tx, item)
+        fillReference(tx, item)
         continue
       }
       const categoryId = existing.get(item.category)
@@ -408,6 +409,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
           compositionConfidence: item.composition_confidence,
           densityGPerMl: item.density_g_per_ml,
           allergens: item.allergens,
+          flavorTags: item.flavor_tags,
           isStaple: item.is_staple,
           source: item.source,
           externalRef: item.external_ref,
@@ -471,24 +473,44 @@ function fillComposition(
 }
 
 /**
- * Reference degree added to the seed after an ingredient was loaded (D-039). Only on a row that
- * nobody changed, and without touching its date: it stays the entry of the seed for the imports.
+ * Reference degree, allergens and flavour profile added to the seed after an ingredient was
+ * loaded (D-039, D-040). Only on a row that nobody changed, and without touching its date: it
+ * stays the entry of the seed for the imports. Allergens are only ever added.
  */
-function fillDegree(
+function fillReference(
   tx: Parameters<Parameters<Db['transaction']>[0]>[0],
   item: z.output<typeof ingredientSeedSchema>,
 ): void {
-  if (item.default_abv === null) return
-  tx.update(ingredients)
-    .set({ defaultAbv: item.default_abv })
+  if (item.default_abv === null && item.allergens.length === 0 && item.flavor_tags.length === 0) return
+  const row = tx
+    .select({
+      id: ingredients.id,
+      abv: ingredients.defaultAbv,
+      allergens: ingredients.allergens,
+      flavorTags: ingredients.flavorTags,
+    })
+    .from(ingredients)
     .where(
       and(
         eq(ingredients.seedKey, item.seed_key),
         isNull(ingredients.deletedAt),
-        isNull(ingredients.defaultAbv),
         eq(ingredients.updatedAt, ingredients.createdAt),
       ),
     )
+    .get()
+  if (!row) return
+  const allergens = new Set([...row.allergens, ...item.allergens])
+  const addsDegree = row.abv === null && item.default_abv !== null
+  const addsAllergens = allergens.size > row.allergens.length
+  const addsFlavors = row.flavorTags.length === 0 && item.flavor_tags.length > 0
+  if (!addsDegree && !addsAllergens && !addsFlavors) return
+  tx.update(ingredients)
+    .set({
+      defaultAbv: row.abv ?? item.default_abv,
+      allergens: [...allergens],
+      flavorTags: addsFlavors ? item.flavor_tags : row.flavorTags,
+    })
+    .where(eq(ingredients.id, row.id))
     .run()
 }
 

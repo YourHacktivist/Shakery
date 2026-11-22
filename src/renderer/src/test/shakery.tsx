@@ -28,6 +28,7 @@ const EMPTY_LISTS = [
   'ingredients.list',
   'products.listByIngredient',
   'recipes.list',
+  'recipes.facets',
   'tastingNotes.list',
   'notebook.list',
   'preps.list',

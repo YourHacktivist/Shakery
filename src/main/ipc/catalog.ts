@@ -7,6 +7,7 @@ import { IngredientRepository } from '../db/repositories/ingredients'
 import { ProductRepository } from '../db/repositories/products'
 import { RecipeRepository } from '../db/repositories/recipes'
 import { DomainError } from '../errors'
+import { recipeFacets } from '../services/facets'
 import { createZonesCache } from '../services/zones'
 import type { IpcHandlers } from './dispatch'
 
@@ -67,5 +68,6 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
       computeRecipe(db(), { id: 'draft', data: recipeInputSchema.parse(data) }),
     'recipes.getVersion': ({ id, version }) => recipesRepo().getVersion(id, version),
     'recipes.referenceZones': () => zonesCache.get(db(), recipesRepo()),
+    'recipes.facets': () => recipeFacets(db()),
   }
 }

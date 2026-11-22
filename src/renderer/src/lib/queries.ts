@@ -111,6 +111,11 @@ export function usePreps() {
   return useQuery({ queryKey: ['preps'], queryFn: () => unwrap(api().preps.list()) })
 }
 
+/** Under the key of the recipes: refreshed with them. */
+export function useRecipeFacets() {
+  return useQuery({ queryKey: ['recipes', 'facets'], queryFn: () => unwrap(api().recipes.facets()) })
+}
+
 export function useCollections() {
   return useQuery({ queryKey: ['collections'], queryFn: () => unwrap(api().collections.list()) })
 }

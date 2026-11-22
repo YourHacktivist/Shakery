@@ -335,6 +335,20 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Résultat** : degré calculable sur 6 137 des 7 166 cocktails. Les autres ont un complément sans volume (règle de la section 8) ou un ingrédient sans degré.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-040 Filtres des fiches, allergènes et profils de la base de départ
+
+- **Date** : 2026-11-22
+- **Contexte** : filtres de la section 10.4. Le filtre « exclusion d'un allergène » aurait été dangereux tel quel : 25 ingrédients de départ seulement déclaraient un allergène (rien sur l'orgeat, le beurre de cacahuète, la bière, le vin).
+- **Choix** :
+  - Allergènes (`scripts/seed/allergens.json`) relus nom par nom sur les 777 ingrédients : 153 en déclarent désormais. Dans le doute, l'allergène est déclaré.
+  - Le calcul des allergènes lit aussi les notes de lignes, pour une courte liste de mots sans ambiguïté (« infusé à la cacahuète », « aux crevettes »).
+  - « Sans » : lignes facultatives comprises, et une fiche dont un ingrédient est inconnu n'est jamais présentée comme « sans ». Un rappel de vérifier l'étiquette s'affiche avec le filtre.
+  - Profil aromatique : descripteurs posés par règles sur les ingrédients (`scripts/seed/profiles.ts`), modifiables dans Mon bar. Le profil d'une fiche est celui de ses ingrédients, hors décoration et traits.
+  - Spiritueux de base : la sous-catégorie de « Spiritueux » qui a le plus de volume dans la fiche.
+  - Note : moyenne de la dernière version goûtée, comme à l'accueil.
+  - Canal `recipes.facets` séparé de `recipes.list`, qui reste léger pour les autres écrans.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

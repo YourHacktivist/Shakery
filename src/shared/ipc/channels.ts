@@ -46,6 +46,7 @@ export const IPC_CHANNELS = [
   'recipes.compute',
   'recipes.getVersion',
   'recipes.referenceZones',
+  'recipes.facets',
   'import.choose',
   'import.apply',
   'export.notebook',

@@ -314,6 +314,19 @@ function IngredientPanel({
           <Block title={td.allergens}>
             <AllergenList codes={ingredient.allergens} empty={td.noAllergen} />
           </Block>
+          <Block title={td.flavors}>
+            {ingredient.flavorTags.length === 0 ? (
+              <p className="m-0 text-small text-fg-secondary">{td.noFlavor}</p>
+            ) : (
+              <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
+                {ingredient.flavorTags.map((tag) => (
+                  <li key={tag}>
+                    <Tag>{tag}</Tag>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Block>
           <Block title={td.aliases}>
             {ingredient.aliases.length === 0 ? (
               <p className="m-0 text-small text-fg-secondary">{td.noAlias}</p>

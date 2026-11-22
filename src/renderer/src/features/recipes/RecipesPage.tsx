@@ -1,113 +1,41 @@
 import { BookOpen, Lightbulb, Plus, Star } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { create } from 'zustand'
 import { useOverlayStore } from '@renderer/app/stores'
 import { Button } from '@renderer/components/Button'
 import { EmptyState } from '@renderer/components/EmptyState'
-import { FilterPill } from '@renderer/components/FilterPill'
 import { Kbd } from '@renderer/components/Kbd'
-import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { StatusBadge, VersionBadge } from '@renderer/components/StatusBadge'
 import { VirtualTable, type VirtualTableColumn } from '@renderer/components/VirtualTable'
+import { filterRecipes, isFiltered, useRecipeFilters } from '@renderer/features/recipes/filters'
+import { RecipeFilterBar } from '@renderer/features/recipes/RecipeFilterBar'
 import { fr } from '@renderer/i18n/fr'
-import { formatRelative } from '@renderer/lib/format'
-import { useRecipes } from '@renderer/lib/queries'
+import { formatNumber, formatRelative } from '@renderer/lib/format'
+import { useCollections, useRecipeFacets, useRecipes } from '@renderer/lib/queries'
 import { shortcutText } from '@renderer/lib/shortcuts'
-import {
-  FAMILY_VALUES,
-  METHOD_VALUES,
-  ORIGIN_VALUES,
-  STATUS_VALUES,
-  type RecipeSummary,
-} from '@shared/domain/catalog'
+import type { RecipeSummary } from '@shared/domain/catalog'
 
 const t = fr.recipes
 const tl = t.list
-
-type Status = RecipeSummary['status']
-type Family = NonNullable<RecipeSummary['family']>
-type Origin = RecipeSummary['origin']
-type Method = NonNullable<RecipeSummary['method']>
-type View = 'all' | 'favorites' | 'makeable'
-type Sort = 'activity' | 'name'
-
-type RecipeFilters = {
-  statuses: Status[]
-  families: Family[]
-  origins: Origin[]
-  methods: Method[]
-  view: View
-  sort: Sort
-  set: (patch: Partial<Omit<RecipeFilters, 'set' | 'reset'>>) => void
-  reset: () => void
-}
-
-const DEFAULT_FILTERS = {
-  statuses: [] as Status[],
-  families: [] as Family[],
-  origins: [] as Origin[],
-  methods: [] as Method[],
-  view: 'all' as View,
-  sort: 'activity' as Sort,
-}
-
-/** Filters of the list, kept while the user opens a recipe and comes back. */
-export const useRecipeFilters = create<RecipeFilters>()((set) => ({
-  ...DEFAULT_FILTERS,
-  set: (patch) => {
-    set(patch)
-  },
-  reset: () => {
-    set(DEFAULT_FILTERS)
-  },
-}))
-
-const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
-
-/** Recipes kept by the filters, in the chosen order. Filters of different kinds combine. */
-export function filterRecipes(
-  recipes: readonly RecipeSummary[],
-  filters: Pick<RecipeFilters, 'statuses' | 'families' | 'origins' | 'methods' | 'view' | 'sort'>,
-): RecipeSummary[] {
-  const kept = recipes.filter(
-    (recipe) =>
-      (filters.statuses.length === 0 || filters.statuses.includes(recipe.status)) &&
-      (filters.families.length === 0 ||
-        (recipe.family !== null && filters.families.includes(recipe.family))) &&
-      (filters.origins.length === 0 || filters.origins.includes(recipe.origin)) &&
-      (filters.methods.length === 0 || (recipe.method !== null && filters.methods.includes(recipe.method))) &&
-      (filters.view === 'all' ||
-        (filters.view === 'favorites' && recipe.isFavorite) ||
-        (filters.view === 'makeable' && recipe.missingIngredientIds.length === 0)),
-  )
-  return kept.sort((a, b) =>
-    filters.sort === 'name'
-      ? collator.compare(a.name, b.name)
-      : // The classics were all loaded at the same moment: same time, then alphabetical.
-        b.updatedAt - a.updatedAt || collator.compare(a.name, b.name),
-  )
-}
-
-const statusOptions = STATUS_VALUES.map((value) => ({ value, label: fr.components.display.status[value] }))
-const familyOptions = FAMILY_VALUES.map((value) => ({ value, label: t.families[value] }))
-const originOptions = ORIGIN_VALUES.map((value) => ({ value, label: t.origins[value] }))
-const methodOptions = METHOD_VALUES.map((value) => ({ value, label: t.methods[value] }))
 
 /** List of the recipes (section 10.4): virtualised, combinable filters, sort by name or activity. */
 export function RecipesPage() {
   const navigate = useNavigate()
   const openOverlay = useOverlayStore((state) => state.open)
   const recipes = useRecipes()
+  const facets = useRecipeFacets()
+  const collections = useCollections()
   const filters = useRecipeFilters()
   const all = recipes.data
-  const rows = useMemo(() => filterRecipes(all ?? [], filters), [all, filters])
-  const filtered =
-    filters.statuses.length > 0 ||
-    filters.families.length > 0 ||
-    filters.origins.length > 0 ||
-    filters.methods.length > 0 ||
-    filters.view !== 'all'
+  const byId = useMemo(
+    () => (facets.data ? new Map(facets.data.map((facet) => [facet.id, facet])) : undefined),
+    [facets.data],
+  )
+  const rows = useMemo(
+    () => filterRecipes(all ?? [], filters, { facets: byId, collections: collections.data }),
+    [all, filters, byId, collections.data],
+  )
+  const filtered = isFiltered(filters)
   // Relative times are computed once per visit of the list: no timer while idle.
   const [now] = useState(() => Date.now())
 
@@ -146,12 +74,27 @@ export function RecipesPage() {
       cell: (row) =>
         row.family ? t.families[row.family] : <span className="text-fg-muted">{tl.noFamily}</span>,
     },
-    {
-      id: 'version',
-      header: tl.columns.version,
-      width: '80px',
-      cell: (row) => <VersionBadge version={row.version} />,
-    },
+    filters.sort === 'rating'
+      ? {
+          id: 'rating',
+          header: tl.columns.rating,
+          width: '80px',
+          numeric: true,
+          cell: (row) => {
+            const rating = byId?.get(row.id)?.rating
+            return rating === null || rating === undefined ? (
+              <span className="text-fg-muted">{tl.noRating}</span>
+            ) : (
+              tl.rating(formatNumber(rating, 1))
+            )
+          },
+        }
+      : {
+          id: 'version',
+          header: tl.columns.version,
+          width: '80px',
+          cell: (row) => <VersionBadge version={row.version} />,
+        },
     {
       id: 'activity',
       header: tl.columns.activity,
@@ -191,80 +134,7 @@ export function RecipesPage() {
         </div>
       </header>
 
-      {total > 0 ? (
-        <div role="group" aria-label={tl.filters.label} className="flex flex-wrap items-center gap-2">
-          <SegmentedControl<View>
-            label={tl.filters.view}
-            value={filters.view}
-            onChange={(view) => {
-              filters.set({ view })
-            }}
-            options={[
-              { value: 'all', label: tl.filters.all },
-              { value: 'favorites', label: tl.filters.favorites },
-              { value: 'makeable', label: tl.filters.makeable },
-            ]}
-          />
-          <FilterPill
-            multiple
-            label={tl.filters.status}
-            allLabel={tl.filters.allStatuses}
-            options={statusOptions}
-            value={filters.statuses}
-            onChange={(statuses) => {
-              filters.set({ statuses })
-            }}
-          />
-          <FilterPill
-            multiple
-            label={tl.filters.family}
-            allLabel={tl.filters.allFamilies}
-            options={familyOptions}
-            value={filters.families}
-            onChange={(families) => {
-              filters.set({ families })
-            }}
-          />
-          <FilterPill
-            multiple
-            label={tl.filters.origin}
-            allLabel={tl.filters.allOrigins}
-            options={originOptions}
-            value={filters.origins}
-            onChange={(origins) => {
-              filters.set({ origins })
-            }}
-          />
-          <FilterPill
-            multiple
-            label={tl.filters.method}
-            allLabel={tl.filters.allMethods}
-            options={methodOptions}
-            value={filters.methods}
-            onChange={(methods) => {
-              filters.set({ methods })
-            }}
-          />
-          {filtered ? (
-            <Button variant="ghost" size="sm" onClick={filters.reset}>
-              {tl.filters.reset}
-            </Button>
-          ) : null}
-          <FilterPill<Sort>
-            className="ml-auto"
-            align="end"
-            label={tl.filters.sort}
-            options={[
-              { value: 'activity', label: tl.filters.sortActivity },
-              { value: 'name', label: tl.filters.sortName },
-            ]}
-            value={filters.sort}
-            onChange={(sort) => {
-              filters.set({ sort })
-            }}
-          />
-        </div>
-      ) : null}
+      {total > 0 ? <RecipeFilterBar facets={byId} /> : null}
 
       {recipes.isError ? (
         <p role="alert" className="m-0 text-body text-status-danger">

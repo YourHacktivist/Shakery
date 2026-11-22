@@ -10,7 +10,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q524679"
@@ -58,7 +58,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q44"
@@ -74,7 +74,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q2271859"
@@ -90,7 +90,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q15079724"
@@ -106,7 +106,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q2905033"
@@ -122,7 +122,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1520229"
@@ -138,7 +138,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1543214"
@@ -154,7 +154,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1756073"
@@ -170,7 +170,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q253481"
@@ -186,7 +186,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q152281"
@@ -202,7 +202,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q954166"
@@ -218,7 +218,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q217825"
@@ -234,7 +234,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q167296"
@@ -250,7 +250,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q2972307"
@@ -285,7 +285,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q778524"
+    "external_ref": "Q778524",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q790615",
@@ -301,7 +302,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q790615"
+    "external_ref": "Q790615",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q2841250",
@@ -317,7 +319,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2841250"
+    "external_ref": "Q2841250",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q2841253",
@@ -333,7 +336,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2841253"
+    "external_ref": "Q2841253",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q719468",
@@ -349,7 +353,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q719468"
+    "external_ref": "Q719468",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q1758979",
@@ -365,7 +370,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1758979"
+    "external_ref": "Q1758979",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.branca-menta",
@@ -381,7 +387,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "menthe"]
   },
   {
     "seed_key": "ing.q928026",
@@ -397,7 +404,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q928026"
+    "external_ref": "Q928026",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q402446",
@@ -413,7 +421,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q402446"
+    "external_ref": "Q402446",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q1493247",
@@ -429,7 +438,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1493247"
+    "external_ref": "Q1493247",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q3415861",
@@ -445,7 +455,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3415861"
+    "external_ref": "Q3415861",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q612150",
@@ -461,7 +472,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q612150"
+    "external_ref": "Q612150",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q765604",
@@ -477,7 +489,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q765604"
+    "external_ref": "Q765604",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.aperitif-amer-a-l-orange",
@@ -493,7 +506,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.q618238",
@@ -509,7 +523,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q618238"
+    "external_ref": "Q618238",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitter-blanc",
@@ -525,7 +540,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitter-rouge-italien",
@@ -541,7 +557,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.campari",
@@ -557,7 +574,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.cappelletti",
@@ -570,10 +588,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q542594",
@@ -589,7 +608,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q542594"
+    "external_ref": "Q542594",
+    "flavor_tags": ["épicé", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-l-erable",
@@ -605,7 +625,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "boisé"]
   },
   {
     "seed_key": "ing.bitters-a-l-hibiscus",
@@ -621,7 +642,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-l-olive",
@@ -637,7 +659,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "salé"]
   },
   {
     "seed_key": "ing.bitters-a-la-cardamome",
@@ -653,7 +676,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-cerise",
@@ -669,7 +693,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-coriandre",
@@ -685,7 +710,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-lavande",
@@ -701,7 +727,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-menthe",
@@ -717,7 +744,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "menthe"]
   },
   {
     "seed_key": "ing.bitters-a-la-noix",
@@ -730,10 +758,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "noix"]
   },
   {
     "seed_key": "ing.bitters-a-la-peche",
@@ -749,7 +778,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-poire",
@@ -765,7 +795,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-pomme",
@@ -781,7 +812,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-prune",
@@ -797,7 +829,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-reglisse",
@@ -813,7 +846,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "anisé"]
   },
   {
     "seed_key": "ing.bitters-a-la-rhubarbe",
@@ -829,7 +863,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitters-a-la-vanille",
@@ -845,7 +880,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "vanillé"]
   },
   {
     "seed_key": "ing.bitters-au-cafe",
@@ -861,7 +897,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "café et cacao"]
   },
   {
     "seed_key": "ing.bitters-au-celeri",
@@ -874,10 +911,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-chocolat",
@@ -893,7 +931,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer", "café et cacao"]
   },
   {
     "seed_key": "ing.bitters-au-citron",
@@ -909,7 +948,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-citron-vert",
@@ -925,7 +965,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-curcuma",
@@ -941,7 +982,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitters-au-gingembre",
@@ -957,7 +999,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-melon-d-hiver",
@@ -973,7 +1016,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-pamplemousse",
@@ -989,7 +1033,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-piment",
@@ -1005,7 +1050,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-piment-de-la-jamaique",
@@ -1021,7 +1067,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé", "amer"]
   },
   {
     "seed_key": "ing.bitters-au-yuzu",
@@ -1037,7 +1084,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.bitters-aux-agrumes",
@@ -1053,7 +1101,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.bitters-daiquiri",
@@ -1069,7 +1118,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitters-margarita",
@@ -1085,7 +1135,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitters-peychaud",
@@ -1101,7 +1152,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.bitters-tiki",
@@ -1117,7 +1169,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.boker-s-bitters",
@@ -1133,7 +1186,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q654895",
@@ -1149,7 +1203,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q654895"
+    "external_ref": "Q654895",
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.china-china",
@@ -1165,7 +1220,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q3242283",
@@ -1181,7 +1237,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3242283"
+    "external_ref": "Q3242283",
+    "flavor_tags": ["herbacé", "amer"]
   },
   {
     "seed_key": "ing.q1756360",
@@ -1197,7 +1254,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1756360"
+    "external_ref": "Q1756360",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q1425215",
@@ -1213,7 +1271,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1425215"
+    "external_ref": "Q1425215",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.cafe-chaud",
@@ -1229,7 +1288,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.cafe-expresso",
@@ -1245,7 +1305,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.cafe-soluble",
@@ -1261,7 +1322,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.grain-de-cafe",
@@ -1277,7 +1339,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.cafe-cold-brew",
@@ -1293,7 +1356,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.cafe-froid",
@@ -1309,7 +1373,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.fleur-d-hibiscus",
@@ -1325,7 +1390,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.infusion-de-banane",
@@ -1341,7 +1407,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.infusion-de-camomille",
@@ -1357,7 +1424,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.infusion-de-fruits-rouges",
@@ -1373,7 +1441,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "fruits rouges"]
   },
   {
     "seed_key": "ing.infusion-de-rooibos",
@@ -1421,7 +1490,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.the-au-jasmin",
@@ -1437,7 +1507,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.the-blanc",
@@ -1469,7 +1540,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.the-earl-grey",
@@ -1517,7 +1589,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fumé"]
   },
   {
     "seed_key": "ing.the-noir",
@@ -1549,7 +1622,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.blanc-d-oeuf",
@@ -1661,7 +1735,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.q1142459",
@@ -1674,10 +1749,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1142459"
+    "external_ref": "Q1142459",
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.creme-liquide",
@@ -1693,7 +1769,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.glace-a-la-vanille",
@@ -1706,10 +1783,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": ["milk"],
+    "allergens": ["eggs", "milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé", "lacté"]
   },
   {
     "seed_key": "ing.glace-au-cafe",
@@ -1722,10 +1800,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": ["milk"],
+    "allergens": ["eggs", "milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao", "lacté"]
   },
   {
     "seed_key": "ing.glace-au-chocolat",
@@ -1738,10 +1817,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": ["milk"],
+    "allergens": ["eggs", "milk", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao", "lacté"]
   },
   {
     "seed_key": "ing.lait-chocolate",
@@ -1757,7 +1837,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao", "lacté"]
   },
   {
     "seed_key": "ing.lait-concentre-sucre",
@@ -1773,7 +1854,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.lait-d-amande",
@@ -1789,7 +1871,8 @@
     "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix", "lacté"]
   },
   {
     "seed_key": "ing.lait-d-avoine",
@@ -1802,10 +1885,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.lait-demi-ecreme",
@@ -1821,7 +1905,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.lait-entier",
@@ -1837,7 +1922,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.mascarpone",
@@ -1853,7 +1939,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.yaourt",
@@ -1869,7 +1956,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.yaourt-grec",
@@ -1885,7 +1973,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.creme-de-coco",
@@ -1901,7 +1990,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.creme-de-coco-sucree",
@@ -1917,7 +2007,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.eau-de-coco",
@@ -1933,7 +2024,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.huile-de-coco",
@@ -1949,7 +2041,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.lait-de-coco",
@@ -1962,10 +2055,11 @@
     "composition_source": "ciqual",
     "composition_confidence": "sourced",
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.sorbet-a-la-noix-de-coco",
@@ -1981,7 +2075,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.abricot",
@@ -1997,7 +2092,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.ail",
@@ -2029,7 +2125,8 @@
     "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.q10817602",
@@ -2045,7 +2142,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q10817602"
+    "external_ref": "Q10817602",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.avocat",
@@ -2077,7 +2175,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q503"
+    "external_ref": "Q503",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.canneberge",
@@ -2093,7 +2192,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q2941309",
@@ -2109,7 +2209,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2941309"
+    "external_ref": "Q2941309",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q28298",
@@ -2122,10 +2223,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q28298"
+    "external_ref": "Q28298",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q196",
@@ -2141,7 +2243,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q196"
+    "external_ref": "Q196",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q1093742",
@@ -2157,7 +2260,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1093742"
+    "external_ref": "Q1093742",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q13195",
@@ -2173,7 +2277,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13195"
+    "external_ref": "Q13195",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.combava",
@@ -2189,7 +2294,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q2735883",
@@ -2205,7 +2311,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2735883"
+    "external_ref": "Q2735883",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.epinard",
@@ -2237,7 +2344,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.fleur-comestible",
@@ -2253,7 +2361,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.q14458220",
@@ -2269,7 +2378,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q14458220"
+    "external_ref": "Q14458220",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q13179",
@@ -2285,7 +2395,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13179"
+    "external_ref": "Q13179",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.fruit-de-la-passion",
@@ -2301,7 +2412,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.fruit-de-saison",
@@ -2317,7 +2429,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q13222088",
@@ -2333,7 +2446,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13222088"
+    "external_ref": "Q13222088",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q3241599",
@@ -2349,7 +2463,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3241599"
+    "external_ref": "Q3241599",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q13194",
@@ -2365,7 +2480,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13194"
+    "external_ref": "Q13194",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.kumquat",
@@ -2381,7 +2497,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.mais-doux",
@@ -2413,7 +2530,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q169",
@@ -2429,7 +2547,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q169"
+    "external_ref": "Q169",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q5881191",
@@ -2445,7 +2564,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q5881191"
+    "external_ref": "Q5881191",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q19842373",
@@ -2461,7 +2581,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q19842373"
+    "external_ref": "Q19842373",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q60708120",
@@ -2477,7 +2598,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q60708120"
+    "external_ref": "Q60708120",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.nectarine",
@@ -2493,7 +2615,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.oignon-rouge",
@@ -2541,7 +2664,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13191"
+    "external_ref": "Q13191",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q21552830",
@@ -2557,7 +2681,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q21552830"
+    "external_ref": "Q21552830",
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.papaye",
@@ -2573,7 +2698,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q38645",
@@ -2589,7 +2715,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q38645"
+    "external_ref": "Q38645",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q13202263",
@@ -2605,7 +2732,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13202263"
+    "external_ref": "Q13202263",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.physalis",
@@ -2637,7 +2765,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13099586"
+    "external_ref": "Q13099586",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.pois-gourmand",
@@ -2669,7 +2798,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.poivron-rouge",
@@ -2685,7 +2815,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q89",
@@ -2701,7 +2832,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q89"
+    "external_ref": "Q89",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q12372598",
@@ -2717,7 +2849,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q12372598"
+    "external_ref": "Q12372598",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q10978",
@@ -2733,7 +2866,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q10978"
+    "external_ref": "Q10978",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.raisin-sec",
@@ -2746,10 +2880,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.rhubarbe",
@@ -2797,7 +2932,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.beurre-de-pomme",
@@ -2813,7 +2949,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.beurre-de-potiron",
@@ -2845,7 +2982,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.confiture-d-ananas",
@@ -2861,7 +2999,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.confiture-de-cassis",
@@ -2877,7 +3016,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.confiture-de-cerise",
@@ -2893,7 +3033,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.confiture-de-coing",
@@ -2909,7 +3050,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.confiture-de-fraise",
@@ -2925,7 +3067,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.confiture-de-framboise",
@@ -2941,7 +3084,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.confiture-de-gingembre",
@@ -2957,7 +3101,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.confiture-de-mure",
@@ -2973,7 +3118,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.confiture-de-poire",
@@ -2989,7 +3135,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.confiture-de-prune",
@@ -3005,7 +3152,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.confiture-de-rhubarbe",
@@ -3037,7 +3185,8 @@
     "allergens": ["eggs", "milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.curd-au-citron",
@@ -3053,7 +3202,8 @@
     "allergens": ["eggs", "milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.gelee-de-groseille",
@@ -3069,7 +3219,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.marmelade-d-orange",
@@ -3085,7 +3236,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.marmelade-de-pamplemousse",
@@ -3101,7 +3253,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.mincemeat",
@@ -3114,7 +3267,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten", "nuts", "sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -3133,7 +3286,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.puree-de-fraise",
@@ -3149,7 +3303,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.puree-de-fruit-de-la-passion",
@@ -3165,7 +3320,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.puree-de-kiwi",
@@ -3181,7 +3337,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-mangue",
@@ -3197,7 +3354,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.puree-de-nectarine",
@@ -3213,7 +3371,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-pasteque",
@@ -3229,7 +3388,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-peche",
@@ -3245,7 +3405,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-peche-blanche",
@@ -3261,7 +3422,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-poire",
@@ -3277,7 +3439,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.puree-de-potiron",
@@ -3309,7 +3472,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.sorbet-au-citron",
@@ -3325,7 +3489,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.sorbet-au-citron-vert",
@@ -3341,7 +3506,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.biscuit-au-chocolat",
@@ -3354,10 +3520,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs", "gluten", "milk", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.cerise-a-cocktail",
@@ -3370,10 +3537,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.chocolat-blanc",
@@ -3386,10 +3554,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": ["milk"],
+    "allergens": ["milk", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.chocolat-noir",
@@ -3402,10 +3571,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.fleur-d-hibiscus-au-sirop",
@@ -3421,7 +3591,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.gingembre-confit",
@@ -3434,10 +3605,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.guimauve",
@@ -3450,7 +3622,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -3485,7 +3657,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.olive-noire",
@@ -3501,7 +3674,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.olive-verte",
@@ -3517,7 +3691,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.saumure-d-olive",
@@ -3533,7 +3708,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.saumure-de-capres",
@@ -3546,10 +3722,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.saumure-de-citron-confit",
@@ -3565,7 +3742,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "salé"]
   },
   {
     "seed_key": "ing.saumure-de-cornichon",
@@ -3578,10 +3756,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["mustard", "sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.boisson-a-l-hibiscus",
@@ -3597,7 +3776,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.boisson-aux-fruits",
@@ -3613,7 +3793,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.citronnade",
@@ -3629,7 +3810,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.clamato",
@@ -3642,10 +3824,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery", "molluscs"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.jus-d-aloe-vera",
@@ -3661,7 +3844,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q138541982",
@@ -3677,7 +3861,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q138541982"
+    "external_ref": "Q138541982",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q865448",
@@ -3693,7 +3878,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q865448"
+    "external_ref": "Q865448",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.jus-de-cassis",
@@ -3709,7 +3895,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q15823640",
@@ -3725,7 +3912,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q15823640"
+    "external_ref": "Q15823640",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q27045132",
@@ -3741,7 +3929,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q27045132"
+    "external_ref": "Q27045132",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.jus-de-litchi",
@@ -3757,7 +3946,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "tropical"]
   },
   {
     "seed_key": "ing.q15952031",
@@ -3773,7 +3963,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q15952031"
+    "external_ref": "Q15952031",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.jus-de-palourde",
@@ -3786,7 +3977,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["molluscs"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -3805,7 +3996,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q68221988"
+    "external_ref": "Q68221988",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q2461726",
@@ -3821,7 +4013,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2461726"
+    "external_ref": "Q2461726",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q618355",
@@ -3837,7 +4030,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q618355"
+    "external_ref": "Q618355",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.jus-de-pomme-petillant",
@@ -3853,7 +4047,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.jus-de-pulpe-de-cacao",
@@ -3869,7 +4064,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q1209756",
@@ -3882,10 +4078,11 @@
     "composition_source": "ciqual",
     "composition_confidence": "sourced",
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1209756"
+    "external_ref": "Q1209756",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q787325",
@@ -3933,7 +4130,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3337673"
+    "external_ref": "Q3337673",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.nectar-de-banane",
@@ -3949,7 +4147,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.punch-aux-fruits-sans-alcool",
@@ -3965,7 +4164,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.seve-de-bouleau",
@@ -3994,7 +4194,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -4013,7 +4213,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q219059"
+    "external_ref": "Q219059",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.jus-d-orange-sanguine",
@@ -4029,7 +4230,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.jus-de-bergamote",
@@ -4045,7 +4247,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.jus-de-calamansi",
@@ -4061,7 +4264,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q1375049",
@@ -4077,7 +4281,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1375049"
+    "external_ref": "Q1375049",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.jus-de-citron-rangpur",
@@ -4093,7 +4298,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q5361217",
@@ -4109,7 +4315,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q5361217"
+    "external_ref": "Q5361217",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q40866122",
@@ -4125,7 +4332,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q40866122"
+    "external_ref": "Q40866122",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q1138468",
@@ -4141,7 +4349,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1138468"
+    "external_ref": "Q1138468",
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.q57271711",
@@ -4157,7 +4366,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q57271711"
+    "external_ref": "Q57271711",
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.jus-de-yuzu",
@@ -4173,7 +4383,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q12227334",
@@ -4189,7 +4400,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q12227334"
+    "external_ref": "Q12227334",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.jus-de-canne-a-sucre",
@@ -4234,10 +4446,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q19903893",
@@ -4253,7 +4466,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q19903893"
+    "external_ref": "Q19903893",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.jus-de-figue-de-barbarie",
@@ -4269,7 +4483,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q57655614",
@@ -4285,7 +4500,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q57655614"
+    "external_ref": "Q57655614",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.jus-de-gingembre",
@@ -4301,7 +4517,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q3567034",
@@ -4317,7 +4534,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3567034"
+    "external_ref": "Q3567034",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.jus-de-pasteque",
@@ -4333,7 +4551,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.jus-de-poivron",
@@ -4349,7 +4568,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.verdita",
@@ -4381,7 +4601,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2962782"
+    "external_ref": "Q2962782",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.creme-de-violette",
@@ -4397,7 +4618,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.q1141693",
@@ -4413,7 +4635,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1141693"
+    "external_ref": "Q1141693",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q26879661",
@@ -4429,7 +4652,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26879661"
+    "external_ref": "Q26879661",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q1892360",
@@ -4445,7 +4669,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1892360"
+    "external_ref": "Q1892360",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q685229",
@@ -4461,7 +4686,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q685229"
+    "external_ref": "Q685229",
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.q496934",
@@ -4474,7 +4700,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q496934"
@@ -4493,7 +4719,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.q26877298",
@@ -4509,7 +4736,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26877298"
+    "external_ref": "Q26877298",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q27651837",
@@ -4525,7 +4753,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q27651837"
+    "external_ref": "Q27651837",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q27651833",
@@ -4541,7 +4770,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q27651833"
+    "external_ref": "Q27651833",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q2916460",
@@ -4554,10 +4784,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2916460"
+    "external_ref": "Q2916460",
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.liqueur-a-la-creme",
@@ -4573,7 +4804,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.q11303423",
@@ -4589,7 +4821,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q11303423"
+    "external_ref": "Q11303423",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.liqueur-de-caramel",
@@ -4602,7 +4835,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -4618,7 +4851,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -4634,10 +4867,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3006041"
+    "external_ref": "Q3006041",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.liqueur-de-chocolat-blanc",
@@ -4650,10 +4884,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.liqueur-de-yaourt",
@@ -4669,7 +4904,8 @@
     "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.q5191464",
@@ -4685,7 +4921,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q5191464"
+    "external_ref": "Q5191464",
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.hpnotiq",
@@ -4717,7 +4954,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.liqueur-de-coco",
@@ -4733,7 +4971,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.liqueur-de-fruit-de-la-passion",
@@ -4749,7 +4988,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.liqueur-de-kiwi",
@@ -4765,7 +5005,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-litchi",
@@ -4781,7 +5022,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "tropical"]
   },
   {
     "seed_key": "ing.liqueur-de-melon",
@@ -4797,7 +5039,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-pasteque",
@@ -4813,7 +5056,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.pisang-ambon",
@@ -4829,7 +5073,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q730143",
@@ -4845,7 +5090,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q730143"
+    "external_ref": "Q730143",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q968019",
@@ -4861,7 +5107,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q968019"
+    "external_ref": "Q968019",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.creme-de-figue",
@@ -4877,7 +5124,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.creme-de-fraise",
@@ -4893,7 +5141,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q83121681",
@@ -4909,7 +5158,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q83121681"
+    "external_ref": "Q83121681",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q26879673",
@@ -4925,7 +5175,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26879673"
+    "external_ref": "Q26879673",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.creme-de-myrtille",
@@ -4941,7 +5192,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q83133346",
@@ -4957,7 +5209,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q83133346"
+    "external_ref": "Q83133346",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.fruit-cup",
@@ -4973,7 +5226,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-canneberge",
@@ -4989,7 +5243,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.liqueur-de-grenade",
@@ -5005,7 +5260,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q3242284",
@@ -5021,7 +5277,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3242284"
+    "external_ref": "Q3242284",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-plaquebiere",
@@ -5037,7 +5294,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.liqueur-de-poire",
@@ -5053,7 +5311,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-prune",
@@ -5069,7 +5328,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.liqueur-de-prunelle",
@@ -5085,7 +5345,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.liqueur-de-rhubarbe",
@@ -5149,7 +5410,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.ratafia",
@@ -5162,7 +5424,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -5181,7 +5443,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.schnapps-a-la-pomme",
@@ -5197,7 +5460,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q1972926",
@@ -5213,7 +5477,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1972926"
+    "external_ref": "Q1972926",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.q1927744",
@@ -5229,7 +5494,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1927744"
+    "external_ref": "Q1927744",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q548940",
@@ -5245,7 +5511,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q548940"
+    "external_ref": "Q548940",
+    "flavor_tags": ["herbacé", "anisé"]
   },
   {
     "seed_key": "ing.aperitif-au-ginseng",
@@ -5261,7 +5528,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q742408",
@@ -5277,7 +5545,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q742408"
+    "external_ref": "Q742408",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q498750",
@@ -5293,7 +5562,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q498750"
+    "external_ref": "Q498750",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q69760443",
@@ -5309,7 +5579,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q69760443"
+    "external_ref": "Q69760443",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q779839",
@@ -5325,7 +5596,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q779839"
+    "external_ref": "Q779839",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q796515",
@@ -5341,7 +5613,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q796515"
+    "external_ref": "Q796515",
+    "flavor_tags": ["menthe"]
   },
   {
     "seed_key": "ing.q1331962",
@@ -5357,7 +5630,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1331962"
+    "external_ref": "Q1331962",
+    "flavor_tags": ["herbacé", "anisé"]
   },
   {
     "seed_key": "ing.genepi",
@@ -5373,7 +5647,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.izarra",
@@ -5389,7 +5664,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q661871",
@@ -5405,7 +5681,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q661871"
+    "external_ref": "Q661871",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q1142021",
@@ -5421,7 +5698,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1142021"
+    "external_ref": "Q1142021",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-damiana",
@@ -5437,7 +5715,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-mais",
@@ -5453,7 +5732,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-pin",
@@ -5469,7 +5749,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-pin-cembro",
@@ -5485,7 +5766,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q1883967",
@@ -5501,7 +5783,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1883967"
+    "external_ref": "Q1883967",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-reglisse",
@@ -5517,7 +5800,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "anisé"]
   },
   {
     "seed_key": "ing.liqueur-de-seve-de-bouleau",
@@ -5533,7 +5817,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-tabac",
@@ -5565,7 +5850,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-the-vert",
@@ -5581,7 +5867,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.liqueur-de-thym",
@@ -5597,7 +5884,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.mastiha",
@@ -5613,7 +5901,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sambuca",
@@ -5629,7 +5918,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "anisé"]
   },
   {
     "seed_key": "ing.schnapps-a-la-menthe-poivree",
@@ -5645,7 +5935,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["menthe"]
   },
   {
     "seed_key": "ing.schnapps-a-la-racinette",
@@ -5677,7 +5968,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q455045",
@@ -5690,10 +5982,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q455045"
+    "external_ref": "Q455045",
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.creme-de-chataigne",
@@ -5709,7 +6002,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.creme-de-noyau",
@@ -5722,10 +6016,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.frangelico",
@@ -5738,10 +6033,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.liqueur-de-noisette",
@@ -5754,10 +6050,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.liqueur-de-noix-de-macadamia",
@@ -5773,7 +6070,8 @@
     "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.liqueur-de-noix-de-pecan",
@@ -5786,10 +6084,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.liqueur-de-pistache",
@@ -5802,10 +6101,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.q290493",
@@ -5818,10 +6118,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q290493"
+    "external_ref": "Q290493",
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.cointreau",
@@ -5837,7 +6138,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.creme-de-pamplemousse",
@@ -5853,7 +6155,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.q10223",
@@ -5869,7 +6172,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q10223"
+    "external_ref": "Q10223",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.curacao-bleu",
@@ -5885,7 +6189,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.fatourada",
@@ -5901,7 +6206,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.grand-marnier",
@@ -5917,7 +6223,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.hesperidina",
@@ -5933,7 +6240,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q736208",
@@ -5949,7 +6257,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q736208"
+    "external_ref": "Q736208",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q68218896",
@@ -5965,7 +6274,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q68218896"
+    "external_ref": "Q68218896",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-bergamote",
@@ -5981,7 +6291,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-cedrat",
@@ -5997,7 +6308,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-chinotto",
@@ -6013,7 +6325,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-citron-vert",
@@ -6029,7 +6342,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-kumquat",
@@ -6045,7 +6359,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.liqueur-de-yuzu",
@@ -6061,7 +6376,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.mandarine-napoleon",
@@ -6077,7 +6393,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q3539556",
@@ -6093,7 +6410,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3539556"
+    "external_ref": "Q3539556",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.alkermes",
@@ -6125,7 +6443,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1146721"
+    "external_ref": "Q1146721",
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.falernum",
@@ -6138,10 +6457,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.glayva",
@@ -6157,7 +6477,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.licor-43",
@@ -6173,7 +6494,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.liqueur-de-camomille",
@@ -6189,7 +6511,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.liqueur-de-fleur-de-sureau",
@@ -6205,7 +6528,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.liqueur-de-fleur-de-vigne",
@@ -6221,7 +6545,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.liqueur-de-gingembre",
@@ -6237,7 +6562,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.liqueur-de-jasmin",
@@ -6253,7 +6579,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.liqueur-de-miel",
@@ -6269,7 +6596,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.liqueur-de-moutarde",
@@ -6282,7 +6610,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["mustard"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -6298,10 +6626,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.liqueur-de-piment",
@@ -6317,7 +6646,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.liqueur-de-piment-de-la-jamaique",
@@ -6333,7 +6663,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.liqueur-de-rose",
@@ -6349,7 +6680,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.liqueur-de-vanille",
@@ -6365,7 +6697,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.liqueur-de-whiskey-au-miel",
@@ -6381,7 +6714,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.punsch-suedois",
@@ -6413,7 +6747,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.southern-comfort",
@@ -6445,7 +6780,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.tuaca",
@@ -6461,7 +6797,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.q1162763",
@@ -6477,7 +6814,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1162763"
+    "external_ref": "Q1162763",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.ginger-beer",
@@ -6493,7 +6831,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.boisson-energisante",
@@ -6525,7 +6864,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q950733"
+    "external_ref": "Q950733",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q134041",
@@ -6541,7 +6881,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q134041"
+    "external_ref": "Q134041",
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q2304229",
@@ -6621,7 +6962,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q604712",
@@ -6637,7 +6979,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q604712"
+    "external_ref": "Q604712",
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.soda-a-la-fleur-de-sureau",
@@ -6653,7 +6996,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.soda-au-pamplemousse",
@@ -6669,7 +7013,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.soda-au-yuzu",
@@ -6685,7 +7030,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.soda-citron-citron-vert",
@@ -6701,7 +7047,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.soda-pissenlit-et-bardane",
@@ -6765,7 +7112,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q237315",
@@ -6781,7 +7129,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q237315"
+    "external_ref": "Q237315",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.eau-plate",
@@ -6810,7 +7159,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery", "fish", "gluten", "mustard"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -6826,7 +7175,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs", "sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -6845,7 +7194,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.cordial-de-noix-de-coco-grillee",
@@ -6861,7 +7211,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.cordial-de-sarrasin-torrefie",
@@ -6893,7 +7244,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "tropical"]
   },
   {
     "seed_key": "ing.oleo-saccharum-citron-vert",
@@ -6909,7 +7261,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.oleo-saccharum-orange",
@@ -6925,7 +7278,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.oleo-saccharum-pamplemousse",
@@ -6941,7 +7295,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.shrub-a-l-ananas",
@@ -6957,7 +7312,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.shrub-a-l-erable",
@@ -6973,7 +7329,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.shrub-a-la-fraise",
@@ -6989,7 +7346,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.shrub-a-la-pomme",
@@ -7005,7 +7363,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.shrub-aux-agrumes",
@@ -7021,7 +7380,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.soda-au-the-a-la-banane",
@@ -7037,7 +7397,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.solution-acide",
@@ -7085,7 +7446,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.sirop-d-ananas",
@@ -7101,7 +7463,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.sirop-d-anis-etoile",
@@ -7117,7 +7480,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.sirop-d-estragon",
@@ -7133,7 +7497,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-d-hibiscus",
@@ -7149,7 +7514,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-basilic",
@@ -7165,7 +7531,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-betterave",
@@ -7181,7 +7548,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-camomille",
@@ -7197,7 +7565,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-cardamome",
@@ -7213,7 +7582,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.sirop-de-celeri",
@@ -7226,10 +7596,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-citronnelle",
@@ -7245,7 +7616,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-coing",
@@ -7261,7 +7633,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-curcuma-et-miel",
@@ -7277,7 +7650,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.sirop-de-fenouil",
@@ -7293,7 +7667,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.sirop-de-figue",
@@ -7309,7 +7684,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-framboise-et-cardamome",
@@ -7325,7 +7701,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges", "épicé"]
   },
   {
     "seed_key": "ing.sirop-de-guimauve",
@@ -7338,7 +7715,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7354,7 +7731,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7373,7 +7750,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.sirop-de-pandan",
@@ -7405,7 +7783,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-piment",
@@ -7421,7 +7800,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.sirop-de-poivre",
@@ -7437,7 +7817,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.sirop-de-pomme",
@@ -7453,7 +7834,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-potiron-epice",
@@ -7469,7 +7851,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.sirop-de-prosecco",
@@ -7482,7 +7865,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7501,7 +7884,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-rhubarbe",
@@ -7533,7 +7917,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-safran",
@@ -7549,7 +7934,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.sirop-de-safran-et-miel",
@@ -7565,7 +7951,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé", "miel"]
   },
   {
     "seed_key": "ing.sirop-de-the-au-jasmin",
@@ -7581,7 +7968,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-the-earl-grey",
@@ -7613,7 +8001,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fumé"]
   },
   {
     "seed_key": "ing.sirop-de-the-noir",
@@ -7645,7 +8034,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.sirop-de-vin-blanc",
@@ -7658,7 +8048,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7674,7 +8064,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7706,10 +8096,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.beurre-de-cacahuete",
@@ -7722,10 +8113,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["peanuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.bouillon-de-boeuf",
@@ -7738,10 +8130,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery", "gluten"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.q2167413",
@@ -7757,7 +8150,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2167413"
+    "external_ref": "Q2167413",
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.gros-sel",
@@ -7773,7 +8167,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.huile-de-sesame",
@@ -7786,7 +8181,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sesame"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7802,7 +8197,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7821,7 +8216,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.moutarde-de-dijon",
@@ -7834,7 +8230,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["mustard", "sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7853,7 +8249,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.sauce-raifort",
@@ -7866,10 +8263,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs", "milk", "mustard", "sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.sauce-soja",
@@ -7882,10 +8280,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.sauce-worcestershire",
@@ -7898,10 +8297,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["fish", "gluten"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.q5057832",
@@ -7914,10 +8314,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["celery"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q5057832"
+    "external_ref": "Q5057832",
+    "flavor_tags": ["herbacé", "salé"]
   },
   {
     "seed_key": "ing.sel-fin",
@@ -7933,7 +8334,8 @@
     "allergens": [],
     "is_staple": true,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["salé"]
   },
   {
     "seed_key": "ing.vinaigre-balsamique",
@@ -7946,7 +8348,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7962,7 +8364,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7978,7 +8380,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -7994,7 +8396,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -8010,7 +8412,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -8026,10 +8428,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["mustard"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.antesite",
@@ -8045,7 +8448,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.charbon-vegetal-actif",
@@ -8109,7 +8513,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.eau-de-rose",
@@ -8125,7 +8530,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.essence-d-artichaut",
@@ -8154,10 +8560,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.extrait-de-vanille",
@@ -8173,7 +8580,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.q26686",
@@ -8189,7 +8597,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26686"
+    "external_ref": "Q26686",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.armoise-absinthe",
@@ -8205,7 +8614,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q38859",
@@ -8227,7 +8637,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q38859"
+    "external_ref": "Q38859",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q3073413",
@@ -8243,7 +8654,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3073413"
+    "external_ref": "Q3073413",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q14169150",
@@ -8259,7 +8671,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q14169150"
+    "external_ref": "Q14169150",
+    "flavor_tags": ["herbacé", "floral"]
   },
   {
     "seed_key": "ing.q21281535",
@@ -8275,7 +8688,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q21281535"
+    "external_ref": "Q21281535",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q61046162",
@@ -8291,7 +8705,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q61046162"
+    "external_ref": "Q61046162",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.citronnelle",
@@ -8307,7 +8722,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q65523167",
@@ -8329,7 +8745,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q65523167"
+    "external_ref": "Q65523167",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q155814",
@@ -8345,7 +8762,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q155814"
+    "external_ref": "Q155814",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.feuille-de-combava",
@@ -8361,7 +8779,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "herbacé"]
   },
   {
     "seed_key": "ing.feuille-de-curry",
@@ -8377,7 +8796,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.feuille-de-kawakawa",
@@ -8393,7 +8813,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.feuille-de-wasabi",
@@ -8406,10 +8827,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["mustard"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "piquant"]
   },
   {
     "seed_key": "ing.lavande",
@@ -8425,7 +8847,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "floral"]
   },
   {
     "seed_key": "ing.q148396",
@@ -8441,7 +8864,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q148396"
+    "external_ref": "Q148396",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q160114",
@@ -8466,7 +8890,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q160114"
+    "external_ref": "Q160114",
+    "flavor_tags": ["menthe"]
   },
   {
     "seed_key": "ing.origan",
@@ -8482,7 +8907,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q25284",
@@ -8506,7 +8932,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q25284"
+    "external_ref": "Q25284",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q68315046",
@@ -8522,7 +8949,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q68315046"
+    "external_ref": "Q68315046",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.roquette",
@@ -8538,7 +8966,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q19787919",
@@ -8554,7 +8983,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q19787919"
+    "external_ref": "Q19787919",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sauge",
@@ -8570,7 +9000,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.shiso",
@@ -8586,7 +9017,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q3215980",
@@ -8602,7 +9034,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3215980"
+    "external_ref": "Q3215980",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.thym-citron",
@@ -8618,7 +9051,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "herbacé"]
   },
   {
     "seed_key": "ing.q1760637",
@@ -8634,7 +9068,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1760637"
+    "external_ref": "Q1760637",
+    "flavor_tags": ["épicé", "anisé"]
   },
   {
     "seed_key": "ing.q33873455",
@@ -8650,7 +9085,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q33873455"
+    "external_ref": "Q33873455",
+    "flavor_tags": ["épicé", "anisé"]
   },
   {
     "seed_key": "ing.ase-fetide",
@@ -8666,7 +9102,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.cacao-en-poudre",
@@ -8682,7 +9119,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.q28165",
@@ -8698,7 +9136,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q28165"
+    "external_ref": "Q28165",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q14625808",
@@ -8714,7 +9153,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q14625808"
+    "external_ref": "Q14625808",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q15622897",
@@ -8730,7 +9170,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q15622897"
+    "external_ref": "Q15622897",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.cumin",
@@ -8746,7 +9187,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q20730193",
@@ -8762,7 +9204,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q20730193"
+    "external_ref": "Q20730193",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q2370943",
@@ -8778,7 +9221,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2370943"
+    "external_ref": "Q2370943",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q15046077",
@@ -8794,7 +9238,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q15046077"
+    "external_ref": "Q15046077",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q20856764",
@@ -8810,7 +9255,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q20856764"
+    "external_ref": "Q20856764",
+    "flavor_tags": ["herbacé", "épicé"]
   },
   {
     "seed_key": "ing.graine-de-fenouil",
@@ -8826,7 +9272,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé", "anisé"]
   },
   {
     "seed_key": "ing.melange-d-epices-a-la-citrouille",
@@ -8842,7 +9289,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.noix-de-muscade",
@@ -8858,7 +9306,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q3127593",
@@ -8874,7 +9323,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3127593"
+    "external_ref": "Q3127593",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q1538429",
@@ -8890,7 +9340,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1538429"
+    "external_ref": "Q1538429",
+    "flavor_tags": ["épicé", "piquant"]
   },
   {
     "seed_key": "ing.q6598",
@@ -8906,7 +9357,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q6598"
+    "external_ref": "Q6598",
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.q1963621",
@@ -8922,7 +9374,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1963621"
+    "external_ref": "Q1963621",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.piment-en-flocons",
@@ -8938,7 +9391,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.q764375",
@@ -8954,7 +9408,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q764375"
+    "external_ref": "Q764375",
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.q504133",
@@ -8970,7 +9425,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q504133"
+    "external_ref": "Q504133",
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.piment-rouge-frais",
@@ -8986,7 +9442,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["piquant"]
   },
   {
     "seed_key": "ing.q744814",
@@ -9002,7 +9459,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q744814"
+    "external_ref": "Q744814",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q756800",
@@ -9018,7 +9476,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q756800"
+    "external_ref": "Q756800",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q22915010",
@@ -9034,7 +9493,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q22915010"
+    "external_ref": "Q22915010",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q2497744",
@@ -9050,7 +9510,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2497744"
+    "external_ref": "Q2497744",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.poivre-timut",
@@ -9066,7 +9527,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q257106",
@@ -9082,7 +9544,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q257106"
+    "external_ref": "Q257106",
+    "flavor_tags": ["épicé", "anisé"]
   },
   {
     "seed_key": "ing.q25434",
@@ -9098,7 +9561,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q25434"
+    "external_ref": "Q25434",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q16131953",
@@ -9114,7 +9578,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q16131953"
+    "external_ref": "Q16131953",
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q13241",
@@ -9130,7 +9595,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q13241"
+    "external_ref": "Q13241",
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.q134862",
@@ -9143,7 +9609,7 @@
     "composition_source": "ciqual",
     "composition_confidence": "sourced",
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q134862"
@@ -9159,7 +9625,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q2948642"
@@ -9175,7 +9641,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q881685"
@@ -9191,7 +9657,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q1051699"
@@ -9207,7 +9673,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q2141085"
@@ -9223,7 +9689,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -9239,7 +9705,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q321263"
@@ -9258,7 +9724,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q170210"
+    "external_ref": "Q170210",
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.q337687",
@@ -9274,7 +9741,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q337687"
+    "external_ref": "Q337687",
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.q16976",
@@ -9290,7 +9758,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q16976"
+    "external_ref": "Q16976",
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.q503252",
@@ -9306,7 +9775,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q503252"
+    "external_ref": "Q503252",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q146470",
@@ -9322,7 +9792,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q146470"
+    "external_ref": "Q146470",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q2537880",
@@ -9338,7 +9809,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2537880"
+    "external_ref": "Q2537880",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q388502",
@@ -9402,7 +9874,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q3268",
@@ -9418,7 +9891,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3268"
+    "external_ref": "Q3268",
+    "flavor_tags": ["fruité", "boisé"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-pomme",
@@ -9434,7 +9908,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q284",
@@ -9450,7 +9925,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q284"
+    "external_ref": "Q284",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q429372",
@@ -9466,7 +9942,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q429372"
+    "external_ref": "Q429372",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-d-abricot",
@@ -9482,7 +9959,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-bouleau",
@@ -9498,7 +9976,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-framboise",
@@ -9514,7 +9993,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "fruits rouges"]
   },
   {
     "seed_key": "ing.q222216",
@@ -9530,7 +10010,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q222216"
+    "external_ref": "Q222216",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q22683954",
@@ -9546,7 +10027,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q22683954"
+    "external_ref": "Q22683954",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-peche",
@@ -9562,7 +10044,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-poire",
@@ -9578,7 +10061,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.eau-de-vie-de-sapin",
@@ -9594,7 +10078,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q693078",
@@ -9610,7 +10095,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q693078"
+    "external_ref": "Q693078",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q279034",
@@ -9626,7 +10112,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q279034"
+    "external_ref": "Q279034",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q782901",
@@ -9642,7 +10129,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q782901"
+    "external_ref": "Q782901",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q931946",
@@ -9658,7 +10146,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q931946"
+    "external_ref": "Q931946",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q368610",
@@ -9674,7 +10163,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q368610"
+    "external_ref": "Q368610",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.tsipouro",
@@ -9690,7 +10180,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q80680",
@@ -9738,7 +10229,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.gin-aromatise-a-la-cerise",
@@ -9754,7 +10246,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.gin-aromatise-a-la-fraise",
@@ -9770,7 +10263,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.gin-aromatise-au-cassis",
@@ -9786,7 +10280,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.gin-aromatise-au-concombre",
@@ -9802,7 +10297,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.gin-aromatise-au-pamplemousse",
@@ -9818,7 +10314,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.gin-london-dry",
@@ -9882,7 +10379,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q726413"
+    "external_ref": "Q726413",
+    "flavor_tags": ["fumé"]
   },
   {
     "seed_key": "ing.q3429796",
@@ -9962,7 +10460,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.rhum-aromatise-a-l-ananas",
@@ -9978,7 +10477,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.rhum-aromatise-au-citron",
@@ -9994,7 +10494,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q3942613",
@@ -10042,7 +10543,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26869771"
+    "external_ref": "Q26869771",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.rhum-de-la-jamaique",
@@ -10074,7 +10576,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.rhum-epice",
@@ -10090,7 +10593,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.rhum-vieux",
@@ -10106,7 +10610,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q122195",
@@ -10170,7 +10675,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-l-herbe-de-bison",
@@ -10202,7 +10708,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-canneberge",
@@ -10218,7 +10725,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-cerise",
@@ -10234,7 +10742,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-creme-fouettee",
@@ -10247,10 +10756,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-feijoa",
@@ -10266,7 +10776,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "tropical"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-fraise",
@@ -10282,7 +10793,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-framboise",
@@ -10298,7 +10810,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-pasteque",
@@ -10314,7 +10827,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-peche",
@@ -10330,7 +10844,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-poire",
@@ -10346,7 +10861,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-a-la-rhubarbe",
@@ -10378,7 +10894,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-caramel",
@@ -10410,7 +10927,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-chocolat",
@@ -10426,7 +10944,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-citron",
@@ -10442,7 +10961,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-citron-vert",
@@ -10458,7 +10978,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-concombre",
@@ -10474,7 +10995,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-fruit-de-la-passion",
@@ -10490,7 +11012,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-miel",
@@ -10506,7 +11029,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-pamplemousse",
@@ -10522,7 +11046,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume", "amer"]
   },
   {
     "seed_key": "ing.vodka-aromatisee-au-poivre",
@@ -10538,7 +11063,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q543127",
@@ -10554,7 +11080,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q543127"
+    "external_ref": "Q543127",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q2535077",
@@ -10570,7 +11097,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2535077"
+    "external_ref": "Q2535077",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q1088701",
@@ -10586,7 +11114,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1088701"
+    "external_ref": "Q1088701",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.whisky-blanc",
@@ -10618,7 +11147,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1350656"
+    "external_ref": "Q1350656",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q909747",
@@ -10634,7 +11164,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q909747"
+    "external_ref": "Q909747",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q902887",
@@ -10650,7 +11181,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q902887"
+    "external_ref": "Q902887",
+    "flavor_tags": ["fumé", "boisé"]
   },
   {
     "seed_key": "ing.q382947",
@@ -10666,7 +11198,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q382947"
+    "external_ref": "Q382947",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q281",
@@ -10682,7 +11215,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q281"
+    "external_ref": "Q281",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q536976",
@@ -10698,7 +11232,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q536976"
+    "external_ref": "Q536976",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q1007164",
@@ -10714,7 +11249,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1007164"
+    "external_ref": "Q1007164",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q6744642",
@@ -10730,7 +11266,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q6744642"
+    "external_ref": "Q6744642",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q901367",
@@ -10746,7 +11283,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q901367"
+    "external_ref": "Q901367",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q1940734",
@@ -10762,7 +11300,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1940734"
+    "external_ref": "Q1940734",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.alcool-neutre",
@@ -10906,7 +11445,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q10987"
+    "external_ref": "Q10987",
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.q10403913",
@@ -10922,7 +11462,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q10403913"
+    "external_ref": "Q10403913",
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.edulcorant",
@@ -10951,7 +11492,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q154389"
@@ -11050,7 +11591,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q3492989"
+    "external_ref": "Q3492989",
+    "flavor_tags": ["vanillé"]
   },
   {
     "seed_key": "ing.cordial-d-ortie",
@@ -11066,7 +11608,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.cordial-de-camomille",
@@ -11082,7 +11625,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.cordial-de-gingembre-et-citronnelle",
@@ -11098,7 +11642,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé", "épicé"]
   },
   {
     "seed_key": "ing.cordial-de-groseille-a-maquereau",
@@ -11114,7 +11659,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.cordial-de-pomme-et-prune",
@@ -11130,7 +11676,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.q2688129",
@@ -11194,7 +11741,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-d-anis",
@@ -11210,7 +11758,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["anisé"]
   },
   {
     "seed_key": "ing.q402563",
@@ -11226,7 +11775,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q402563"
+    "external_ref": "Q402563",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.sirop-d-orange",
@@ -11242,7 +11792,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.q1939771",
@@ -11255,10 +11806,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1939771"
+    "external_ref": "Q1939771",
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.sirop-de-banane",
@@ -11274,7 +11826,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.sirop-de-cafe",
@@ -11290,7 +11843,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.sirop-de-caramel",
@@ -11303,7 +11857,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -11338,7 +11892,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-cerise",
@@ -11354,7 +11909,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-cerises-au-marasquin",
@@ -11367,10 +11923,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-chocolat",
@@ -11383,10 +11940,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.sirop-de-citron",
@@ -11402,7 +11960,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.sirop-de-cola",
@@ -11418,7 +11977,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["café et cacao"]
   },
   {
     "seed_key": "ing.sirop-de-concombre",
@@ -11434,7 +11994,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.sirop-de-creme-brulee",
@@ -11447,10 +12008,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["eggs", "milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["lacté"]
   },
   {
     "seed_key": "ing.sirop-de-curacao-bleu",
@@ -11466,7 +12028,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.sirop-de-fleur-de-sureau",
@@ -11482,7 +12045,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.q26359769",
@@ -11498,7 +12062,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26359769"
+    "external_ref": "Q26359769",
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-framboise",
@@ -11514,7 +12079,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-fruit-de-la-passion",
@@ -11530,7 +12096,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q11296160",
@@ -11562,7 +12129,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q1136498",
@@ -11578,7 +12146,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1136498"
+    "external_ref": "Q1136498",
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-groseille",
@@ -11594,7 +12163,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-kiwi",
@@ -11610,7 +12180,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-lavande",
@@ -11626,7 +12197,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-litchi",
@@ -11642,7 +12214,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité", "tropical"]
   },
   {
     "seed_key": "ing.sirop-de-mais",
@@ -11674,7 +12247,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.q16676963",
@@ -11690,7 +12264,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q16676963"
+    "external_ref": "Q16676963",
+    "flavor_tags": ["menthe"]
   },
   {
     "seed_key": "ing.sirop-de-mimosa",
@@ -11722,7 +12297,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-myrtille",
@@ -11738,7 +12314,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruits rouges"]
   },
   {
     "seed_key": "ing.sirop-de-noisette",
@@ -11751,10 +12328,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.sirop-de-noix-de-coco",
@@ -11770,7 +12348,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.sirop-de-noix-de-macadamia",
@@ -11783,10 +12362,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.sirop-de-pain-d-epices",
@@ -11799,10 +12379,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.sirop-de-peche",
@@ -11818,7 +12399,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-pistache",
@@ -11831,10 +12413,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["nuts"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["noix"]
   },
   {
     "seed_key": "ing.sirop-de-pomme-verte",
@@ -11850,7 +12433,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-pruneau",
@@ -11866,7 +12450,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.sirop-de-rose",
@@ -11882,7 +12467,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-speculoos",
@@ -11895,10 +12481,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["gluten", "soy"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q1377087",
@@ -11946,7 +12533,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["floral"]
   },
   {
     "seed_key": "ing.sirop-de-yuzu",
@@ -11962,7 +12550,8 @@
     "allergens": [],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["agrume"]
   },
   {
     "seed_key": "ing.sirop-pina-colada",
@@ -11975,10 +12564,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["milk"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["tropical"]
   },
   {
     "seed_key": "ing.madere",
@@ -11991,10 +12581,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q842052",
@@ -12007,7 +12598,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q842052"
@@ -12023,7 +12614,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q191034"
@@ -12039,10 +12630,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q1644339"
+    "external_ref": "Q1644339",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.lillet-rose",
@@ -12055,10 +12647,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.lillet-rouge",
@@ -12071,10 +12664,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.q7272342",
@@ -12087,10 +12681,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q7272342"
+    "external_ref": "Q7272342",
+    "flavor_tags": ["amer"]
   },
   {
     "seed_key": "ing.amontillado",
@@ -12103,10 +12698,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q5450908",
@@ -12119,7 +12715,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q5450908"
@@ -12135,7 +12731,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12151,10 +12747,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2838270"
+    "external_ref": "Q2838270",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.q2048343",
@@ -12167,10 +12764,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q2048343"
+    "external_ref": "Q2048343",
+    "flavor_tags": ["boisé"]
   },
   {
     "seed_key": "ing.pedro-ximenez",
@@ -12183,7 +12781,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12199,7 +12797,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q16398"
@@ -12215,10 +12813,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["miel"]
   },
   {
     "seed_key": "ing.sauternes",
@@ -12231,7 +12830,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12247,7 +12846,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12263,7 +12862,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12279,7 +12878,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12295,7 +12894,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12311,7 +12910,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
     "external_ref": null
@@ -12327,10 +12926,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.pommeau",
@@ -12343,10 +12943,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["fruité"]
   },
   {
     "seed_key": "ing.vin-de-gingembre",
@@ -12359,10 +12960,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["épicé"]
   },
   {
     "seed_key": "ing.q11705125",
@@ -12375,7 +12977,7 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
     "external_ref": "Q11705125"
@@ -12391,10 +12993,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q231088"
+    "external_ref": "Q231088",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q26877311",
@@ -12407,10 +13010,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26877311"
+    "external_ref": "Q26877311",
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.vermouth-rose",
@@ -12423,10 +13027,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.vermouth-rouge",
@@ -12439,10 +13044,11 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "seed",
-    "external_ref": null
+    "external_ref": null,
+    "flavor_tags": ["herbacé"]
   },
   {
     "seed_key": "ing.q26877423",
@@ -12455,9 +13061,10 @@
     "composition_source": null,
     "composition_confidence": null,
     "density_g_per_ml": null,
-    "allergens": [],
+    "allergens": ["sulphites"],
     "is_staple": false,
     "source": "wikidata",
-    "external_ref": "Q26877423"
+    "external_ref": "Q26877423",
+    "flavor_tags": ["herbacé"]
   }
 ]

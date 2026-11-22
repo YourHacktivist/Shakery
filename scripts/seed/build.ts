@@ -6,6 +6,7 @@
  * - sugar and acid from review/ciqual-values.json (composition_source ciqual);
  * - water, sugars and honey from hand-compositions.json, with their density (D-031);
  * - reference degrees of abv.json, each with its source (D-039);
+ * - allergens of allergens.json and flavour profile of profiles.ts (D-040);
  * then data/seed/recipes.json: the classic preparations of preps.json, then the IBA cocktails
  * (review/iba-raw.json read through iba-map.json, French texts of iba-fr.json);
  * then resources/seed/recipes-24c.json, read by the application at start-up: the classics of 24cocktails.com (D-036, cached export read
@@ -27,6 +28,7 @@ import { familyOf, typicalSteps, type Classic } from './classics'
 import { build24c, EXPORT_CACHE, type Map24c, readExport, slugOf } from './cocktails24'
 import type { IbaCocktail } from './iba'
 import { CACHE_DIR, DATA_DIR, readJson, REVIEW_DIR, SEED_DIR, slugify, writeJson } from './lib'
+import { flavorTagsOf } from './profiles'
 import { buildRecipes, type IbaFrench, type IbaMap, type RecipeSeed, type SeedUnit } from './recipes'
 import type { Candidate } from './wikidata'
 
@@ -61,6 +63,9 @@ type AbvTable = {
   sources: Array<{ id: string; title: string; url: string; values: Record<string, number> }>
 }
 
+/** allergens.json: by category, then by name. */
+type AllergenTable = { categories: Record<string, string[]>; ingredients: Record<string, string[]> }
+
 export type IngredientSeed = {
   seed_key: string
   name: string
@@ -73,6 +78,7 @@ export type IngredientSeed = {
   composition_confidence: 'sourced' | 'estimated' | null
   density_g_per_ml: number | null
   allergens: string[]
+  flavor_tags?: string[]
   is_staple: boolean
   source: 'wikidata' | 'seed'
   external_ref: string | null
@@ -173,6 +179,12 @@ async function main(): Promise<void> {
   }
 
   addReferenceDegrees(out, await readJson<AbvTable>(path.join(SEED_DIR, 'abv.json')))
+
+  addAllergens(out, await readJson<AllergenTable>(path.join(SEED_DIR, 'allergens.json')))
+  for (const ingredient of out) {
+    const tags = flavorTagsOf(ingredient.name, ingredient.category)
+    if (tags.length > 0) ingredient.flavor_tags = tags
+  }
 
   // Checks of section 9: leaf categories, unique names per category, aliases that do not
   // collide with another ingredient's name, stable unique keys.
@@ -321,6 +333,27 @@ function addReferenceDegrees(ingredients: IngredientSeed[], table: AbvTable): vo
       if (target.default_abv !== null) throw new Error(`${source.id}: ${name} already has a degree`)
       target.default_abv = abv
     }
+  }
+}
+
+/** Union with what the hand-written lists already declare. */
+function addAllergens(ingredients: IngredientSeed[], table: AllergenTable): void {
+  for (const name of Object.keys(table.ingredients)) {
+    if (!ingredients.some((ingredient) => ingredient.name === name)) {
+      throw new Error(`allergens.json: unknown ingredient ${name}`)
+    }
+  }
+  for (const category of Object.keys(table.categories)) {
+    if (!ingredients.some((ingredient) => ingredient.category === category)) {
+      throw new Error(`allergens.json: unknown category ${category}`)
+    }
+  }
+  for (const ingredient of ingredients) {
+    const added = [
+      ...(table.categories[ingredient.category] ?? []),
+      ...(table.ingredients[ingredient.name] ?? []),
+    ]
+    if (added.length > 0) ingredient.allergens = [...new Set([...ingredient.allergens, ...added])].sort()
   }
 }
 

@@ -211,7 +211,10 @@ function IngredientForm({
           options={confidenceOptions}
         />
       </div>
-      <CommaListField control={control} name="aliases" label={tf.aliases} description={tf.aliasesHint} />
+      <div className="grid grid-cols-2 gap-4">
+        <CommaListField control={control} name="aliases" label={tf.aliases} description={tf.aliasesHint} />
+        <CommaListField control={control} name="flavorTags" label={tf.flavors} description={tf.flavorsHint} />
+      </div>
       <AllergenField control={control} name="allergens" label={tf.allergens} />
       <Checkbox {...register('isStaple')} label={tf.staple} />
       {failure ? (

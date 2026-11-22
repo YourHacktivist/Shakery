@@ -114,6 +114,7 @@ export function databaseResolver(db: Db): FactsResolver {
               topEstimateMl: l.topEstimateMl,
               isOptional: l.isOptional,
               isGarnish: l.isGarnish,
+              note: l.note,
             })),
           })
         }
@@ -146,6 +147,7 @@ type LineTuple = [
   topEstimateMl: number | null,
   isOptional: number,
   isGarnish: number,
+  note: string | null,
 ]
 
 /**
@@ -171,7 +173,7 @@ export function notebookFacts(db: Db): { resolver: FactsResolver; recipes: Map<s
   const tuples = db.$client
     .prepare(
       `SELECT id, recipe_id, ingredient_id, preferred_product_id, quantity, unit, top_estimate_ml,
-              is_optional, is_garnish
+              is_optional, is_garnish, note
          FROM recipe_lines WHERE deleted_at IS NULL`,
     )
     .raw()
@@ -188,6 +190,7 @@ export function notebookFacts(db: Db): { resolver: FactsResolver; recipes: Map<s
       topEstimateMl,
       isOptional: tuple[7] === 1,
       isGarnish: tuple[8] === 1,
+      note: tuple[9],
     }
     const lines = linesByRecipe.get(recipeId)
     if (lines) lines.push(line)

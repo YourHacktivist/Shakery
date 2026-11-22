@@ -103,6 +103,8 @@ export type LineInput = {
   readonly topEstimateMl: number | null
   readonly isOptional: boolean
   readonly isGarnish: boolean
+  /** Free text of the line; an allergen it names counts (D-040). */
+  readonly note?: string | null
   /** The lab can switch a line off without deleting it (section 8, « Atelier »). Default true. */
   readonly enabled?: boolean
 }
