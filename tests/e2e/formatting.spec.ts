@@ -29,7 +29,7 @@ test('bold, italic and lists are typed, undone and shown, never as HTML', async 
     await notes.press('Control+B')
     await expect(notes).toHaveValue('**Bien frais**')
     // Ctrl+B wrote, and left the sidebar open.
-    await expect(page.getByRole('button', { name: 'Replier la barre latérale' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Fermer la barre latérale' })).toBeVisible()
     await notes.press('Control+Z')
     await expect(notes).toHaveValue('Bien frais')
 

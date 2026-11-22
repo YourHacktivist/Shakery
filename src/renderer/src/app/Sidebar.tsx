@@ -3,9 +3,10 @@ import {
   ArrowRight,
   CircleHelp,
   Keyboard,
+  ChevronsLeft,
+  ChevronsRight,
   Milk,
   PanelLeftClose,
-  PanelLeftOpen,
   RotateCcw,
   Wine,
 } from 'lucide-react'
@@ -19,9 +20,20 @@ import { IconButton } from '@renderer/components/Button'
 import { ExpiryPill } from '@renderer/components/ExpiryPill'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
+import { ariaKeyShortcut } from '@renderer/lib/shortcuts'
 import { daysLeftFromNow } from '@renderer/lib/format'
 import { useTonight } from '@renderer/features/shared/tonight'
 import { usePreps, useSetting, useTastings } from '@renderer/lib/queries'
+
+/** The button that closes the sidebar takes the focus back when it opens again. */
+export const SIDEBAR_CLOSE_ID = 'sidebar-close'
+/** The button of the top bar that opens it. */
+export const SIDEBAR_OPEN_ID = 'sidebar-open'
+
+/** The button just pressed leaves the screen: the one that undoes it takes the focus. */
+export function focusNextFrame(id: string) {
+  requestAnimationFrame(() => document.getElementById(id)?.focus())
+}
 
 const SCROLLBAR = '[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]'
 
@@ -242,6 +254,24 @@ function TonightCard() {
   )
 }
 
+function CloseButton() {
+  const toggleClosed = useSidebarStore((state) => state.toggleClosed)
+  return (
+    <IconButton
+      id={SIDEBAR_CLOSE_ID}
+      variant="ghost"
+      size="sm"
+      label={fr.shell.sidebar.close}
+      aria-keyshortcuts={ariaKeyShortcut('sidebar')}
+      icon={<PanelLeftClose size={16} strokeWidth={1.75} aria-hidden="true" />}
+      onClick={() => {
+        toggleClosed()
+        focusNextFrame(SIDEBAR_OPEN_ID)
+      }}
+    />
+  )
+}
+
 function VersionCaption({ collapsed }: { collapsed: boolean }) {
   const version = useAppVersion()
   return (
@@ -263,12 +293,13 @@ function VersionCaption({ collapsed }: { collapsed: boolean }) {
 }
 
 /**
- * Foldable sidebar (section 10.1): brand, navigation, side blocks, version. Folded, it
- * keeps the icons only; the state is remembered on this computer and Ctrl+B switches it.
- * The width is the only animated layout property of the interface (D-032).
+ * Sidebar (section 10.1): brand, navigation, side blocks, version. Folded, it keeps the icons
+ * only; closed (D-047), nothing is left of it and the top bar offers to open it. Ctrl+B closes
+ * and opens it. The width is the only animated layout property of the interface (D-032).
  */
 export function Sidebar({ className }: { className?: string }) {
   const collapsed = useSidebarStore((state) => state.collapsed)
+  const closed = useSidebarStore((state) => state.closed)
   const toggle = useSidebarStore((state) => state.toggle)
   const openOverlay = useOverlayStore((state) => state.open)
   const { pathname } = useLocation()
@@ -280,9 +311,12 @@ export function Sidebar({ className }: { className?: string }) {
     <aside
       aria-label={t.sidebar.label}
       data-collapsed={collapsed ? 'true' : 'false'}
+      inert={closed}
       className={cn(
-        'flex h-full shrink-0 flex-col overflow-hidden border-r border-border bg-sidebar transition-[width] duration-250 ease-out-soft',
-        collapsed ? 'w-[56px]' : 'w-[220px]',
+        'flex h-full shrink-0 flex-col overflow-hidden bg-sidebar duration-250 ease-out-soft',
+        // Hidden once the width is down, but shown at once when it opens, so it can take the focus.
+        closed ? 'invisible w-0 transition-[width,visibility]' : 'border-r border-border transition-[width]',
+        !closed && (collapsed ? 'w-[56px]' : 'w-[220px]'),
         className,
       )}
     >
@@ -296,6 +330,11 @@ export function Sidebar({ className }: { className?: string }) {
           </span>
           <span className="text-caption text-fg-muted">{t.brand.tagline}</span>
         </span>
+        {collapsed ? null : (
+          <span className="ml-auto">
+            <CloseButton />
+          </span>
+        )}
       </div>
 
       <div
@@ -318,7 +357,7 @@ export function Sidebar({ className }: { className?: string }) {
         <div
           inert={collapsed}
           aria-hidden={collapsed || undefined}
-          className={cn('flex w-[184px] flex-col gap-4', FADE, collapsed && 'opacity-0')}
+          className={cn('flex w-[184px] flex-col gap-4', FADE, collapsed && 'h-0 overflow-hidden opacity-0')}
         >
           <div className="flex flex-col gap-3 px-1">
             <RetestBlock />
@@ -328,7 +367,17 @@ export function Sidebar({ className }: { className?: string }) {
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-1 border-t border-border px-3.5 py-2">
+      {collapsed ? (
+        <div className="flex justify-end border-t border-border px-3.5 pt-2">
+          <CloseButton />
+        </div>
+      ) : null}
+      <div
+        className={cn(
+          'flex items-center justify-end gap-1 px-3.5 py-2',
+          !collapsed && 'border-t border-border',
+        )}
+      >
         <VersionCaption collapsed={collapsed} />
         <span inert={collapsed} className={cn('flex shrink-0', FADE, collapsed && 'opacity-0')}>
           <IconButton
@@ -354,12 +403,11 @@ export function Sidebar({ className }: { className?: string }) {
           variant="ghost"
           size="sm"
           label={toggleLabel}
-          aria-keyshortcuts="Control+B"
           icon={
             collapsed ? (
-              <PanelLeftOpen size={16} strokeWidth={1.75} aria-hidden="true" />
+              <ChevronsRight size={16} strokeWidth={1.75} aria-hidden="true" />
             ) : (
-              <PanelLeftClose size={16} strokeWidth={1.75} aria-hidden="true" />
+              <ChevronsLeft size={16} strokeWidth={1.75} aria-hidden="true" />
             )
           }
           onClick={toggle}

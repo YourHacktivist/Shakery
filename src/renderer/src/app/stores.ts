@@ -3,17 +3,26 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 type SidebarState = {
   collapsed: boolean
+  closed: boolean
   toggle: () => void
+  toggleClosed: () => void
   setCollapsed: (collapsed: boolean) => void
 }
 
 export const SIDEBAR_STORAGE_KEY = 'shakery.sidebar'
 
-/** Sidebar folded to icons or not, remembered on this computer (localStorage). */
+/**
+ * Sidebar folded to icons, or closed altogether (D-047), remembered on this computer
+ * (localStorage). Opened again, it is as it was before closing.
+ */
 export const useSidebarStore = create<SidebarState>()(
   persist(
     (set) => ({
       collapsed: false,
+      closed: false,
+      toggleClosed: () => {
+        set((state) => ({ closed: !state.closed }))
+      },
       toggle: () => {
         set((state) => ({ collapsed: !state.collapsed }))
       },
@@ -24,7 +33,7 @@ export const useSidebarStore = create<SidebarState>()(
     {
       name: SIDEBAR_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ collapsed: state.collapsed }),
+      partialize: (state) => ({ collapsed: state.collapsed, closed: state.closed }),
     },
   ),
 )

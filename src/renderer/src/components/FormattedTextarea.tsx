@@ -54,7 +54,7 @@ export function FormattedTextarea({ lists = true, value, className, onKeyDown, .
     if (event.defaultPrevented || event.altKey || event.shiftKey || !(event.ctrlKey || event.metaKey)) return
     const key = event.key.toLowerCase()
     if (key !== 'b' && key !== 'i') return
-    // Prevented here, Ctrl+B does not fold the sidebar while writing.
+    // Prevented here, Ctrl+B does not close the sidebar while writing.
     event.preventDefault()
     run(key === 'b' ? 'bold' : 'italic', event.currentTarget)
   }

@@ -421,7 +421,7 @@ L'atelier, le journal et les fiches forment le cœur de Shakery. Le reste les se
 
 ### 10.1 Coquille de l'application
 
-- Barre latérale repliable : Accueil, Fiches, Atelier, Journal, Carnet, Mon bar, Préparations, Collections, Révision, Calculateurs, Paramètres.
+- Barre latérale repliable en icônes, ou fermable complètement (D-047) : Accueil, Fiches, Atelier, Journal, Carnet, Mon bar, Préparations, Collections, Révision, Calculateurs, Paramètres.
 - Palette Ctrl+K accessible partout. Elle cherche dans les fiches, ingrédients, bouteilles, notes du carnet et commentaires du journal, et propose des actions (« Ouvrir le Negroni dans l'atelier », « Noter une dégustation », « Comparer avec… »). Taper des lettres hors d'un champ ouvre directement la palette.
 - Raccourcis : Ctrl+N idée rapide, Ctrl+Maj+N fiche complète, Ctrl+J note de dégustation, Ctrl+E ouvrir la fiche affichée dans l'atelier, Ctrl+P imprimer, F11 mode préparation, Échap retour. Un panneau « ? » liste tous les raccourcis.
 - Chaque suppression propose « Annuler » pendant 8 secondes. Toute saisie non enregistrée est signalée avant de quitter.

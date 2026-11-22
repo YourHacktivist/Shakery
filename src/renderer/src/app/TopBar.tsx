@@ -1,12 +1,36 @@
-import { Plus, Search, Settings } from 'lucide-react'
+import { PanelLeftOpen, Plus, Search, Settings } from 'lucide-react'
 import { Link } from 'react-router'
-import { useOverlayStore } from '@renderer/app/stores'
+import { focusNextFrame, SIDEBAR_CLOSE_ID, SIDEBAR_OPEN_ID } from '@renderer/app/Sidebar'
+import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { ThemeToggle } from '@renderer/app/ThemeToggle'
+import logoUrl from '@renderer/assets/logo-160.png'
 import { Button } from '@renderer/components/Button'
 import { Kbd } from '@renderer/components/Kbd'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { ariaKeyShortcut, shortcutText } from '@renderer/lib/shortcuts'
+
+/** The only way back by mouse once the sidebar is closed (D-047): the logo, and what it does. */
+function OpenSidebarButton() {
+  const toggleClosed = useSidebarStore((state) => state.toggleClosed)
+  const t = fr.shell.sidebar
+  return (
+    <Button
+      id={SIDEBAR_OPEN_ID}
+      variant="outline"
+      title={t.open}
+      aria-keyshortcuts={ariaKeyShortcut('sidebar')}
+      icon={<img src={logoUrl} alt="" width={20} height={20} className="size-5" />}
+      onClick={() => {
+        toggleClosed()
+        focusNextFrame(SIDEBAR_CLOSE_ID)
+      }}
+    >
+      {t.menu}
+      <PanelLeftOpen size={14} strokeWidth={1.75} aria-hidden="true" className="text-fg-secondary" />
+    </Button>
+  )
+}
 
 /**
  * Top bar of every screen: search (opens the palette), quick idea, theme, settings. It is
@@ -14,10 +38,12 @@ import { ariaKeyShortcut, shortcutText } from '@renderer/lib/shortcuts'
  */
 export function TopBar({ className }: { className?: string }) {
   const openOverlay = useOverlayStore((state) => state.open)
+  const sidebarClosed = useSidebarStore((state) => state.closed)
   const t = fr.shell.topbar
 
   return (
     <header aria-label={t.label} className={cn('window-drag flex items-center gap-2', className)}>
+      {sidebarClosed ? <OpenSidebarButton /> : null}
       <button
         type="button"
         aria-haspopup="dialog"

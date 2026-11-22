@@ -416,6 +416,17 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Le shaker du logo n'y figure jamais : le logo reste le seul à le montrer (D-025).
 - **Validation** : demande de l'utilisateur du 22 novembre 2026.
 
+### D-047 Barre latérale qui se ferme
+
+- **Date** : 2026-11-22
+- **Contexte** : demande de l'utilisateur, « la sidebar doit pouvoir se fermer ». Repliée en icônes (D-032), elle restait à l'écran.
+- **Choix** :
+  - Trois états : ouverte, réduite aux icônes, fermée. Fermée, elle n'occupe plus aucune place et sort du parcours clavier.
+  - Bouton « Fermer la barre latérale » dans la barre elle-même, bouton « Menu » avec le logo dans la barre du haut pour la rouvrir telle qu'elle était.
+  - Ctrl+B ferme et rouvre, au lieu de réduire aux icônes. Dans un champ de mise en forme, il reste le gras (D-044).
+  - L'état est gardé sur l'ordinateur, ouverte par défaut.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

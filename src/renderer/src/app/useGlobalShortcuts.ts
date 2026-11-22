@@ -93,7 +93,7 @@ export function useGlobalShortcuts(): void {
         }
         case 'sidebar':
           event.preventDefault()
-          useSidebarStore.getState().toggle()
+          useSidebarStore.getState().toggleClosed()
           return
         case 'typeToSearch':
           if (editable || isModalOpen() || isTypeaheadTarget(event.target)) return
