@@ -30,7 +30,6 @@ import { Input } from '@renderer/components/Input'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Select, type SelectGroup, type SelectOption } from '@renderer/components/Select'
-import { Textarea } from '@renderer/components/Textarea'
 import { toast } from '@renderer/components/Toast'
 import { ComputedPanel } from '@renderer/features/recipes/ComputedPanel'
 import { CreateIngredientDialog } from '@renderer/features/recipes/CreateIngredientDialog'
@@ -67,6 +66,7 @@ import {
   type RecipeInput,
   type RecipeInputParsed,
 } from '@shared/domain/catalog'
+import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
 
 const t = fr.recipes
 const te = t.editor
@@ -586,7 +586,7 @@ function NullableText({
           error: fieldErrorMessage(fieldState.error),
         }
         return multiline ? (
-          <Textarea
+          <FormattedTextarea
             {...common}
             ref={field.ref}
             rows={4}
@@ -746,7 +746,8 @@ function ListTextInput({
 }) {
   const [text, setText] = useState(() => value.join(multiline ? '\n' : ', '))
   return multiline ? (
-    <Textarea
+    <FormattedTextarea
+      lists={false}
       label={label}
       description={description}
       rows={5}

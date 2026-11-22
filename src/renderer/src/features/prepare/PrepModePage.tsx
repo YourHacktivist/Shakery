@@ -5,6 +5,7 @@ import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { useDisplayUnit, useGlasses, useIceTypes, useIngredients, useRecipe } from '@renderer/lib/queries'
 import { formatDose } from '@renderer/features/recipes/model'
+import { InlineText } from '@renderer/components/RichText'
 
 const t = fr.recipes.prepare
 
@@ -155,7 +156,9 @@ export function PrepModePage() {
                   >
                     {checked ? <Check size={24} /> : <span className="nums text-[20px]">{index + 1}</span>}
                   </span>
-                  {step}
+                  <span>
+                    <InlineText text={step} />
+                  </span>
                 </button>
               )
             })}

@@ -24,6 +24,14 @@ export const componentsForms = {
     more: (first: string, others: number) => `${first} +${others}`,
     all: 'Tout',
   },
+  formatting: {
+    group: (field: string) => `Mise en forme${NBSP}: ${field}`,
+    bold: 'Gras (Ctrl+B)',
+    italic: 'Italique (Ctrl+I)',
+    bullets: 'Liste à puces',
+    numbers: 'Liste numérotée',
+    preview: 'Aperçu',
+  },
   combobox: {
     create: (label: string) => `Créer «${NBSP}${label}${NBSP}»`,
     empty: 'Aucun résultat.',

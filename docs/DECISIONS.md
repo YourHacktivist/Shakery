@@ -383,6 +383,16 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Défauts corrigés** : « Dossier par défaut » des sauvegardes échouait (valeur nulle refusée par la colonne) ; les notes et dégustations importées n'entraient pas dans la recherche, et une fiche supprimée par import y restait.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-044 Mise en forme des textes libres
+
+- **Date** : 2026-11-22
+- **Contexte** : section 6, au plus gras, italique et listes, sans jamais de HTML brut.
+- **Choix** :
+  - Texte enregistré tel que tapé (`**gras**`, `*italique*`, lignes `- ` ou `1. `), sans changement de modèle. Un signe sans paire, un calcul « 2 * 3 » ou un renvoi « TAV* » restent du texte.
+  - Champs concernés : notes et conservation d'une fiche, étapes (gras et italique seulement), carnet, commentaire de dégustation, description de collection. Boutons, Ctrl+B, Ctrl+I et aperçu sous le champ. Dans ces champs, Ctrl+B ne replie plus la barre latérale.
+  - Rendu à l'écran, en mode préparation, à l'impression et dans l'export Markdown ; texte nu dans les aperçus et l'image partagée.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

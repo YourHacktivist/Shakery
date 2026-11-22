@@ -21,7 +21,6 @@ import { Input } from '@renderer/components/Input'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
 import { Select } from '@renderer/components/Select'
 import { StatusBadge } from '@renderer/components/StatusBadge'
-import { Textarea } from '@renderer/components/Textarea'
 import { toast } from '@renderer/components/Toast'
 import { ShareCollectionDialog } from '@renderer/features/collections/ShareCollectionDialog'
 import { errorMessage, notifyError } from '@renderer/features/shared/notify'
@@ -47,6 +46,8 @@ import {
   type CollectionItem,
   type CollectionSummary,
 } from '@shared/domain/workshop'
+import { RichText } from '@renderer/components/RichText'
+import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
 
 const t = fr.workshop.collections
 
@@ -235,7 +236,7 @@ function CollectionPanel({
               {collection.name}
             </h2>
             {collection.description ? (
-              <p className="m-0 text-body whitespace-pre-line text-fg-secondary">{collection.description}</p>
+              <RichText text={collection.description} className="text-body text-fg-secondary" />
             ) : null}
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
@@ -563,7 +564,7 @@ function CollectionForm({
           }}
         />
       </div>
-      <Textarea
+      <FormattedTextarea
         label={t.form.description}
         rows={3}
         maxLength={2000}

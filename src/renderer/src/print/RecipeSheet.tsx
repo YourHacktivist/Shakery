@@ -7,6 +7,7 @@ import { fitSheet } from '@renderer/print/fitSheet'
 import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import type { RecipeComputation, RecipeDetail } from '@shared/domain/catalog'
 import type { RecipePaper } from '@shared/print'
+import { InlineText, RichText } from '@renderer/components/RichText'
 import './recipe-sheet.css'
 
 const t = fr.recipes
@@ -146,7 +147,9 @@ export function RecipeSheet({
             <ol className="sheet-steps">
               {recipe.steps.map((step, index) => (
                 <li key={index}>
-                  <span>{step}</span>
+                  <span>
+                    <InlineText text={step} />
+                  </span>
                 </li>
               ))}
             </ol>
@@ -183,7 +186,7 @@ export function RecipeSheet({
 
       <section className="sheet-writing">
         <h2 className="sheet-heading">{ts.notes}</h2>
-        {recipe.notes ? <p className="sheet-text">{recipe.notes}</p> : null}
+        {recipe.notes ? <RichText text={recipe.notes} className="sheet-text" /> : null}
         {dense ? null : (
           <div aria-hidden="true" className="sheet-rules">
             <div className="sheet-rules-list">

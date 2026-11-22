@@ -17,6 +17,7 @@ import { cn } from '@renderer/lib/cn'
 import { formatDelta, formatRelative } from '@renderer/lib/format'
 import { useCreateTasting, useDeleteTasting, useSetNextStepDone, useTastings } from '@renderer/lib/queries'
 import { TASTING_CRITERIA, type TastingNote } from '@shared/domain/journal'
+import { RichText } from '@renderer/components/RichText'
 
 const t = fr.journal
 
@@ -262,15 +263,15 @@ export function TastingCard({
       ) : null}
 
       {note.comment ? (
-        <p className="m-0 flex gap-2 text-body leading-relaxed text-fg-secondary">
+        <div className="m-0 flex gap-2 text-body leading-relaxed text-fg-secondary">
           <MessageSquareQuote
             size={14}
             strokeWidth={1.75}
             aria-hidden="true"
             className="mt-0.5 shrink-0 text-fg-muted"
           />
-          <span className="whitespace-pre-line">{note.comment}</span>
-        </p>
+          <RichText text={note.comment} />
+        </div>
       ) : null}
 
       {note.nextStep ? (

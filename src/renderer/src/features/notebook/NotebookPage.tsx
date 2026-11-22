@@ -18,7 +18,6 @@ import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { EmptyState } from '@renderer/components/EmptyState'
 import { Input } from '@renderer/components/Input'
-import { Textarea } from '@renderer/components/Textarea'
 import { toast } from '@renderer/components/Toast'
 import { emptyRecipe } from '@renderer/features/recipes/model'
 import { notifyError } from '@renderer/features/shared/notify'
@@ -34,6 +33,8 @@ import {
   useUpdateEntry,
 } from '@renderer/lib/queries'
 import type { NotebookEntry, NotebookInput } from '@shared/domain/journal'
+import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
+import { plainText } from '@core/rich-text'
 
 const t = fr.journal.notebook
 
@@ -186,7 +187,7 @@ export function NotebookPage() {
                     </span>
                     {entry.body.trim() === '' ? null : (
                       <span className="line-clamp-2 text-small leading-snug text-fg-secondary">
-                        {entry.body}
+                        {plainText(entry.body)}
                       </span>
                     )}
                     <span className="flex items-center gap-1.5 text-caption text-fg-muted">
@@ -442,7 +443,7 @@ function Editor({
       />
 
       <div className="relative">
-        <Textarea
+        <FormattedTextarea
           ref={bodyRef}
           label={t.body}
           description={t.bodyHint}

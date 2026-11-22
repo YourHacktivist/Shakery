@@ -323,7 +323,18 @@
 .sheet .sheet-text {
   margin-top: 0.6em;
   color: var(--ink-soft);
-  white-space: pre-line;
+  gap: 0.5em;
+}
+
+/* The sheet takes the markers off its own lists; those of a free text keep theirs. */
+.sheet .sheet-text ul,
+.sheet .sheet-text ol {
+  padding-left: 1.5em;
+  list-style: disc;
+}
+
+.sheet .sheet-text ol {
+  list-style: decimal;
 }
 
 .sheet-writing {

@@ -6,12 +6,12 @@ import { Input } from '@renderer/components/Input'
 import { RatingScale, type RatingValue } from '@renderer/components/RatingScale'
 import { Select } from '@renderer/components/Select'
 import { StarRating } from '@renderer/components/StarRating'
-import { Textarea } from '@renderer/components/Textarea'
 import { toast } from '@renderer/components/Toast'
 import { errorMessage } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { useCreateTasting, useRecipe, useRecipes } from '@renderer/lib/queries'
 import { TASTING_CRITERIA, type TastingCriterion } from '@shared/domain/journal'
+import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
 
 const t = fr.journal
 const td = t.dialog
@@ -169,7 +169,7 @@ function TastingForm({
         </div>
       </fieldset>
 
-      <Textarea
+      <FormattedTextarea
         label={td.comment}
         rows={3}
         maxLength={4000}

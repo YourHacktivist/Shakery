@@ -53,6 +53,7 @@ import {
 import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import { STATUS_VALUES, type RecipeDetail } from '@shared/domain/catalog'
 import type { TastingNote } from '@shared/domain/journal'
+import { InlineText, RichText } from '@renderer/components/RichText'
 
 const t = fr.recipes
 const td = t.detail
@@ -311,7 +312,9 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
                     <span className="nums flex size-6 shrink-0 items-center justify-center rounded-full border border-border-strong text-caption text-fg-secondary">
                       {index + 1}
                     </span>
-                    <span className="min-w-0 pt-px whitespace-pre-wrap">{step}</span>
+                    <span className="min-w-0 pt-px whitespace-pre-wrap">
+                      <InlineText text={step} />
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -384,7 +387,10 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
                   label={td.fields.category}
                   value={recipe.prepCategoryId ? categoryPath(categories.data, recipe.prepCategoryId) : null}
                 />
-                <Fact label={td.fields.storage} value={recipe.storageNotes} />
+                <Fact
+                  label={td.fields.storage}
+                  value={recipe.storageNotes ? <RichText text={recipe.storageNotes} /> : null}
+                />
               </dl>
             </Card>
           ) : null}
@@ -524,12 +530,12 @@ function TextCard({ title, text, className }: { title: string; text: string; cla
   return (
     <Card aria-label={title} className={className}>
       <h2 className="m-0 text-body font-semibold text-fg">{title}</h2>
-      <p className="m-0 text-body leading-relaxed whitespace-pre-wrap text-fg-secondary">{text}</p>
+      <RichText text={text} className="text-body leading-relaxed text-fg-secondary" />
     </Card>
   )
 }
 
-function Fact({ label, value }: { label: string; value: string | null | undefined }) {
+function Fact({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex min-w-0 flex-col gap-1">
       <dt className="text-caption font-medium text-fg-muted">{label}</dt>

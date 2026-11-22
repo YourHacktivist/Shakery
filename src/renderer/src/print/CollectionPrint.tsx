@@ -14,6 +14,7 @@ import {
   useSettings,
 } from '@renderer/lib/queries'
 import { PRINT_READY_TITLE } from '@shared/print'
+import { InlineText, RichText } from '@renderer/components/RichText'
 
 const t = fr.workshop
 
@@ -71,7 +72,7 @@ export function CollectionPrint() {
           {`${t.collections.kinds[collection.data.kind]} · ${t.print.collection(collection.data.items.length)} · ${formatDate(printedAt)}`}
         </p>
         {collection.data.description ? (
-          <p className="mt-2 mb-0 whitespace-pre-line">{collection.data.description}</p>
+          <RichText text={collection.data.description} className="mt-2" />
         ) : null}
       </header>
       <ol className="m-0 flex list-none flex-col gap-5 p-0">
@@ -109,7 +110,9 @@ export function CollectionPrint() {
                   {recipe.steps.length > 0 ? (
                     <ol className="mt-1.5 mb-0 pl-5 text-[9.5pt]">
                       {recipe.steps.map((step, stepIndex) => (
-                        <li key={stepIndex}>{step}</li>
+                        <li key={stepIndex}>
+                          <InlineText text={step} />
+                        </li>
                       ))}
                     </ol>
                   ) : null}

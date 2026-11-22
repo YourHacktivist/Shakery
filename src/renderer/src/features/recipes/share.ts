@@ -7,6 +7,7 @@ import logoUrl from '@renderer/assets/logo-160.png'
 import { fr } from '@renderer/i18n/fr'
 import type { RecipeDetail } from '@shared/domain/catalog'
 import { type Display, formatDose } from './model'
+import { inlineText, parseInline, parseRichText, type Inline } from '@core/rich-text'
 
 const t = fr.recipes
 
@@ -48,6 +49,31 @@ function md(text: string): string {
   return text.replace(/([\\`*_[\]<>|#])/g, '\\$1')
 }
 
+/** The formatting of Shakery written in Markdown; everything else as text. */
+function mdInline(nodes: readonly Inline[]): string {
+  return nodes
+    .map((node) => {
+      if (node.kind === 'text') return md(node.text)
+      const mark = node.kind === 'bold' ? '**' : '*'
+      return `${mark}${mdInline(node.children)}${mark}`
+    })
+    .join('')
+}
+
+function mdBlocks(text: string): string {
+  return parseRichText(text)
+    .map((block) => {
+      if (block.kind === 'paragraph') return mdInline(block.content)
+      return block.items
+        .map((item, index) => {
+          const sign = block.kind === 'numbers' ? `${String(block.start + index)}.` : '-'
+          return `${sign} ${mdInline(item)}`
+        })
+        .join('\n')
+    })
+    .join('\n\n')
+}
+
 export function recipeMarkdown(recipe: RecipeDetail, context: ShareContext): string {
   const out: string[] = [`# ${md(recipe.name)}`, '']
   const meta = metaParts(recipe, context)
@@ -60,9 +86,9 @@ export function recipeMarkdown(recipe: RecipeDetail, context: ShareContext): str
   if (recipe.garnish) out.push('', t.share.garnish(md(recipe.garnish)))
   if (recipe.steps.length > 0) {
     out.push('', `## ${t.detail.sections.steps}`, '')
-    recipe.steps.forEach((step, index) => out.push(`${String(index + 1)}. ${md(step)}`))
+    recipe.steps.forEach((step, index) => out.push(`${String(index + 1)}. ${mdInline(parseInline(step))}`))
   }
-  if (recipe.notes) out.push('', md(recipe.notes))
+  if (recipe.notes) out.push('', mdBlocks(recipe.notes))
   out.push('', `_${t.share.footer}_`)
   return `${out.join('\n')}\n`
 }
@@ -185,7 +211,9 @@ export async function recipeImage(recipe: RecipeDetail, context: ShareContext): 
   }
   if (recipe.steps.length > 0) {
     const font = `400 26px ${FONT}`
-    const steps = recipe.steps.flatMap((step, index) => measure(font, `${String(index + 1)}. ${step}`))
+    const steps = recipe.steps.flatMap((step, index) =>
+      measure(font, `${String(index + 1)}. ${inlineText(parseInline(step))}`),
+    )
     tail.push({ font, color: COLORS.secondary, lines: steps, lineHeight: 36, gapBefore: 24 })
   }
   const blockHeight = (block: Block) => block.gapBefore + block.lines.length * block.lineHeight
