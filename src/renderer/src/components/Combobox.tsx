@@ -32,6 +32,9 @@ export type ComboboxOption = {
   keywords?: readonly string[]
 }
 
+/** More rows than this are found by typing: the recipes count some 7 000. */
+const MAX_SHOWN = 100
+
 /** Value of the « create » item in the list; option ids are UUIDs and cannot collide with it. */
 const CREATE_VALUE = 'combobox:create'
 
@@ -161,6 +164,10 @@ export function Combobox({
   }
 
   const { matches, creatable } = resultsFor(query)
+  const listed = matches.slice(0, MAX_SHOWN)
+  const current = matches.find((option) => option.id === value)
+  if (current && !listed.includes(current)) listed.unshift(current)
+  const hidden = matches.length - listed.length
 
   /** First item to highlight: the selected option when it is listed, otherwise the best match. */
   function firstValue(text: string | null) {
@@ -288,7 +295,7 @@ export function Combobox({
                 label={t.listLabel}
                 className="max-h-[min(18rem,var(--radix-popover-content-available-height))] overflow-y-auto"
               >
-                {matches.map((option) => (
+                {listed.map((option) => (
                   <Command.Item
                     key={option.id}
                     value={option.id}
@@ -315,6 +322,9 @@ export function Combobox({
                   </Command.Item>
                 )}
                 <Command.Empty className="px-3 py-2 text-small text-fg-muted">{emptyText}</Command.Empty>
+                {hidden > 0 ? (
+                  <p className="m-0 px-3 py-2 text-caption text-fg-muted">{t.more(hidden)}</p>
+                ) : null}
               </Command.List>
             </Popover.Content>
           </Popover.Portal>

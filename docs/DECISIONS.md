@@ -349,6 +349,17 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Canal `recipes.facets` séparé de `recipes.list`, qui reste léger pour les autres écrans.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-041 Palette : notes, actions, comparaison entre fiches
+
+- **Date** : 2026-11-22
+- **Contexte** : sections 10.1, 10.5 et 12.1. La palette ne cherchait ni dans le carnet ni dans le journal, et l'atelier ne comparait que les versions d'une même fiche.
+- **Choix** :
+  - Canal `search.notes` à part de `search.query` : les commentaires du journal n'entrent pas dans le classement des fiches.
+  - Actions sur la première fiche trouvée et sur la fiche affichée (atelier, préparation, dégustation, comparaison, impression), puis actions générales. La palette se ferme avant d'exécuter l'action, qui peut ouvrir sa propre fenêtre.
+  - Comparaison : jusqu'à trois colonnes, versions ou autres fiches. Le lien `?compare` y mène directement.
+  - Listes déroulantes : 100 lignes affichées au plus, le reste se trouve en tapant (7 000 fiches).
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

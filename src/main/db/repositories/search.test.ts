@@ -8,6 +8,7 @@ import { openDatabase } from '../connection'
 import { runMigrations } from '../migrate'
 import { categories } from '../schema'
 import { IngredientRepository } from './ingredients'
+import { JournalRepository } from './journal'
 import { ProductRepository } from './products'
 import { RecipeRepository } from './recipes'
 import { SearchRepository, toMatchQuery, toPhraseQuery } from './search'
@@ -134,5 +135,41 @@ describe('SearchRepository', () => {
     const bottle = products.create({ ingredientId: made['gin'] ?? '', name: 'Gin de la maison' })
     products.setOwned(bottle.id, true)
     expect(negroni()?.missingIngredientIds).toEqual([])
+  })
+})
+
+describe('searchNotes (D-041)', () => {
+  it('finds a note and a tasting by their text, shows the line, forgets a deleted one', () => {
+    const journal = new JournalRepository(db, ids)
+    const recipe = recipesRepo.create({ name: 'Essai saline' })
+    const entry = journal.createEntry({
+      title: 'Accords',
+      body: 'Première ligne.\nCardamome verte avec le pamplemousse.',
+    })
+    const tasting = journal.createTasting({
+      recipeId: recipe.id,
+      recipeVersion: 1,
+      tastedAt: 5,
+      comment: 'Trop de cardamome en fin de bouche',
+    })
+    const hits = repo.searchNotes('cardamome')
+    expect(hits).toHaveLength(2)
+    expect(hits).toContainEqual({
+      entityType: 'notebook_entry',
+      id: entry.id,
+      title: 'Accords',
+      excerpt: 'Cardamome verte avec le pamplemousse.',
+    })
+    expect(hits).toContainEqual({
+      entityType: 'tasting_note',
+      id: tasting.id,
+      title: 'Essai saline',
+      excerpt: 'Trop de cardamome en fin de bouche',
+    })
+    expect(repo.search('cardamome').map((hit) => hit.id)).not.toContain(tasting.id)
+    expect(repo.searchNotes('cardamome" OR *').length).toBeGreaterThanOrEqual(0)
+
+    journal.deleteTasting(tasting.id)
+    expect(repo.searchNotes('cardamome').map((hit) => hit.id)).toEqual([entry.id])
   })
 })

@@ -30,6 +30,7 @@ const EMPTY_LISTS = [
   'recipes.list',
   'recipes.facets',
   'tastingNotes.list',
+  'search.notes',
   'notebook.list',
   'preps.list',
   'collections.list',

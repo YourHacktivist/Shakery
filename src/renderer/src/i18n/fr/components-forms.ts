@@ -27,6 +27,7 @@ export const componentsForms = {
   combobox: {
     create: (label: string) => `Créer «${NBSP}${label}${NBSP}»`,
     empty: 'Aucun résultat.',
+    more: (count: number) => `Et ${count} autres${NBSP}: tape pour affiner.`,
     listLabel: 'Suggestions',
   },
 } as const

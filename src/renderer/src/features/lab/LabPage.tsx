@@ -1,6 +1,6 @@
 import { NotebookPen, Plus, Redo2, Trash2, Undo2 } from 'lucide-react'
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { useBlocker, useNavigate, useParams } from 'react-router'
+import { useBlocker, useLocation, useNavigate, useParams } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
@@ -134,7 +134,15 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
     [recipe],
   )
   const [state, dispatch] = useReducer(labReducer, initial, initLab)
-  const [mode, setMode] = useState<Mode>('work')
+  // /lab/<id>?compare, from the palette: the comparison, ready to receive another recipe.
+  const { key: visitKey, search: address } = useLocation()
+  const picking = recipe !== null && new URLSearchParams(address).has('compare')
+  const [mode, setMode] = useState<Mode>(picking ? 'compare' : 'work')
+  const [visit, setVisit] = useState(visitKey)
+  if (visit !== visitKey) {
+    setVisit(visitKey)
+    if (picking) setMode('compare')
+  }
   const [dialog, setDialog] = useState<'version' | 'variant' | null>(null)
   const [text, setText] = useState('')
   const leaving = useRef(false)
@@ -342,7 +350,13 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       </header>
 
       {mode === 'compare' && recipe ? (
-        <CompareView recipe={recipe} draft={toInput(draft)} names={names} />
+        <CompareView
+          key={picking ? visitKey : 'versions'}
+          recipe={recipe}
+          draft={toInput(draft)}
+          names={names}
+          picking={picking}
+        />
       ) : (
         <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] items-start gap-4">
           <Card aria-label={t.lines}>

@@ -104,9 +104,11 @@ function PaletteBody({
       items:
         group.preFiltered || needle === ''
           ? group.items
-          : group.items.filter((item) =>
-              [item.label, ...(item.keywords ?? [])].some((text) => normalizeName(text).includes(needle)),
-            ),
+          : group.items.filter((item) => {
+              // « comparer negroni » finds « Comparer Negroni avec… ».
+              const text = normalizeName([item.label, ...(item.keywords ?? [])].join(' '))
+              return needle.split(' ').every((word) => text.includes(word))
+            }),
     }))
     .filter((group) => group.items.length > 0)
   // A new list selects its first item again: the results of a longer query come after those of
@@ -130,8 +132,8 @@ function PaletteBody({
     if (pending || !enterWaits.current) return
     enterWaits.current = false
     if (!first) return
-    first.onSelect()
     onClose()
+    first.onSelect()
   }, [first, onClose, pending])
   const t = fr.shell.palette
   const keys = fr.shell.keys
@@ -183,8 +185,9 @@ function PaletteBody({
                 key={item.id}
                 value={item.id}
                 onSelect={() => {
-                  item.onSelect()
+                  // Closed first: the action may open a dialog of its own.
                   onClose()
+                  item.onSelect()
                 }}
                 className="group flex h-10 cursor-pointer items-center gap-3 rounded-field px-3 text-body font-medium text-fg-secondary select-none data-[selected=true]:bg-border-strong data-[selected=true]:text-fg"
               >

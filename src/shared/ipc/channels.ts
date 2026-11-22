@@ -59,6 +59,7 @@ export const IPC_CHANNELS = [
   'off.setEnabled',
   'off.lookup',
   'search.query',
+  'search.notes',
   'recentViews.record',
   'tastingNotes.list',
   'tastingNotes.create',

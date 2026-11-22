@@ -78,6 +78,18 @@ export function useSearch(text: string) {
   })
 }
 
+/** Notes of the notebook and of the journal for the palette (D-041). */
+export function useNoteSearch(text: string) {
+  const trimmed = text.trim()
+  return useQuery({
+    queryKey: ['search', 'notes', trimmed],
+    queryFn: () => unwrap(api().search.notes({ text: trimmed, limit: 6 })),
+    enabled: trimmed !== '',
+    placeholderData: (previous) => previous,
+    staleTime: 0,
+  })
+}
+
 /** Remembers an opened item for the search ranking; a failure is not worth a message. */
 export function recordView(entityType: 'recipe' | 'ingredient' | 'product', entityId: string) {
   void api()

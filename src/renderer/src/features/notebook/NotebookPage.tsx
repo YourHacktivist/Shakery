@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { normalizeName } from '@core/normalize'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
@@ -78,8 +78,19 @@ function sameDraft(a: Draft, b: Draft): boolean {
 export function NotebookPage() {
   const notebook = useNotebook()
   const create = useCreateEntry()
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  // /notebook?entry=<id>, from the palette, opens that note.
+  const { key, search } = useLocation()
+  const wanted = new URLSearchParams(search).get('entry')
+  const [selectedId, setSelectedId] = useState<string | null>(wanted)
   const [query, setQuery] = useState('')
+  const [visit, setVisit] = useState(key)
+  if (visit !== key) {
+    setVisit(key)
+    if (wanted) {
+      setSelectedId(wanted)
+      setQuery('')
+    }
+  }
 
   const entries = useMemo(
     () =>

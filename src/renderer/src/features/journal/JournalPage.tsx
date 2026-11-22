@@ -1,6 +1,6 @@
 import { Clock, MessageSquareQuote, NotebookText, Plus, Trash2 } from 'lucide-react'
-import { useMemo, useState, type CSSProperties } from 'react'
-import { Link } from 'react-router'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { Link, useLocation } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
@@ -33,6 +33,23 @@ export function JournalPage() {
   const [kept, setKept] = useState<ReadonlySet<string>>(new Set())
 
   const notes = useMemo(() => tastings.data ?? [], [tastings.data])
+  // /journal?note=<id>, from the palette: the note comes into view whatever the filters.
+  const { key, search } = useLocation()
+  const wanted = new URLSearchParams(search).get('note')
+  const [visit, setVisit] = useState(key)
+  if (visit !== key) {
+    setVisit(key)
+    if (wanted) {
+      setRecipeId('')
+      setMinOverall(0)
+      setView('all')
+    }
+  }
+  const wantedRef = useRef<HTMLLIElement>(null)
+  const loaded = tastings.data !== undefined
+  useEffect(() => {
+    if (loaded && wanted) wantedRef.current?.scrollIntoView({ block: 'center' })
+  }, [key, loaded, wanted])
   const recipeOptions = useMemo(() => {
     const names = new Map<string, string>()
     for (const note of notes) names.set(note.recipeId, note.recipeName)
@@ -123,7 +140,9 @@ export function JournalPage() {
               {shown.map((note, index) => (
                 <li
                   key={note.id}
-                  className="animate-rise"
+                  ref={note.id === wanted ? wantedRef : undefined}
+                  aria-current={note.id === wanted ? 'true' : undefined}
+                  className={cn('animate-rise', note.id === wanted && 'rounded-card ring-2 ring-accent')}
                   style={{ '--rise-index': Math.min(index, 8) } as CSSProperties}
                 >
                   <TastingCard

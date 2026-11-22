@@ -1,44 +1,71 @@
 import { useQueries } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card } from '@renderer/components/Card'
+import { Combobox } from '@renderer/components/Combobox'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { VersionDiff, type VersionChange } from '@renderer/components/VersionDiff'
 import { computationInput, detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { formatDelta, formatNumber } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
-import { useDisplayUnit, useGlasses } from '@renderer/lib/queries'
+import { queryKeys, useDisplayUnit, useGlasses, useRecipes } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeDetail, RecipeInputParsed } from '@shared/domain/catalog'
 import { compareRecipes, metricDelta } from '@core/compare'
 
 const t = fr.recipes.lab
 const tp = fr.recipes.panel
 const DRAFT = 0
+const MOST = 3
 
 type Column = {
-  id: number
+  id: string
   label: string
   data: RecipeInputParsed | undefined
   result: RecipeComputation | undefined
 }
 
 /**
- * Comparison mode (section 10.5): two or three versions side by side, the first one being the
- * reference; lines that differ in colour and the gap of each indicator.
+ * Comparison mode (section 10.5): two or three versions or recipes side by side, the first one
+ * being the reference; lines that differ in colour and the gap of each indicator.
  */
 export function CompareView({
   recipe,
   draft,
   names,
+  picking = false,
 }: {
   recipe: RecipeDetail
   draft: RecipeInputParsed
   names: ReadonlyMap<string, string>
+  /** Opened by « Comparer avec… »: the field of the other recipe waits for a name. */
+  picking?: boolean
 }) {
   const display = useDisplayUnit()
   const glasses = useGlasses()
   const versions = [...recipe.history].sort((a, b) => b.version - a.version)
-  const [selected, setSelected] = useState<number[]>([recipe.version, DRAFT])
+  // « Comparer avec… » keeps a column for each recipe to come: the draft is not proposed.
+  const [selected, setSelected] = useState<number[]>(picking ? [recipe.version] : [recipe.version, DRAFT])
+  const [others, setOthers] = useState<string[]>([])
+  const count = selected.length + others.length
+  const recipes = useRecipes()
+  const otherOptions = useMemo(
+    () =>
+      (recipes.data ?? [])
+        .filter((item) => item.id !== recipe.id && !others.includes(item.id))
+        .map((item) => ({ id: item.id, label: item.name })),
+    [recipes.data, recipe.id, others],
+  )
+  const recipeName = (id: string) => recipes.data?.find((item) => item.id === id)?.name ?? ''
+  const otherDetails = useQueries({
+    queries: others.map((id) => ({
+      queryKey: queryKeys.recipe(id),
+      queryFn: () => unwrap(window.shakery.recipes.get({ id })),
+    })),
+  })
+  const pickerRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (picking) pickerRef.current?.focus()
+  }, [picking])
 
   const snapshots = useQueries({
     queries: selected
@@ -55,10 +82,20 @@ export function CompareView({
     const snapshot = snapshots[index]?.data
     return snapshot ? detailToInput(snapshot) : undefined
   }
+  const sources = [
+    ...selected.map((version) => ({
+      id: `v:${String(version)}`,
+      label: version === DRAFT ? t.draft : `v${version}`,
+      data: dataOf(version),
+    })),
+    ...others.map((id, index) => {
+      const detail = otherDetails[index]?.data
+      return { id, label: recipeName(id), data: detail ? detailToInput(detail) : undefined }
+    }),
+  ]
   const computations = useQueries({
-    queries: selected.map((version) => {
-      const input = dataOf(version)
-      const data = input ? computationInput(input) : null
+    queries: sources.map((source) => {
+      const data = source.data ? computationInput(source.data) : null
       return {
         queryKey: ['computation', data],
         queryFn: () => unwrap(window.shakery.recipes.compute({ data: data ?? { name: '' } })),
@@ -66,12 +103,7 @@ export function CompareView({
       }
     }),
   })
-  const columns: Column[] = selected.map((version, index) => ({
-    id: version,
-    label: version === DRAFT ? t.draft : `v${version}`,
-    data: dataOf(version),
-    result: computations[index]?.data,
-  }))
+  const columns: Column[] = sources.map((source, index) => ({ ...source, result: computations[index]?.data }))
   const reference = columns[0]
 
   const glassName = (id: string | null) =>
@@ -177,7 +209,7 @@ export function CompareView({
                 key={version}
                 label={version === DRAFT ? t.draft : `v${version}`}
                 checked={checked}
-                disabled={!checked && selected.length >= 3}
+                disabled={!checked && count >= MOST}
                 onChange={() => {
                   setSelected((current) =>
                     current.includes(version) ? current.filter((v) => v !== version) : [...current, version],
@@ -186,7 +218,30 @@ export function CompareView({
               />
             )
           })}
+          {others.map((id) => (
+            <Checkbox
+              key={id}
+              label={recipeName(id)}
+              checked
+              onChange={() => {
+                setOthers((current) => current.filter((other) => other !== id))
+              }}
+            />
+          ))}
         </div>
+        <Combobox
+          ref={pickerRef}
+          className="max-w-sm"
+          label={t.compareWith}
+          placeholder={t.compareWithPlaceholder}
+          description={count >= MOST ? t.compareFull : undefined}
+          options={otherOptions}
+          value={null}
+          disabled={count >= MOST}
+          onSelect={(id) => {
+            setOthers((current) => [...current, id])
+          }}
+        />
       </Card>
 
       <div

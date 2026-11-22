@@ -17,7 +17,7 @@ import {
   STATUS_VALUES,
 } from '../domain/catalog'
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
-import { searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
+import { noteHitSchema, searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
 import { recipeFacetsSchema } from '../domain/facets'
 import { referenceZonesSchema } from '../domain/zones'
 import {
@@ -251,6 +251,12 @@ export const ipcContract = {
       .object({ text: z.string().max(200), limit: z.number().int().min(1).max(50).default(20) })
       .strict(),
     output: z.array(searchHitSchema).max(50),
+  },
+  'search.notes': {
+    input: z
+      .object({ text: z.string().max(200), limit: z.number().int().min(1).max(20).default(6) })
+      .strict(),
+    output: z.array(noteHitSchema).max(20),
   },
   'recentViews.record': {
     input: z.object({ entityType: z.enum(SEARCH_ENTITIES), entityId: z.string().min(1).max(36) }).strict(),

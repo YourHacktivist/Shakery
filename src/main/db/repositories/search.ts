@@ -1,6 +1,6 @@
 /**
- * Search over recipes, ingredients and bottles (section 12.1), through the FTS5 table kept by
- * the repositories (search-index.ts).
+ * Search over recipes, ingredients, bottles and, apart, the notes of the notebook and of the
+ * journal (section 12.1), through the FTS5 table kept by the repositories (search-index.ts).
  *
  * - Fewer than three characters: prefix on the normalized names and aliases.
  * - Otherwise: FTS5 trigram MATCH, on the whole text as one phrase, then on its terms in any
@@ -15,7 +15,16 @@ import { and, eq, gte, inArray, isNull, sql } from 'drizzle-orm'
 import { fuzzyScore } from '../../../core/fuzzy'
 import { normalizeName } from '../../../core/normalize'
 import type { Db, Ids } from '../client'
-import { categories, ingredients, products, recentViews, recipes } from '../schema'
+import {
+  categories,
+  ingredients,
+  notebookEntries,
+  products,
+  recentViews,
+  recipes,
+  tastingNotes,
+} from '../schema'
+import type { NoteHit } from '../../../shared/domain/search'
 
 export type SearchEntity = 'recipe' | 'ingredient' | 'product'
 
@@ -40,6 +49,24 @@ const TIER: Record<SearchMatch, number> = { exact: 0, prefix: 1, alias: 2, conte
 const RECENT_DAYS = 30
 const FUZZY_CANDIDATES = 100
 const DAY = 24 * 60 * 60 * 1000
+
+const EXCERPT_LENGTH = 120
+
+/** The line of a text that holds one of the terms typed, around it when the line is long. */
+function excerptOf(texts: ReadonlyArray<string | null>, terms: readonly string[]): string | null {
+  const lines = texts.flatMap((text) => (text ?? '').split('\n')).map((line) => line.trim())
+  for (const line of lines) {
+    const normalized = normalizeName(line)
+    const at = terms.map((term) => normalized.indexOf(term)).find((index) => index >= 0)
+    if (at === undefined) continue
+    if (line.length <= EXCERPT_LENGTH) return line
+    // Normalizing barely moves the positions: close enough to frame the word.
+    const from = Math.max(0, Math.min(at - 30, line.length - EXCERPT_LENGTH))
+    const part = line.slice(from, from + EXCERPT_LENGTH).trim()
+    return `${from > 0 ? '…' : ''}${part}${from + EXCERPT_LENGTH < line.length ? '…' : ''}`
+  }
+  return lines.find((line) => line !== '')?.slice(0, EXCERPT_LENGTH) ?? null
+}
 
 function escapeLike(text: string): string {
   return text.replace(/[\\%_]/g, (char) => `\\${char}`)
@@ -160,6 +187,62 @@ export class SearchRepository {
       .sort((a, b) => a.sortKey - b.sortKey || a.hit.title.localeCompare(b.hit.title, 'fr'))
       .slice(0, limit)
       .map((entry) => entry.hit)
+  }
+
+  /**
+   * Notes of the notebook and comments of the journal (D-041). A search apart, so that a recipe
+   * tasted twenty times never pushes the recipes out of the first results.
+   */
+  searchNotes(text: string, limit = 6): NoteHit[] {
+    const query = normalizeName(text)
+    if (query.length < 3) return []
+    const statement = this.db.$client.prepare(
+      `SELECT entity_type AS entityType, entity_id AS id FROM search_index
+       WHERE search_index MATCH ? AND entity_type IN ('notebook_entry', 'tasting_note')
+       ORDER BY rank LIMIT 50`,
+    )
+    const phrase = toPhraseQuery(query)
+    const rows = statement.all(phrase) as Array<Pick<Row, 'entityType' | 'id'>>
+    const matchQuery = toMatchQuery(query)
+    if (matchQuery !== null && matchQuery !== phrase) {
+      rows.push(...(statement.all(matchQuery) as Array<Pick<Row, 'entityType' | 'id'>>))
+    }
+    const terms = [query, ...query.split(' ').filter((term) => term.length >= 3)]
+    const hits = new Map<string, NoteHit>()
+    for (const { entityType, id } of rows) {
+      if (hits.size >= limit) break
+      const key = `${entityType}:${id}`
+      if (hits.has(key)) continue
+      if (entityType === 'notebook_entry') {
+        const entry = this.db
+          .select({ title: notebookEntries.title, body: notebookEntries.body })
+          .from(notebookEntries)
+          .where(and(eq(notebookEntries.id, id), isNull(notebookEntries.deletedAt)))
+          .get()
+        if (!entry) continue
+        hits.set(key, {
+          entityType,
+          id,
+          title: entry.title,
+          excerpt: excerptOf([entry.body], terms),
+        })
+      } else if (entityType === 'tasting_note') {
+        const note = this.db
+          .select({ title: recipes.name, comment: tastingNotes.comment, nextStep: tastingNotes.nextStep })
+          .from(tastingNotes)
+          .innerJoin(recipes, eq(recipes.id, tastingNotes.recipeId))
+          .where(and(eq(tastingNotes.id, id), isNull(tastingNotes.deletedAt), isNull(recipes.deletedAt)))
+          .get()
+        if (!note) continue
+        hits.set(key, {
+          entityType,
+          id,
+          title: note.title,
+          excerpt: excerptOf([note.comment, note.nextStep], terms),
+        })
+      }
+    }
+    return [...hits.values()]
   }
 
   /** Display names of the hits, live rows only (a deleted row is never returned). */

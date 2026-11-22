@@ -18,7 +18,8 @@ const pages: Record<GuidePageId, GuidePage> = {
     title: 'Premiers pas',
     intro: 'Shakery est ton carnet de bar : les classiques, tes créations, ton bar et tes révisions.',
     points: [
-      'Tape une lettre sur n’importe quel écran, ou Ctrl K, pour chercher une fiche, un ingrédient ou une bouteille.',
+      'Tape une lettre sur n’importe quel écran, ou Ctrl K, pour chercher une fiche, un ingrédient, une bouteille ou une note du carnet et du journal.',
+      'Ctrl K lance aussi les actions : ouvrir une fiche dans l’atelier, la comparer avec une autre, l’imprimer, noter une dégustation.',
       'Une faute de frappe n’empêche pas de trouver.',
       'Note une idée dès qu’elle arrive : un nom suffit, le reste viendra dans l’atelier.',
       'Le bouton soleil ou lune, en haut, change de thème.',

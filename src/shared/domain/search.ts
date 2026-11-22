@@ -19,3 +19,19 @@ export const searchHitSchema = z
   .strict()
 
 export type SearchHit = z.output<typeof searchHitSchema>
+
+export const NOTE_ENTITIES = ['notebook_entry', 'tasting_note'] as const
+
+/** A note of the notebook or a comment of the journal, searched beside the catalogue (D-041). */
+export const noteHitSchema = z
+  .object({
+    entityType: z.enum(NOTE_ENTITIES),
+    id: z.string().max(36),
+    /** Title of the note, or recipe of the tasting. */
+    title: z.string().max(300),
+    /** The line that holds what was typed, cut short. */
+    excerpt: z.string().max(200).nullable(),
+  })
+  .strict()
+
+export type NoteHit = z.output<typeof noteHitSchema>
