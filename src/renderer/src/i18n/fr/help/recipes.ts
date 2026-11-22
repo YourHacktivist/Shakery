@@ -5,24 +5,13 @@ import { journal } from '../journal'
 import { recipes as r } from '../recipes'
 import { workshop } from '../workshop'
 import { item, section, topic } from './model'
+import { allergens, families, methods, missing, origins, statuses, units } from './vocabulary'
 
 const { list, detail, panel, editor, lab: l, sheet, share, prepare: p } = r
 const f = list.filters
 const ef = editor.fields
 const el = editor.lines
 const names = (values: object) => Object.values(values).join(', ')
-
-const statuses = section(
-  'Les statuts',
-  item(display.status.idea, 'Un nom, quelques mots : à creuser.'),
-  item(display.status.draft, 'Une recette en cours d’écriture. Une variante commence ici.'),
-  item(
-    display.status.testing,
-    'En cours d’essais. La plus récente devient la création en focus de l’accueil.',
-  ),
-  item(display.status.final, 'Arrêtée. Elle entre dans la zone de référence de sa famille.'),
-  item(display.status.archived, 'Rangée, sans être effacée. Elle reste dans la liste et dans la recherche.'),
-)
 
 export const recipes = topic(
   list.title,
@@ -63,14 +52,29 @@ export const recipes = topic(
     ),
     item(
       f.collection,
-      'Les fiches rangées dans une ou plusieurs de tes collections. Absent sans collection.',
+      'Les fiches rangées dans une ou plusieurs de tes collections. Grisé tant que tu n’en as pas.',
     ),
-    item(f.tag, 'Tes tags. Le filtre n’apparaît que si une fiche en porte.'),
+    item(f.tag, 'Tes tags. Grisé tant qu’aucune fiche n’en porte.'),
     item(
       f.allergen,
       'Retire les fiches qui déclarent cet allergène, et celles dont un ingrédient est introuvable. Un ingrédient sans allergène déclaré passe : pour un client allergique, lis toujours les étiquettes.',
     ),
     item(f.reset, 'Enlève tous les filtres et remet le tri par dernière activité.'),
+  ),
+  section(
+    'Dans les menus des filtres',
+    item(f.allStatuses, 'La première ligne du menu efface ce filtre.'),
+    item(f.allFamilies, 'La même chose pour les familles.'),
+    item(f.allOrigins, 'La même chose pour les origines.'),
+    item(f.allMethods, 'La même chose pour les méthodes.'),
+    item(f.allSpirits, 'La même chose pour les spiritueux.'),
+    item(f.noSpirit, 'Les fiches où aucun spiritueux n’est versé à 5 ml ou plus.'),
+    item(f.allGlasses, 'La même chose pour les verres.'),
+    item(f.allFlavors, 'La même chose pour les profils.'),
+    item(f.allCollections, 'La même chose pour les collections.'),
+    item(f.allTags, 'La même chose pour les tags.'),
+    item(f.allAllergens, 'N’exclut plus aucun allergène.'),
+    item(f.view, 'Les trois boutons Toutes, Favoris et Réalisables.'),
   ),
   section(
     f.sort,
@@ -94,6 +98,10 @@ export const recipes = topic(
     ),
   ),
   statuses,
+  families,
+  methods,
+  origins,
+  allergens,
 )
 
 const calculations = section(
@@ -209,6 +217,23 @@ export const recipeDetail = topic(
     item(detail.sections.prep, 'Pour une préparation : rendement, conservation, catégorie et stockage.'),
   ),
   section(
+    'Service et préparation, champ par champ',
+    item(detail.fields.origin, 'Ta création, un classique, ou une autre origine.'),
+    item(detail.fields.glass, 'Le verre de service.'),
+    item(detail.fields.ice, 'La glace de service.'),
+    item(detail.fields.method, 'La technique, qui fixe la dilution.'),
+    item(detail.fields.family, 'Le type de cocktail, qui fixe la zone de référence.'),
+    item(detail.fields.length, 'Court ou long.'),
+    item(detail.fields.moment, 'Quand le servir.'),
+    item(detail.fields.profile, 'Quelques mots sur son goût.'),
+    item(detail.fields.tags, 'Tes mots de classement.'),
+    item(detail.fields.dilution, 'Montrée quand la fiche a son propre taux.'),
+    item(detail.fields.yield, 'Le volume qu’une fabrication donne.'),
+    item(detail.fields.shelfLife, 'Les jours fixés par toi, base des dates limites.'),
+    item(detail.fields.storage, 'Tes consignes de rangement.'),
+    item(detail.fields.category, 'Où la préparation est rangée dans Mon bar.'),
+  ),
+  section(
     'À côté',
     item(
       forms.photo.title,
@@ -226,7 +251,19 @@ export const recipeDetail = topic(
   section(
     detail.variantDialog.title,
     item(detail.variantDialog.name, 'Proposé d’après la fiche de départ, à remplacer.'),
+    item(detail.variantDialog.cancel, 'Ferme sans créer de variante.'),
     item(detail.variantDialog.confirm, 'Crée le brouillon et l’ouvre.'),
+  ),
+  missing,
+  section(
+    'Les marques',
+    item(detail.optional, 'La ligne est facultative.'),
+    item(detail.garnishLine, 'La ligne est une décoration.'),
+    item(r.doseMissing, 'La ligne attend sa dose : ouvre « Modifier ».'),
+    item(detail.current, 'Dans l’historique, la version courante.'),
+    item(detail.shelfLifeUnset, 'La préparation n’a pas de durée de conservation, donc pas de date limite.'),
+    item(r.none, 'Le champ est resté vide dans l’éditeur.'),
+    item(detail.backToList, 'Proposé quand la fiche n’existe plus.'),
   ),
   statuses,
   printing,
@@ -238,6 +275,10 @@ export const recipeEditor = topic(
   'La fiche complète, champ par champ. Rien n’est écrit avant « Enregistrer ».',
   section(
     editor.sections.essentials,
+    item(
+      editor.newTitle,
+      'Le titre quand tu pars de rien. Pour une fiche existante, sa version courante est rappelée au-dessus.',
+    ),
     item(ef.name, 'Obligatoire, c’est le seul champ qui le soit avec l’ingrédient de chaque ligne.'),
     item(
       ef.kind,
@@ -274,6 +315,10 @@ export const recipeEditor = topic(
     item(
       el.bottle,
       'La bouteille précise de cette recette : son degré, sa composition, son prix et ses allergènes passent avant. Proposé si l’ingrédient en a.',
+    ),
+    item(
+      el.bottleAny,
+      'Aucune bouteille imposée : le degré vient de l’ingrédient, le prix de tes bouteilles possédées.',
     ),
     item(
       el.notePlaceholder,
@@ -335,6 +380,7 @@ export const recipeEditor = topic(
   ),
   section(
     editor.sections.save,
+    item(editor.leave.title, 'La question posée si tu pars avec des modifications.'),
     item(editor.save, 'Vérifie les champs, enregistre et revient à la fiche. Un champ fautif est signalé.'),
     item(editor.cancel, 'Revient en arrière, avec confirmation si tu as modifié quelque chose.'),
     item(editor.leave.stay, 'Continue la saisie là où elle en était.'),
@@ -347,9 +393,17 @@ export const recipeEditor = topic(
       r.ingredientDialog.category,
       'Obligatoire. Degré et composition se complètent ensuite dans Mon bar.',
     ),
+    item(
+      r.ingredientDialog.similar,
+      'Un bouton « Utiliser » reprend celui qui existe, plutôt que de créer un doublon.',
+    ),
     item(r.ingredientDialog.create, 'Crée l’ingrédient et le place sur la ligne.'),
   ),
   statuses,
+  families,
+  methods,
+  origins,
+  units,
 )
 
 export const lab = topic(
@@ -363,7 +417,7 @@ export const lab = topic(
   section(
     'En haut',
     item(l.name, 'Pour une fiche partie de zéro. Il faut un nom pour enregistrer.'),
-    item(l.undo, 'Défait le dernier réglage, sans limite pendant la séance. Ctrl Z.'),
+    item(l.undo, 'Défait le dernier réglage, sans limite jusqu’au prochain enregistrement. Ctrl Z.'),
     item(l.redo, 'Refait ce qui a été défait. Ctrl Y, ou Ctrl Maj Z.'),
     item(l.compare, 'Passe du réglage à la comparaison, sans perdre le brouillon.'),
   ),
@@ -375,7 +429,7 @@ export const lab = topic(
     ),
     item(
       'Le réglage de dose',
-      'Boutons − et +, flèches, molette quand le champ est actif, ou saisie directe. Le pas se règle dans les paramètres : 2,5 ml au départ.',
+      'Boutons − et +, flèches, molette quand le champ est actif, ou saisie directe. Le pas se règle dans les paramètres : 2,5 ml au départ. Les cuillères vont par demies, les grammes par 5.',
     ),
     item('L’unité', 'Change l’unité sans convertir le nombre : 30 ml devient 30 cl si tu choisis cl.'),
     item('La corbeille de la ligne', 'Retire l’ingrédient du brouillon. Ctrl Z le ramène.'),
@@ -411,7 +465,12 @@ export const lab = topic(
     item(l.saveVariant, 'Crée une autre fiche, en brouillon, liée à celle de départ.'),
     item(l.variantName, 'Le nom de cette nouvelle fiche.'),
     item(l.saveNew, 'Quand tu pars de zéro : crée la fiche en brouillon.'),
-    item(l.discard, 'Revient à la version enregistrée. Ctrl Z peut encore rattraper.'),
+    item(l.confirm, 'Dans la petite fenêtre de version ou de variante : enregistre.'),
+    item(l.cancel, 'Dans la même fenêtre : ferme sans enregistrer.'),
+    item(
+      l.discard,
+      'Revient à la version enregistrée, sans confirmation. Ctrl Z ne ramène pas ce qui est abandonné.',
+    ),
     item(
       l.taste,
       'Enregistre d’abord le brouillon s’il a changé, puis ouvre la note sur cette version. Ctrl J seul ouvre une note sans fiche choisie.',
@@ -428,6 +487,18 @@ export const lab = topic(
       'En couleur : ajouts, retraits, doses, méthode et verre. Chaque indicateur porte son écart chiffré.',
     ),
   ),
+  section(
+    'Lire une différence',
+    item(display.diff.kinds.added, 'Une ligne que la référence n’a pas.'),
+    item(display.diff.kinds.removed, 'Une ligne de la référence absente ici, barrée.'),
+    item(display.diff.kinds.increased, 'Une dose plus forte, avec l’écart.'),
+    item(display.diff.kinds.decreased, 'Une dose plus faible, avec l’écart.'),
+    item(display.diff.kinds.changed, 'La méthode ou le verre change.'),
+    item(display.diff.method, 'La méthode d’avant, puis celle de la colonne.'),
+    item(display.diff.glass, 'Le verre d’avant, puis celui de la colonne.'),
+    item(l.noChange, 'La colonne est identique à la première.'),
+    item(l.reordered, 'Seul l’ordre des lignes diffère.'),
+  ),
 )
 
 export const prepare = topic(
@@ -437,6 +508,7 @@ export const prepare = topic(
     'À l’écran',
     item('Le titre', 'Le nom, puis la méthode, le verre et la glace.'),
     item(p.ingredients, 'Les doses en très grand, dans ton unité. Les facultatives sont estompées.'),
+    item(p.optional, 'Écrit à côté d’un ingrédient dont on peut se passer.'),
     item(p.garnish, 'La décoration en toutes lettres.'),
     item(
       p.steps,

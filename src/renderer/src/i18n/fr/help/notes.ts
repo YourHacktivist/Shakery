@@ -15,7 +15,9 @@ export const home = topic(
       'Tes cocktails au statut Idée, Brouillon ou En test. Leur nombre est rappelé au-dessus du titre.',
     ),
     item(h.views.favorites, 'Tes cocktails marqués d’une étoile, quel que soit leur statut.'),
+    item(h.viewsLabel, 'Les deux boutons En cours et Favoris.'),
     item(h.families, 'Ne montre qu’une famille de cocktails.'),
+    item(h.allFamilies, 'Enlève le filtre de famille.'),
     item(
       'Les trois cartes',
       'Les plus récentes, selon la dernière modification ou dégustation. La flèche en coin ouvre la fiche. Un emplacement vide note une idée.',
@@ -62,7 +64,10 @@ export const tastings = topic(
     j.filters.label,
     item(j.add, 'Ouvre la note de dégustation, avec la fiche filtrée déjà choisie. Ctrl J.'),
     item(j.filters.recipe, 'Les notes d’une seule fiche. Seules les fiches déjà goûtées sont proposées.'),
+    item(j.filters.allRecipes, 'Enlève le filtre de fiche.'),
     item(j.filters.minOverall, 'À partir de 2, 3, 4 ou 5 étoiles. Une note sans étoile est alors masquée.'),
+    item(j.filters.anyOverall, 'Enlève le filtre de note.'),
+    item(j.filters.view, 'Les deux boutons Toutes et À retester.'),
     item(j.filters.all, 'Toutes les notes.'),
     item(
       j.filters.toRetest,
@@ -74,6 +79,7 @@ export const tastings = topic(
     item('En tête', 'La fiche, la version goûtée, les étoiles et la date. Le nom ouvre la fiche.'),
     item('Les pastilles', 'Les critères qui ne sont pas justes, avec leur écart de −2 à +2.'),
     item('Le commentaire', 'Avec sa mise en forme, puis la photo et le contexte.'),
+    item(j.nextStep, 'Ce que tu t’étais promis d’essayer.'),
     item(j.nextStepDone, 'Coche-la quand tu as essayé : elle quitte « À retester » et la barre latérale.'),
     item(
       j.delete,

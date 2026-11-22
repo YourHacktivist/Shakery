@@ -2,6 +2,7 @@
 import { recipes } from '../recipes'
 import { settings as s } from '../settings'
 import { item, section, topic } from './model'
+import { methods, units } from './vocabulary'
 
 const a = s.appearance
 const c = s.calculation
@@ -41,6 +42,7 @@ export const settings = topic(
       c.dilution,
       `L’eau de la glace pour chaque méthode (${Object.values(recipes.methods).join(', ')}). Au départ : 25 % au shaker, dry shake, swizzle et blender, 20 % au verre à mélange et throwing, 10 % au verre, 15 % sinon. Une fiche peut avoir la sienne.`,
     ),
+    item(c.steps, 'De combien bouge une dose à chaque clic dans l’atelier.'),
     item(c.stepMl, 'Le pas des boutons, flèches et molette de l’atelier. En cl, il est divisé par dix.'),
     item(c.stepOz, 'Le même pas, pour les doses en onces.'),
     item(c.reset, 'Remet équivalences et dilutions d’origine. Les pas de l’atelier gardent ton choix.'),
@@ -55,7 +57,7 @@ export const settings = topic(
     s.off.title,
     item(
       s.off.toggle,
-      'La seule fonction qui utilise Internet : elle envoie le code-barres à Open Food Facts, rien d’autre. Éteinte, aucune requête ne part.',
+      'La seule fonction qui utilise Internet : elle envoie à Open Food Facts le code-barres, avec le nom et la version de Shakery, rien d’autre. Éteinte, aucune requête ne part.',
     ),
   ),
   section(
@@ -77,16 +79,28 @@ export const settings = topic(
     item(b.choose, 'Choisis un autre dossier, de préférence sur un autre disque.'),
     item(b.useDefault, 'Revient au dossier de Shakery.'),
     item(b.frequency, 'L’âge maximal de la dernière sauvegarde avant d’en refaire une au démarrage.'),
-    item(b.keepDaily, 'Pour chacun de ces derniers jours, la plus récente est gardée.'),
-    item(b.keepWeekly, 'Au-delà, une par semaine, pendant ce nombre de semaines.'),
+    item(b.keepDaily, 'La plus récente de chacun de ces derniers jours de sauvegarde est gardée.'),
+    item(b.keepWeekly, 'En plus, la plus récente de chacune de ces dernières semaines de sauvegarde.'),
     item(
       b.restore,
       'Les six plus récentes valides sont listées. Après confirmation, le carnet actuel est sauvegardé, puis remplacé par celui que tu as choisi.',
     ),
   ),
   section(
+    'La raison de chaque sauvegarde',
+    item(b.reasons.daily, 'Faite au démarrage, selon la fréquence.'),
+    item(b.reasons.shutdown, 'Faite en fermant Shakery.'),
+    item(b.reasons.manual, 'Faite avec « Sauvegarder maintenant ».'),
+    item(b.reasons['pre-migration'], 'Faite avant qu’une nouvelle version adapte le carnet.'),
+    item(b.reasons['pre-restore'], 'Faite avant de restaurer : elle permet de revenir.'),
+    item(b.reasons['pre-purge'], 'Faite avant de vider la corbeille.'),
+    item(b.reasons['pre-reset'], 'Faite avant une réinitialisation.'),
+    item(b.confirmTitle, 'La fenêtre rappelle la date avant de remplacer le carnet.'),
+  ),
+  section(
     ex.title,
     item(ex.full, 'Tout le carnet dans un fichier .shakery, photos comprises.'),
+    item(ex.csvTitle, 'Des fichiers pour un tableur, à séparateur point-virgule. Ils ne se réimportent pas.'),
     item(ex.csv.recipes, 'Un CSV : les fiches avec doses, méthode, verre, garniture, version.'),
     item(ex.csv.journal, 'Un CSV : les dégustations.'),
     item(ex.csv.ingredients, 'Un CSV : les ingrédients.'),
@@ -95,6 +109,11 @@ export const settings = topic(
     im.title,
     item(im.choose, 'Lit un fichier .shakery et montre son contenu. Rien n’est encore écrit.'),
     item('Le tableau', 'Pour chaque type : dans le fichier, nouveaux, déjà présents.'),
+    item(im.tableHead.table, 'Le type de contenu.'),
+    item(im.tableHead.total, 'Le nombre dans le fichier.'),
+    item(im.tableHead.added, 'Ceux qui seront ajoutés.'),
+    item(im.tableHead.matched, 'Ceux que tu as déjà.'),
+    item(im.strategyLabel, 'Demandé seulement si certains diffèrent des tiens.'),
     item(im.strategies.ignore, 'Ce qui diffère chez toi reste tel quel. C’est le choix par défaut.'),
     item(im.strategies.replace, 'Le fichier écrase ce qui existe déjà.'),
     item(im.strategies.duplicate, 'Les deux versions coexistent.'),
@@ -108,16 +127,26 @@ export const settings = topic(
       'Refait l’index, si la recherche paraît oublier quelque chose. Tes données ne changent pas.',
     ),
     item(m.trash, 'Tout ce que tu as supprimé, avec sa date.'),
+    item(m.trashTitle, 'La fenêtre liste les plus récents et dit combien d’autres suivent.'),
     item(m.restore, 'Dans la corbeille : remet l’élément à sa place.'),
     item(
       m.empty,
       'Demande confirmation, sauvegarde, puis efface pour de bon, versions et dégustations des fiches comprises.',
     ),
+    item(m.emptyNow, 'La confirmation. Après, seule la sauvegarde faite juste avant permet de revenir.'),
     item(
       m.reset,
       'Repart d’un carnet neuf avec les classiques. Il faut taper RÉINITIALISER. Le carnet actuel est sauvegardé avant.',
     ),
   ),
+  section(
+    m.resetTitle,
+    item(m.resetField, 'Le mot exact, majuscules ou non. Le bouton reste grisé sans lui.'),
+    item(m.resetNow, 'Sauvegarde, vérifie la copie, puis repart d’un carnet neuf.'),
+    item(m.cancel, 'Ferme sans rien effacer.'),
+  ),
+  methods,
+  units,
 )
 
 export const guideHelp = topic(

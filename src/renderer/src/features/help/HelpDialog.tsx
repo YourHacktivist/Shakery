@@ -57,9 +57,11 @@ function HelpBody({ place, onClose }: { place: HelpPlace; onClose: () => void })
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 flex-col gap-1">
             <p data-testid="help-topic" className="m-0 text-heading font-medium text-fg">
-              {topic.title}
+              {searching ? t.everywhere : topic.title}
             </p>
-            <p className="m-0 text-body leading-relaxed text-fg-secondary">{topic.intro}</p>
+            {searching ? null : (
+              <p className="m-0 text-body leading-relaxed text-fg-secondary">{topic.intro}</p>
+            )}
           </div>
           <IconButton
             variant="ghost"

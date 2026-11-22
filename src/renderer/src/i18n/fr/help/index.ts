@@ -40,6 +40,7 @@ export const help = {
   search: 'Chercher dans toute l’aide',
   searchPlaceholder: 'Par exemple, dilution, allergène, corbeille',
   contents: 'Sections de cette aide',
+  everywhere: 'Résultats dans toute l’aide',
   none: 'Rien dans l’aide pour ces mots.',
   found: (count: number) => (count === 1 ? '1 réponse' : `${count} réponses`),
   topics,

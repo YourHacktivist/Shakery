@@ -5,9 +5,12 @@
 
 const NBSP = String.fromCharCode(0xa0)
 
-/** French spacing: no-break before : ; ! ? » % and €, and inside the guillemets. */
+/** French spacing: no-break before : ; ! ? » % and €, inside the guillemets and inside a key combination. */
 export function french(text: string): string {
-  return text.replace(/ ([:;!?»%€])/g, `${NBSP}$1`).replace(/« /g, `«${NBSP}`)
+  return text
+    .replace(/ ([:;!?»%€])/g, `${NBSP}$1`)
+    .replace(/« /g, `«${NBSP}`)
+    .replace(/\b(Ctrl|Maj|Alt) /g, `$1${NBSP}`)
 }
 
 export type HelpItem = {

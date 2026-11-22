@@ -1,8 +1,10 @@
 /** Help of the bar, the preparations, the collections, the revision and the calculators (D-048). */
 import { bar as b } from '../bar'
+import { componentsDisplay as display } from '../components-display'
 import { recipes } from '../recipes'
 import { workshop as w } from '../workshop'
 import { item, section, topic } from './model'
+import { allergens, units } from './vocabulary'
 
 const d = b.detail
 const fi = b.ingredientForm
@@ -87,6 +89,7 @@ export const bar = topic(
       `D’où viennent sucre et acidité : ${Object.values(b.sources).join(', ')}. C’est pour ta mémoire.`,
     ),
     item(fi.confidence, '« Estimée » marque comme estimés les chiffres des fiches qui s’en servent.'),
+    item(b.confidenceOptions.sourced, 'La valeur vient d’une étiquette ou d’une table.'),
     item(fi.aliases, 'Séparés par des virgules.'),
     item(fi.flavors, 'Des mots comme agrume, herbacé, fumé, séparés par des virgules.'),
     item(fi.allergens, 'Les quatorze allergènes réglementaires. Recopie l’étiquette.'),
@@ -94,7 +97,7 @@ export const bar = topic(
     item(fi.save, 'Enregistre. Les fiches recalculent aussitôt.'),
   ),
   section(
-    'Formulaire d’une bouteille',
+    fp.createTitle,
     item(
       fp.barcode,
       'De 6 à 14 chiffres. Une douchette USB le tape et fait Entrée, ce qui lance la recherche.',
@@ -123,6 +126,7 @@ export const bar = topic(
       fp.packUnit,
       'Elle doit être celle de la ligne de recette, et la bouteille choisie sur cette ligne. « portion » fait du prix un forfait par verre.',
     ),
+    item('Les unités d’un lot', `Au choix : ${Object.values(b.packUnits).join(', ')}.`),
     item(fp.notes, 'Ton avis, retrouvé par la recherche. Il ne part pas dans un partage sans ton accord.'),
     item(fp.allergens, 'Ils s’ajoutent à ceux de l’ingrédient quand la bouteille est choisie sur une fiche.'),
     item(fp.owned, 'Rend l’ingrédient disponible.'),
@@ -134,6 +138,16 @@ export const bar = topic(
     item(b.merge.preview, 'Ce qui va bouger : fiches, bouteilles et alias.'),
     item(b.merge.confirm, 'Fusionne pour de bon : il n’y a pas de bouton pour défusionner.'),
   ),
+  section(
+    'Suppressions',
+    item(
+      b.remove.confirm,
+      'Dans la fenêtre de confirmation, efface l’ingrédient ou la bouteille. La corbeille des paramètres permet de revenir.',
+    ),
+    item(b.remove.cancel, 'Garde tout en l’état.'),
+    item(b.offAttribution, 'La mention rappelle les bouteilles remplies depuis Open Food Facts.'),
+  ),
+  allergens,
 )
 
 export const preps = topic(
@@ -160,6 +174,10 @@ export const preps = topic(
   section(
     'Une fabrication',
     item(prep.label.action, 'Ouvre l’étiquette de cette bouteille.'),
+    item(
+      prep.batch.statuses.active,
+      'Visible sur la carte. Terminées et jetées sont dans les fabrications passées.',
+    ),
     item(prep.batch.finish, 'Finie : la préparation n’est plus comptée disponible par cette fabrication.'),
     item(prep.batch.discard, 'Jetée, gardée dans l’historique.'),
     item(
@@ -176,6 +194,7 @@ export const preps = topic(
       'Le jour de fabrication plus la durée de conservation, en jours de calendrier, jusqu’au soir du dernier jour.',
     ),
     item(prep.batch.notes, 'Ce qui a changé cette fois.'),
+    item(prep.batch.cancel, 'Ferme sans rien enregistrer.'),
     item(prep.batch.create, 'Rend la préparation disponible dans « réalisables » jusqu’à sa date limite.'),
   ),
   section(
@@ -199,6 +218,12 @@ export const preps = topic(
       prep.label.print,
       'Règle l’imprimante sur 100 %, sans « ajuster à la page », sinon les cases ne tombent pas juste.',
     ),
+  ),
+  section(
+    'Les pastilles',
+    item(display.expiry.none, 'Grise : la fiche n’a pas de durée de conservation.'),
+    item(display.expiry.today, 'Jaune : c’est le dernier jour.'),
+    item(display.expiry.tomorrow, 'Jaune : il reste un jour.'),
   ),
 )
 
@@ -246,11 +271,13 @@ export const collections = topic(
     item(c.form.name, 'Obligatoire.'),
     item(c.form.kind, `${Object.values(c.kinds).join(', ')}.`),
     item(c.form.description, 'Affichée en tête et dans le PDF, gras, italique et listes possibles.'),
+    item(c.form.cancel, 'Ferme sans rien enregistrer.'),
     item(c.form.save, 'Enregistre et ouvre la collection.'),
   ),
   section(
     'Partage',
     item(recipes.share.includePrivate, 'Décoché, tes dégustations, notes et prix d’achat restent chez toi.'),
+    item(c.share.cancel, 'Ferme sans créer de fichier.'),
     item(c.share.export, 'Choisis où enregistrer le fichier.'),
   ),
 )
@@ -262,9 +289,10 @@ export const practice = topic(
     'Avant de commencer',
     item(pr.collection, 'Les questions ne viennent que d’elle. Il en faut au moins une.'),
     item(pr.length, '10, 20 ou 40, moins si la collection n’en donne pas assez.'),
+    item(pr.mode, 'QCM ou cartes mémoire.'),
     item(
       pr.modes.quiz,
-      'Quatre réponses au choix. Sans assez de mauvaises réponses plausibles, la question devient une carte.',
+      'De deux à quatre réponses au choix. Sans assez de mauvaises réponses plausibles, la question devient une carte.',
     ),
     item(pr.modes.flashcards, 'Tu réponds de tête, tu retournes, tu te juges.'),
     item(
@@ -306,6 +334,8 @@ export const calculators = topic(
     calc.tabs.batch,
     item(calc.fromRecipe, 'La recette à multiplier. Un batch part toujours d’une fiche.'),
     item(calc.batch.target, 'Un nombre de verres, ou un volume à embouteiller.'),
+    item(calc.batch.byServings, 'Tu donnes le nombre de verres, il donne les volumes.'),
+    item(calc.batch.byVolume, 'Tu donnes le volume, il donne le nombre de verres.'),
     item(calc.batch.servings, 'De 1 à 500.'),
     item(
       calc.batch.targetVolume,
@@ -330,6 +360,15 @@ export const calculators = topic(
     item(calc.batch.fresh, 'Le total du frais, hors de la bouteille.'),
     item(calc.batch.service, 'Le total à ajouter en servant.'),
     item('Grammes', 'Une dose en grammes est multipliée mais ne compte pas dans le volume de la bouteille.'),
+    item(
+      calc.batch.ingredient,
+      'Chaque ligne, avec sa quantité dans l’unité de la fiche et son volume en ml.',
+    ),
+    item(calc.batch.quantity, 'La dose multipliée, dans l’unité de la fiche.'),
+    item(calc.batch.volume, 'La même, en millilitres, arrondie au pas choisi.'),
+    item(calc.batch.water, 'La ligne d’eau, quand l’interrupteur est allumé.'),
+    item(calc.batch.optional, 'La ligne est listée, mais hors des totaux.'),
+    item(calc.batch.total, 'Sur la feuille imprimée, la somme de chaque partie.'),
     item(calc.batch.savePdf, 'La feuille de production, en trois parties, avec des cases à cocher.'),
     item(calc.batch.print, 'La même feuille sur papier.'),
   ),
@@ -339,6 +378,7 @@ export const calculators = topic(
       calc.fromRecipe,
       'Charge volumes, degrés des ingrédients et dilution de la fiche, hors garnitures et options. Le degré d’une bouteille choisie n’est pas repris : corrige-le si besoin.',
     ),
+    item(calc.abv.lines, 'Un volume et un degré par ingrédient versé.'),
     item(calc.abv.volume, 'En ml.'),
     item(
       calc.abv.lineAbv,
@@ -378,4 +418,5 @@ export const calculators = topic(
     ),
     item(calc.cost.ratio, 'Le coût HT divisé par le prix de vente HT.'),
   ),
+  units,
 )
