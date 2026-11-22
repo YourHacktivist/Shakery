@@ -363,7 +363,8 @@ function AbvCalculator() {
           return {
             key: index + 1,
             volume: volume.ok ? volume.ml : null,
-            abv: abvOf.get(line.ingredientId) ?? 0,
+            // Unknown stays empty: it is not alcohol free.
+            abv: abvOf.get(line.ingredientId) ?? null,
           }
         }),
     )
@@ -373,8 +374,9 @@ function AbvCalculator() {
   const v0 = lines.reduce((sum, line) => sum + (line.volume ?? 0), 0)
   const alcohol = lines.reduce((sum, line) => sum + ((line.volume ?? 0) * (line.abv ?? 0)) / 100, 0)
   const d = (dilution ?? 0) / 100
-  const before = v0 > 0 ? (alcohol / v0) * 100 : null
-  const after = v0 > 0 ? (alcohol / (v0 * (1 + d))) * 100 : null
+  const known = v0 > 0 && lines.every((line) => (line.volume ?? 0) === 0 || line.abv !== null)
+  const before = known ? (alcohol / v0) * 100 : null
+  const after = known ? (alcohol / (v0 * (1 + d))) * 100 : null
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_320px] items-start gap-4">

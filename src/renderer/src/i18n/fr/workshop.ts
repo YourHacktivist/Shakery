@@ -118,6 +118,7 @@ export const workshop = {
       done: 'Collection exportée.',
     },
     practice: 'Réviser',
+    prepare: 'Préparer',
     addRecipes: 'Ajouter des fiches',
     addPlaceholder: 'Cherche une fiche à ajouter',
     added: (name: string) => `${quote(name)} ajoutée à la collection.`,

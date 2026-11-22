@@ -23,7 +23,8 @@ export function PrepModePage() {
   const ingredients = useIngredients()
   const glasses = useGlasses()
   const ice = useIceTypes()
-  const [done, setDone] = useState<ReadonlySet<number>>(new Set())
+  // By recipe and step: the ticks of one recipe are not those of the next one.
+  const [done, setDone] = useState<ReadonlySet<string>>(new Set())
 
   const sequence = (params.get('ids') ?? '').split(',').filter(Boolean)
   const position = sequence.indexOf(id)
@@ -125,7 +126,8 @@ export function PrepModePage() {
           <section aria-label={t.steps} className="flex flex-col gap-3">
             {data.steps.length === 0 ? <p className="m-0 text-[32px] text-fg-muted">{t.noSteps}</p> : null}
             {data.steps.map((step, index) => {
-              const checked = done.has(index)
+              const tick = `${id}:${String(index)}`
+              const checked = done.has(tick)
               return (
                 <button
                   key={index}
@@ -135,8 +137,8 @@ export function PrepModePage() {
                   onClick={() => {
                     setDone((current) => {
                       const copy = new Set(current)
-                      if (copy.has(index)) copy.delete(index)
-                      else copy.add(index)
+                      if (copy.has(tick)) copy.delete(tick)
+                      else copy.add(tick)
                       return copy
                     })
                   }}
@@ -172,15 +174,25 @@ export function PrepModePage() {
 
       {sequence.length > 1 ? (
         <footer className="mt-8 flex items-center justify-between text-lead text-fg-secondary">
-          <span className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={!previous}
+            onClick={() => void navigate(`/prepare/${previous ?? id}${query}`, { replace: true })}
+            className="flex cursor-pointer items-center gap-2 rounded-field px-3 py-2 hover:text-fg disabled:cursor-default disabled:opacity-40"
+          >
             <ArrowLeft size={20} aria-hidden="true" />
             {t.previous}
-          </span>
+          </button>
           <span className="nums">{t.position(position + 1, sequence.length)}</span>
-          <span className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={!next}
+            onClick={() => void navigate(`/prepare/${next ?? id}${query}`, { replace: true })}
+            className="flex cursor-pointer items-center gap-2 rounded-field px-3 py-2 hover:text-fg disabled:cursor-default disabled:opacity-40"
+          >
             {t.next}
             <ArrowRight size={20} aria-hidden="true" />
-          </span>
+          </button>
         </footer>
       ) : null}
     </div>

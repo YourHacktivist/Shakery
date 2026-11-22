@@ -2,6 +2,7 @@ import {
   ArrowDown,
   ArrowUp,
   FileDown,
+  ChefHat,
   GraduationCap,
   Layers,
   Pencil,
@@ -194,6 +195,8 @@ function CollectionPanel({
   if (detail.isError) return <EmptyState title={fr.errors.NOT_FOUND} className="min-h-[320px] p-8" />
   const collection: CollectionDetail = detail.data
   const items = collection.items
+  const toPrepare = items.flatMap((item) => (item.recipeId ? [item.recipeId] : []))
+  const firstToPrepare = toPrepare[0]
 
   function move(index: number, step: -1 | 1) {
     const order = items.map((item) => item.id)
@@ -229,8 +232,8 @@ function CollectionPanel({
         recipeIds={summary.recipeIds}
       />
       <Card className="gap-3">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex min-w-0 flex-col gap-1">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <div className="flex min-w-[200px] flex-1 flex-col gap-1">
             <span className="text-caption font-medium text-accent-soft">{t.kinds[collection.kind]}</span>
             <h2 className="m-0 truncate text-title font-semibold tracking-tight text-fg">
               {collection.name}
@@ -240,6 +243,18 @@ function CollectionPanel({
             ) : null}
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
+            <Button
+              variant="outline"
+              icon={<ChefHat size={14} aria-hidden="true" />}
+              size="sm"
+              disabled={firstToPrepare === undefined}
+              onClick={() => {
+                // The whole collection in its order: the arrows of the preparation mode follow it.
+                if (firstToPrepare) void navigate(`/prepare/${firstToPrepare}?ids=${toPrepare.join(',')}`)
+              }}
+            >
+              {t.prepare}
+            </Button>
             <Button
               icon={<GraduationCap size={14} aria-hidden="true" />}
               size="sm"

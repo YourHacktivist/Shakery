@@ -77,6 +77,7 @@ describe('CollectionsPage', () => {
       expect(api.collections.reorder).toHaveBeenCalledWith({ id: 'c1', itemIds: ['i2', 'i1'] })
     })
 
+    expect(screen.getByRole<HTMLButtonElement>('button', { name: t.prepare }).disabled).toBe(false)
     await user.click(screen.getByRole('button', { name: t.exportPdf }))
     await waitFor(() => {
       expect(api.collections.exportPdf).toHaveBeenCalledWith({ id: 'c1' })

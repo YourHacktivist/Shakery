@@ -31,6 +31,16 @@ describe('CalculatorsPage', () => {
     expect(figure(t.abv.served)).toContain('108')
   })
 
+  it('gives no degree while the degree of a poured line is unknown', async () => {
+    const user = userEvent.setup()
+    renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')
+    await user.click(screen.getByRole('radio', { name: t.tabs.abv }))
+    await user.clear(screen.getByRole('spinbutton', { name: `${t.abv.lineAbv} 2` }))
+    // Counted as 0 %, the 30 ml would have given 15,3 % served.
+    expect(figure(t.abv.after)).toContain('–')
+    expect(figure(t.abv.served)).toContain('108')
+  })
+
   it('converts an ounce with the validated equivalences', async () => {
     const user = userEvent.setup()
     renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')
