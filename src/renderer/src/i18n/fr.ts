@@ -2,6 +2,7 @@ import type { IpcErrorCode } from '@shared/ipc/result'
 import { bar } from './fr/bar'
 import { components } from './fr/components'
 import { guide } from './fr/guide'
+import { help } from './fr/help'
 import { journal } from './fr/journal'
 import { home } from './fr/home'
 import { kit } from './fr/kit'
@@ -39,5 +40,6 @@ export const fr = {
   bar,
   settings,
   guide,
+  help,
   onboarding,
 } as const

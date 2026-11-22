@@ -26,6 +26,7 @@ import { BarPage } from '@renderer/features/bar/BarPage'
 import { CalculatorsPage } from '@renderer/features/calculators/CalculatorsPage'
 import { CollectionsPage } from '@renderer/features/collections/CollectionsPage'
 import { GuidePage } from '@renderer/features/guide/GuidePage'
+import { HelpDialog } from '@renderer/features/help/HelpDialog'
 import { HomePage } from '@renderer/features/home/HomePage'
 import { JournalPage } from '@renderer/features/journal/JournalPage'
 import { LabPage } from '@renderer/features/lab/LabPage'
@@ -148,6 +149,7 @@ function Shell() {
         onClose={closeOverlay}
       />
       <PrintRecipeDialog recipeId={overlay === 'print' ? shownRecipe : null} onClose={closeOverlay} />
+      <HelpDialog />
       <Toaster />
     </div>
   )

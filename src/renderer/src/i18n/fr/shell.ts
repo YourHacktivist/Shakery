@@ -58,6 +58,7 @@ export const shell = {
     search: 'Rechercher une fiche, un ingrédient, une note',
     quickIdea: 'Idée rapide',
     settings: 'Paramètres',
+    help: 'Aide',
     theme: { light: 'Passer au thème clair', dark: 'Passer au thème sombre' },
   },
   keys: {
@@ -102,6 +103,7 @@ export const shell = {
     quickIdea: 'Noter une idée rapide',
     newRecipe: 'Créer une fiche complète',
     newTasting: 'Noter une dégustation',
+    help: 'Aide de l’écran affiché',
     guide: 'Ouvrir le guide',
     shortcuts: 'Voir les raccourcis clavier',
     searching: 'Recherche…',
@@ -145,6 +147,7 @@ export const shell = {
       prepMode: 'Passer en mode préparation',
       back: 'Fermer la fenêtre ouverte ou revenir en arrière',
       help: 'Afficher les raccourcis',
+      screenHelp: 'Aide de l’écran affiché',
     },
   },
 } as const

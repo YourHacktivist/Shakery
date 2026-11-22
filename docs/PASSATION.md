@@ -1,5 +1,16 @@
 # Passation
 
+## Reprendre ici (22 novembre 2026, fin de session)
+
+D-039 à D-048 sont codées, en local, pas encore poussées. macOS est mis de côté. Reste à faire :
+
+1. Aide (D-048) : test de couverture des libellés de chaque écran, relecture en image, corrections.
+2. `npm run check`, e2e complet deux fois, `npm run screens`, `npm run perf`, `npx tsx scripts/seed/check-seed.ts`.
+3. README, `docs/ARCHITECTURE.md`, reste de cette passation, puis installeur Windows (celui de `dist/` date de la phase 11).
+4. Relire le diff (données personnelles), puis pousser sur main.
+
+Écarts connus, non corrigés : retrait d'une collection sans « Annuler », Ctrl+J dans l'atelier sans fiche choisie, grammes hors volume du batch, photo non modifiable sur une dégustation, batch impossible sans fiche.
+
 Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 22 novembre 2026.
 
 ## Lire d'abord

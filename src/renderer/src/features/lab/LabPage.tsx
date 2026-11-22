@@ -182,6 +182,8 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (!(event.ctrlKey || event.metaKey) || event.altKey) return
+      // Ctrl+Z in a window above (the search of the help) is its own.
+      if (document.querySelector('dialog[open]')) return
       const key = event.key.toLowerCase()
       if (key === 'z' && !event.shiftKey) {
         event.preventDefault()

@@ -1,5 +1,6 @@
-import { PanelLeftOpen, Plus, Search, Settings } from 'lucide-react'
-import { Link } from 'react-router'
+import { CircleHelp, PanelLeftOpen, Plus, Search, Settings } from 'lucide-react'
+import { Link, useLocation } from 'react-router'
+import { helpPlaceOf, useHelpStore } from '@renderer/app/help'
 import { focusNextFrame, SIDEBAR_CLOSE_ID, SIDEBAR_OPEN_ID } from '@renderer/app/Sidebar'
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { ThemeToggle } from '@renderer/app/ThemeToggle'
@@ -39,6 +40,8 @@ function OpenSidebarButton() {
 export function TopBar({ className }: { className?: string }) {
   const openOverlay = useOverlayStore((state) => state.open)
   const sidebarClosed = useSidebarStore((state) => state.closed)
+  const openHelp = useHelpStore((state) => state.open)
+  const { pathname } = useLocation()
   const t = fr.shell.topbar
 
   return (
@@ -72,6 +75,18 @@ export function TopBar({ className }: { className?: string }) {
         <span aria-hidden="true">
           <Kbd tone="onAccent">{shortcutText('quickIdea')}</Kbd>
         </span>
+      </Button>
+      <Button
+        variant="outline"
+        icon={<CircleHelp size={15} strokeWidth={1.75} aria-hidden="true" />}
+        aria-haspopup="dialog"
+        aria-keyshortcuts={ariaKeyShortcut('screenHelp')}
+        title={`${fr.shell.shortcuts.items.screenHelp} (${shortcutText('screenHelp')})`}
+        onClick={() => {
+          openHelp(helpPlaceOf(pathname, null))
+        }}
+      >
+        {t.help}
       </Button>
       <ThemeToggle />
       <Link

@@ -6,6 +6,7 @@ import {
   GitCompareArrows,
   Keyboard,
   Leaf,
+  LifeBuoy,
   Lightbulb,
   NotebookPen,
   Plus,
@@ -15,7 +16,8 @@ import {
   Wine,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { useMatch, useNavigate } from 'react-router'
+import { useLocation, useMatch, useNavigate } from 'react-router'
+import { helpPlaceOf, useHelpStore } from '@renderer/app/help'
 import { NAV_ITEMS } from '@renderer/app/navigation'
 import { useOverlayStore } from '@renderer/app/stores'
 import {
@@ -52,6 +54,8 @@ export function PaletteHost() {
   const search = useSearch(open ? query : '')
   const notes = useNoteSearch(open ? query : '')
   const openOverlay = useOverlayStore((state) => state.open)
+  const openHelp = useHelpStore((state) => state.open)
+  const { pathname } = useLocation()
   const openTasting = useOverlayStore((state) => state.openTasting)
   const detailId = useMatch('/recipes/:id')?.params.id
   const labId = useMatch('/lab/:id')?.params.id
@@ -228,6 +232,14 @@ export function PaletteHost() {
                 },
               },
               {
+                id: 'action:help',
+                label: t.help,
+                icon: <LifeBuoy size={16} strokeWidth={1.75} />,
+                onSelect: () => {
+                  openHelp(helpPlaceOf(pathname, null))
+                },
+              },
+              {
                 id: 'action:guide',
                 label: t.guide,
                 icon: <CircleHelp size={16} aria-hidden="true" />,
@@ -266,8 +278,10 @@ export function PaletteHost() {
     inLab,
     navigate,
     notes.data,
+    openHelp,
     openOverlay,
     openTasting,
+    pathname,
     query,
     search.data,
     setSetting,

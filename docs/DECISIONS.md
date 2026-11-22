@@ -427,6 +427,13 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - L'état est gardé sur l'ordinateur, ouverte par défaut.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026.
 
+### D-048 Aide de chaque écran
+
+- **Date** : 2026-11-22
+- **Contexte** : demande de l'utilisateur, « un onglet d'aide pour chaque détail de l'appli sur chaque onglet ».
+- **Choix** : bouton Aide et F1 sur chaque écran, mode préparation compris, par-dessus la saisie en cours. Les termes reprennent les libellés des écrans (`i18n/fr/help/`). Le guide affiche le même détail.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

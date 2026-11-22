@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
+import { helpPlaceOf, useHelpStore } from '@renderer/app/help'
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { getShortcut, isEditableTarget, isTypeaheadTarget, matchShortcut } from '@renderer/lib/shortcuts'
 
@@ -39,6 +40,17 @@ export function useGlobalShortcuts(): void {
 
       const overlays = useOverlayStore.getState()
       const editable = isEditableTarget(event.target)
+
+      // The help covers the window: the only key it lets through is its own (Escape is the dialog's).
+      const help = useHelpStore.getState()
+      if (id === 'screenHelp') {
+        event.preventDefault()
+        if (help.place) help.close()
+        // An open menu holds the pointer: it is closed first.
+        else if (!document.querySelector('[role="menu"]')) help.open(helpPlaceOf(pathname, overlays.current))
+        return
+      }
+      if (help.place) return
 
       switch (id) {
         case 'palette':

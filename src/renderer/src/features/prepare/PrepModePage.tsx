@@ -1,6 +1,8 @@
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
+import { useHelpStore } from '@renderer/app/help'
+import { HelpDialog } from '@renderer/features/help/HelpDialog'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { useDisplayUnit, useGlasses, useIceTypes, useIngredients, useRecipe } from '@renderer/lib/queries'
@@ -19,6 +21,7 @@ export function PrepModePage() {
   const { id = '' } = useParams()
   const [params] = useSearchParams()
   const navigate = useNavigate()
+  const openHelp = useHelpStore((state) => state.open)
   const recipe = useRecipe(id)
   const ingredients = useIngredients()
   const glasses = useGlasses()
@@ -42,6 +45,15 @@ export function PrepModePage() {
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
+      if (event.key === 'F1') {
+        event.preventDefault()
+        const help = useHelpStore.getState()
+        if (help.place) help.close()
+        else help.open({ topic: 'prepare', section: null })
+        return
+      }
+      // The help, above, has the keys: the Escape that closes it does not leave the mode.
+      if (event.defaultPrevented || document.querySelector('dialog[open]')) return
       if (event.key === 'Escape' || event.key === 'F11') {
         event.preventDefault()
         void navigate(-1)
@@ -79,14 +91,26 @@ export function PrepModePage() {
             <p className="m-0 text-[24px] text-fg-secondary">{service.join(' · ')}</p>
           ) : null}
         </div>
-        <button
-          type="button"
-          onClick={() => void navigate(-1)}
-          className="inline-flex h-12 shrink-0 cursor-pointer items-center gap-2 rounded-field border border-border-strong px-4 text-lead text-fg hover:bg-surface-2"
-        >
-          <X size={20} aria-hidden="true" />
-          {t.exit}
-        </button>
+        <div className="flex shrink-0 gap-2">
+          <button
+            type="button"
+            aria-keyshortcuts="F1"
+            onClick={() => {
+              openHelp({ topic: 'prepare', section: null })
+            }}
+            className="inline-flex h-12 shrink-0 cursor-pointer items-center gap-2 rounded-field border border-border-strong px-4 text-lead text-fg hover:bg-surface-2"
+          >
+            {fr.shell.topbar.help}
+          </button>
+          <button
+            type="button"
+            onClick={() => void navigate(-1)}
+            className="inline-flex h-12 shrink-0 cursor-pointer items-center gap-2 rounded-field border border-border-strong px-4 text-lead text-fg hover:bg-surface-2"
+          >
+            <X size={20} aria-hidden="true" />
+            {t.exit}
+          </button>
+        </div>
       </header>
 
       {data ? (
@@ -195,6 +219,7 @@ export function PrepModePage() {
           </button>
         </footer>
       ) : null}
+      <HelpDialog />
     </div>
   )
 }

@@ -16,9 +16,11 @@ export type ShortcutId =
   | 'prepMode'
   | 'back'
   | 'help'
+  | 'screenHelp'
 
 /** A key as shown to the user: a named key (translated), or a literal one such as « K » or « ? ». */
-export type KeyToken = 'mod' | 'shift' | 'escape' | 'letter' | 'K' | 'N' | 'J' | 'E' | 'B' | 'P' | 'F11' | '?'
+export type KeyToken =
+  'mod' | 'shift' | 'escape' | 'letter' | 'K' | 'N' | 'J' | 'E' | 'B' | 'P' | 'F1' | 'F11' | '?'
 
 export type Shortcut = {
   readonly id: ShortcutId
@@ -39,6 +41,7 @@ export const SHORTCUTS: readonly Shortcut[] = [
   { id: 'prepMode', keys: ['F11'], available: true },
   { id: 'back', keys: ['escape'], available: true },
   { id: 'help', keys: ['?'], available: true },
+  { id: 'screenHelp', keys: ['F1'], available: true },
 ]
 
 export function getShortcut(id: ShortcutId): Shortcut {
@@ -134,6 +137,7 @@ export function matchShortcut(event: KeyInput): ShortcutId | null {
   }
 
   if (event.key === 'Escape') return 'back'
+  if (event.key === 'F1') return 'screenHelp'
   if (event.key === 'F11') return 'prepMode'
   if (event.key === '?') return 'help'
   if (SINGLE_LETTER.test(event.key)) return 'typeToSearch'

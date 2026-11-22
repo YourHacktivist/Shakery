@@ -3,7 +3,7 @@ import type { ScreenId } from '@renderer/app/navigation'
 const NBSP = String.fromCharCode(0xa0)
 const quote = (text: string) => `«${NBSP}${text}${NBSP}»`
 
-export type GuidePageId = 'start' | ScreenId | 'prepare' | 'print'
+export type GuidePageId = 'start' | ScreenId | 'detail' | 'editor' | 'prepare' | 'print'
 
 type GuidePage = {
   title: string
@@ -23,11 +23,15 @@ const pages: Record<GuidePageId, GuidePage> = {
       'Une faute de frappe n’empêche pas de trouver.',
       'Note une idée dès qu’elle arrive : un nom suffit, le reste viendra dans l’atelier.',
       'Le bouton soleil ou lune, en haut, change de thème.',
+      'Le bouton Aide, ou F1, explique chaque détail de l’écran affiché, même pendant une saisie.',
+      'La barre latérale se réduit aux icônes ou se ferme complètement. Le bouton Menu la rouvre.',
       'Déplace la fenêtre en la tirant par les zones vides du haut.',
     ],
     keys: [
       { keys: 'Ctrl K', does: 'chercher' },
       { keys: 'Ctrl N', does: 'noter une idée' },
+      { keys: 'F1', does: 'expliquer l’écran affiché' },
+      { keys: 'Ctrl B', does: 'fermer ou rouvrir la barre latérale' },
       { keys: '?', does: 'voir tous les raccourcis' },
     ],
   },
@@ -45,9 +49,9 @@ const pages: Record<GuidePageId, GuidePage> = {
     title: 'Fiches',
     intro: 'Tous les cocktails et toutes les préparations, les tiens et les classiques.',
     points: [
-      'Filtre par statut, famille, origine, méthode, favoris ou fiches réalisables avec ton bar.',
+      'Filtre par statut, famille, origine, méthode, spiritueux, verre, profil, collection, tag ou allergène, et par favoris ou fiches réalisables.',
       'Ouvre une fiche avec Entrée ou un double clic.',
-      'Chaque modification crée une version, que tu peux comparer. Une variante garde le lien avec sa fiche de départ.',
+      'Chaque enregistrement crée une version, sauf simple correction. Une variante garde le lien avec sa fiche de départ.',
       'Pour modifier un classique sans le perdre, crée une variante.',
       'Les valeurs marquées incomplètes attendent un degré, un sucre ou une acidité dans la fiche de l’ingrédient.',
     ],
@@ -56,13 +60,42 @@ const pages: Record<GuidePageId, GuidePage> = {
       { keys: 'Ctrl E', does: 'ouvrir la fiche dans l’atelier' },
     ],
   },
+  detail: {
+    title: 'Une fiche',
+    intro: 'La recette, ses calculs, ses versions et ses dégustations.',
+    points: [
+      'Les doses s’affichent dans l’unité choisie dans les paramètres.',
+      'Le panneau Calculs donne degré, volume, sucre, acidité, coût et allergènes, et dit ce qui manque.',
+      'Dépose une photo : elle est gardée sans créer de version.',
+      'Depuis la fiche : atelier, mode préparation, dégustation, impression et partage.',
+    ],
+    keys: [
+      { keys: 'Ctrl E', does: 'ouvrir dans l’atelier' },
+      { keys: 'Ctrl J', does: 'noter une dégustation' },
+      { keys: 'Ctrl P', does: 'imprimer' },
+      { keys: 'F11', does: 'passer en mode préparation' },
+    ],
+  },
+  editor: {
+    title: 'Éditeur de fiche',
+    intro: 'Chaque champ d’une fiche, du nom à la conservation.',
+    points: [
+      'Seuls le nom et l’ingrédient de chaque ligne sont obligatoires.',
+      'Un ingrédient inconnu se crée sur place.',
+      'Pour une faute de frappe, coche « Simple correction » : pas de nouvelle version.',
+    ],
+    keys: [
+      { keys: 'Ctrl B', does: 'mettre en gras dans un texte' },
+      { keys: 'Alt ↑ ↓', does: 'déplacer une ligne' },
+    ],
+  },
   lab: {
     title: 'Atelier',
     intro: 'Règle une recette avant de prendre le shaker.',
     points: [
       'Change une dose : degré, sucre, acidité et volume suivent aussitôt.',
       'Coupe une ligne avec son interrupteur pour voir le mélange sans elle.',
-      'La bande de chaque jauge est la zone habituelle de la famille, calculée sur tes fiches complètes.',
+      'La bande de chaque jauge est la zone habituelle de la famille, calculée sur les classiques et tes fiches finales.',
       'Enregistre en nouvelle version ou en variante. Rien n’est écrit avant.',
       `${quote('Comparer')} met jusqu’à trois versions côte à côte.`,
     ],
@@ -118,6 +151,7 @@ const pages: Record<GuidePageId, GuidePage> = {
     points: [
       'Ajoute des fiches, range-les avec les flèches, donne un prix et une note à chacune.',
       'Exporte la collection en PDF.',
+      `${quote('Préparer')} enchaîne ses fiches en mode préparation.`,
       `${quote('Partager')} crée un fichier .shakery pour un collègue.`,
       `${quote('Réviser')} lance les questions sur la collection.`,
     ],
@@ -128,8 +162,8 @@ const pages: Record<GuidePageId, GuidePage> = {
     intro: 'Connaître une carte par cœur.',
     points: [
       'Choisis une collection et le type de séance.',
-      'Les questions portent sur les doses, la méthode, le verre, la décoration et tes fiches de culture.',
-      'Les erreurs reviennent dans la séance des points à revoir.',
+      'Les questions portent sur les doses, la méthode, le verre, la décoration et les fiches de culture importées.',
+      'Les erreurs reviennent en tête de la séance suivante.',
     ],
     keys: [],
   },
@@ -138,7 +172,7 @@ const pages: Record<GuidePageId, GuidePage> = {
     intro: 'Les calculs du bar, seuls ou à partir d’une fiche.',
     points: [
       'Batch : multiplie une recette et ajoute l’eau de dilution si tu veux.',
-      'Les ingrédients gazeux ou frais sont signalés à ajouter au service.',
+      'Le frais reste hors de la bouteille, les bulles s’ajoutent au service.',
       'Degré et dilution d’un mélange, conversion d’unités et coût.',
     ],
     keys: [],
@@ -149,7 +183,7 @@ const pages: Record<GuidePageId, GuidePage> = {
     points: [
       'L’écran ne se met pas en veille.',
       'Coche les étapes au fur et à mesure.',
-      'Les flèches passent d’une fiche à la suivante quand tu viens d’une collection.',
+      'Les flèches passent d’une fiche à la suivante quand tu es entré par « Préparer » dans une collection.',
     ],
     keys: [
       { keys: 'F11', does: 'ouvrir depuis une fiche' },
@@ -183,6 +217,7 @@ const pages: Record<GuidePageId, GuidePage> = {
 export const guide = {
   title: 'Guide',
   subtitle: 'Une page par écran',
+  detail: 'Dans le détail',
   contents: 'Pages du guide',
   keys: 'Au clavier',
   previous: 'Page précédente',
