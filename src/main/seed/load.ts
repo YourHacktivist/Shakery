@@ -447,7 +447,7 @@ function fillComposition(
   item: z.output<typeof ingredientSeedSchema>,
   now: number,
 ): void {
-  // A degree alone is for fillDegree, which leaves the row untouched for the imports.
+  // A degree alone is for fillReference, which leaves the row untouched for the imports.
   if (item.sugar_g_per_l === null && item.acid_g_per_l === null && item.density_g_per_ml === null) return
   tx.update(ingredients)
     .set({
