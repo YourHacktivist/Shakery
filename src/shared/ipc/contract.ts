@@ -19,6 +19,7 @@ import {
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import { noteHitSchema, searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
 import { recipeFacetsSchema } from '../domain/facets'
+import { PHOTO_OWNERS, photoContentSchema, photoPathSchema, storedPhotoPathSchema } from '../domain/photos'
 import { TRASH_KINDS, trashSchema } from '../domain/trash'
 import { referenceZonesSchema } from '../domain/zones'
 import {
@@ -286,6 +287,26 @@ export const ipcContract = {
     output: z.array(noteHitSchema).max(20),
   },
   'search.rebuild': { input: noInput, output: z.object({ count: z.number().int() }).strict() },
+  'photos.get': {
+    input: z.object({ owner: z.enum(PHOTO_OWNERS), id: z.string().min(1).max(36) }).strict(),
+    output: z.object({ path: storedPhotoPathSchema }).strict(),
+  },
+  'photos.set': {
+    input: z
+      .object({
+        owner: z.enum(PHOTO_OWNERS),
+        id: z.string().min(1).max(36),
+        content: photoContentSchema.nullable(),
+      })
+      .strict(),
+    output: z.object({ previous: storedPhotoPathSchema, path: storedPhotoPathSchema }).strict(),
+  },
+  'photos.restore': {
+    input: z
+      .object({ owner: z.enum(PHOTO_OWNERS), id: z.string().min(1).max(36), path: photoPathSchema })
+      .strict(),
+    output: done,
+  },
   'trash.list': { input: noInput, output: trashSchema },
   'trash.restore': {
     input: z.object({ kind: z.enum(TRASH_KINDS), id: z.string().min(1).max(36) }).strict(),

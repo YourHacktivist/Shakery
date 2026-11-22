@@ -15,9 +15,16 @@ import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { formatDelta, formatRelative } from '@renderer/lib/format'
-import { useCreateTasting, useDeleteTasting, useSetNextStepDone, useTastings } from '@renderer/lib/queries'
+import {
+  useCreateTasting,
+  useDeleteTasting,
+  useRestorePhoto,
+  useSetNextStepDone,
+  useTastings,
+} from '@renderer/lib/queries'
 import { TASTING_CRITERIA, type TastingNote } from '@shared/domain/journal'
 import { RichText } from '@renderer/components/RichText'
+import { photoUrl } from '@shared/domain/photos'
 
 const t = fr.journal
 
@@ -178,6 +185,8 @@ export function TastingCard({
   const done = optimistic ?? note.nextStepDone
   const remove = useDeleteTasting()
   const recreate = useCreateTasting()
+  const restorePhoto = useRestorePhoto()
+  const photo = photoUrl(note.photoPath)
   const scored = TASTING_CRITERIA.filter((criterion) => (note.scores[criterion] ?? 0) !== 0)
 
   function deleteNote() {
@@ -198,7 +207,17 @@ export function TastingCard({
                 nextStep: note.nextStep,
                 context: note.context,
               },
-              { onError: notifyError },
+              {
+                onSuccess: (again) => {
+                  const { photoPath } = note
+                  if (!photoPath) return
+                  restorePhoto.mutate(
+                    { owner: 'tasting', id: again.id, path: photoPath },
+                    { onError: notifyError },
+                  )
+                },
+                onError: notifyError,
+              },
             )
           })
         },
@@ -274,6 +293,15 @@ export function TastingCard({
         </div>
       ) : null}
 
+      {photo ? (
+        <img
+          src={photo}
+          alt={fr.components.forms.photo.tastingOf(note.recipeName)}
+          loading="lazy"
+          decoding="async"
+          className="max-h-56 max-w-full self-start rounded-nested border border-border object-contain"
+        />
+      ) : null}
       {note.nextStep ? (
         <div
           className={cn(

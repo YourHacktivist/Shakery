@@ -53,6 +53,8 @@ import {
   useIngredients,
   useProducts,
   useRecipe,
+  useRecipePhoto,
+  useSetPhoto,
   useUpdateRecipe,
 } from '@renderer/lib/queries'
 import {
@@ -67,6 +69,9 @@ import {
   type RecipeInputParsed,
 } from '@shared/domain/catalog'
 import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
+import { PhotoField } from '@renderer/components/PhotoField'
+import type { PickedPhoto } from '@renderer/lib/photo'
+import { photoUrl } from '@shared/domain/photos'
 
 const t = fr.recipes
 const te = t.editor
@@ -157,11 +162,16 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
   const [versionLabel, setVersionLabel] = useState('')
   const [creating, setCreating] = useState<Creating | null>(null)
   const allowLeave = useRef(false)
+  // Chosen here, written with « Enregistrer »: undefined is « as it was », null takes it off.
+  const [photo, setPhoto] = useState<PickedPhoto | null | undefined>(undefined)
+  const savedPhoto = useRecipePhoto(recipe?.id)
+  const photoMutation = useSetPhoto()
+  const changed = isDirty || photo !== undefined
   const kind = useWatch({ control, name: 'kind' })
 
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
-      isDirty && !allowLeave.current && currentLocation.pathname !== nextLocation.pathname,
+      changed && !allowLeave.current && currentLocation.pathname !== nextLocation.pathname,
   )
 
   const names = useMemo(() => categoryNames(categories.data), [categories.data])
@@ -199,12 +209,20 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
       const saved =
         recipe === null
           ? await create.mutateAsync({ data, label: textOrNull(versionLabel) })
-          : await update.mutateAsync({
-              id: recipe.id,
-              data,
-              newVersion: !correction,
-              label: correction ? null : textOrNull(versionLabel),
-            })
+          : photo !== undefined && !isDirty
+            ? recipe // A new photo alone makes no new version.
+            : await update.mutateAsync({
+                id: recipe.id,
+                data,
+                newVersion: !correction,
+                label: correction ? null : textOrNull(versionLabel),
+              })
+      if (photo !== undefined) {
+        // The recipe is written: a photo that fails is said, and does not undo it.
+        await photoMutation
+          .mutateAsync({ owner: 'recipe', id: saved.id, content: photo?.content ?? null })
+          .catch(notifyError)
+      }
       toast.show({ message: te.saved(saved.name, fr.components.display.version(saved.version)) })
       void navigate(`/recipes/${saved.id}`, { replace: true })
     } catch (error) {
@@ -439,6 +457,18 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
 
           <aside className="sticky top-0 flex min-w-0 flex-col gap-4">
             <EditorPanel control={control} getValues={getValues} names={ingredientNames} />
+            <Section title={fr.components.forms.photo.title}>
+              <PhotoField
+                src={photo === undefined ? photoUrl(savedPhoto.data?.path) : (photo?.preview ?? null)}
+                alt={fr.components.forms.photo.of(recipe?.name ?? te.newTitle)}
+                disabled={isSubmitting}
+                onPick={setPhoto}
+                onRemove={() => {
+                  // Never saved: simply forgotten.
+                  setPhoto(savedPhoto.data?.path ? null : undefined)
+                }}
+              />
+            </Section>
             {recipe ? (
               <Section title={te.sections.save}>
                 <Checkbox

@@ -124,6 +124,7 @@ export class JournalRepository {
       nextStep: note.nextStep,
       nextStepDone: note.nextStepDone,
       context: note.context,
+      photoPath: note.photoPath,
     }
   }
 

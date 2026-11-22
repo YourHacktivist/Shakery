@@ -23,6 +23,7 @@ function note(extra: Partial<TastingNote> = {}): TastingNote {
     nextStep: '5 ml de sirop en moins',
     nextStepDone: false,
     context: null,
+    photoPath: null,
     ...extra,
   }
 }

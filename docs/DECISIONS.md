@@ -393,6 +393,19 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Rendu à l'écran, en mode préparation, à l'impression et dans l'export Markdown ; texte nu dans les aperçus et l'image partagée.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026.
 
+### D-045 Photos des fiches et des dégustations
+
+- **Date** : 2026-11-22
+- **Contexte** : sections 6, 10.4 et 10.6. Les colonnes `photo_path` existaient, rien ne les remplissait.
+- **Choix** :
+  - JPEG, PNG ou WebP, déposé ou choisi, réencodé en WebP de 1600 px au plus sans aucune métadonnée, revérifié par le main, qui nomme le fichier.
+  - La photo n'est pas versionnée : la changer ne crée pas de version. Sur la fiche, l'enregistrement est immédiat avec « Annuler » ; dans l'éditeur, il suit « Enregistrer ».
+  - Un fichier remplacé reste jusqu'au vidage de la corbeille, qui le supprime après la sauvegarde.
+  - Les sauvegardes et les exports, qui prenaient déjà les photos en charge, n'ont pas changé.
+  - HEIC non pris en charge : Chromium ne le décode pas. Le message d'erreur le dit.
+- **Défaut corrigé** : un bloc absolu de la fiche ou de l'éditeur sortait de `main` et rendait la coquille défilable : un focus pouvait faire disparaître la barre du haut. `main` est positionné et la coquille coupe au lieu de masquer (`overflow: clip`).
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

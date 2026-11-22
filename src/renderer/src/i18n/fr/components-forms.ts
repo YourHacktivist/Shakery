@@ -24,6 +24,23 @@ export const componentsForms = {
     more: (first: string, others: number) => `${first} +${others}`,
     all: 'Tout',
   },
+  photo: {
+    title: 'Photo',
+    of: (name: string) => `Photo de ${name}`,
+    tasting: 'Photo de la dégustation',
+    tastingOf: (recipe: string) => `Photo de la dégustation de ${recipe}`,
+    drop: 'Dépose une photo ici, ou clique pour la choisir',
+    reading: 'Préparation de la photo…',
+    change: 'Changer',
+    remove: 'Retirer',
+    saved: 'Photo enregistrée.',
+    removed: 'Photo retirée.',
+    problems: {
+      type: 'Choisis une image JPEG, PNG ou WebP. Une photo HEIC d’iPhone doit d’abord être convertie.',
+      size: 'Cette image est trop lourde : 10 Mo et 80 millions de pixels au plus.',
+      unreadable: 'Cette image ne se lit pas.',
+    },
+  },
   formatting: {
     group: (field: string) => `Mise en forme${NBSP}: ${field}`,
     bold: 'Gras (Ctrl+B)',

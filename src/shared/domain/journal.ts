@@ -1,5 +1,6 @@
 /** Tasting journal and notebook (sections 10.6 and 10.7): schemas shared by main and renderer. */
 import { z } from 'zod'
+import { storedPhotoPathSchema } from './photos'
 
 const id = z.string().min(1).max(36)
 const text = (max: number) =>
@@ -56,6 +57,7 @@ export const tastingNoteSchema = z
     nextStep: z.string().nullable(),
     nextStepDone: z.boolean(),
     context: z.string().nullable(),
+    photoPath: storedPhotoPathSchema,
   })
   .strict()
 

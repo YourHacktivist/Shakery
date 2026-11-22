@@ -7,6 +7,7 @@ import { appHandlers } from './app'
 import { createCatalogHandlers } from './catalog'
 import { createJournalHandlers } from './journal'
 import { createWorkshopHandlers } from './workshop'
+import { createPhotoHandlers } from './photos'
 import { createSearchHandlers } from './search'
 import { createImportHandlers } from './import'
 import { createSettingsHandlers } from './settings'
@@ -24,6 +25,7 @@ export function createHandlers(deps: HandlerDeps): IpcHandlers {
     ...createImportHandlers(deps.manager),
     ...createShareHandlers(deps.manager),
     ...createSettingsHandlers(deps.manager),
+    ...createPhotoHandlers(deps.manager),
     ...createSearchHandlers(deps.manager),
     ...createJournalHandlers(deps.manager),
     ...createWorkshopHandlers(deps.manager),

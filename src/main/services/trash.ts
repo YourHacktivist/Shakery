@@ -172,7 +172,9 @@ export class TrashService {
       for (const table of ['recipe_lines', 'recipe_history', 'tasting_notes']) {
         exec(`DELETE FROM ${table} WHERE recipe_id IN (${deletedClassic})`)
       }
-      exec(`UPDATE recipes SET notes = NULL WHERE deleted_at IS NOT NULL AND seed_key IS NOT NULL`)
+      exec(
+        `UPDATE recipes SET notes = NULL, photo_path = NULL WHERE deleted_at IS NOT NULL AND seed_key IS NOT NULL`,
+      )
 
       const ownRecipe = `${deletedRecipe} AND seed_key IS NULL`
       exec(`UPDATE recipes SET parent_recipe_id = NULL WHERE parent_recipe_id IN (${ownRecipe})`)

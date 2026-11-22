@@ -61,6 +61,16 @@ test('every screen fits in 1100 x 700, is readable in both themes and names its 
           screen.replace(':id', id),
         )
         await page.waitForTimeout(500)
+        // Only <main> scrolls: an absolute block that escaped it would let a focus move the shell.
+        const stretched = await page.evaluate(() => {
+          let element = document.querySelector('main')?.parentElement ?? null
+          while (element) {
+            if (element.scrollHeight > element.clientHeight + 1) return element.className || element.tagName
+            element = element.parentElement
+          }
+          return null
+        })
+        if (stretched) problems.push(`${theme} ${screen} shell: ${stretched}`)
         const audit = await auditPage(page)
         for (const [kind, items] of [
           ['overflow', audit.overflow],

@@ -52,6 +52,7 @@ function note(
     nextStep: null,
     nextStepDone: false,
     context: null,
+    photoPath: null,
     ...extra,
   }
 }

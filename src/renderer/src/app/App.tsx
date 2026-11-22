@@ -122,7 +122,9 @@ function Shell() {
   const tasting = useOverlayStore((state) => state.tasting)
 
   return (
-    <div className="app-shell flex h-full overflow-hidden">
+    // Clipped, not hidden: a hidden box can still be scrolled by a focus or scrollIntoView, and the
+    // top bar would leave the window for good.
+    <div className="app-shell flex h-full overflow-clip">
       <Sidebar />
       <div className="relative isolate flex min-w-0 flex-1 flex-col">
         <SceneBackdrop scene={scene} />
@@ -130,7 +132,7 @@ function Shell() {
         <main
           data-scene={scene}
           data-entering={entering ? '' : undefined}
-          className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8"
+          className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8"
         >
           <Outlet />
         </main>

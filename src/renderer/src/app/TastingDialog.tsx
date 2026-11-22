@@ -7,11 +7,13 @@ import { RatingScale, type RatingValue } from '@renderer/components/RatingScale'
 import { Select } from '@renderer/components/Select'
 import { StarRating } from '@renderer/components/StarRating'
 import { toast } from '@renderer/components/Toast'
-import { errorMessage } from '@renderer/features/shared/notify'
+import { errorMessage, notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
-import { useCreateTasting, useRecipe, useRecipes } from '@renderer/lib/queries'
+import { useCreateTasting, useRecipe, useRecipes, useSetPhoto } from '@renderer/lib/queries'
 import { TASTING_CRITERIA, type TastingCriterion } from '@shared/domain/journal'
 import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
+import { PhotoField } from '@renderer/components/PhotoField'
+import type { PickedPhoto } from '@renderer/lib/photo'
 
 const t = fr.journal
 const td = t.dialog
@@ -72,6 +74,8 @@ function TastingForm({
   const [nextStep, setNextStep] = useState('')
   const [context, setContext] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [photo, setPhoto] = useState<PickedPhoto | null>(null)
+  const setTastingPhoto = useSetPhoto()
   const recipe = useRecipe(recipeId ?? undefined)
 
   const options = useMemo(
@@ -102,6 +106,12 @@ function TastingForm({
         nextStep,
         context,
       })
+      if (photo) {
+        // The tasting is written: closing avoids writing it twice.
+        await setTastingPhoto
+          .mutateAsync({ owner: 'tasting', id: saved.id, content: photo.content })
+          .catch(notifyError)
+      }
       toast.show({ message: td.saved(saved.recipeName) })
       onClose()
     } catch (failure) {
@@ -169,6 +179,15 @@ function TastingForm({
         </div>
       </fieldset>
 
+      <PhotoField
+        compact
+        src={photo?.preview ?? null}
+        alt={fr.components.forms.photo.tasting}
+        onPick={setPhoto}
+        onRemove={() => {
+          setPhoto(null)
+        }}
+      />
       <FormattedTextarea
         label={td.comment}
         rows={3}

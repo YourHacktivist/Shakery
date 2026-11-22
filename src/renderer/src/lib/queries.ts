@@ -138,6 +138,15 @@ export function usePreps() {
   return useQuery({ queryKey: ['preps'], queryFn: () => unwrap(api().preps.list()) })
 }
 
+/** Not part of the versions of a recipe, so not part of its detail (D-045). */
+export function useRecipePhoto(id: string | undefined) {
+  return useQuery({
+    queryKey: ['recipes', 'photo', id],
+    queryFn: () => unwrap(api().photos.get({ owner: 'recipe', id: id ?? '' })),
+    enabled: id !== undefined,
+  })
+}
+
 /** Under the key of the recipes: refreshed with them. */
 export function useRecipeFacets() {
   return useQuery({ queryKey: ['recipes', 'facets'], queryFn: () => unwrap(api().recipes.facets()) })
@@ -278,6 +287,9 @@ export const useDeleteTasting = mutationOf('tastingNotes', 'delete')
 export const useCreateEntry = mutationOf('notebook', 'create')
 export const useUpdateEntry = mutationOf('notebook', 'update')
 export const useDeleteEntry = mutationOf('notebook', 'delete')
+
+export const useSetPhoto = mutationOf('photos', 'set')
+export const useRestorePhoto = mutationOf('photos', 'restore')
 
 export const useCreateBatch = mutationOf('batches', 'create')
 export const useSetBatchStatus = mutationOf('batches', 'setStatus')

@@ -54,6 +54,7 @@ import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import { STATUS_VALUES, type RecipeDetail } from '@shared/domain/catalog'
 import type { TastingNote } from '@shared/domain/journal'
 import { InlineText, RichText } from '@renderer/components/RichText'
+import { RecipePhotoCard } from '@renderer/features/recipes/RecipePhotoCard'
 
 const t = fr.recipes
 const td = t.detail
@@ -397,6 +398,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
         </div>
 
         <aside className="flex min-w-0 flex-col gap-4">
+          <RecipePhotoCard id={recipe.id} name={recipe.name} />
           <ComputedPanel data={recipe.lines.length > 0 ? computationInput : null} names={names} />
           <Card aria-label={td.sections.history}>
             <h2 className="m-0 text-body font-semibold text-fg">{td.sections.history}</h2>

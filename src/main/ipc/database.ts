@@ -4,7 +4,10 @@ import type { DatabaseManager } from '../db/manager'
 import { SqliteReferenceRepository } from '../db/repositories/reference'
 import { DomainError } from '../errors'
 import { BackupError, type BackupManifest } from '../services/backup'
+import { removeUnusedPhotos } from '../services/photos'
 import { TrashService } from '../services/trash'
+import { mediaRoot } from '../paths'
+import { log } from '../logger'
 import type { IpcHandlers } from './dispatch'
 
 export type DatabaseHandlerDeps = {
@@ -71,7 +74,12 @@ export function createDatabaseHandlers({
     'trash.empty': async () => {
       trash() // refused before the backup when the notebook is not ready
       await manager.backupBeforeErasing('pre-purge').catch(asDomainError)
-      return trash().empty()
+      const emptied = trash().empty()
+      // The rows are gone for good already: a file that resists waits for the next time.
+      await removeUnusedPhotos(manager.db, mediaRoot()).catch((error: unknown) => {
+        log.warn('Unused photos could not all be removed', error)
+      })
+      return emptied
     },
     'database.reset': async () => {
       if (manager.status !== 'ready') throw new DomainError('UNAVAILABLE', 'Database is not ready')
