@@ -191,7 +191,14 @@ describe('full export then import', () => {
     const indexed = target.db.$client
       .prepare("SELECT COUNT(*) AS n FROM search_index WHERE entity_type = 'recipe'")
       .get() as { n: number }
-    expect(indexed.n).toBe(SEED.recipes.length + 1)
+    // The recipe created is in, the classic deleted in the archive is out.
+    expect(indexed.n).toBe(SEED.recipes.length)
+    const manhattanHere = target.db.$client
+      .prepare("SELECT COUNT(*) AS n FROM search_index WHERE entity_type = 'recipe' AND entity_id = ?")
+      .get(idOf(target.db, 'iba.manhattan')) as { n: number }
+    expect(manhattanHere.n).toBe(0)
+    const imports = new SearchRepository(target.db)
+    expect(imports.searchNotes('plus rond')[0]?.entityType).toBe('tasting_note')
 
     // The same archive again: nothing new, nothing broken.
     const again = previewImport(target.db, data, target.ids)

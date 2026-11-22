@@ -16,8 +16,7 @@ import path from 'node:path'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
 import type { Db, Ids } from '../db/client'
-import { recipeIndexFields } from '../db/repositories/recipes'
-import { indexEntity } from '../db/repositories/search-index'
+import { indexRows, type RowEntity } from '../db/repositories/index-rows'
 import * as s from '../db/schema'
 import { isPathInside } from '../security-policy'
 import { ARCHIVE_VERSION, type ArchiveContent } from './archive'
@@ -432,7 +431,13 @@ export async function applyImport(
   const { data } = content
   const { strategy, ids } = options
   const result = { inserted: 0, updated: 0, skipped: 0 }
-  const written = { recipes: new Set<string>(), ingredients: new Set<string>(), products: new Set<string>() }
+  const written: Written = {
+    recipes: new Set(),
+    ingredients: new Set(),
+    products: new Set(),
+    notebook_entries: new Set(),
+    tasting_notes: new Set(),
+  }
   const fresh = new Set<string>()
 
   const sqlite = db.$client
@@ -531,8 +536,7 @@ export async function applyImport(
           result.inserted += 1
           fresh.add(String(row['id']))
         }
-        if (name === 'recipes' || name === 'ingredients' || name === 'products')
-          written[name].add(String(row['id']))
+        if (Object.hasOwn(written, name)) written[name as keyof Written].add(String(row['id']))
         if (name === 'ingredient_aliases') written.ingredients.add(String(row['ingredient_id']))
       }
     }
@@ -555,86 +559,24 @@ export async function applyImport(
   return result
 }
 
+type Written = Record<
+  'recipes' | 'ingredients' | 'products' | 'notebook_entries' | 'tasting_notes',
+  Set<string>
+>
+
 /**
- * The recipes, ingredients and bottles written by the import enter the search index. Only
+ * What the import wrote enters the search index, notes and tastings included (D-043). Only
  * those: an untouched classic of a full archive is not read again. A new row cannot be in the
  * index yet, so it skips the removal (a scan of the FTS5 table).
  */
-function reindex(
-  db: Db,
-  written: { recipes: Set<string>; ingredients: Set<string>; products: Set<string> },
-  fresh: Set<string>,
-): void {
-  const sqlite = db.$client
-  const recipe = sqlite.prepare(
-    'SELECT name, notes, garnish, profile, credit, steps, tags FROM recipes WHERE id = ? AND deleted_at IS NULL',
-  )
-  for (const id of written.recipes) {
-    const row = recipe.get(id) as Row | undefined
-    if (!row) continue
-    indexEntity(
-      sqlite,
-      'recipe',
-      id,
-      recipeIndexFields({
-        name: String(row['name']),
-        notes: str(row['notes']),
-        garnish: str(row['garnish']),
-        profile: str(row['profile']),
-        credit: str(row['credit']),
-        steps: parseList(row['steps']),
-        tags: parseList(row['tags']),
-      }),
-      { fresh: fresh.has(id) },
-    )
-  }
-  const ingredient = sqlite.prepare(
-    'SELECT name, description FROM ingredients WHERE id = ? AND deleted_at IS NULL',
-  )
-  const aliases = sqlite.prepare(
-    'SELECT alias FROM ingredient_aliases WHERE ingredient_id = ? AND deleted_at IS NULL',
-  )
-  for (const id of written.ingredients) {
-    const row = ingredient.get(id) as Row | undefined
-    if (!row) continue
-    indexEntity(
-      sqlite,
-      'ingredient',
-      id,
-      {
-        title: String(row['name']),
-        aliases: (aliases.all(id) as Array<{ alias: string }>).map((a) => a.alias),
-        body: [str(row['description'])],
-      },
-      { fresh: fresh.has(id) },
-    )
-  }
-  const product = sqlite.prepare(
-    'SELECT name, brand, personal_notes FROM products WHERE id = ? AND deleted_at IS NULL',
-  )
-  for (const id of written.products) {
-    const row = product.get(id) as Row | undefined
-    if (!row) continue
-    indexEntity(
-      sqlite,
-      'product',
-      id,
-      {
-        title: String(row['name']),
-        aliases: [str(row['brand']) ?? ''],
-        body: [str(row['personal_notes'])],
-      },
-      { fresh: fresh.has(id) },
-    )
-  }
-}
-
-function parseList(value: unknown): string[] {
-  if (typeof value !== 'string') return []
-  try {
-    const parsed: unknown = JSON.parse(value)
-    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string') : []
-  } catch {
-    return []
-  }
+function reindex(db: Db, written: Written, fresh: ReadonlySet<string>): void {
+  const entities: ReadonlyArray<readonly [RowEntity, keyof Written]> = [
+    ['recipe', 'recipes'],
+    ['ingredient', 'ingredients'],
+    ['product', 'products'],
+    ['notebook_entry', 'notebook_entries'],
+    ['tasting_note', 'tasting_notes'],
+  ]
+  const rows = entities.flatMap(([entity, table]) => [...written[table]].map((id) => ({ entity, id })))
+  indexRows(db, rows, fresh)
 }

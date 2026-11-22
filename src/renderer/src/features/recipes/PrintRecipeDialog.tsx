@@ -8,6 +8,7 @@ import { toast } from '@renderer/components/Toast'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { unwrap } from '@renderer/lib/ipc'
+import { useSetting } from '@renderer/lib/queries'
 import { RecipeSheet } from '@renderer/print/RecipeSheet'
 import { useRecipeSheet } from '@renderer/print/useRecipeSheet'
 import type { RecipePaper } from '@shared/print'
@@ -31,8 +32,10 @@ export function PrintRecipeDialog({ recipeId, onClose }: { recipeId: string | nu
 }
 
 function PrintRecipe({ recipeId }: { recipeId: string }) {
-  const [paper, setPaper] = useState<RecipePaper>('a4')
-  const [indicators, setIndicators] = useState(true)
+  const defaultPaper = useSetting('print.paper')
+  const defaultIndicators = useSetting('print.indicators')
+  const [paper, setPaper] = useState<RecipePaper>(defaultPaper)
+  const [indicators, setIndicators] = useState(defaultIndicators)
   const [busy, setBusy] = useState(false)
   const sheet = useRecipeSheet(recipeId)
   const size = PAPER_PX[paper]

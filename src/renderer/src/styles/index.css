@@ -75,7 +75,7 @@
 /* Glass is reserved to floating elements: palette, dialogs, quick idea (section 11). */
 @utility glass {
   background-color: var(--color-glass-fill);
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-blur, blur(20px));
   border: 1px solid var(--color-border-strong);
 }
 
@@ -298,4 +298,28 @@ html.print-light body {
   background: #ffffff;
   color: #111111;
   color-scheme: light;
+}
+
+/* Intensity of the glass and performance mode (section 10.14, D-043). */
+:root[data-blur='light'] {
+  --glass-blur: blur(8px);
+}
+
+:root[data-blur='none'],
+:root.performance {
+  --glass-blur: none;
+}
+
+/* Without blur the glass is opaque: what is behind would mix with the text. */
+:root[data-blur='none'] .glass,
+:root.performance .glass {
+  background-color: var(--color-surface-2);
+}
+
+:root.performance .scene-backdrop {
+  display: none;
+}
+
+:root.performance * {
+  box-shadow: none !important;
 }

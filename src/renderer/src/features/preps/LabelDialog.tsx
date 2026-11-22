@@ -9,6 +9,7 @@ import { toast } from '@renderer/components/Toast'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { unwrap } from '@renderer/lib/ipc'
+import { useSetting } from '@renderer/lib/queries'
 import { BottleLabel } from '@renderer/print/BottleLabel'
 import { useBottleLabel } from '@renderer/print/useBottleLabel'
 import {
@@ -35,8 +36,11 @@ export function LabelDialog({ batch, onClose }: { batch: Batch | null; onClose: 
 }
 
 function LabelForm({ batch }: { batch: Batch }) {
-  const [format, setFormat] = useState<LabelFormat>('roll62x29')
-  const [count, setCount] = useState<number | null>(1)
+  const defaultFormat = useSetting('print.labelFormat')
+  const [format, setFormat] = useState<LabelFormat>(defaultFormat)
+  const [count, setCount] = useState<number | null>(
+    LABEL_FORMATS[defaultFormat].columns * LABEL_FORMATS[defaultFormat].rows,
+  )
   const [first, setFirst] = useState<number | null>(1)
   const [allergens, setAllergens] = useState(true)
   const [busy, setBusy] = useState(false)

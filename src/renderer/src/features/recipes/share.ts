@@ -6,7 +6,7 @@
 import logoUrl from '@renderer/assets/logo-160.png'
 import { fr } from '@renderer/i18n/fr'
 import type { RecipeDetail } from '@shared/domain/catalog'
-import { type DisplayUnit, formatDose } from './model'
+import { type Display, formatDose } from './model'
 
 const t = fr.recipes
 
@@ -15,7 +15,7 @@ export type ShareContext = {
   readonly glass: string | null
   readonly ice: string | null
   /** Display unit of the settings. */
-  readonly display?: DisplayUnit
+  readonly display?: Display
 }
 
 /** Family, method, glass and ice, in that order, when known. */

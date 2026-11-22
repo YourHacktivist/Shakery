@@ -1,13 +1,15 @@
 import type { BackupSummary } from '../../shared/domain/health'
+import { systemIds } from '../db/client'
 import type { DatabaseManager } from '../db/manager'
 import { SqliteReferenceRepository } from '../db/repositories/reference'
 import { DomainError } from '../errors'
 import { BackupError, type BackupManifest } from '../services/backup'
+import { TrashService } from '../services/trash'
 import type { IpcHandlers } from './dispatch'
 
 export type DatabaseHandlerDeps = {
   readonly manager: DatabaseManager
-  /** Called after a restore, to reload the windows on the restored notebook. */
+  /** Called after a restore or a reset, to reload the windows on the notebook now in place. */
   readonly onRestored: () => void
 }
 
@@ -43,6 +45,10 @@ type DatabaseChannels =
   | 'backups.list'
   | 'backups.create'
   | 'backups.restore'
+  | 'database.reset'
+  | 'trash.list'
+  | 'trash.restore'
+  | 'trash.empty'
   | 'reference.listGlasses'
   | 'reference.listIceTypes'
   | 'reference.listCategories'
@@ -51,7 +57,28 @@ export function createDatabaseHandlers({
   manager,
   onRestored,
 }: DatabaseHandlerDeps): Pick<IpcHandlers, DatabaseChannels> {
+  const ids = systemIds()
+  const trash = () => {
+    if (manager.status !== 'ready') throw new DomainError('UNAVAILABLE', 'Database is not ready')
+    return new TrashService(manager.db, ids)
+  }
   return {
+    'trash.list': () => trash().list(),
+    'trash.restore': ({ kind, id }) => {
+      trash().restore(kind, id)
+      return null
+    },
+    'trash.empty': async () => {
+      trash() // refused before the backup when the notebook is not ready
+      await manager.backupBeforeErasing('pre-purge').catch(asDomainError)
+      return trash().empty()
+    },
+    'database.reset': async () => {
+      if (manager.status !== 'ready') throw new DomainError('UNAVAILABLE', 'Database is not ready')
+      const manifest = await manager.reset().catch(asDomainError)
+      onRestored()
+      return toSummary(manifest)
+    },
     'database.getHealth': () => manager.health(),
     'backups.list': async () => (await manager.listBackups()).map(toSummary),
     'backups.create': async () => {

@@ -8,7 +8,7 @@ import type { LineInput } from '../../core/model'
 import { lineVolumeMl } from '../../core/units'
 import { NO_SPIRIT, type RecipeFacets } from '../../shared/domain/facets'
 import type { Db } from '../db/client'
-import { notebookFacts } from '../db/facts'
+import { notebookFacts, savedCalculation } from '../db/facts'
 import { categories, ingredients, recipes } from '../db/schema'
 
 const SPIRITS_SEED_KEY = 'cat.spirits'
@@ -65,6 +65,7 @@ function ratings(db: Db): Map<string, number> {
 export function recipeFacets(db: Db): RecipeFacets[] {
   const notebook = notebookFacts(db)
   const groups = spiritGroups(db)
+  const { equivalences } = savedCalculation(db)
   const rated = ratings(db)
   const ingredientRows = new Map(
     db
@@ -89,7 +90,7 @@ export function recipeFacets(db: Db): RecipeFacets[] {
       if (line.isGarnish) continue
       const ingredient = ingredientRows.get(line.ingredientId)
       if (!ingredient) continue
-      const measured = lineVolumeMl(line)
+      const measured = lineVolumeMl(line, equivalences)
       // Without a measure (to taste, a piece, a top) a line still gives its flavour.
       if (measured.ok && measured.ml < FLAVOURING_ML) continue
       for (const tag of ingredient.flavorTags) flavors.add(tag)

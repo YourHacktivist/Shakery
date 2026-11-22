@@ -1,13 +1,14 @@
 /**
  * Reference zones of the families (section 8), computed from the final recipes and the classics.
  * The computation runs every recipe through the calculator, so it is cached until a recipe, an
- * ingredient or a bottle changes (latest update time and row counts of these tables).
+ * ingredient or a bottle changes (latest update time and row counts of these tables), or a
+ * setting of the calculations.
  */
 import { referenceZones, type ZoneSource } from '../../core/balance'
 import { computeComposition } from '../../core/composition'
 import type { ReferenceZones } from '../../shared/domain/zones'
 import type { Db } from '../db/client'
-import { notebookFacts } from '../db/facts'
+import { notebookFacts, savedCalculation } from '../db/facts'
 import type { RecipeRepository } from '../db/repositories/recipes'
 
 function stamp(db: Db): string {
@@ -26,14 +27,15 @@ export function createZonesCache() {
   let cached: { stamp: string; zones: ReferenceZones } | null = null
   return {
     get(db: Db, recipes: RecipeRepository): ReferenceZones {
-      const current = stamp(db)
+      const calculation = savedCalculation(db)
+      const current = `${stamp(db)}|${JSON.stringify(calculation)}`
       if (cached && cached.stamp === current) return cached.zones
       const sources: ZoneSource[] = []
       const notebook = notebookFacts(db)
       for (const summary of recipes.zoneCandidates()) {
         const recipe = notebook.recipes.get(summary.id)
         if (!recipe) continue
-        const result = computeComposition(recipe, { resolver: notebook.resolver })
+        const result = computeComposition(recipe, { resolver: notebook.resolver, ...calculation })
         const value = (metric: { value: number | null; status: string }) =>
           metric.status === 'incomplete' ? null : metric.value
         sources.push({

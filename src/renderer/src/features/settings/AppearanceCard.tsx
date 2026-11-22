@@ -14,6 +14,8 @@ export function AppearanceCard() {
   const t = fr.settings.appearance
   const theme = useSetting('appearance.theme')
   const animations = useSetting('appearance.animations')
+  const blur = useSetting('appearance.blur')
+  const performance = useSetting('appearance.performance')
   const unit = useSetting('display.unit')
   const warningDays = useSetting('preps.warningDays')
   const change = useSetSetting()
@@ -61,6 +63,31 @@ export function AppearanceCard() {
           options={days.map((value) => ({ value: String(value), label: t.days(value) }))}
           onChange={(event) => {
             save({ key: 'preps.warningDays', value: Number(event.target.value) })
+          }}
+        />
+      </SettingRow>
+      <SettingRow label={t.blur}>
+        <SegmentedControl<'full' | 'light' | 'none'>
+          label={t.blur}
+          value={blur}
+          onChange={(value) => {
+            save({ key: 'appearance.blur', value })
+          }}
+          options={[
+            { value: 'full', label: t.blurs.full },
+            { value: 'light', label: t.blurs.light },
+            { value: 'none', label: t.blurs.none },
+          ]}
+        />
+      </SettingRow>
+      <SettingRow label={t.performance}>
+        <Toggle
+          label={t.performance}
+          hideLabel
+          showState
+          checked={performance}
+          onCheckedChange={(value) => {
+            save({ key: 'appearance.performance', value })
           }}
         />
       </SettingRow>

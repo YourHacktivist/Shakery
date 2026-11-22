@@ -42,6 +42,7 @@ import {
   useRecipeComputation,
   useRecipes,
   useReferenceZones,
+  useSetting,
   useUpdateRecipe,
 } from '@renderer/lib/queries'
 import { UNIT_VALUES, type RecipeDetail } from '@shared/domain/catalog'
@@ -151,6 +152,8 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
 
   const computation = useRecipeComputation(computationInput(toInput(draft)))
   const saved = useRecipeComputation(recipe ? computationInput(detailToInput(recipe)) : null)
+  const stepMl = useSetting('lab.stepMl')
+  const stepOz = useSetting('lab.stepOz')
   const familyZones = draft.family ? zones.data?.[draft.family] : undefined
   const version = recipe ? `v${recipe.version}` : null
 
@@ -384,7 +387,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         hideLabel
                         value={line.quantity}
                         unit={fr.recipes.units[line.unit]}
-                        step={stepFor(line.unit)}
+                        step={stepFor(line.unit, { ml: stepMl, oz: stepOz })}
                         disabled={line.unit === 'top' || line.unit === 'to_taste'}
                         onChange={(quantity) => {
                           changeLine(line.key, { quantity })

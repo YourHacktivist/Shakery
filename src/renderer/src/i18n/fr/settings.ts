@@ -13,13 +13,28 @@ export const settings = {
     days: (count: number) =>
       count === 0 ? 'Le jour même' : count === 1 ? '1 jour avant' : `${count} jours avant`,
     animations: 'Animations',
-    note: 'Une once compte 30 ml. Les animations se coupent aussi quand Windows les réduit.',
+    blur: 'Effet de verre',
+    blurs: { full: 'Fort', light: 'Léger', none: 'Aucun' },
+    performance: 'Mode performance',
+    note: 'Le mode performance retire flou, ombres, dessins de fond et animations. Les animations se coupent aussi quand Windows les réduit.',
   },
   backups: {
     eyebrow: 'Sauvegardes',
     title: 'Sauvegarder et restaurer',
-    description:
-      'Une sauvegarde par jour et une à la fermeture. Shakery garde les 14 derniers jours et 8 semaines.',
+    description: 'Une sauvegarde au démarrage selon la fréquence choisie, et une à chaque fermeture.',
+    frequency: 'Fréquence',
+    every: (hours: number) =>
+      hours === 24
+        ? 'Chaque jour'
+        : hours === 168
+          ? 'Chaque semaine'
+          : hours < 24
+            ? `Toutes les ${hours} h`
+            : `Tous les ${hours / 24} jours`,
+    keepDaily: 'Jours gardés',
+    keptDays: (count: number) => `${count} jours`,
+    keepWeekly: 'Semaines gardées',
+    keptWeeks: (count: number) => (count === 0 ? 'Aucune' : `${count} semaines`),
     create: 'Sauvegarder maintenant',
     created: 'Carnet sauvegardé.',
     choose: 'Changer de dossier…',
@@ -32,11 +47,80 @@ export const settings = {
       manual: 'manuelle',
       'pre-migration': 'avant une mise à jour',
       'pre-restore': 'avant une restauration',
+      'pre-purge': 'avant de vider la corbeille',
+      'pre-reset': 'avant une réinitialisation',
     },
     confirmTitle: 'Restaurer cette sauvegarde',
     confirmText: (when: string) =>
       `Le carnet reviendra à son état du ${when}. Son état actuel est sauvegardé juste avant.`,
     cancel: 'Annuler',
+  },
+  calculation: {
+    eyebrow: 'Calculs',
+    title: 'Équivalences, dilution, atelier',
+    description: 'Chaque fiche, jauge et calculateur suit ces valeurs. Les doses notées ne changent pas.',
+    ounce: 'Une once',
+    ounces: { bar: '30 ml', exact: '29,57 ml' },
+    measures: {
+      dashMl: 'Un trait',
+      dropMl: 'Une goutte',
+      barspoonMl: 'Une cuillère de bar',
+      tspMl: 'Une cuillère à café',
+    },
+    dilution: 'Dilution par méthode',
+    dilutionHint: 'L’eau qu’apporte la glace, en part du volume de départ. Une fiche peut avoir la sienne.',
+    steps: 'Pas des doses dans l’atelier',
+    stepMl: 'En ml et cl',
+    stepOz: 'En onces',
+    inMl: (value: string) => `${value} ml`,
+    inOz: (value: number) =>
+      value === 0.125 ? '⅛ oz' : value === 0.25 ? '¼ oz' : value === 0.5 ? '½ oz' : `${value} oz`,
+    reset: 'Valeurs d’origine',
+  },
+  print: {
+    eyebrow: 'Impression',
+    title: 'Proposé à l’impression',
+    description: 'Chaque fenêtre d’impression part de ces choix.',
+    paper: 'Papier des fiches',
+    indicators: 'Indicateurs sur la fiche',
+    label: 'Format des étiquettes',
+  },
+  maintenance: {
+    eyebrow: 'Zone sensible',
+    title: 'Corbeille et entretien',
+    description: 'Une sauvegarde est faite avant tout effacement définitif.',
+    rebuild: 'Reconstruire la recherche',
+    rebuilt: (count: number) => `Recherche reconstruite, ${count} éléments.`,
+    trash: 'Corbeille…',
+    trashTitle: 'Corbeille',
+    trashText: 'Ce que tu as supprimé, jusqu’à ce que tu vides la corbeille.',
+    trashEmpty: 'La corbeille est vide.',
+    kinds: {
+      recipe: 'Fiche',
+      ingredient: 'Ingrédient',
+      product: 'Bouteille',
+      tasting_note: 'Dégustation',
+      notebook_entry: 'Note du carnet',
+      prep_batch: 'Fabrication',
+      collection: 'Collection',
+    },
+    restore: 'Restaurer',
+    restoreOf: (title: string) => `Restaurer ${title}`,
+    restored: (title: string) => `${title} est de retour.`,
+    more: (count: number) => `Et ${count} autres, plus anciens.`,
+    empty: 'Vider la corbeille',
+    emptyConfirm: (count: number) =>
+      `${count === 1 ? 'L’élément sera effacé' : `Les ${count} éléments seront effacés`} pour de bon, avec les versions et les dégustations des fiches concernées. Seule la sauvegarde faite juste avant permettra de revenir en arrière.`,
+    emptyNow: 'Effacer pour de bon',
+    emptied: 'Corbeille vidée, après une sauvegarde.',
+    cancel: 'Annuler',
+    reset: 'Réinitialiser Shakery…',
+    resetTitle: 'Réinitialiser Shakery',
+    resetText:
+      'Tes créations, dégustations, notes, bouteilles, photos et réglages sont effacés, les classiques de départ reviennent. Le carnet actuel est sauvegardé avant : tu le retrouveras dans Sauvegardes.',
+    resetField: 'Tape RÉINITIALISER pour confirmer',
+    resetWord: 'RÉINITIALISER',
+    resetNow: 'Sauvegarder puis réinitialiser',
   },
   about: {
     title: 'À propos de Shakery',

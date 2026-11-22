@@ -113,7 +113,8 @@ export function computationInput(values: RecipeInput): RecipeInput | null {
 
 export type DisplayUnit = 'ml' | 'cl' | 'oz'
 
-const ML_PER: Record<DisplayUnit, number> = { ml: 1, cl: 10, oz: DEFAULT_EQUIVALENCES.ozMl }
+/** A unit alone counts the ounce of the bar (30 ml); the settings give theirs with it. */
+export type Display = DisplayUnit | { readonly unit: DisplayUnit; readonly ozMl: number }
 
 /** An ounce reads in quarters, as long as that moves the dose by a tenth at most. */
 const QUARTER_TOLERANCE = 0.1
@@ -126,10 +127,17 @@ const QUARTER_TOLERANCE = 0.1
 export function inDisplayUnit(
   quantity: number,
   unit: string,
-  display: DisplayUnit,
+  shownIn: Display,
 ): { quantity: number; unit: string } {
-  if (!(unit in ML_PER) || unit === display) return { quantity, unit }
-  const value = (quantity * ML_PER[unit as DisplayUnit]) / ML_PER[display]
+  const chosen = typeof shownIn === 'string' ? null : shownIn
+  const display = chosen?.unit ?? (shownIn as DisplayUnit)
+  const mlPer: Record<DisplayUnit, number> = {
+    ml: 1,
+    cl: 10,
+    oz: chosen?.ozMl ?? DEFAULT_EQUIVALENCES.ozMl,
+  }
+  if (!(unit in mlPer) || unit === display) return { quantity, unit }
+  const value = (quantity * mlPer[unit as DisplayUnit]) / mlPer[display]
   if (display === 'ml') return { quantity: Math.round(value * 10) / 10, unit: display }
   const quarter = Math.round(value * 4) / 4
   if (display === 'oz' && Math.abs(quarter - value) <= value * QUARTER_TOLERANCE) {
@@ -141,7 +149,7 @@ export function inDisplayUnit(
 /** « 45 ml », « 2 traits », « à compléter, environ 60 ml », « dose à définir ». */
 export function formatDose(
   line: Pick<RecipeLineValues, 'quantity' | 'unit' | 'topEstimateMl'>,
-  display: DisplayUnit = 'ml',
+  display: Display = 'ml',
 ): string {
   if (line.unit === 'top') {
     if (line.topEstimateMl === null) return t.units.top

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { scaleBatch, servingsForVolume, type BatchLineInput, type BatchResult } from '@core/batch'
 import { dilutionFor } from '@core/dilution'
-import { useCategories, useIngredients } from '@renderer/lib/queries'
+import { useCalculation, useCategories, useIngredients } from '@renderer/lib/queries'
 import type { RecipeDetail } from '@shared/domain/catalog'
 import type { BatchPrintOptions } from '@shared/print'
 
@@ -17,6 +17,7 @@ export function useBatch(recipe: RecipeDetail | null, options: BatchPrintOptions
   const ingredients = useIngredients()
   const categories = useCategories()
   const { target, amount, stepMl, water, garnish } = options
+  const { equivalences, dilution } = useCalculation()
 
   return useMemo(() => {
     if (!recipe || !ingredients.data || !categories.data) return { ready: false, result: null }
@@ -36,11 +37,28 @@ export function useBatch(recipe: RecipeDetail | null, options: BatchPrintOptions
         isOptional: line.isOptional,
       }
     })
-    const how = { dilution: dilutionFor(recipe), includeWater: water, stepMl, includeGarnish: garnish }
+    const how = {
+      dilution: dilutionFor(recipe, dilution),
+      equivalences,
+      includeWater: water,
+      stepMl,
+      includeGarnish: garnish,
+    }
     const servings = target === 'servings' ? Math.round(amount) : servingsForVolume(lines, amount, how)
     return {
       ready: true,
       result: servings !== null && servings > 0 ? scaleBatch(lines, { ...how, servings }) : null,
     }
-  }, [recipe, ingredients.data, categories.data, target, amount, stepMl, water, garnish])
+  }, [
+    recipe,
+    ingredients.data,
+    categories.data,
+    target,
+    amount,
+    stepMl,
+    water,
+    garnish,
+    dilution,
+    equivalences,
+  ])
 }

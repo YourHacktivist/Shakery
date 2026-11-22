@@ -5,7 +5,7 @@ import { formatDose } from '@renderer/features/recipes/model'
 import { useBatch } from '@renderer/features/calculators/useBatch'
 import { fr } from '@renderer/i18n/fr'
 import { formatDate, formatNumber } from '@renderer/lib/format'
-import { useRecipe } from '@renderer/lib/queries'
+import { useRecipe, useSettings } from '@renderer/lib/queries'
 import { batchPrintOptions, PRINT_READY_TITLE } from '@shared/print'
 import './batch-sheet.css'
 
@@ -19,6 +19,9 @@ export function BatchPrint() {
   const options = batchPrintOptions(params)
   const recipe = useRecipe(id)
   const batch = useBatch(recipe.data ?? null, options)
+  // Not a figure before the equivalences and the dilution of the settings are read.
+  const settings = useSettings()
+  const ready = batch.ready && !settings.isPending
   const [printedAt] = useState(() => Date.now())
 
   useLayoutEffect(() => {
@@ -26,13 +29,13 @@ export function BatchPrint() {
   }, [])
 
   useEffect(() => {
-    if (!batch.ready) return
+    if (!ready) return
     void document.fonts.ready.then(() => {
       document.title = PRINT_READY_TITLE
     })
-  }, [batch.ready])
+  }, [ready])
 
-  if (!recipe.data || !batch.ready) return <p className="p-8 text-sm">{fr.recipes.sheet.loading}</p>
+  if (!recipe.data || !ready) return <p className="p-8 text-sm">{fr.recipes.sheet.loading}</p>
   const { result } = batch
 
   return (

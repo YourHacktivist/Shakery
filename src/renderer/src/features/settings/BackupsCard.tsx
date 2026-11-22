@@ -3,16 +3,21 @@ import { FolderOpen, Save } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@renderer/components/Button'
 import { Dialog } from '@renderer/components/Dialog'
+import { Select } from '@renderer/components/Select'
 import { toast } from '@renderer/components/Toast'
 import { SettingCard } from '@renderer/features/settings/SettingCard'
 import { BACKUPS_KEY, useBackupDirectory } from '@renderer/features/settings/useBackupDirectory'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { unwrap } from '@renderer/lib/ipc'
+import { useSetSetting, useSetting } from '@renderer/lib/queries'
 import type { BackupSummary } from '@shared/domain/health'
 
 /** Backups shown for a restore; the older ones stay in the folder. */
 const SHOWN = 6
+const FREQUENCY_HOURS = [6, 12, 24, 72, 168]
+const KEPT_DAYS = [7, 14, 30, 60]
+const KEPT_WEEKS = [0, 4, 8, 12, 26, 52]
 
 const dateTime = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
 
@@ -21,6 +26,21 @@ export function BackupsCard() {
   const t = fr.settings.backups
   const client = useQueryClient()
   const folder = useBackupDirectory()
+  const frequency = useSetting('backup.frequencyHours')
+  const days = useSetting('backup.keepDaily')
+  const weeks = useSetting('backup.keepWeekly')
+  const { mutate: change } = useSetSetting()
+  const selects = [
+    {
+      key: 'backup.frequencyHours',
+      value: frequency,
+      values: FREQUENCY_HOURS,
+      name: t.frequency,
+      label: t.every,
+    },
+    { key: 'backup.keepDaily', value: days, values: KEPT_DAYS, name: t.keepDaily, label: t.keptDays },
+    { key: 'backup.keepWeekly', value: weeks, values: KEPT_WEEKS, name: t.keepWeekly, label: t.keptWeeks },
+  ] as const
   const [restoring, setRestoring] = useState<BackupSummary | null>(null)
   const list = useQuery({
     queryKey: [...BACKUPS_KEY, 'list'],
@@ -73,6 +93,22 @@ export function BackupsCard() {
             {t.useDefault}
           </Button>
         ) : null}
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        {selects.map((select) => (
+          <Select
+            key={select.key}
+            className={select.key === 'backup.frequencyHours' ? 'col-span-2' : undefined}
+            label={select.name}
+            value={String(select.value)}
+            options={[...new Set([...select.values, select.value])]
+              .sort((a, b) => a - b)
+              .map((value) => ({ value: String(value), label: select.label(value) }))}
+            onChange={(event) => {
+              change({ key: select.key, value: Number(event.target.value) }, { onError: notifyError })
+            }}
+          />
+        ))}
       </div>
       {backups.length > 0 ? (
         <ul className="m-0 flex list-none flex-col border-t border-border p-0 pt-1">

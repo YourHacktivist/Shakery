@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { applyTheme, currentTheme } from '@renderer/lib/appearance'
 import { useSettings } from '@renderer/lib/queries'
 
-/** Puts the saved appearance on <html> (theme, animations), once the settings are read. */
+/** Puts the saved appearance on <html> (theme, animations, blur, performance mode). */
 export function AppearanceSync() {
   const settings = useSettings()
   const theme = settings.data?.['appearance.theme']
@@ -12,9 +12,19 @@ export function AppearanceSync() {
     if (theme && theme !== currentTheme()) applyTheme(theme)
   }, [theme])
 
+  const blur = settings.data?.['appearance.blur']
+  const performance = settings.data?.['appearance.performance']
+
   useEffect(() => {
-    if (animations !== undefined) document.documentElement.classList.toggle('no-motion', !animations)
-  }, [animations])
+    if (animations === undefined || performance === undefined) return
+    const root = document.documentElement
+    root.classList.toggle('no-motion', !animations || performance)
+    root.classList.toggle('performance', performance)
+  }, [animations, performance])
+
+  useEffect(() => {
+    if (blur) document.documentElement.dataset['blur'] = blur
+  }, [blur])
 
   return null
 }

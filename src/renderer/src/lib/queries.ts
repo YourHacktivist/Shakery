@@ -11,11 +11,26 @@ import {
   useQueryClient,
   type QueryKey,
 } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { unwrap } from '@renderer/lib/ipc'
 import type { IpcResult } from '@shared/ipc/result'
 import type { RecipeInput } from '@shared/domain/catalog'
 import type { IpcInput } from '@shared/ipc/contract'
+import { CALCULATION_KEYS, calculationFrom, type CalculationSettings } from '@shared/calculation'
 import { SETTING_DEFAULTS } from '@shared/settings'
+
+/** The unit of the doses, and what an ounce is worth. */
+export type DoseDisplay = { readonly unit: 'ml' | 'cl' | 'oz'; readonly ozMl: number }
+
+/** Equivalences and dilution of the settings, for what the renderer computes itself. */
+export function useCalculation(): CalculationSettings {
+  const equivalences = useSetting('units.equivalences')
+  const dilution = useSetting('calc.dilution')
+  return useMemo(
+    () => calculationFrom({ 'units.equivalences': equivalences, 'calc.dilution': dilution }),
+    [equivalences, dilution],
+  )
+}
 
 /** Read lazily: tests install their own `window.shakery` after the imports. */
 const api = () => window.shakery
@@ -320,15 +335,19 @@ export function useSetSetting() {
   const client = useQueryClient()
   return useMutation({
     mutationFn: (change: IpcInput<'settings.set'>) => unwrap(api().settings.set(change)),
-    onSuccess: () =>
+    onSuccess: (_done, change) =>
       Promise.all([
         client.invalidateQueries({ queryKey: ['settings'] }),
         client.invalidateQueries({ queryKey: ['off'] }),
+        // Every figure follows a new equivalence or dilution.
+        ...(CALCULATION_KEYS.some((key) => key === change.key) ? [invalidateCatalog(client)] : []),
       ]),
   })
 }
 
 /** Unit in which the doses are shown (section 10.15). */
-export function useDisplayUnit(): 'ml' | 'cl' | 'oz' {
-  return useSetting('display.unit')
+export function useDisplayUnit(): DoseDisplay {
+  const unit = useSetting('display.unit')
+  const { ozMl } = useSetting('units.equivalences')
+  return useMemo(() => ({ unit, ozMl }), [unit, ozMl])
 }

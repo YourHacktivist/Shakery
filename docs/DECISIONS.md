@@ -371,14 +371,25 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - IPC `export.batch` et `export.labels` : des identifiants et des options validés, jamais de HTML ni de chemin.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-043 Paramètres, corbeille et réinitialisation
+
+- **Date** : 2026-11-22
+- **Contexte** : section 10.14 complète, plus la reconstruction de l'index prévue en 12.1.
+- **Choix** :
+  - Équivalences et dilution des paramètres appliquées partout : panneau des fiches, zones, calculateurs, batch, impression. Le pas de l'atelier, les choix d'impression, la fréquence et la rétention des sauvegardes sont aussi des réglages.
+  - Mode performance : ni flou, ni ombre, ni dessin de fond, ni animation. Sans flou, le verre devient opaque.
+  - Corbeille : ce qui est supprimé, restaurable avec ce dont il dépend. Vider exige une sauvegarde réussie et vérifiée (`pre-purge`). Une entrée de départ garde une ligne vide, qui tient lieu de trace de son `seed_key` : elle ne revient pas au démarrage suivant (le point « Corbeille et données de départ » est réglé sans changement de modèle). Une ligne encore référencée reste aussi, masquée.
+  - Réinitialisation : mot à taper, sauvegarde vérifiée (`pre-reset`), ancien fichier mis de côté, remis en place si le nouveau ne s'ouvre pas. Le dossier de sauvegarde et le thème sont conservés.
+- **Défauts corrigés** : « Dossier par défaut » des sauvegardes échouait (valeur nulle refusée par la colonne) ; les notes et dégustations importées n'entraient pas dans la recherche, et une fiche supprimée par import y restait.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
-| Sujet                          | Proposition                                                                                                      | Échéance              |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Police définitive              | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                                                      | Phase 2               |
-| Corbeille et données de départ | La purge définitive devra garder une trace des `seed_key` purgés, sinon la mise à jour suivante recrée l'entrée. | Phase de la corbeille |
-| Licence du code source         | MIT ou GPL-3.0, et publication ou non du dépôt.                                                                  | Avant diffusion       |
-| Signature de code              | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée.                            | Avant diffusion       |
+| Sujet                  | Proposition                                                                           | Échéance        |
+| ---------------------- | ------------------------------------------------------------------------------------- | --------------- |
+| Police définitive      | Manrope (déjà embarquée) ou Outfit, sur la page `/dev/kit`.                           | Phase 2         |
+| Licence du code source | MIT ou GPL-3.0, et publication ou non du dépôt.                                       | Avant diffusion |
+| Signature de code      | Certificat Windows et notarisation macOS. La configuration est prête mais désactivée. | Avant diffusion |
 
 ## Dépendances (phases 0 et 1)
 

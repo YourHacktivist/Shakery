@@ -180,6 +180,106 @@ describe('DatabaseManager', () => {
     broken.close()
   })
 
+  it('resets to a new notebook after a backup that brings the old one back', async () => {
+    const m = manager()
+    await m.open()
+    const elsewhere = path.join(root, 'elsewhere')
+    new SqliteSettingsRepository(m.db, () => clock).set('backup.directory', elsewhere)
+    m.db.$client.prepare("UPDATE glasses SET name = 'Ma coupe' WHERE seed_key = 'glass.coupe'").run()
+    await mkdir(path.join(root, 'media', 'recipes'), { recursive: true })
+    await writeFile(path.join(root, 'media', 'recipes', 'photo.webp'), 'photo')
+
+    const backup = await m.reset()
+
+    expect(backup.reason).toBe('pre-reset')
+    expect(m.status).toBe('ready')
+    expect(new SqliteReferenceRepository(m.db).listGlasses()[0]?.name).toBe('Coupe')
+    expect(new SqliteSettingsRepository(m.db, () => clock).get('backup.directory')).toBe(elsewhere)
+    expect(await readdir(path.join(root, 'media', 'recipes'))).toEqual([])
+    expect((await readdir(root)).filter((name) => name.includes('resetting'))).toEqual([])
+    expect((await m.listBackups()).map((b) => b.id)).toContain(backup.id)
+
+    clock += 60_000
+    await m.restore(backup.id)
+    expect(new SqliteReferenceRepository(m.db).listGlasses()[0]?.name).toBe('Ma coupe')
+    expect(await readdir(path.join(root, 'media', 'recipes'))).toEqual(['photo.webp'])
+    m.close()
+  })
+
+  it('erases nothing when the backup before a reset fails', async () => {
+    const m = manager()
+    await m.open()
+    const blocked = path.join(root, 'not-a-folder')
+    await writeFile(blocked, 'a file where the folder should be')
+    new SqliteSettingsRepository(m.db, () => clock).set('backup.directory', blocked)
+    m.db.$client.prepare("UPDATE glasses SET name = 'Ma coupe' WHERE seed_key = 'glass.coupe'").run()
+
+    await expect(m.reset()).rejects.toThrow()
+    await expect(m.backupBeforeErasing('pre-purge')).rejects.toThrow()
+
+    expect(m.status).toBe('ready')
+    expect(new SqliteReferenceRepository(m.db).listGlasses()[0]?.name).toBe('Ma coupe')
+    m.close()
+  })
+
+  it('puts the notebook back when the new one does not open', async () => {
+    const first = manager()
+    await first.open()
+    first.db.$client.prepare("UPDATE glasses SET name = 'Ma coupe' WHERE seed_key = 'glass.coupe'").run()
+    first.close()
+    let starts = 0
+    const m = new DatabaseManager({
+      dbFile: path.join(root, 'shakery.db'),
+      mediaRoot: path.join(root, 'media'),
+      migrationsFolder: MIGRATIONS,
+      defaultBackupDirectory: path.join(root, 'backups'),
+      appVersion: '0.1.0',
+      ids,
+      log,
+      seed: () => {
+        starts += 1
+        if (starts === 2) throw new Error('seed failure')
+      },
+    })
+    await m.open()
+
+    await expect(m.reset()).rejects.toThrow(/previous one is back/)
+
+    expect(m.status).toBe('ready')
+    expect(new SqliteReferenceRepository(m.db).listGlasses()[0]?.name).toBe('Ma coupe')
+    m.close()
+  })
+
+  it('goes back to the default backup folder, and resets from it', async () => {
+    const m = manager()
+    await m.open()
+    const settings = new SqliteSettingsRepository(m.db, () => clock)
+    settings.set('backup.directory', path.join(root, 'elsewhere'))
+    settings.set('backup.directory', null)
+    expect(settings.get('backup.directory')).toBeNull()
+    expect((await m.reset()).reason).toBe('pre-reset')
+    expect(await readdir(path.join(root, 'backups'))).not.toEqual([])
+    m.close()
+  })
+
+  it('follows the frequency and the retention of the settings', async () => {
+    const m = manager()
+    await m.open()
+    const settings = new SqliteSettingsRepository(m.db, () => clock)
+    settings.set('backup.frequencyHours', 72)
+    settings.set('backup.keepDaily', 3)
+    settings.set('backup.keepWeekly', 0)
+    await m.backup('daily')
+    clock += 2 * 86_400_000
+    expect(await m.backupIfDue()).toBeNull()
+    for (let day = 0; day < 5; day += 1) {
+      clock += 86_400_000
+      await m.backup('daily')
+    }
+    expect(await m.listBackups()).toHaveLength(3)
+    m.close()
+  })
+
   it('saves the current state before restoring a healthy notebook', async () => {
     const m = manager()
     await m.open()

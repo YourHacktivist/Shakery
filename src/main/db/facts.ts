@@ -19,6 +19,8 @@ import type { AllergenCode } from '../../shared/domain/allergens'
 import type { RecipeComputation, RecipeInputParsed } from '../../shared/domain/catalog'
 import type { Db } from './client'
 import { ingredients, products, recipeLines, recipes } from './schema'
+import { calculationFrom, type CalculationSettings } from '../../shared/calculation'
+import { SqliteSettingsRepository } from './repositories/settings'
 
 type ProductRow = typeof products.$inferSelect
 
@@ -219,6 +221,15 @@ export function notebookFacts(db: Db): { resolver: FactsResolver; recipes: Map<s
       productsOfIngredient: (id) => productsByIngredient.get(id) ?? [],
     },
   }
+}
+
+/** Equivalences and dilution chosen in the settings. */
+export function savedCalculation(db: Db): CalculationSettings {
+  const settings = new SqliteSettingsRepository(db, Date.now)
+  return calculationFrom({
+    'units.equivalences': settings.get('units.equivalences'),
+    'calc.dilution': settings.get('calc.dilution'),
+  })
 }
 
 export type ComputeSettings = {

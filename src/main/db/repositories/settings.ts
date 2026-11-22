@@ -31,6 +31,12 @@ export class SqliteSettingsRepository implements SettingsRepository {
 
   set<K extends SettingKey>(key: K, value: SettingValue<K>): void {
     const checked = settingsSchemas[key].parse(value)
+    if (checked === null) {
+      // The column refuses NULL: « none » is the absence of the row, read back as the default,
+      // null for every key that accepts it (the backup folder).
+      this.db.delete(settings).where(eq(settings.key, key)).run()
+      return
+    }
     const updatedAt = this.now()
     this.db
       .insert(settings)

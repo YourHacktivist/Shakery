@@ -1,4 +1,7 @@
 import { z } from 'zod'
+import { DEFAULT_DILUTION } from '../core/dilution'
+import { DEFAULT_EQUIVALENCES } from '../core/units'
+import { LABEL_FORMAT_VALUES, RECIPE_PAPERS } from './print'
 
 /**
  * Application settings: one Zod schema and one default per key. Values are stored as JSON
@@ -7,6 +10,8 @@ import { z } from 'zod'
  * Pricing defaults follow D-017 (coefficient 5, VAT 20 %, menu price rounded up to the
  * next 0.50 €). They are user-adjustable defaults, shown as such in the interface.
  */
+const rate = z.number().min(0).max(1)
+
 export const settingsSchemas = {
   /** Backup folder chosen by the user; null means `userData/backups`. */
   'backup.directory': z.string().min(1).max(1024).nullable(),
@@ -26,6 +31,46 @@ export const settingsSchemas = {
   'appearance.animations': z.boolean(),
   /** Dark (the default) or warm light theme, title bar included (D-038). */
   'appearance.theme': z.enum(['dark', 'light']),
+  /** Glass behind the floating elements (section 11). */
+  'appearance.blur': z.enum(['full', 'light', 'none']),
+  /** Neither blur, animation, backdrop nor shadow, for a modest PC. */
+  'appearance.performance': z.boolean(),
+  /** Millilitres of one ounce, dash, drop, bar spoon and teaspoon (section 8, D-026). */
+  'units.equivalences': z
+    .object({
+      ozMl: z.number().min(25).max(35),
+      dashMl: z.number().positive().max(5),
+      dropMl: z.number().positive().max(1),
+      barspoonMl: z.number().positive().max(20),
+      tspMl: z.number().positive().max(20),
+    })
+    .strict(),
+  /** Water added by the ice, as a fraction of the volume, per method (D-026). */
+  'calc.dilution': z
+    .object({
+      shake: rate,
+      dry_shake: rate,
+      stir: rate,
+      build: rate,
+      throw: rate,
+      swizzle: rate,
+      blend: rate,
+      other: rate,
+    })
+    .strict(),
+  /** Steps of the dose arrows of the lab (section 8, « Atelier »). */
+  'lab.stepMl': z.number().positive().max(30),
+  'lab.stepOz': z.number().positive().max(2),
+  /** What the print dialogs propose first. */
+  'print.paper': z.enum(RECIPE_PAPERS),
+  'print.indicators': z.boolean(),
+  'print.labelFormat': z.enum(LABEL_FORMAT_VALUES),
+  /** A backup at start-up when the last one is older than this (section 12.3). */
+  'backup.frequencyHours': z.number().int().min(1).max(720),
+  'backup.keepDaily': z.number().int().min(3).max(90),
+  'backup.keepWeekly': z.number().int().min(0).max(52),
+  /** What was deleted before this moment left the trash (D-043). Written by the main only. */
+  'trash.emptiedAt': z.number().int().min(0),
 } as const
 
 export type SettingKey = keyof typeof settingsSchemas
@@ -44,6 +89,19 @@ export const SETTING_DEFAULTS: Settings = {
   'preps.warningDays': 2,
   'appearance.animations': true,
   'appearance.theme': 'dark',
+  'appearance.blur': 'full',
+  'appearance.performance': false,
+  'units.equivalences': DEFAULT_EQUIVALENCES,
+  'calc.dilution': DEFAULT_DILUTION,
+  'lab.stepMl': 2.5,
+  'lab.stepOz': 0.25,
+  'print.paper': 'a4',
+  'print.indicators': true,
+  'print.labelFormat': 'roll62x29',
+  'backup.frequencyHours': 24,
+  'backup.keepDaily': 14,
+  'backup.keepWeekly': 8,
+  'trash.emptiedAt': 0,
 }
 
 export const SETTING_KEYS = Object.keys(settingsSchemas) as SettingKey[]
@@ -60,6 +118,18 @@ export const RENDERER_SETTING_KEYS = [
   'preps.warningDays',
   'appearance.animations',
   'appearance.theme',
+  'appearance.blur',
+  'appearance.performance',
+  'units.equivalences',
+  'calc.dilution',
+  'lab.stepMl',
+  'lab.stepOz',
+  'print.paper',
+  'print.indicators',
+  'print.labelFormat',
+  'backup.frequencyHours',
+  'backup.keepDaily',
+  'backup.keepWeekly',
 ] as const satisfies readonly SettingKey[]
 
 export type RendererSettingKey = (typeof RENDERER_SETTING_KEYS)[number]

@@ -89,6 +89,8 @@ Légende du statut : **fait**, **partiel** (une partie est en place), **sans obj
 - Réglages : liste fermée de clés modifiables par le renderer, chacune validée par son schéma.
 - Barre de titre masquée : les boutons de la fenêtre restent natifs, la page ne les dessine pas.
 
+- Effacement définitif (corbeille vidée, réinitialisation) : jamais sans une sauvegarde qui vient de réussir son contrôle d'intégrité. `database.reset` exige un littéral de confirmation. Aucun chemin ne vient du renderer (`src/main/db/manager.ts`, testé, échec de sauvegarde compris).
+
 ## Tests de sécurité exigés par la section 13.1
 
 | Test                                                                    | Statut                                              |

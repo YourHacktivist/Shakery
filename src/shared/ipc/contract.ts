@@ -19,6 +19,7 @@ import {
 import { categorySchema, glassSchema, iceTypeSchema } from '../domain/reference'
 import { noteHitSchema, searchHitSchema, SEARCH_ENTITIES } from '../domain/search'
 import { recipeFacetsSchema } from '../domain/facets'
+import { TRASH_KINDS, trashSchema } from '../domain/trash'
 import { referenceZonesSchema } from '../domain/zones'
 import {
   notebookEntrySchema,
@@ -283,6 +284,17 @@ export const ipcContract = {
       .object({ text: z.string().max(200), limit: z.number().int().min(1).max(20).default(6) })
       .strict(),
     output: z.array(noteHitSchema).max(20),
+  },
+  'search.rebuild': { input: noInput, output: z.object({ count: z.number().int() }).strict() },
+  'trash.list': { input: noInput, output: trashSchema },
+  'trash.restore': {
+    input: z.object({ kind: z.enum(TRASH_KINDS), id: z.string().min(1).max(36) }).strict(),
+    output: done,
+  },
+  'trash.empty': { input: noInput, output: z.object({ removed: z.number().int() }).strict() },
+  'database.reset': {
+    input: z.object({ confirm: z.literal('reset') }).strict(),
+    output: backupSummarySchema,
   },
   'recentViews.record': {
     input: z.object({ entityType: z.enum(SEARCH_ENTITIES), entityId: z.string().min(1).max(36) }).strict(),

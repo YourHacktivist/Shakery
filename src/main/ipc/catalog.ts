@@ -1,7 +1,7 @@
 import { recipeInputSchema } from '../../shared/domain/catalog'
 import type { Db } from '../db/client'
 import { systemIds } from '../db/client'
-import { computeRecipe } from '../db/facts'
+import { computeRecipe, savedCalculation } from '../db/facts'
 import type { DatabaseManager } from '../db/manager'
 import { IngredientRepository } from '../db/repositories/ingredients'
 import { ProductRepository } from '../db/repositories/products'
@@ -65,7 +65,7 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
     'recipes.restore': ({ id }) => recipesRepo().restore(id),
     'recipes.quickIdea': (data) => recipesRepo().quickIdea(data),
     'recipes.compute': ({ data }) =>
-      computeRecipe(db(), { id: 'draft', data: recipeInputSchema.parse(data) }),
+      computeRecipe(db(), { id: 'draft', data: recipeInputSchema.parse(data) }, savedCalculation(db())),
     'recipes.getVersion': ({ id, version }) => recipesRepo().getVersion(id, version),
     'recipes.referenceZones': () => zonesCache.get(db(), recipesRepo()),
     'recipes.facets': () => recipeFacets(db()),

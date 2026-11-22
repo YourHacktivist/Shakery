@@ -1,7 +1,16 @@
 import { z } from 'zod'
 
-export const BACKUP_REASON_VALUES = ['daily', 'shutdown', 'manual', 'pre-migration', 'pre-restore'] as const
-export const BACKUP_ID_PATTERN = /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore)$/
+export const BACKUP_REASON_VALUES = [
+  'daily',
+  'shutdown',
+  'manual',
+  'pre-migration',
+  'pre-restore',
+  'pre-purge',
+  'pre-reset',
+] as const
+export const BACKUP_ID_PATTERN =
+  /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore|pre-purge|pre-reset)$/
 
 export const backupSummarySchema = z
   .object({

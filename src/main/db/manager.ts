@@ -9,15 +9,16 @@
  * 2. if the file already holds a notebook and migrations are pending, back up first;
  * 3. migrate, then add the missing seed entries.
  */
-import { copyFile, mkdir } from 'node:fs/promises'
+import { copyFile, mkdir, rename, rm } from 'node:fs/promises'
 import path from 'node:path'
 import type { DatabaseHealth } from '../../shared/domain/health'
-import { settingsSchemas } from '../../shared/settings'
-import { BackupError, BackupService, type BackupManifest } from '../services/backup'
-import type { BackupReason } from '../services/backup-rotation'
+import { SETTING_DEFAULTS, settingsSchemas, type SettingKey, type SettingValue } from '../../shared/settings'
+import { BackupError, BackupService, listMediaFiles, type BackupManifest } from '../services/backup'
+import { DEFAULT_ROTATION, type BackupReason } from '../services/backup-rotation'
 import { createDb, type Db, type Ids } from './client'
 import { openDatabase, quickCheck, tableExists, type Sqlite } from './connection'
 import { hasSchema, pendingMigrationCount, runMigrations } from './migrate'
+import { SqliteSettingsRepository } from './repositories/settings'
 
 export type Logger = {
   info: (...args: unknown[]) => void
@@ -37,7 +38,8 @@ export type DatabaseManagerOptions = {
   readonly seed?: (db: Db, ids: Ids) => void
 }
 
-export const DAILY_BACKUP_AGE_MS = 24 * 60 * 60 * 1000
+const HOUR_MS = 60 * 60 * 1000
+export const DAILY_BACKUP_AGE_MS = 24 * HOUR_MS
 
 export class DatabaseManager {
   private sqlite: Sqlite | null = null
@@ -97,9 +99,10 @@ export class DatabaseManager {
     }
   }
 
-  /** Daily backup at startup when the latest one is older than 24 hours (section 12.3). */
-  async backupIfDue(maxAgeMs: number = DAILY_BACKUP_AGE_MS): Promise<BackupManifest | null> {
+  /** Backup at startup when the latest one is older than the frequency chosen (section 12.3). */
+  async backupIfDue(chosenAgeMs?: number): Promise<BackupManifest | null> {
     if (this.state !== 'ready' || !this.sqlite) return null
+    const maxAgeMs = chosenAgeMs ?? this.setting(this.sqlite, 'backup.frequencyHours') * HOUR_MS
     const latest = (await this.backupService(this.sqlite).list())[0]
     if (latest && this.options.ids.now() - latest.createdAt < maxAgeMs) return null
     return this.backup('daily')
@@ -149,6 +152,62 @@ export class DatabaseManager {
     return manifest
   }
 
+  /** The backup that must succeed, and be readable, before anything is erased. */
+  async backupBeforeErasing(reason: 'pre-purge' | 'pre-reset'): Promise<BackupManifest> {
+    const manifest = await this.backup(reason)
+    if (manifest.integrity !== 'ok') {
+      throw new BackupError(
+        'INVALID_BACKUP',
+        'The backup before erasing failed its check: nothing was erased',
+      )
+    }
+    return manifest
+  }
+
+  /**
+   * A new notebook in place of this one (section 10.14, D-043). In this order: a verified
+   * backup, or nothing is touched; the file set aside; the new notebook opened, or the old one
+   * put back; only then the old file and the photos, which the backup holds, are removed.
+   * The backup folder is kept, so that the backup just made stays in sight.
+   */
+  async reset(): Promise<BackupManifest> {
+    if (this.state !== 'ready' || !this.sqlite) throw new Error('Database is not ready')
+    const { dbFile, mediaRoot, log, ids } = this.options
+    const manifest = await this.backupBeforeErasing('pre-reset')
+    const before = new SqliteSettingsRepository(this.db, ids.now)
+    const directory = before.get('backup.directory')
+    const theme = before.get('appearance.theme')
+
+    this.close()
+    const aside = `${dbFile}.resetting`
+    try {
+      await rm(aside, { force: true })
+      await rename(dbFile, aside)
+    } catch (error) {
+      await this.open()
+      throw error
+    }
+    await rm(`${dbFile}-wal`, { force: true })
+    await rm(`${dbFile}-shm`, { force: true })
+    if ((await this.open()) !== 'ready') {
+      this.close()
+      for (const suffix of ['', '-wal', '-shm']) await rm(`${dbFile}${suffix}`, { force: true })
+      await rename(aside, dbFile)
+      await this.open()
+      throw new Error('The new notebook did not open: the previous one is back')
+    }
+
+    const after = new SqliteSettingsRepository(this.db, ids.now)
+    after.set('backup.directory', directory)
+    after.set('appearance.theme', theme)
+    await rm(aside, { force: true })
+    for (const relative of await listMediaFiles(mediaRoot)) {
+      await rm(path.join(mediaRoot, relative), { force: true })
+    }
+    log.info('Notebook reset after a backup')
+    return manifest
+  }
+
   async health(): Promise<DatabaseHealth> {
     const backups = await this.backupService(this.sqlite)
       .list()
@@ -183,21 +242,26 @@ export class DatabaseManager {
     return this.state
   }
 
-  /** Backup folder from the settings when readable, else the default one. */
-  private backupDirectory(sqlite: Sqlite | null): string {
+  /** A setting read straight from the file, which may be unreadable or not migrated yet. */
+  private setting<K extends SettingKey>(sqlite: Sqlite | null, key: K): SettingValue<K> {
     if (sqlite?.open && tableExists(sqlite, 'settings')) {
-      const row = sqlite.prepare("SELECT value FROM settings WHERE key = 'backup.directory'").get() as
+      const row = sqlite.prepare('SELECT value FROM settings WHERE key = ?').get(key) as
         { value: string } | undefined
       if (row) {
         try {
-          const parsed = settingsSchemas['backup.directory'].safeParse(JSON.parse(row.value))
-          if (parsed.success && parsed.data) return parsed.data
+          const parsed = settingsSchemas[key].safeParse(JSON.parse(row.value))
+          if (parsed.success) return parsed.data as SettingValue<K>
         } catch {
-          // Unreadable setting: fall back to the default folder.
+          // Unreadable setting: its default.
         }
       }
     }
-    return this.options.defaultBackupDirectory
+    return SETTING_DEFAULTS[key]
+  }
+
+  /** Backup folder from the settings when readable, else the default one. */
+  private backupDirectory(sqlite: Sqlite | null): string {
+    return this.setting(sqlite, 'backup.directory') ?? this.options.defaultBackupDirectory
   }
 
   private backupService(sqlite: Sqlite | null): BackupService {
@@ -206,6 +270,11 @@ export class DatabaseManager {
       mediaRoot: this.options.mediaRoot,
       appVersion: this.options.appVersion,
       now: this.options.ids.now,
+      policy: {
+        ...DEFAULT_ROTATION,
+        daily: this.setting(sqlite, 'backup.keepDaily'),
+        weekly: this.setting(sqlite, 'backup.keepWeekly'),
+      },
     })
   }
 

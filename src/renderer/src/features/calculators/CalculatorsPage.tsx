@@ -13,7 +13,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { BATCH_STEPS_ML, type BatchHint } from '@core/batch'
 import { DEFAULT_PRICING, salePrice } from '@core/cost'
 import { dilutionFor } from '@core/dilution'
-import { APPROXIMATE_UNITS, DEFAULT_EQUIVALENCES, lineVolumeMl } from '@core/units'
+import { APPROXIMATE_UNITS, lineVolumeMl } from '@core/units'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Combobox } from '@renderer/components/Combobox'
@@ -29,7 +29,13 @@ import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { formatNumber } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
-import { useIngredients, useRecipe, useRecipeComputation, useRecipes } from '@renderer/lib/queries'
+import {
+  useCalculation,
+  useIngredients,
+  useRecipe,
+  useRecipeComputation,
+  useRecipes,
+} from '@renderer/lib/queries'
 import type { RecipeDetail } from '@shared/domain/catalog'
 import type { BatchPrintOptions, PrintTarget } from '@shared/print'
 
@@ -333,6 +339,7 @@ function BatchResult({ recipe }: { recipe: RecipeDetail }) {
 type AbvLine = { key: number; volume: number | null; abv: number | null }
 
 function AbvCalculator() {
+  const { equivalences, dilution: rates } = useCalculation()
   const [lines, setLines] = useState<AbvLine[]>([
     { key: 1, volume: 30, abv: 40 },
     { key: 2, volume: 30, abv: 25 },
@@ -352,7 +359,7 @@ function AbvCalculator() {
       recipe.data.lines
         .filter((line) => !line.isGarnish && !line.isOptional)
         .map((line, index) => {
-          const volume = lineVolumeMl(line)
+          const volume = lineVolumeMl(line, equivalences)
           return {
             key: index + 1,
             volume: volume.ok ? volume.ml : null,
@@ -360,7 +367,7 @@ function AbvCalculator() {
           }
         }),
     )
-    setDilution(Math.round(dilutionFor(recipe.data) * 100))
+    setDilution(Math.round(dilutionFor(recipe.data, rates) * 100))
   }
 
   const v0 = lines.reduce((sum, line) => sum + (line.volume ?? 0), 0)
@@ -459,11 +466,13 @@ const CONVERTIBLE = ['ml', 'cl', 'oz', 'dash', 'drop', 'barspoon', 'tsp'] as con
 type Convertible = (typeof CONVERTIBLE)[number]
 
 function ConvertCalculator() {
+  const { equivalences } = useCalculation()
   const [value, setValue] = useState<number | null>(1)
   const [unit, setUnit] = useState<Convertible>('oz')
-  const measured = lineVolumeMl({ quantity: value, unit, topEstimateMl: null })
+  const measured = lineVolumeMl({ quantity: value, unit, topEstimateMl: null }, equivalences)
   const ml = measured.ok ? measured.ml : null
-  const per = (target: Convertible) => lineVolumeMl({ quantity: 1, unit: target, topEstimateMl: null })
+  const per = (target: Convertible) =>
+    lineVolumeMl({ quantity: 1, unit: target, topEstimateMl: null }, equivalences)
   return (
     <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-4">
       <Panel icon={<Repeat size={16} aria-hidden="true" />}>
@@ -501,7 +510,7 @@ function ConvertCalculator() {
           )
         })}
         <p className="col-span-3 m-0 text-caption text-fg-muted">
-          {`1 oz = ${formatNumber(DEFAULT_EQUIVALENCES.ozMl)} ml · 1 ${fr.recipes.units.dash} = ${formatNumber(DEFAULT_EQUIVALENCES.dashMl, 2)} ml · 1 ${fr.recipes.units.barspoon} = ${formatNumber(DEFAULT_EQUIVALENCES.barspoonMl)} ml`}
+          {`1 oz = ${formatNumber(equivalences.ozMl)} ml · 1 ${fr.recipes.units.dash} = ${formatNumber(equivalences.dashMl, 2)} ml · 1 ${fr.recipes.units.barspoon} = ${formatNumber(equivalences.barspoonMl)} ml`}
         </p>
       </div>
     </div>

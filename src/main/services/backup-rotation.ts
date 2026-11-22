@@ -4,11 +4,12 @@
  * Kept: the newest backup of each of the `daily` most recent days that have one, the
  * newest of each of the `weekly` most recent ISO weeks that have one, and the
  * `manual` most recent backups made on request, and the `safety` most recent
- * backups taken before a migration or a restore (they protect
- * against a bad update or a wrong restore, whatever the day). Days and weeks are local
+ * backups taken before a migration, a restore, an emptying of the trash or a reset (they
+ * protect against a bad update or a wrong gesture, whatever the day). Days and weeks are local
  * to the user's time zone.
  */
-export type BackupReason = 'daily' | 'shutdown' | 'manual' | 'pre-migration' | 'pre-restore'
+export type BackupReason =
+  'daily' | 'shutdown' | 'manual' | 'pre-migration' | 'pre-restore' | 'pre-purge' | 'pre-reset'
 
 export type RotationEntry = {
   readonly id: string
@@ -79,6 +80,8 @@ export function selectBackupsToKeep(
   for (const [reason, limit] of [
     ['pre-migration', policy.safety],
     ['pre-restore', policy.safety],
+    ['pre-purge', policy.safety],
+    ['pre-reset', policy.safety],
     ['manual', policy.manual],
   ] as const) {
     newestFirst

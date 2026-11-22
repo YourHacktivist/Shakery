@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react'
 import logoUrl from '@renderer/assets/logo-512.png'
-import { formatDose, inDisplayUnit, type DisplayUnit } from '@renderer/features/recipes/model'
+import { formatDose, inDisplayUnit, type Display } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { formatDate, formatNumber } from '@renderer/lib/format'
 import { fitSheet } from '@renderer/print/fitSheet'
@@ -29,7 +29,7 @@ export type RecipeSheetProps = {
   computation: RecipeComputation | null
   indicators: boolean
   paper: RecipePaper
-  display: DisplayUnit
+  display: Display
   printedAt: number
   /** Drawn with the margins of the paper, for the preview of the dialog. */
   preview?: boolean

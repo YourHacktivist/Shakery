@@ -71,14 +71,18 @@ export function labReducer(state: LabState, action: LabAction): LabState {
   }
 }
 
-/** Step of the dose arrows by unit (2.5 ml or ¼ oz by default, section 8). */
-export function stepFor(unit: RecipeLineValues['unit']): number {
+/** Step of the dose arrows by unit (2.5 ml or ¼ oz by default, set in the settings, section 8). */
+export function stepFor(
+  unit: RecipeLineValues['unit'],
+  steps: { readonly ml: number; readonly oz: number } = { ml: 2.5, oz: 0.25 },
+): number {
   switch (unit) {
     case 'ml':
-      return 2.5
+      return steps.ml
     case 'cl':
+      return steps.ml / 10
     case 'oz':
-      return 0.25
+      return steps.oz
     case 'barspoon':
     case 'tsp':
       return 0.5
