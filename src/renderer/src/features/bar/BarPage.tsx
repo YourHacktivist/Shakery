@@ -303,7 +303,11 @@ function IngredientPanel({
           <StatTile label={td.density} value={ingredient.densityGPerMl} unit={td.densityUnit} />
         </div>
         {source ? <p className="m-0 text-small text-fg-secondary">{td.source(source, confidence)}</p> : null}
-        {ingredient.defaultAbv === null ? <Notice>{td.abvMissing}</Notice> : null}
+        {ingredient.defaultAbv === null ? (
+          <Notice>{td.abvMissing}</Notice>
+        ) : ingredient.defaultAbv > 0 ? (
+          <p className="m-0 text-caption text-fg-muted">{td.abvHint}</p>
+        ) : null}
         {compositionMissing ? <Notice>{td.compositionMissing}</Notice> : null}
 
         <div className="grid grid-cols-2 gap-4">

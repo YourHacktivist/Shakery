@@ -321,6 +321,20 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Unité d'affichage : les doses enregistrées ne changent jamais ; calculateurs et révision gardent l'unité de saisie.
 - **Validation** : demandes de l'utilisateur du 21 novembre 2026 ; modifications de la spec (sections 10.15, 11 et 12.2).
 
+### D-039 Classiques complétés : degrés de référence, familles, étapes types
+
+- **Date** : 2026-11-22
+- **Contexte** : demande de l'utilisateur de compléter les classiques. L'export de 24cocktails ne donne ni étapes ni famille, et 762 des 777 ingrédients de départ n'avaient pas de degré : 2 de ces classiques seulement avaient un degré calculable.
+- **Choix** :
+  - Degrés (`scripts/seed/abv.json`) : une valeur de référence par ingrédient générique, chacune rattachée à sa source (règlements européens, Wikidata, Ciqual, fiches de produits) ; 0 pour ce qui est sans alcool par nature. La bouteille choisie prime toujours. Sans source, la valeur reste vide (96 ingrédients). Cela élargit D-030, qui ne gardait que les degrés des produits uniques. Pour une catégorie de spiritueux, la source est souvent le minimum légal : le degré réel d'une bouteille peut être un peu plus haut.
+  - Le champ « abv » de l'export n'est pas repris : vérification faite, il est calculé par mots-clés (20 % pour toute liqueur, 0 % pour la Bénédictine).
+  - Familles (`scripts/seed/classics.ts`) : règles déterministes, en accord avec 90 des 93 fiches IBA classées à la main. 6 341 classiques classés ; les autres restent sans famille, aucun en « Autre ». « Sans alcool » seulement si chaque ligne est connue à 0.
+  - Étapes : déroulé type de la méthode, adapté aux bulles, à l'œuf, aux fruits à piler, au service chaud ou en couches, en nommant cette origine sous les étapes (`TYPICAL_STEPS_CREDIT`). Ces phrases communes n'entrent pas dans l'index de recherche. Réécrites par l'utilisateur, elles perdent la mention et sont indexées.
+  - Carnet déjà chargé : seuls les champs vides d'entrées jamais modifiées sont remplis, sans changer leur date ni leur version.
+  - Zones de référence : toutes les fiches lues en une fois (environ 0,1 s pour 7 000 classiques).
+- **Résultat** : degré calculable sur 6 137 des 7 166 cocktails. Les autres ont un complément sans volume (règle de la section 8) ou un ingrédient sans degré.
+- **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
+
 ## À valider plus tard
 
 | Sujet                          | Proposition                                                                                                      | Échéance              |

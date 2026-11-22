@@ -5,11 +5,12 @@
  * - hand-written ingredients of hand-ingredients.json (source seed);
  * - sugar and acid from review/ciqual-values.json (composition_source ciqual);
  * - water, sugars and honey from hand-compositions.json, with their density (D-031);
+ * - reference degrees of abv.json, each with its source (D-039);
  * then data/seed/recipes.json: the classic preparations of preps.json, then the IBA cocktails
  * (review/iba-raw.json read through iba-map.json, French texts of iba-fr.json);
  * then resources/seed/recipes-24c.json, read by the application at start-up: the classics of 24cocktails.com (D-036, cached export read
  * through 24c-map.json, garnishes of 24c-garnish-fr.json, new ingredients of 24c-ingredients.json),
- * one compact recipe per line.
+ * one compact recipe per line, with the family and the standard steps of classics.ts (D-039).
  *
  * Fails on an unknown category, a duplicate normalised name in a category, an alias that is
  * the name of another ingredient, a decision that matches no candidate, or `needs_review`.
@@ -18,9 +19,12 @@
  */
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import type { Method } from '../../src/core/model'
 import { normalizeName } from '../../src/core/normalize'
+import { TYPICAL_STEPS_CREDIT } from '../../src/shared/classics'
 import type { CiqualValue } from './ciqual'
-import { build24c, EXPORT_CACHE, type Map24c, readExport } from './cocktails24'
+import { familyOf, typicalSteps, type Classic } from './classics'
+import { build24c, EXPORT_CACHE, type Map24c, readExport, slugOf } from './cocktails24'
 import type { IbaCocktail } from './iba'
 import { CACHE_DIR, DATA_DIR, readJson, REVIEW_DIR, SEED_DIR, slugify, writeJson } from './lib'
 import { buildRecipes, type IbaFrench, type IbaMap, type RecipeSeed, type SeedUnit } from './recipes'
@@ -49,6 +53,12 @@ type HandIngredient = {
   is_staple?: boolean
   allergens?: string[]
   external_ref?: string
+}
+
+/** abv.json: ingredients without alcohol by nature, then degrees grouped by their source. */
+type AbvTable = {
+  noAlcohol: { categories: string[]; ingredients: string[]; except: string[] }
+  sources: Array<{ id: string; title: string; url: string; values: Record<string, number> }>
 }
 
 export type IngredientSeed = {
@@ -162,6 +172,8 @@ async function main(): Promise<void> {
     target.density_g_per_ml = value.density_g_per_ml
   }
 
+  addReferenceDegrees(out, await readJson<AbvTable>(path.join(SEED_DIR, 'abv.json')))
+
   // Checks of section 9: leaf categories, unique names per category, aliases that do not
   // collide with another ingredient's name, stable unique keys.
   const names = new Map<string, string>()
@@ -265,6 +277,12 @@ async function main(): Promise<void> {
   if (c24.problems.length > 0) {
     throw new Error(`24cocktails: ${c24.problems.length} problems\n${c24.problems.slice(0, 80).join('\n')}`)
   }
+  describeClassics(
+    c24.recipes,
+    new Map(raw24.map((item) => [`c24.${slugOf(item.url)}`, item.method] as const)),
+    out,
+    recipes,
+  )
   // Compact, one recipe per line: about 7 000 entries stay readable in a diff.
   const sorted24 = c24.recipes.sort((a, b) => a.seed_key.localeCompare(b.seed_key))
   await writeFile(
@@ -286,3 +304,67 @@ type PrepEntry = {
 }
 
 void main()
+
+/** Fills the missing degrees only: a value already read from Wikidata or by hand stays. */
+function addReferenceDegrees(ingredients: IngredientSeed[], table: AbvTable): void {
+  const { categories, ingredients: named, except } = table.noAlcohol
+  for (const ingredient of ingredients) {
+    if (ingredient.default_abv !== null || except.includes(ingredient.name)) continue
+    if (categories.includes(ingredient.category) || named.includes(ingredient.name))
+      ingredient.default_abv = 0
+  }
+  const byName = new Map(ingredients.map((ingredient) => [ingredient.name, ingredient] as const))
+  for (const source of table.sources) {
+    for (const [name, abv] of Object.entries(source.values)) {
+      const target = byName.get(name)
+      if (!target) throw new Error(`${source.id}: degree of an unknown ingredient ${name}`)
+      if (target.default_abv !== null) throw new Error(`${source.id}: ${name} already has a degree`)
+      target.default_abv = abv
+    }
+  }
+}
+
+/** Family and standard steps of the classics whose source gives none. */
+function describeClassics(
+  classics: RecipeSeed[],
+  sourceMethods: ReadonlyMap<string, string>,
+  ingredients: readonly IngredientSeed[],
+  bundled: readonly RecipeSeed[],
+): void {
+  const facts = new Map(
+    ingredients.map((item) => [
+      item.seed_key,
+      { name: item.name, category: item.category, abv: item.default_abv },
+    ]),
+  )
+  for (const prep of bundled) {
+    if (prep.kind !== 'prep' || prep.ingredient_key === null || prep.category === null) continue
+    // Only « none at all » matters to the rules: the exact degree of a preparation is computed.
+    const free = prep.lines.every((line) => facts.get(line.ingredient)?.abv === 0)
+    facts.set(prep.ingredient_key, { name: prep.name, category: prep.category, abv: free ? 0 : null })
+  }
+  for (const recipe of classics) {
+    const classic: Classic = {
+      name: recipe.name,
+      method: recipe.method as Method | null,
+      sourceMethod: sourceMethods.get(recipe.seed_key),
+      glass: recipe.glass,
+      garnish: recipe.garnish,
+      lines: recipe.lines.map((line) => {
+        const fact = facts.get(line.ingredient)
+        if (!fact) throw new Error(`${recipe.seed_key}: unknown ingredient ${line.ingredient}`)
+        return {
+          ...fact,
+          quantity: line.quantity,
+          unit: line.unit,
+          note: line.note,
+          isGarnish: line.is_garnish,
+          isOptional: line.is_optional,
+        }
+      }),
+    }
+    recipe.family = familyOf(classic)
+    recipe.steps = typicalSteps(classic)
+    if (recipe.steps.length > 0) recipe.credit = TYPICAL_STEPS_CREDIT
+  }
+}

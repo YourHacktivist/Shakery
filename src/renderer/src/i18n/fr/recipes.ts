@@ -409,6 +409,7 @@ export const recipes = {
     offNote: 'Les lignes désactivées ne comptent pas dans les calculs et ne sont pas enregistrées.',
     indicators: 'Indicateurs en direct',
     zone: (count: number) => `Zone de la famille, ${count} fiches`,
+    zoneMembers: (names: string, others: number) => (others > 0 ? `${names} et ${others} autres` : names),
     zoneRecipes: 'Fiches de la zone',
     noZone: 'Zone de référence : disponible à partir de 5 fiches complètes de la même famille.',
     savedMarker: (version: string) => `enregistrée ${version}`,

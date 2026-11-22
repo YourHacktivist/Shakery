@@ -48,7 +48,11 @@ export const settings = {
     licencesTitle: 'Licences des composants',
     licencesText: 'Les logiciels libres livrés avec Shakery.',
     sources: [
-      { name: 'Wikidata', text: 'Noms d’ingrédients, CC0.' },
+      { name: 'Wikidata', text: 'Noms d’ingrédients et degrés, CC0.' },
+      {
+        name: 'Degrés de référence',
+        text: 'Règlements (UE) 2019/787, 251/2014 et 1308/2013, Wikipédia en anglais (CC BY-SA 4.0), fiches des fabricants et des distributeurs.',
+      },
       {
         name: 'Anses',
         text: 'Anses. 2020. Table de composition nutritionnelle des aliments Ciqual. Licence Ouverte.',

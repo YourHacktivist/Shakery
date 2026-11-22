@@ -55,6 +55,26 @@ Ce fichier recense chaque source de données, sa licence, sa date de récupérat
 - TheCocktailDB : clé de test réservée au développement et à l'usage éducatif, diffusion publique soumise à l'offre Premium, données en anglais et de qualité inégale.
 - En dehors de l'export que 24cocktails.com publie lui-même, aucun site de recettes n'est aspiré.
 
+## Degrés de référence (D-039)
+
+Relevés le 22 novembre 2026 dans `scripts/seed/abv.json`, qui donne la valeur de chaque ingrédient. Une plage publiée donne son milieu. Les ingrédients sans alcool par nature valent 0.
+
+| Source                                                                                                                                                                 | Ingrédients |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [Règlement (UE) 2019/787, annexe I : titre minimal de chaque catégorie de spiritueux](https://www.legislation.gov.uk/eur/2019/787/annexes/adopted)                     | 70          |
+| [Règlement (UE) 251/2014 : vins aromatisés, 14,5 % vol au moins](https://eur-lex.europa.eu/EN/legal-content/summary/aromatised-wine-products.html)                     | 3           |
+| [Règlement (UE) 1308/2013, annexe VII : vins de liqueur de 15 à 22 % vol, milieu de la plage](https://www.legislation.gov.uk/eur/2013/1308/annex/VII/part/II/adopted)  | 3           |
+| [Wikidata, degré publié (P2665), relu ; le bourbon y est donné en proof (80, soit 40 % vol)](https://www.wikidata.org/wiki/Property:P2665)                             | 26          |
+| [Définition : overproof, au-dessus de 100 proof britanniques, soit 57,15 % vol](https://en.wikipedia.org/wiki/Alcohol_proof)                                           | 1           |
+| [Ciqual 2020, alcool en g/100 g converti en % vol par la masse volumique d'un mélange eau et éthanol](https://ciqual.anses.fr/)                                        | 23          |
+| [Gamme Giffard, fiche de l'importateur Back Bar Project : bouteille de référence du type](https://backbarproject.com/portfolio/giffard/)                               | 27          |
+| [Gamme Marie Brizard, fiches de revendeurs : bouteille de référence du type](https://winestyleonline.com/liqueur/marie-brizard/)                                       | 3           |
+| [Wikipédia en anglais, article du produit : degré publié (milieu de la plage quand il y en a une)](https://en.wikipedia.org/wiki/List_of_liqueurs)                     | 33          |
+| [Fiches de marques, de revendeurs et de Difford's Guide, relevées le 22 novembre 2026](https://www.diffordsguide.com/beer-wine-spirits/category/1202/amari)            | 24          |
+| [Bitters : fiches The Bitter Truth et Peychaud's ; pour les autres, milieu de la plage publiée de 35 à 45 % vol](https://the-bitter-truth.com/bitters/orange-bitters/) | 35          |
+
+Le degré fourni par l'export de 24cocktails n'est pas utilisé (valeur calculée par mots-clés, fausse pour les liqueurs).
+
 ## Valeurs par défaut modifiables
 
 Valeurs proposées, modifiables dans les paramètres et affichées comme approximations. **À valider par l'utilisateur en fin de phase 3** (section 8).

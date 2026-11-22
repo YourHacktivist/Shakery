@@ -141,6 +141,13 @@
   font-size: 0.85em;
 }
 
+.sheet-typical {
+  margin-top: 0.8em !important;
+  color: var(--copper);
+  font-size: 0.75em;
+  font-style: italic;
+}
+
 .sheet-facts {
   display: grid;
   grid-auto-columns: minmax(0, 1fr);

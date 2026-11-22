@@ -4,6 +4,7 @@ import { formatDose, inDisplayUnit, type DisplayUnit } from '@renderer/features/
 import { fr } from '@renderer/i18n/fr'
 import { formatDate, formatNumber } from '@renderer/lib/format'
 import { fitSheet } from '@renderer/print/fitSheet'
+import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import type { RecipeComputation, RecipeDetail } from '@shared/domain/catalog'
 import type { RecipePaper } from '@shared/print'
 import './recipe-sheet.css'
@@ -100,7 +101,9 @@ export function RecipeSheet({
           <h1 className="sheet-name" data-long={recipe.name.length > LONG_NAME ? '' : undefined}>
             {recipe.name}
           </h1>
-          {recipe.credit ? <p className="sheet-credit">{recipe.credit}</p> : null}
+          {recipe.credit && recipe.credit !== TYPICAL_STEPS_CREDIT ? (
+            <p className="sheet-credit">{recipe.credit}</p>
+          ) : null}
         </div>
       </header>
 
@@ -147,6 +150,7 @@ export function RecipeSheet({
                 </li>
               ))}
             </ol>
+            {recipe.credit === TYPICAL_STEPS_CREDIT ? <p className="sheet-typical">{recipe.credit}</p> : null}
           </section>
         ) : null}
       </div>

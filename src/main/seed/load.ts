@@ -5,7 +5,7 @@
  * overwritten, and an entry the user deleted (soft delete) is never recreated, because
  * its seed_key is still in the table.
  */
-import { and, eq, getTableColumns, getTableName, isNotNull, isNull } from 'drizzle-orm'
+import { and, eq, getTableColumns, getTableName, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { SQLiteTable } from 'drizzle-orm/sqlite-core'
 import { z } from 'zod'
 import { normalizeName } from '../../core/normalize'
@@ -374,6 +374,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
     for (const item of checked.ingredients) {
       if (ingredientKeys.has(item.seed_key)) {
         fillComposition(tx, item, now)
+        fillDegree(tx, item)
         continue
       }
       const categoryId = existing.get(item.category)
@@ -444,13 +445,8 @@ function fillComposition(
   item: z.output<typeof ingredientSeedSchema>,
   now: number,
 ): void {
-  if (
-    item.default_abv === null &&
-    item.sugar_g_per_l === null &&
-    item.acid_g_per_l === null &&
-    item.density_g_per_ml === null
-  )
-    return
+  // A degree alone is for fillDegree, which leaves the row untouched for the imports.
+  if (item.sugar_g_per_l === null && item.acid_g_per_l === null && item.density_g_per_ml === null) return
   tx.update(ingredients)
     .set({
       updatedAt: now,
@@ -472,6 +468,76 @@ function fillComposition(
       ),
     )
     .run()
+}
+
+/**
+ * Reference degree added to the seed after an ingredient was loaded (D-039). Only on a row that
+ * nobody changed, and without touching its date: it stays the entry of the seed for the imports.
+ */
+function fillDegree(
+  tx: Parameters<Parameters<Db['transaction']>[0]>[0],
+  item: z.output<typeof ingredientSeedSchema>,
+): void {
+  if (item.default_abv === null) return
+  tx.update(ingredients)
+    .set({ defaultAbv: item.default_abv })
+    .where(
+      and(
+        eq(ingredients.seedKey, item.seed_key),
+        isNull(ingredients.deletedAt),
+        isNull(ingredients.defaultAbv),
+        eq(ingredients.updatedAt, ingredients.createdAt),
+      ),
+    )
+    .run()
+}
+
+/**
+ * Family and standard steps added to the seed after a classic was loaded (D-039): only where they
+ * are empty on a classic still as it was loaded. Its first snapshot follows; its date and its
+ * version do not move, so that it stays an untouched classic for the imports.
+ */
+function fillClassics(db: Db, seeds: ReadonlyArray<z.output<typeof recipeSeedSchema>>): void {
+  const bare = db
+    .select({
+      id: recipes.id,
+      seedKey: recipes.seedKey,
+      family: recipes.family,
+      steps: recipes.steps,
+      credit: recipes.credit,
+    })
+    .from(recipes)
+    .where(
+      and(
+        isNull(recipes.deletedAt),
+        eq(recipes.kind, 'cocktail'),
+        eq(recipes.source, 'seed'),
+        eq(recipes.version, 1),
+        eq(recipes.updatedAt, recipes.createdAt),
+        or(isNull(recipes.family), sql`${recipes.steps} = '[]'`),
+      ),
+    )
+    .all()
+  if (bare.length === 0) return
+  const byKey = new Map(seeds.map((seed) => [seed.seed_key, seed] as const))
+  const writeRecipe = db.$client.prepare('UPDATE recipes SET family = ?, steps = ?, credit = ? WHERE id = ?')
+  const writeSnapshot = db.$client.prepare(
+    `UPDATE recipe_history
+        SET snapshot = json_set(snapshot, '$.family', ?, '$.steps', json(?), '$.credit', ?)
+      WHERE recipe_id = ? AND version = 1`,
+  )
+  for (const row of bare) {
+    const seed = byKey.get(row.seedKey ?? '')
+    if (!seed) continue
+    const addsFamily = row.family === null && seed.family !== null
+    const addsSteps = row.steps.length === 0 && seed.steps.length > 0
+    if (!addsFamily && !addsSteps) continue
+    const family = row.family ?? seed.family
+    const steps = JSON.stringify(addsSteps ? seed.steps : row.steps)
+    const credit = addsSteps ? (row.credit ?? seed.credit) : row.credit
+    writeRecipe.run(family, steps, credit, row.id)
+    writeSnapshot.run(family, steps, credit, row.id)
+  }
 }
 
 /** seed_key to id of a table, deleted rows included: a deleted entry is never recreated. */
@@ -501,6 +567,7 @@ function loadSeedRecipes(db: Db, ids: Ids, seeds: ReadonlyArray<z.output<typeof 
   )
   const glassKeys = seedKeys(db.select({ id: glasses.id, seedKey: glasses.seedKey }).from(glasses).all())
   const iceKeys = seedKeys(db.select({ id: iceTypes.id, seedKey: iceTypes.seedKey }).from(iceTypes).all())
+  fillClassics(db, seeds)
   const bulk = bulkCocktailWriter(db, ids)
   let added = 0
   for (const seed of seeds) {

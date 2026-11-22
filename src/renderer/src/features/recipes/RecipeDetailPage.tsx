@@ -50,6 +50,7 @@ import {
   useSetRecipeStatus,
   useTastings,
 } from '@renderer/lib/queries'
+import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import { STATUS_VALUES, type RecipeDetail } from '@shared/domain/catalog'
 import type { TastingNote } from '@shared/domain/journal'
 
@@ -164,7 +165,7 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
           <div className="flex flex-wrap items-center gap-2">
             <StatusBadge status={recipe.status} />
             <VersionBadge version={recipe.version} />
-            {recipe.credit ? (
+            {recipe.credit && recipe.credit !== TYPICAL_STEPS_CREDIT ? (
               <span className="text-small text-fg-secondary">{td.credit(recipe.credit)}</span>
             ) : null}
             {parent ? (
@@ -315,6 +316,9 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
                 ))}
               </ol>
             )}
+            {recipe.steps.length > 0 && recipe.credit === TYPICAL_STEPS_CREDIT ? (
+              <p className="m-0 text-caption text-fg-muted">{recipe.credit}</p>
+            ) : null}
           </Card>
           {recipe.garnish || recipe.notes ? (
             <div className="grid grid-cols-2 gap-4">

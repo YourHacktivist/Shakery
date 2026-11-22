@@ -4,9 +4,10 @@
  * ingredient or a bottle changes (latest update time and row counts of these tables).
  */
 import { referenceZones, type ZoneSource } from '../../core/balance'
+import { computeComposition } from '../../core/composition'
 import type { ReferenceZones } from '../../shared/domain/zones'
 import type { Db } from '../db/client'
-import { computeRecipe } from '../db/facts'
+import { notebookFacts } from '../db/facts'
 import type { RecipeRepository } from '../db/repositories/recipes'
 
 function stamp(db: Db): string {
@@ -28,18 +29,18 @@ export function createZonesCache() {
       const current = stamp(db)
       if (cached && cached.stamp === current) return cached.zones
       const sources: ZoneSource[] = []
-      for (const summary of recipes.list()) {
-        if (summary.kind !== 'cocktail' || summary.family === null) continue
-        if (summary.status !== 'final' && summary.origin !== 'classic') continue
-        const detail = recipes.get(summary.id)
-        const result = computeRecipe(db, { id: detail.id, data: detail })
+      const notebook = notebookFacts(db)
+      for (const summary of recipes.zoneCandidates()) {
+        const recipe = notebook.recipes.get(summary.id)
+        if (!recipe) continue
+        const result = computeComposition(recipe, { resolver: notebook.resolver })
         const value = (metric: { value: number | null; status: string }) =>
           metric.status === 'incomplete' ? null : metric.value
         sources.push({
-          id: detail.id,
-          family: detail.family,
-          status: detail.status,
-          origin: detail.origin,
+          id: summary.id,
+          family: summary.family,
+          status: summary.status,
+          origin: summary.origin,
           values: {
             abv: value(result.abv),
             sugar: value(result.sugarPer100Ml),

@@ -3,6 +3,7 @@ import { computeComposition } from '../../core/composition'
 import { normalizeName } from '../../core/normalize'
 import { describe, expect, it } from 'vitest'
 import { createUuidV7Generator } from '../../core/uuid'
+import { TYPICAL_STEPS_CREDIT } from '../../shared/classics'
 import { createDb } from '../db/client'
 import { databaseResolver } from '../db/facts'
 import { openDatabase } from '../db/connection'
@@ -251,7 +252,13 @@ describe('classics of 24cocktails (D-036)', () => {
         id: string
       }
       const detail = recipes.get(id)
-      expect(detail).toMatchObject({ name: seed.name, origin: 'classic', status: 'final', credit: null })
+      expect(detail).toMatchObject({
+        name: seed.name,
+        origin: 'classic',
+        status: 'final',
+        credit: TYPICAL_STEPS_CREDIT,
+        family: seed.family,
+      })
       expect(detail.lines).toHaveLength(seed.lines.length)
       expect(recipes.getVersion(id, 1)).toEqual({ ...detail, history: [] })
       expect(search.search(seed.name, 5)[0]?.id, seed.name).toBe(id)

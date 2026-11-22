@@ -10,6 +10,7 @@ import type { DilutionRates } from '../../core/dilution'
 import type {
   FactsResolver,
   IngredientFacts,
+  LineInput,
   ProductFacts,
   RecipeInput as CoreRecipe,
 } from '../../core/model'
@@ -20,6 +21,20 @@ import type { Db } from './client'
 import { ingredients, products, recipeLines, recipes } from './schema'
 
 type ProductRow = typeof products.$inferSelect
+
+function ingredientFacts(row: typeof ingredients.$inferSelect): IngredientFacts {
+  return {
+    id: row.id,
+    abv: row.defaultAbv,
+    sugarGPerL: row.sugarGPerL,
+    acidGPerL: row.acidGPerL,
+    compositionConfidence: row.compositionConfidence,
+    densityGPerMl: row.densityGPerMl,
+    allergens: row.allergens as AllergenCode[],
+    prepRecipeId: row.prepRecipeId,
+    isStaple: row.isStaple,
+  }
+}
 
 function productFacts(row: ProductRow): ProductFacts {
   return {
@@ -52,20 +67,7 @@ export function databaseResolver(db: Db): FactsResolver {
           .from(ingredients)
           .where(and(eq(ingredients.id, id), isNull(ingredients.deletedAt)))
           .get()
-        ingredientCache.set(
-          id,
-          row && {
-            id: row.id,
-            abv: row.defaultAbv,
-            sugarGPerL: row.sugarGPerL,
-            acidGPerL: row.acidGPerL,
-            compositionConfidence: row.compositionConfidence,
-            densityGPerMl: row.densityGPerMl,
-            allergens: row.allergens as AllergenCode[],
-            prepRecipeId: row.prepRecipeId,
-            isStaple: row.isStaple,
-          },
-        )
+        ingredientCache.set(id, row && ingredientFacts(row))
       }
       return ingredientCache.get(id)
     },
@@ -130,6 +132,88 @@ export function databaseResolver(db: Db): FactsResolver {
         byIngredient.set(ingredientId, list)
       }
       return list
+    },
+  }
+}
+
+type LineTuple = [
+  id: string,
+  recipeId: string,
+  ingredientId: string,
+  preferredProductId: string | null,
+  quantity: number | null,
+  unit: LineInput['unit'],
+  topEstimateMl: number | null,
+  isOptional: number,
+  isGarnish: number,
+]
+
+/**
+ * The whole notebook read at once, for a calculation over every recipe (reference zones of some
+ * 7 000 classics, D-039): a query per recipe and per ingredient would hold the main process
+ * for seconds.
+ */
+export function notebookFacts(db: Db): { resolver: FactsResolver; recipes: Map<string, CoreRecipe> } {
+  const ingredientsById = new Map<string, IngredientFacts>()
+  for (const row of db.select().from(ingredients).where(isNull(ingredients.deletedAt)).all()) {
+    ingredientsById.set(row.id, ingredientFacts(row))
+  }
+  const productsById = new Map<string, ProductFacts>()
+  const productsByIngredient = new Map<string, ProductFacts[]>()
+  for (const row of db.select().from(products).where(isNull(products.deletedAt)).all()) {
+    const product = productFacts(row)
+    productsById.set(row.id, product)
+    const bottles = productsByIngredient.get(row.ingredientId)
+    if (bottles) bottles.push(product)
+    else productsByIngredient.set(row.ingredientId, [product])
+  }
+  // Raw rows: 40 000 lines through the ORM cost several times the calculation itself.
+  const tuples = db.$client
+    .prepare(
+      `SELECT id, recipe_id, ingredient_id, preferred_product_id, quantity, unit, top_estimate_ml,
+              is_optional, is_garnish
+         FROM recipe_lines WHERE deleted_at IS NULL`,
+    )
+    .raw()
+    .all() as LineTuple[]
+  const linesByRecipe = new Map<string, LineInput[]>()
+  for (const tuple of tuples) {
+    const [id, recipeId, ingredientId, preferredProductId, quantity, unit, topEstimateMl] = tuple
+    const line: LineInput = {
+      id,
+      ingredientId,
+      preferredProductId,
+      quantity,
+      unit,
+      topEstimateMl,
+      isOptional: tuple[7] === 1,
+      isGarnish: tuple[8] === 1,
+    }
+    const lines = linesByRecipe.get(recipeId)
+    if (lines) lines.push(line)
+    else linesByRecipe.set(recipeId, [line])
+  }
+  const recipesById = new Map<string, CoreRecipe>()
+  const rows = db
+    .select({
+      id: recipes.id,
+      kind: recipes.kind,
+      method: recipes.method,
+      dilutionOverridePct: recipes.dilutionOverridePct,
+      yieldMl: recipes.yieldMl,
+      garnishCostHtCents: recipes.garnishCostHtCents,
+    })
+    .from(recipes)
+    .where(isNull(recipes.deletedAt))
+    .all()
+  for (const row of rows) recipesById.set(row.id, { ...row, lines: linesByRecipe.get(row.id) ?? [] })
+  return {
+    recipes: recipesById,
+    resolver: {
+      ingredient: (id) => ingredientsById.get(id),
+      product: (id) => productsById.get(id),
+      recipe: (id) => recipesById.get(id),
+      productsOfIngredient: (id) => productsByIngredient.get(id) ?? [],
     },
   }
 }

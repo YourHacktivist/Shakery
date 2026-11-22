@@ -100,7 +100,7 @@ export function RangeGauge({
 
   return (
     <div className={cn('flex min-w-0 flex-col gap-2', className)}>
-      {/* Clipped with a margin: the cursor layer slides beyond the track but never widens the page. */}
+      {/* The cursor layer slides to the left of its end position, which never widens the page. */}
       <div
         role="img"
         aria-label={description}
@@ -126,13 +126,15 @@ export function RangeGauge({
           />
         ) : null}
         {current === null ? null : (
-          // Moved with transform only, so a dose change slides the cursor without layout work.
+          // Moved with transform only, so a dose change slides the cursor without layout work. The
+          // layer carries the cursor inside its right edge, shifted by half a cursor to centre it on
+          // the value: what it leaves outside is on the left, which is never scrollable overflow.
           <div
             data-part="value"
-            className="pointer-events-none absolute inset-x-0 top-[7px] h-3.5 transition-transform duration-200 ease-out-soft"
-            style={{ transform: `translateX(${percent(current)}%)` }}
+            className="pointer-events-none absolute top-[7px] -right-[7px] left-[7px] h-3.5 transition-transform duration-200 ease-out-soft"
+            style={{ transform: `translateX(${percent(current) - 100}%)` }}
           >
-            <span className={cn('absolute top-0 left-0 size-3.5 -translate-x-1/2', VALUE_MARK)} />
+            <span className={cn('absolute top-0 right-0 size-3.5', VALUE_MARK)} />
           </div>
         )}
       </div>

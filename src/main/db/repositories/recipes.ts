@@ -3,7 +3,7 @@
  * statuses, variants, soft delete with undo, quick ideas. A preparation is also an ingredient,
  * and may not use itself, directly or through a chain.
  */
-import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNotNull, isNull, or } from 'drizzle-orm'
 import { missingIngredients } from '../../../core/availability'
 import { normalizeName } from '../../../core/normalize'
 import {
@@ -16,6 +16,7 @@ import {
   type RecipeSummary,
   recipeDetailSchema,
 } from '../../../shared/domain/catalog'
+import { TYPICAL_STEPS_CREDIT } from '../../../shared/classics'
 import { DomainError } from '../../errors'
 import type { Db, Ids } from '../client'
 import { ingredients, recipeHistory, recipeLines, recipes } from '../schema'
@@ -95,6 +96,22 @@ export class RecipeRepository {
       .all()
   }
 
+  /** What the reference zones read of each recipe, without the availability that `list` computes. */
+  zoneCandidates() {
+    return this.db
+      .select({ id: recipes.id, family: recipes.family, status: recipes.status, origin: recipes.origin })
+      .from(recipes)
+      .where(
+        and(
+          isNull(recipes.deletedAt),
+          eq(recipes.kind, 'cocktail'),
+          isNotNull(recipes.family),
+          or(eq(recipes.status, 'final'), eq(recipes.origin, 'classic')),
+        ),
+      )
+      .all()
+  }
+
   get(id: string): RecipeDetail {
     const row = this.row(id)
     const lines = this.db
@@ -140,8 +157,12 @@ export class RecipeRepository {
   }
 
   update(id: string, input: RecipeInput, options: SaveOptions = {}): RecipeDetail {
-    const data = recipeInputSchema.parse(input)
+    const parsed = recipeInputSchema.parse(input)
     const current = this.row(id)
+    // Steps the user rewrote are no longer the standard ones: the mention leaves with them.
+    const rewritten =
+      parsed.credit === TYPICAL_STEPS_CREDIT && JSON.stringify(parsed.steps) !== JSON.stringify(current.steps)
+    const data = rewritten ? { ...parsed, credit: null } : parsed
     const newVersion = options.newVersion ?? true
     const version = newVersion ? current.version + 1 : current.version
     const now = this.ids.now()
@@ -417,7 +438,14 @@ export function recipeIndexFields(
   return {
     title: data.name,
     aliases: data.tags,
-    body: [data.notes, data.garnish, data.profile, data.credit, ...data.steps],
+    body: [
+      data.notes,
+      data.garnish,
+      data.profile,
+      // The standard steps are the same words on thousands of classics: searching « shaker » or
+      // « glace » would give them all (D-039). Steps written by the user are indexed.
+      ...(data.credit === TYPICAL_STEPS_CREDIT ? [] : [data.credit, ...data.steps]),
+    ],
   }
 }
 

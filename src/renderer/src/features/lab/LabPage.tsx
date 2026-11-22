@@ -46,6 +46,9 @@ import {
 } from '@renderer/lib/queries'
 import { UNIT_VALUES, type RecipeDetail } from '@shared/domain/catalog'
 
+/** A family counts up to some 2 500 classics: the tooltip names the first ones. */
+const ZONE_MEMBERS_SHOWN = 30
+
 const t = fr.recipes.lab
 const tp = fr.recipes.panel
 
@@ -446,7 +449,13 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                   {gauge.zone ? (
                     <p
                       className="m-0 w-fit cursor-help text-caption text-fg-muted underline decoration-dotted"
-                      title={gauge.zone.recipeIds.map((id) => recipeNames.get(id) ?? '').join(', ')}
+                      title={t.zoneMembers(
+                        gauge.zone.recipeIds
+                          .slice(0, ZONE_MEMBERS_SHOWN)
+                          .map((id) => recipeNames.get(id) ?? '')
+                          .join(', '),
+                        Math.max(0, gauge.zone.recipeIds.length - ZONE_MEMBERS_SHOWN),
+                      )}
                     >
                       {t.zone(gauge.zone.recipeIds.length)}
                     </p>
