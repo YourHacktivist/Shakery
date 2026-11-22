@@ -1,5 +1,5 @@
-import { BookOpenText, GlassWater, PenLine, type LucideIcon } from 'lucide-react'
 import { activeNavIndex, NAV_ITEMS, type ScreenId } from '@renderer/app/navigation'
+import { backdropOf } from '@renderer/app/backdrops/drawings'
 
 /** A screen as seen by the animations: the navigation screens, plus a recipe and its editor. */
 export type SceneId = ScreenId | 'detail' | 'editor' | 'guide'
@@ -11,24 +11,27 @@ export function sceneOf(pathname: string): SceneId {
   return NAV_ITEMS[activeNavIndex(pathname)]?.id ?? 'home'
 }
 
-const MOTIFS = {
-  ...Object.fromEntries(NAV_ITEMS.map((item) => [item.id, item.icon])),
-  detail: GlassWater,
-  guide: BookOpenText,
-  editor: PenLine,
-} as Record<SceneId, LucideIcon>
-
 /**
- * Behind each screen, its own light and its own large line drawing (D-038): the screens can be
- * told apart at a glance. Both arrive once, then stay still (no CPU at rest, section 11). The
- * colours and the movements are in styles/scenes.css, under the name of the scene.
+ * Behind each screen, its own light and its own engraving in hairlines (D-038, D-046): the
+ * screens can be told apart at a glance. Both arrive once, then stay still (no CPU at rest,
+ * section 11). The colours and the movements are in styles/scenes.css, under the name of the
+ * scene; the drawings in app/backdrops/.
  */
 export function SceneBackdrop({ scene }: { scene: SceneId }) {
-  const Motif = MOTIFS[scene]
   return (
     <div key={scene} aria-hidden="true" data-scene={scene} className="scene-backdrop">
       <span className="scene-light" />
-      <Motif size={440} strokeWidth={0.5} className="scene-motif" />
+      <svg className="scene-motif" viewBox="0 0 600 600" fill="none" focusable="false">
+        {backdropOf(scene).map((part, index) => (
+          <path
+            key={index}
+            className={`engraving-${part.weight}`}
+            d={part.d}
+            transform={part.transform}
+            vectorEffect="non-scaling-stroke"
+          />
+        ))}
+      </svg>
     </div>
   )
 }

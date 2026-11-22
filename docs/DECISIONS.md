@@ -406,6 +406,16 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Défaut corrigé** : un bloc absolu de la fiche ou de l'éditeur sortait de `main` et rendait la coquille défilable : un focus pouvait faire disparaître la barre du haut. `main` est positionné et la coquille coupe au lieu de masquer (`overflow: clip`).
 - **Validation** : demande de l'utilisateur du 22 novembre 2026. Aucun changement de modèle.
 
+### D-046 Dessins de fond en gravure
+
+- **Date** : 2026-11-22
+- **Contexte** : demande de l'utilisateur, « les dessins de fond de page doivent être plus détaillés et plus fins ». Les motifs de D-038 étaient des icônes agrandies, aux traits de 9 px.
+- **Choix** :
+  - Quatorze illustrations originales, une par écran (comptoir, fichier, verre taillé, alambic, roue de dégustation, herbier, étagères…), dans `src/renderer/src/app/backdrops/`.
+  - Traits de 1, 0,7 et 0,5 px qui ne grossissent pas avec la fenêtre, hachures, aucun fichier image. Calculées une fois, immobiles après l'entrée, masquées en mode performance.
+  - Le shaker du logo n'y figure jamais : le logo reste le seul à le montrer (D-025).
+- **Validation** : demande de l'utilisateur du 22 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

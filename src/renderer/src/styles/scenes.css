@@ -28,17 +28,45 @@
   animation: scene-light 600ms var(--ease-out-soft) backwards;
 }
 
+/* An engraving: hairlines that keep their width whatever the size of the window. */
 .scene-motif {
   position: absolute;
-  right: -70px;
-  bottom: -70px;
-  color: var(--scene-tone);
-  opacity: 0.1;
+  right: -18px;
+  bottom: -14px;
+  width: min(86vh, 58vw, 820px);
+  height: min(86vh, 58vw, 820px);
+  color: color-mix(in srgb, var(--scene-tone) 70%, var(--color-accent-gold));
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.36;
   animation: scene-motif 700ms var(--ease-out-soft) backwards;
 }
 
+.engraving-line {
+  stroke-width: 1px;
+}
+
+/* Opaque inside the drawing, which is faded as a whole: it hides only its own lines. */
+.engraving-solid {
+  fill: var(--color-bg-base);
+  stroke-width: 1px;
+}
+
+.engraving-fine {
+  stroke-width: 0.7px;
+  stroke-opacity: 0.75;
+}
+
+.engraving-faint {
+  stroke-width: 0.5px;
+  stroke-opacity: 0.55;
+}
+
+/* On sand the light tones would vanish: the lines take the ink of the theme. */
 :root[data-theme='light'] .scene-motif {
-  opacity: 0.16;
+  color: color-mix(in srgb, var(--scene-tone) 45%, var(--color-fg));
+  opacity: 0.36;
 }
 
 .scene-backdrop[data-scene='home'] {
