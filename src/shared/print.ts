@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 /** Title a print template gives its document once its data is on screen (main/services/print.ts). */
 export const PRINT_READY_TITLE = 'shakery-print-ready'
 
@@ -35,13 +37,54 @@ export type BatchPrintOptions = {
   readonly garnish: boolean
 }
 
-export function batchPrintRoute(id: string, options: BatchPrintOptions): string {
+/** What keeps in the bottle, what is fresh, what goes in at service (core/batch.ts). */
+export const BATCH_HINTS = ['ok', 'fresh', 'add_at_service'] as const
+
+/** In place of the id of a recipe: the batch written by hand (section 10.13). */
+export const MANUAL_BATCH_ID = 'manual'
+
+/** A batch without a recipe: each ingredient with its dose for one drink, in millilitres. */
+export const manualBatchSchema = z
+  .object({
+    name: z.string().trim().max(80),
+    dilution: z.number().min(0).max(1),
+    lines: z
+      .array(
+        z
+          .object({
+            label: z.string().trim().min(1).max(80),
+            ml: z.number().positive().max(10_000),
+            hint: z.enum(BATCH_HINTS),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(30),
+  })
+  .strict()
+
+export type ManualBatch = z.output<typeof manualBatchSchema>
+
+/** The batch written by hand carried by its print route, or null. */
+export function manualBatchOf(params: Params): ManualBatch | null {
+  const raw = params.get('manual')
+  if (raw === null) return null
+  try {
+    const parsed = manualBatchSchema.safeParse(JSON.parse(raw))
+    return parsed.success ? parsed.data : null
+  } catch {
+    return null
+  }
+}
+
+export function batchPrintRoute(id: string, options: BatchPrintOptions, manual?: ManualBatch): string {
   const query = [
     `target=${options.target}`,
     `amount=${String(options.amount)}`,
     `step=${String(options.stepMl)}`,
     `water=${options.water ? '1' : '0'}`,
     `garnish=${options.garnish ? '1' : '0'}`,
+    ...(manual ? [`manual=${encodeURIComponent(JSON.stringify(manual))}`] : []),
   ].join('&')
   return `print/batch/${encodeURIComponent(id)}?${query}`
 }

@@ -310,6 +310,33 @@ export class WorkshopRepository {
       .run()
   }
 
+  /**
+   * « Annuler » after `removeItem`: the item comes back at its place, with its note and its price.
+   * Nothing happens when its recipe was added to the collection again meanwhile.
+   */
+  restoreItem(id: string): void {
+    const row = this.one(
+      `SELECT i.id, i.collection_id AS cid, i.recipe_id AS rid FROM collection_items i
+         JOIN collections c ON c.id = i.collection_id AND c.deleted_at IS NULL
+        WHERE i.id = ? AND i.deleted_at IS NOT NULL`,
+      id,
+    )
+    if (!row) throw new DomainError('NOT_FOUND', 'Unknown item')
+    if (row['rid'] !== null) {
+      const again = this.one(
+        'SELECT id FROM collection_items WHERE collection_id = ? AND recipe_id = ? AND deleted_at IS NULL',
+        row['cid'],
+        row['rid'],
+      )
+      if (again) return
+    }
+    this.db
+      .update(collectionItems)
+      .set({ deletedAt: null, updatedAt: this.ids.now() })
+      .where(eq(collectionItems.id, id))
+      .run()
+  }
+
   /** New free order of the items; ids of another collection are refused. */
   reorder(id: string, itemIds: readonly string[]): void {
     const current = new Set(

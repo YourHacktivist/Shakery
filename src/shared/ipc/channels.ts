@@ -93,6 +93,7 @@ export const IPC_CHANNELS = [
   'collections.addRecipes',
   'collections.updateItem',
   'collections.removeItem',
+  'collections.restoreItem',
   'collections.reorder',
   'collections.exportPdf',
   'practice.corpus',

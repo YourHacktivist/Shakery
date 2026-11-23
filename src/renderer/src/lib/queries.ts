@@ -301,6 +301,7 @@ export const useRestoreCollection = mutationOf('collections', 'restore')
 export const useAddToCollection = mutationOf('collections', 'addRecipes')
 export const useUpdateCollectionItem = mutationOf('collections', 'updateItem')
 export const useRemoveCollectionItem = mutationOf('collections', 'removeItem')
+export const useRestoreCollectionItem = mutationOf('collections', 'restoreItem')
 export const useReorderCollection = mutationOf('collections', 'reorder')
 export const useFinishPractice = mutationOf('practice', 'finish')
 

@@ -5,7 +5,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 ## Lire d'abord
 
 1. `CLAUDE.md`, puis `docs/SPEC.md` en entier.
-2. `docs/DECISIONS.md` : décisions D-001 à D-049 et le tableau « À valider plus tard ».
+2. `docs/DECISIONS.md` : décisions D-001 à D-050 et le tableau « À valider plus tard ».
 3. `docs/proposals/2026-11-17-modele-donnees-maf.md` (modèle de données MAF validé) et `docs/maf-mapping.md`.
 4. `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_SOURCES.md`.
 
@@ -23,7 +23,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## Reprendre ici (23 novembre 2026)
 
-Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-049. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (451 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe deux fois de suite (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.
+Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-050. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (452 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.
 
 **Prochaine étape** : ce que l'utilisateur choisira.
 
@@ -42,7 +42,7 @@ Ce qui a été fait, avec ses repères :
 - Alignement (D-049) : rangées à hauteur unique, grilles régulières, boutons opaques. `tests/e2e/alignment.spec.ts` mesure centres, hauteurs, retours à la ligne et libellés coupés avec des noms longs.
 - Corrigés en route : une collection se prépare d'une fiche à l'autre (bouton « Préparer », coches propres à chaque fiche) ; le calculateur de degré ne compte plus un degré inconnu pour 0 % ; délai des tests unitaires à 30 s (le chargement des classiques dépassait 5 s sur une machine lente).
 
-Écarts connus, non corrigés : retrait d'une fiche d'une collection sans « Annuler » ; Ctrl+J dans l'atelier ouvre une note sans fiche choisie ; une dose en grammes ne compte pas dans le volume du batch ; photo non modifiable sur une dégustation déjà enregistrée ; pas de batch sans fiche (10.13) ; « Abandonner » de l'atelier efface l'historique d'annulation sans confirmation ; coefficient et TVA du prix conseillé fixes (les réglages `pricing.*` existent sans écran).
+Le 23 novembre, les six écarts restants sont corrigés (D-050) : Ctrl+J dans l'atelier, « Annuler » après le retrait d'une fiche de collection, grammes dans le batch, photo d'une dégustation enregistrée, réglages du prix conseillé, batch sans fiche. Reste un comportement à connaître : « Abandonner » dans l'atelier efface l'historique d'annulation sans confirmation.
 
 Non vérifié : impression sur une vraie imprimante et sur imprimante d'étiquettes, glisser-déposer réel d'une photo, photos de téléphone, lecteur d'écran, installation par l'installeur sur le profil de l'utilisateur, macOS, résultat de la CI GitHub. Allergènes et profils aromatiques des ingrédients ont été attribués par type de produit : l'étiquette fait foi.
 

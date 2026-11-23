@@ -73,7 +73,9 @@ export function useGlobalShortcuts(): void {
           overlays.open('shortcuts')
           return
         case 'tastingNote': {
-          // Ctrl+J: tasting note, on the recipe on screen when there is one (section 10.1).
+          // Ctrl+J: tasting note, on the recipe on screen when there is one (section 10.1). The lab
+          // answers it itself: it saves the draft first, as its button does (section 10.5).
+          if (pathname.startsWith('/lab/')) return
           event.preventDefault()
           const shown = /^\/recipes\/([^/]+)$/.exec(pathname)?.[1]
           overlays.openTasting(shown && shown !== 'new' ? shown : null)

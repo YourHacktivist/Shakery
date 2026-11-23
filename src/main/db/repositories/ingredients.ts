@@ -39,6 +39,7 @@ export class IngredientRepository {
         name: ingredients.name,
         categoryId: ingredients.categoryId,
         defaultAbv: ingredients.defaultAbv,
+        densityGPerMl: ingredients.densityGPerMl,
         isStaple: ingredients.isStaple,
         isFavorite: ingredients.isFavorite,
         prepRecipeId: ingredients.prepRecipeId,

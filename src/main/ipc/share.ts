@@ -4,7 +4,13 @@
  */
 import { writeFile } from 'node:fs/promises'
 import { app, BrowserWindow, clipboard, dialog } from 'electron'
-import { batchPrintRoute, LABEL_FORMATS, labelPrintRoute, recipePrintRoute } from '../../shared/print'
+import {
+  batchPrintRoute,
+  LABEL_FORMATS,
+  labelPrintRoute,
+  MANUAL_BATCH_ID,
+  recipePrintRoute,
+} from '../../shared/print'
 import { systemIds } from '../db/client'
 import type { DatabaseManager } from '../db/manager'
 import { SqliteSettingsRepository } from '../db/repositories/settings'
@@ -165,9 +171,10 @@ export function createShareHandlers(
       recipeName(id) // an unknown recipe is refused before any window opens
       return { printed: await printRoute(recipePrintRoute(id, { paper, indicators }), paper) }
     },
-    'export.batch': async ({ id, to, ...options }) => {
-      const name = recipeName(id)
-      const route = batchPrintRoute(id, options)
+    'export.batch': async ({ id, to, manual, ...options }) => {
+      // A batch written by hand has no recipe: its lines travel in the route.
+      const name = manual ? manual.name || 'Batch' : recipeName(id)
+      const route = manual ? batchPrintRoute(MANUAL_BATCH_ID, options, manual) : batchPrintRoute(id, options)
       const done = to === 'pdf' ? await savePdf(route, `Batch ${name}`) : await printRoute(route, 'a4')
       return { done }
     },

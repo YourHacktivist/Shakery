@@ -178,14 +178,20 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       dirty && !leaving.current && currentLocation.pathname !== nextLocation.pathname,
   )
 
-  // Ctrl+Z and Ctrl+Y (or Ctrl+Shift+Z) during the session, unlimited.
+  // Read by the key listener, which is set once.
+  const tasteRef = useRef<() => void>(() => undefined)
+
+  // Ctrl+Z and Ctrl+Y (or Ctrl+Shift+Z) during the session, unlimited; Ctrl+J as the button.
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (!(event.ctrlKey || event.metaKey) || event.altKey) return
       // Ctrl+Z in a window above (the search of the help) is its own.
       if (document.querySelector('dialog[open]')) return
       const key = event.key.toLowerCase()
-      if (key === 'z' && !event.shiftKey) {
+      if (key === 'j' && !event.shiftKey) {
+        event.preventDefault()
+        tasteRef.current()
+      } else if (key === 'z' && !event.shiftKey) {
         event.preventDefault()
         dispatch({ type: 'undo' })
       } else if (key === 'y' || (key === 'z' && event.shiftKey)) {
@@ -206,45 +212,47 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
     change({ ...draft, lines: draft.lines.map((line) => (line.key === key ? { ...line, ...patch } : line)) })
   }
 
+  // A promise, not the callbacks of `mutate`: the saved version mounts the workbench again, and
+  // callbacks of an unmounted one never run (the message and the tasting note were lost).
   function saveVersion(label: string, then?: (detail: RecipeDetail) => void) {
     if (!recipe) return
     leaving.current = true
-    update.mutate(
-      { id: recipe.id, data: cleanForSave(toInput(draft)), newVersion: true, label: label.trim() || null },
-      {
-        onSuccess: (detail) => {
-          toast.show({ message: t.saved(detail.name, `v${detail.version}`) })
-          setDialog(null)
-          then?.(detail)
-        },
-        onError: notifyError,
-        onSettled: () => {
-          leaving.current = false
-        },
-      },
-    )
+    update
+      .mutateAsync({
+        id: recipe.id,
+        data: cleanForSave(toInput(draft)),
+        newVersion: true,
+        label: label.trim() || null,
+      })
+      .then((detail) => {
+        toast.show({ message: t.saved(detail.name, `v${detail.version}`) })
+        setDialog(null)
+        then?.(detail)
+      }, notifyError)
+      .finally(() => {
+        leaving.current = false
+      })
   }
 
   function saveAsNew(name: string, parent: string | null, then?: (detail: RecipeDetail) => void) {
     leaving.current = true
-    create.mutate(
-      {
+    create
+      .mutateAsync({
         data: { ...cleanForSave(toInput(draft)), name: name.trim(), parentRecipeId: parent, status: 'draft' },
         label: null,
-      },
-      {
-        onSuccess: (detail) => {
+      })
+      .then(
+        (detail) => {
           toast.show({ message: parent ? t.variantCreated(detail.name) : t.created(detail.name) })
           setDialog(null)
           void navigate(`/lab/${detail.id}`, { replace: true })
           then?.(detail)
         },
-        onError: (error) => {
+        (error: unknown) => {
           leaving.current = false
           notifyError(error)
         },
-      },
-    )
+      )
   }
 
   /** « Noter une dégustation » (section 10.5): the draft is saved first when it changed. */
@@ -253,12 +261,18 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       openTasting(detail.id, detail.version)
     }
     if (!recipe) {
+      // Without a name nothing can be saved: the note opens, the recipe to choose.
       if (draft.name.trim() !== '') saveAsNew(draft.name, null, open)
+      else openTasting(null)
       return
     }
     if (dirty) saveVersion('', open)
     else open(recipe)
   }
+  // After each render, as the listener reads it outside of one.
+  useEffect(() => {
+    tasteRef.current = tasteNow
+  })
 
   const result = computation.data
   const before = saved.data

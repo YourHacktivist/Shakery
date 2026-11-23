@@ -73,6 +73,8 @@ export const ingredientSummarySchema = z
     name,
     categoryId: id,
     defaultAbv: percent.nullable(),
+    /** g/ml: a dose in grams counts in volume with it (D-031), in the batch too. */
+    densityGPerMl: z.number().gt(0).max(5).nullable(),
     isStaple: z.boolean(),
     isFavorite: z.boolean(),
     prepRecipeId: id.nullable(),
@@ -105,7 +107,6 @@ export const ingredientDetailSchema = ingredientSummarySchema
     acidGPerL: z.number().nullable(),
     compositionSource: z.enum(['ciqual', 'computed', 'label', 'user']).nullable(),
     compositionConfidence: z.enum(['sourced', 'estimated']).nullable(),
-    densityGPerMl: z.number().nullable(),
     flavorTags: z.array(z.string()).max(30),
     description: z.string().nullable(),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),

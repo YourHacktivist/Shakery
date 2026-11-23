@@ -54,6 +54,18 @@ test('the lab changes a dose live, writes nothing before saving, then saves a ne
     await page.getByRole('checkbox', { name: 'v1' }).check()
     await page.getByRole('checkbox', { name: 'Brouillon de l’atelier' }).uncheck()
     await expect(page.getByRole('region', { name: 'v1' })).toBeVisible()
+
+    // Ctrl+J in the lab does what its button does: the changed draft is saved first.
+    await page.getByRole('radio', { name: 'Atelier', exact: true }).click()
+    await page.getByLabel('Dose de Gin', { exact: true }).focus()
+    await page.keyboard.press('ArrowUp')
+    await page.keyboard.press('Control+J')
+    const tasting = page.getByRole('dialog', { name: 'Noter une dégustation' })
+    await expect(tasting).toBeVisible()
+    await expect(tasting.getByRole('combobox', { name: 'Fiche goûtée' })).toHaveValue('Negroni')
+    await expect(tasting.getByLabel('Version goûtée')).toHaveValue('3')
+    await page.keyboard.press('Escape')
+    await expect(page.getByText('Atelier · version enregistrée v3')).toBeVisible()
   } finally {
     await closeApp(launched)
   }

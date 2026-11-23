@@ -1,4 +1,5 @@
 /** Help of the home, the journal and the notebook (D-048). */
+import { componentsForms as forms } from '../components-forms'
 import { home as h } from '../home'
 import { journal as j } from '../journal'
 import { item, section, topic } from './model'
@@ -79,6 +80,10 @@ export const tastings = topic(
     item('En tête', 'La fiche, la version goûtée, les étoiles et la date. Le nom ouvre la fiche.'),
     item('Les pastilles', 'Les critères qui ne sont pas justes, avec leur écart de −2 à +2.'),
     item('Le commentaire', 'Avec sa mise en forme, puis la photo et le contexte.'),
+    item(
+      forms.photo.add,
+      'L’icône image, sur une note sans photo, ouvre la zone où la déposer. Une photo se change ou se retire, avec « Annuler ».',
+    ),
     item(j.nextStep, 'Ce que tu t’étais promis d’essayer.'),
     item(j.nextStepDone, 'Coche-la quand tu as essayé : elle quitte « À retester » et la barre latérale.'),
     item(

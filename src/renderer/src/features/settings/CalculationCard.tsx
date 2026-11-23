@@ -11,11 +11,14 @@ import { fr } from '@renderer/i18n/fr'
 import { formatNumber } from '@renderer/lib/format'
 import { useSetSetting, useSetting } from '@renderer/lib/queries'
 import { METHOD_VALUES } from '@shared/domain/catalog'
+import { SETTING_DEFAULTS } from '@shared/settings'
 
 const t = fr.settings.calculation
 const SAVE_AFTER_MS = 500
 const STEPS_ML = [1, 2, 2.5, 5, 10]
 const STEPS_OZ = [0.125, 0.25, 0.5]
+/** Rounding of the advised price, in cents. */
+const PRICE_STEPS = [10, 50, 100]
 
 type SmallMeasure = Exclude<keyof UnitEquivalences, 'ozMl'>
 const SMALL_MEASURES = [
@@ -99,6 +102,10 @@ export function CalculationCard() {
   const dilution = useSetting('calc.dilution')
   const stepMl = useSetting('lab.stepMl')
   const stepOz = useSetting('lab.stepOz')
+  const multiplier = useSetting('pricing.multiplier')
+  const vatRateBp = useSetting('pricing.vatRateBp')
+  const priceStep = useSetting('pricing.menuRoundingStepCents')
+  const rounding = useSetting('pricing.menuRounding')
   const { mutate } = useSetSetting()
   const save = (change: Parameters<typeof mutate>[0]) => {
     mutate(change, { onError: notifyError })
@@ -183,6 +190,59 @@ export function CalculationCard() {
           }}
         />
       </div>
+      <h3 className="m-0 text-small font-semibold text-fg">{t.pricing}</h3>
+      <p className="m-0 text-small text-fg-secondary">{t.pricingHint}</p>
+      <div className="grid grid-cols-2 items-end gap-3">
+        <SettingNumber
+          label={t.multiplier}
+          unit="×"
+          saved={multiplier}
+          min={1}
+          max={20}
+          step={0.5}
+          decimals={1}
+          onSave={(value) => {
+            save({ key: 'pricing.multiplier', value })
+          }}
+        />
+        <SettingNumber
+          label={t.vat}
+          unit="%"
+          saved={vatRateBp / 100}
+          min={0}
+          max={100}
+          step={0.5}
+          decimals={1}
+          onSave={(value) => {
+            save({ key: 'pricing.vatRateBp', value: Math.round(value * 100) })
+          }}
+        />
+        <Select
+          label={t.step}
+          value={String(priceStep)}
+          options={[...new Set([...PRICE_STEPS, priceStep])]
+            .sort((x, y) => x - y)
+            .map((value) => ({ value: String(value), label: `${formatNumber(value / 100, 2)} €` }))}
+          onChange={(event) => {
+            save({ key: 'pricing.menuRoundingStepCents', value: Number(event.target.value) })
+          }}
+        />
+        <div className="col-span-2">
+          <SettingRow label={t.rounding}>
+            <SegmentedControl<'up' | 'nearest'>
+              label={t.rounding}
+              value={rounding}
+              onChange={(value) => {
+                save({ key: 'pricing.menuRounding', value })
+              }}
+              options={[
+                { value: 'up', label: t.roundings.up },
+                { value: 'nearest', label: t.roundings.nearest },
+              ]}
+            />
+          </SettingRow>
+        </div>
+      </div>
       <Button
         variant="ghost"
         size="sm"
@@ -190,6 +250,13 @@ export function CalculationCard() {
         onClick={() => {
           save({ key: 'units.equivalences', value: DEFAULT_EQUIVALENCES })
           save({ key: 'calc.dilution', value: DEFAULT_DILUTION })
+          save({ key: 'pricing.multiplier', value: SETTING_DEFAULTS['pricing.multiplier'] })
+          save({ key: 'pricing.vatRateBp', value: SETTING_DEFAULTS['pricing.vatRateBp'] })
+          save({
+            key: 'pricing.menuRoundingStepCents',
+            value: SETTING_DEFAULTS['pricing.menuRoundingStepCents'],
+          })
+          save({ key: 'pricing.menuRounding', value: SETTING_DEFAULTS['pricing.menuRounding'] })
         }}
       >
         {t.reset}

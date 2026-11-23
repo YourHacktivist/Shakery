@@ -60,7 +60,7 @@ const SAYS_ITSELF: readonly RegExp[] = [
   /^onboarding\.steps\.\w+\.text$/,
   /^settings\.(maintenance\.(resetText|trashText)|appearance\.note|off\.attribution|about\.(tagline|licencesText|licencesTitle|sources\..*))$/,
   // What an empty screen or an empty list says.
-  /\.(empty|noMatch|emptyCollections|noFavorite|noSelection)(\.(title|description))?$/,
+  /\.(empty|noMatch|emptyCollections|noFavorite|noSelection|manualEmpty)(\.(title|description))?$/,
   /\.(pick|none|noNextStep|neverTasted|noRating|noLines|noSteps|noRecipe|noZone|noBatch|noBottle|noAlias|noFlavor|noAllergen|notUsed|noQuestion|noCollection|noBestBefore|itemsEmpty|historyEmpty|trashEmpty|linkDeleted|unnamed|nothingKeeps)$/,
   /^components\.display\.(table|sparkline)\./,
   // The notebook saves by itself: this word is on no button.

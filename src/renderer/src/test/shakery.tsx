@@ -75,6 +75,7 @@ export function ingredient(
     name,
     categoryId: 'cat-leaf',
     defaultAbv: null,
+    densityGPerMl: null,
     isStaple: false,
     isFavorite: false,
     prepRecipeId: null,

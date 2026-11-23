@@ -446,6 +446,19 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - `tests/e2e/alignment.spec.ts` mesure centres, hauteurs, retours à la ligne et libellés coupés avec des noms longs, à trois largeurs, barre ouverte ou fermée. Il ne remplace pas le regard : chaque écran modifié se relit en image.
 - **Validation** : demande de l'utilisateur du 22 novembre 2026, rendu à confirmer par l'utilisateur.
 
+### D-050 Derniers écarts avec la spec
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur a demandé de corriger les six écarts connus après D-049.
+- **Choix** :
+  - Ctrl+J dans l'atelier fait ce que fait son bouton : enregistrer le brouillon modifié, puis noter la dégustation de cette version. Le test a révélé que ni le message ni la note ne suivaient un enregistrement, l'atelier se rechargeant entre-temps : les enregistrements attendent leur promesse au lieu des rappels de `mutate`.
+  - Retirer une fiche d'une collection propose « Annuler » : `collections.restoreItem` la remet à sa place, avec sa note et son prix.
+  - Une dose en grammes compte dans le volume du batch quand l'ingrédient a une masse volumique : le résumé d'un ingrédient porte `densityGPerMl`.
+  - La photo d'une dégustation enregistrée se change, se retire ou s'ajoute depuis la note, avec « Annuler ».
+  - Coefficient, TVA, pas et sens de l'arrondi du prix conseillé se règlent dans les paramètres (réglages `pricing.*` existants).
+  - Batch sans fiche (10.13) : ingrédients, doses par verre et place de chacun saisis à la main, imprimable. Ses lignes voyagent dans la route d'impression, validées par `manualBatchSchema`.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

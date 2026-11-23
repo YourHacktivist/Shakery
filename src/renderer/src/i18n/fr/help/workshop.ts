@@ -333,7 +333,28 @@ export const calculators = topic(
   'Les quatre calculs du bar, seuls ou à partir d’une fiche. Rien n’y modifie tes fiches.',
   section(
     calc.tabs.batch,
-    item(calc.fromRecipe, 'La recette à multiplier. Un batch part toujours d’une fiche.'),
+    item(calc.batch.start, 'Une fiche de ton carnet, ou une recette écrite ici sans fiche.'),
+    item(calc.batch.starts.recipe, 'Les doses, la méthode et la dilution viennent de la fiche.'),
+    item(
+      calc.batch.starts.manual,
+      'Tu écris chaque ingrédient, sa dose et où il va. Rien n’est enregistré dans le carnet.',
+    ),
+    item(calc.fromRecipe, 'La recette à multiplier, quand le batch part d’une fiche.'),
+    item(calc.batch.manualTitle, 'Sans fiche : les lignes du batch, une par ingrédient.'),
+    item(calc.batch.name, 'Le titre de la feuille imprimée. Vide, elle s’appelle « Batch ».'),
+    item(calc.batch.dosePerDrink, 'En ml, pour un seul verre.'),
+    item(
+      calc.batch.where,
+      'Dans la bouteille, frais le jour même, ou au service : il range la ligne comme pour une fiche.',
+    ),
+    item(
+      calc.batch.addLine,
+      'Une ligne de plus, trente au plus. Une ligne sans nom ou sans dose ne compte pas.',
+    ),
+    item(
+      calc.batch.dilution,
+      'Sans fiche, l’eau de la glace en pourcentage, pour l’eau de dilution mise en bouteille.',
+    ),
     item(calc.batch.target, 'Un nombre de verres, ou un volume à embouteiller.'),
     item(calc.batch.byServings, 'Tu donnes le nombre de verres, il donne les volumes.'),
     item(calc.batch.byVolume, 'Tu donnes le volume, il donne le nombre de verres.'),
@@ -360,7 +381,10 @@ export const calculators = topic(
     item(calc.batch.bottle, 'Ce qui se garde, plus l’eau.'),
     item(calc.batch.fresh, 'Le total du frais, hors de la bouteille.'),
     item(calc.batch.service, 'Le total à ajouter en servant.'),
-    item('Grammes', 'Une dose en grammes est multipliée mais ne compte pas dans le volume de la bouteille.'),
+    item(
+      'Grammes',
+      'Une dose en grammes compte dans le volume de la bouteille si l’ingrédient a une masse volumique, renseignée dans Mon bar.',
+    ),
     item(
       calc.batch.ingredient,
       'Chaque ligne, avec sa quantité dans l’unité de la fiche et son volume en ml.',
@@ -411,11 +435,11 @@ export const calculators = topic(
     item(calc.fromRecipe, 'Donne le coût matière d’une fiche d’après les prix de tes bouteilles.'),
     item(
       calc.cost.recipeCost,
-      'Toujours ramené en HT : un coût TTC est divisé par 1,20. Il faut un prix pour chaque ligne comptée.',
+      'Toujours ramené en HT : un coût TTC est divisé par 1 + TVA. Il faut un prix pour chaque ligne comptée.',
     ),
     item(
       calc.cost.salePrice,
-      'Coût HT × 5, arrondi aux 0,50 € supérieurs, lu comme un prix TTC. Le coefficient et la TVA de 20 % sont fixes.',
+      'Coût HT × coefficient, arrondi, lu comme un prix TTC. Coefficient, TVA et arrondi se règlent dans les paramètres : × 5, 20 % et 0,50 € au-dessus au départ.',
     ),
     item(calc.cost.ratio, 'Le coût HT divisé par le prix de vente HT.'),
   ),

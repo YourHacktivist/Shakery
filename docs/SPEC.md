@@ -493,7 +493,7 @@ Plein écran, fond opaque, doses en très grands caractères (au moins 32 px), �
 
 ### 10.13 Calculateurs
 
-Batch, degré et dilution, conversion d'unités, coût. Chacun fonctionne seul ou à partir d'une fiche, et le résultat d'un batch s'imprime.
+Batch, degré et dilution, conversion d'unités, coût. Chacun fonctionne seul ou à partir d'une fiche, et le résultat d'un batch s'imprime. Coefficient, TVA et arrondi du prix conseillé se règlent dans les paramètres (D-050).
 
 ### 10.14 Paramètres
 

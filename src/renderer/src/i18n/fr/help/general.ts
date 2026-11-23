@@ -159,7 +159,7 @@ export const general = topic(
     item(journal.criteria.aroma, 'Ce qui arrive au nez.'),
     item(
       forms.photo.title,
-      'Une photo de cet essai. Elle se choisit à la création de la note et ne se change pas ensuite.',
+      'Une photo de cet essai. Elle se change ou se retire ensuite depuis la note, dans le journal ou sur la fiche.',
     ),
     item(dialog.comment, 'Ce que tu as goûté. Gras, italique et listes sont possibles.'),
     item(
@@ -193,6 +193,7 @@ export const general = topic(
     item(forms.formatting.bullets, 'Met un tiret au début de chaque ligne choisie. Recommencer l’enlève.'),
     item(forms.formatting.numbers, 'Numérote les lignes choisies. Recommencer enlève les numéros.'),
     item(forms.formatting.preview, 'Montre le rendu sous le champ dès qu’il y a de la mise en forme.'),
+    item(forms.photo.add, 'Sur une dégustation sans photo, l’icône image ouvre la zone où en déposer une.'),
     item(forms.photo.change, 'Choisit une autre image à la place.'),
     item(forms.photo.remove, 'Enlève l’image.'),
     item(

@@ -11,18 +11,19 @@ import {
 } from 'lucide-react'
 import { useMemo, useState, type ReactNode } from 'react'
 import { BATCH_STEPS_ML, type BatchHint } from '@core/batch'
-import { DEFAULT_PRICING, salePrice } from '@core/cost'
+import { salePrice, type PricingRules } from '@core/cost'
 import { dilutionFor } from '@core/dilution'
 import { APPROXIMATE_UNITS, lineVolumeMl } from '@core/units'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Combobox } from '@renderer/components/Combobox'
+import { Input } from '@renderer/components/Input'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Select } from '@renderer/components/Select'
 import { toast } from '@renderer/components/Toast'
 import { Toggle } from '@renderer/components/Toggle'
-import { useBatch } from '@renderer/features/calculators/useBatch'
+import { isManual, useBatch } from '@renderer/features/calculators/useBatch'
 import { notifyError } from '@renderer/features/shared/notify'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
@@ -35,9 +36,16 @@ import {
   useRecipe,
   useRecipeComputation,
   useRecipes,
+  useSetting,
 } from '@renderer/lib/queries'
 import type { RecipeDetail } from '@shared/domain/catalog'
-import type { BatchPrintOptions, PrintTarget } from '@shared/print'
+import {
+  BATCH_HINTS,
+  MANUAL_BATCH_ID,
+  type BatchPrintOptions,
+  type ManualBatch,
+  type PrintTarget,
+} from '@shared/print'
 
 const t = fr.workshop.calculators
 
@@ -133,43 +141,236 @@ function Panel({ icon, children }: { icon: ReactNode; children: ReactNode }) {
 // Batch
 // ---------------------------------------------------------------------------------------
 
+type ManualLine = { key: number; label: string; ml: number | null; hint: BatchHint }
+
 function BatchCalculator() {
+  const [start, setStart] = useState<'recipe' | 'manual'>('recipe')
   const [recipeId, setRecipeId] = useState<string | null>(null)
   const recipe = useRecipe(recipeId ?? undefined)
+  const [name, setName] = useState('')
+  const [lines, setLines] = useState<ManualLine[]>([{ key: 1, label: '', ml: null, hint: 'ok' }])
+  const [dilution, setDilution] = useState<number | null>(20)
+  // Only the complete lines make the batch; it is rebuilt when they change, not at each render.
+  const manual = useMemo<ManualBatch | null>(() => {
+    const complete = lines.flatMap((line) =>
+      line.label.trim() !== '' && line.ml !== null && line.ml > 0
+        ? [{ label: line.label.trim(), ml: line.ml, hint: line.hint }]
+        : [],
+    )
+    return complete.length === 0
+      ? null
+      : { name: name.trim(), dilution: Math.min(Math.max(dilution ?? 0, 0), 100) / 100, lines: complete }
+  }, [lines, name, dilution])
+
   return (
     <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-4">
       <Panel icon={<FlaskConical size={16} aria-hidden="true" />}>
-        <RecipePicker value={recipeId} onSelect={setRecipeId} />
+        <div className="flex flex-col gap-1.5">
+          <span aria-hidden="true" className="text-small font-medium text-fg-secondary">
+            {t.batch.start}
+          </span>
+          <SegmentedControl
+            label={t.batch.start}
+            value={start}
+            onChange={setStart}
+            options={[
+              { value: 'recipe', label: t.batch.starts.recipe },
+              { value: 'manual', label: t.batch.starts.manual },
+            ]}
+          />
+        </div>
+        {start === 'recipe' ? (
+          <RecipePicker value={recipeId} onSelect={setRecipeId} />
+        ) : (
+          <p className="m-0 text-small text-fg-secondary">{t.batch.manualHint}</p>
+        )}
       </Panel>
-      {recipe.data ? (
-        <BatchResult key={recipe.data.id} recipe={recipe.data} />
+      {start === 'recipe' ? (
+        recipe.data ? (
+          <BatchResult key={recipe.data.id} source={recipe.data} />
+        ) : (
+          <Card className="min-h-[200px] items-center justify-center text-small text-fg-secondary">
+            {t.batch.empty}
+          </Card>
+        )
       ) : (
-        <Card className="min-h-[200px] items-center justify-center text-small text-fg-secondary">
-          {t.batch.empty}
-        </Card>
+        <div className="flex min-w-0 flex-col gap-4">
+          <ManualBatchCard
+            name={name}
+            onName={setName}
+            lines={lines}
+            onLines={setLines}
+            dilution={dilution}
+            onDilution={setDilution}
+          />
+          {manual ? (
+            <BatchResult key="manual" source={manual} />
+          ) : (
+            <Card className="min-h-[120px] items-center justify-center text-small text-fg-secondary">
+              {t.batch.manualEmpty}
+            </Card>
+          )}
+        </div>
       )}
     </div>
   )
 }
 
+const HINT_OPTIONS = BATCH_HINTS.map((hint) => ({ value: hint, label: t.batch.hints[hint] }))
+
+/** The lines of a batch without a recipe: an ingredient, its dose for one drink, where it goes. */
+function ManualBatchCard({
+  name,
+  onName,
+  lines,
+  onLines,
+  dilution,
+  onDilution,
+}: {
+  name: string
+  onName: (name: string) => void
+  lines: ManualLine[]
+  onLines: (lines: ManualLine[]) => void
+  dilution: number | null
+  onDilution: (dilution: number | null) => void
+}) {
+  const change = (key: number, patch: Partial<ManualLine>) => {
+    onLines(lines.map((line) => (line.key === key ? { ...line, ...patch } : line)))
+  }
+  // One row once the card is wide enough; else the ingredient above, its dose and its place below.
+  const columns =
+    'grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2rem] items-center gap-2 @min-[36rem]:grid-cols-[minmax(0,1fr)_8rem_11rem_2rem]'
+  return (
+    <Card aria-label={t.batch.manualTitle} className="gap-3">
+      <h2 className="m-0 text-body font-semibold text-fg">{t.batch.manualTitle}</h2>
+      <Input
+        label={t.batch.name}
+        placeholder={t.batch.defaultName}
+        value={name}
+        maxLength={80}
+        autoComplete="off"
+        onChange={(event) => {
+          onName(event.target.value)
+        }}
+      />
+      <div className="@container flex flex-col gap-2">
+        <div
+          aria-hidden="true"
+          className={cn(columns, 'hidden text-small font-medium text-fg-secondary @min-[36rem]:grid')}
+        >
+          <span>{t.batch.ingredient}</span>
+          <span>{t.batch.dosePerDrink}</span>
+          <span>{t.batch.where}</span>
+        </div>
+        <ol className="m-0 flex list-none flex-col gap-3 p-0 @min-[36rem]:gap-2">
+          {lines.map((line, index) => (
+            <li key={line.key} className={columns}>
+              <Input
+                label={t.batch.lineLabel(index + 1)}
+                hideLabel
+                placeholder={t.batch.ingredient}
+                className="col-span-2 col-start-1 row-start-1 @min-[36rem]:col-span-1"
+                value={line.label}
+                maxLength={80}
+                autoComplete="off"
+                onChange={(event) => {
+                  change(line.key, { label: event.target.value })
+                }}
+              />
+              <NumberWithUnit
+                label={t.batch.lineDose(index + 1)}
+                hideLabel
+                placeholder={t.batch.dosePerDrink}
+                className="col-start-1 row-start-2 @min-[36rem]:col-start-2 @min-[36rem]:row-start-1"
+                unit="ml"
+                value={line.ml}
+                min={0}
+                max={10_000}
+                step={5}
+                onChange={(ml) => {
+                  change(line.key, { ml })
+                }}
+              />
+              <Select
+                label={t.batch.lineWhere(index + 1)}
+                hideLabel
+                className="col-start-2 row-start-2 @min-[36rem]:col-start-3 @min-[36rem]:row-start-1"
+                value={line.hint}
+                options={HINT_OPTIONS}
+                onChange={(event) => {
+                  const hint = BATCH_HINTS.find((value) => value === event.target.value)
+                  if (hint) change(line.key, { hint })
+                }}
+              />
+              <IconButton
+                variant="ghost"
+                label={t.batch.removeLine(index + 1)}
+                icon={<Trash2 size={14} aria-hidden="true" />}
+                disabled={lines.length === 1}
+                className="col-start-3 row-start-1 @min-[36rem]:col-start-4"
+                onClick={() => {
+                  onLines(lines.filter((other) => other.key !== line.key))
+                }}
+              />
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div className="grid grid-cols-[auto_8rem] items-end justify-between gap-3">
+        <Button
+          variant="outline"
+          size="sm"
+          icon={<Plus size={14} aria-hidden="true" />}
+          disabled={lines.length >= 30}
+          onClick={() => {
+            onLines([
+              ...lines,
+              { key: Math.max(0, ...lines.map((l) => l.key)) + 1, label: '', ml: null, hint: 'ok' },
+            ])
+          }}
+        >
+          {t.batch.addLine}
+        </Button>
+        <NumberWithUnit
+          label={t.batch.dilution}
+          unit="%"
+          value={dilution}
+          min={0}
+          max={100}
+          step={5}
+          onChange={onDilution}
+        />
+      </div>
+    </Card>
+  )
+}
+
 const BATCH_GROUPS: readonly BatchHint[] = ['ok', 'fresh', 'add_at_service']
 
-function BatchResult({ recipe }: { recipe: RecipeDetail }) {
+function BatchResult({ source }: { source: RecipeDetail | ManualBatch }) {
   const [target, setTarget] = useState<BatchPrintOptions['target']>('servings')
   const [servings, setServings] = useState<number | null>(10)
   const [bottle, setBottle] = useState<number | null>(700)
   const [stepMl, setStepMl] = useState<number>(BATCH_STEPS_ML[0])
-  const [water, setWater] = useState(recipe.method === 'stir' || recipe.method === 'build')
+  const [water, setWater] = useState(
+    !isManual(source) && (source.method === 'stir' || source.method === 'build'),
+  )
   const [garnish, setGarnish] = useState(false)
   const [busy, setBusy] = useState(false)
   const amount = (target === 'servings' ? servings : bottle) ?? 0
   const options: BatchPrintOptions = { target, amount, stepMl, water, garnish }
-  const { ready, result } = useBatch(recipe, options)
+  const { ready, result } = useBatch(source, options)
 
   async function send(to: PrintTarget) {
     setBusy(true)
     try {
-      const { done } = await unwrap(window.shakery.export.batch({ id: recipe.id, to, ...options }))
+      const { done } = await unwrap(
+        window.shakery.export.batch(
+          isManual(source)
+            ? { id: MANUAL_BATCH_ID, to, ...options, manual: source }
+            : { id: source.id, to, ...options },
+        ),
+      )
       if (done) toast.show({ message: to === 'pdf' ? t.batch.saved : t.batch.sent })
     } catch (error) {
       notifyError(error)
@@ -351,18 +552,19 @@ function AbvCalculator() {
 
   // Lines of a recipe, once: volumes and the ABV of each ingredient, then free to adjust.
   if (recipe.data && ingredients.data && loaded !== recipe.data.id) {
-    const abvOf = new Map(ingredients.data.map((ingredient) => [ingredient.id, ingredient.defaultAbv]))
+    const byId = new Map(ingredients.data.map((ingredient) => [ingredient.id, ingredient]))
     setLoaded(recipe.data.id)
     setLines(
       recipe.data.lines
         .filter((line) => !line.isGarnish && !line.isOptional)
         .map((line, index) => {
-          const volume = lineVolumeMl(line, equivalences)
+          const ingredient = byId.get(line.ingredientId)
+          const volume = lineVolumeMl(line, equivalences, ingredient?.densityGPerMl ?? null)
           return {
             key: index + 1,
             volume: volume.ok ? volume.ml : null,
             // Unknown stays empty: it is not alcohol free.
-            abv: abvOf.get(line.ingredientId) ?? null,
+            abv: ingredient?.defaultAbv ?? null,
           }
         }),
     )
@@ -530,14 +732,20 @@ function CostCalculator() {
   const computation = useRecipeComputation(recipe.data ? detailToInput(recipe.data) : null)
   const perMl = price !== null && bottle !== null && bottle > 0 ? (price * 100) / bottle : null
   const cost = computation.data
-  const vat = DEFAULT_PRICING.vatRateBp / 10_000
+  const rules: PricingRules = {
+    multiplier: useSetting('pricing.multiplier'),
+    vatRateBp: useSetting('pricing.vatRateBp'),
+    roundingStepCents: useSetting('pricing.menuRoundingStepCents'),
+    rounding: useSetting('pricing.menuRounding'),
+  }
+  const vat = rules.vatRateBp / 10_000
   const costHt =
     cost?.costCents === null || cost?.costCents === undefined
       ? null
       : cost.costBasis === 'ttc'
         ? cost.costCents / (1 + vat)
         : cost.costCents
-  const sale = costHt === null ? null : salePrice(costHt)
+  const sale = costHt === null ? null : salePrice(costHt, rules)
 
   return (
     <div className="grid grid-cols-2 items-start gap-4">
@@ -604,10 +812,7 @@ function CostCalculator() {
                 <Result label={t.cost.ratio} value={formatNumber(sale.costRatioPct, 1)} unit="%" />
               </div>
               <p className="m-0 text-caption text-fg-muted">
-                {t.cost.rules(
-                  formatNumber(DEFAULT_PRICING.multiplier),
-                  formatNumber(DEFAULT_PRICING.vatRateBp / 100),
-                )}
+                {t.cost.rules(formatNumber(rules.multiplier), formatNumber(rules.vatRateBp / 100))}
               </p>
             </>
           )

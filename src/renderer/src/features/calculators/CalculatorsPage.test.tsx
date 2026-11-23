@@ -41,6 +41,22 @@ describe('CalculatorsPage', () => {
     expect(figure(t.abv.served)).toContain('108')
   })
 
+  it('multiplies a batch written by hand, the fresh apart from the bottle', async () => {
+    const user = userEvent.setup()
+    renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')
+    await user.click(screen.getByRole('radio', { name: t.batch.starts.manual }))
+    expect(screen.getByText(t.batch.manualEmpty)).toBeDefined()
+    await user.type(screen.getByRole('textbox', { name: t.batch.lineLabel(1) }), 'Gin')
+    await user.type(screen.getByRole('spinbutton', { name: t.batch.lineDose(1) }), '40')
+    await user.click(screen.getByRole('button', { name: t.batch.addLine }))
+    await user.type(screen.getByRole('textbox', { name: t.batch.lineLabel(2) }), 'Citron')
+    await user.type(screen.getByRole('spinbutton', { name: t.batch.lineDose(2) }), '20')
+    await user.selectOptions(screen.getByRole('combobox', { name: t.batch.lineWhere(2) }), 'fresh')
+    // Ten drinks by default: 400 ml in the bottle, 200 ml of fresh juice apart.
+    expect(figure(t.batch.bottle)).toContain('400')
+    expect(figure(t.batch.fresh)).toContain('200')
+  })
+
   it('converts an ounce with the validated equivalences', async () => {
     const user = userEvent.setup()
     renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')

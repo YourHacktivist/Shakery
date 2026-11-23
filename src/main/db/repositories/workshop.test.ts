@@ -123,6 +123,23 @@ describe('WorkshopRepository, collections', () => {
 
     workshop.removeItem(first.id)
     expect(workshop.getCollection(created.id).items).toHaveLength(1)
+    // « Annuler »: back at its place, with its note and its price.
+    workshop.restoreItem(first.id)
+    expect(workshop.getCollection(created.id).items.map((item) => [item.title, item.note])).toEqual([
+      ['Daiquiri', 'Signature'],
+      ['Negroni', null],
+    ])
+    workshop.removeItem(first.id)
+    // Added again meanwhile: the undo adds nothing twice.
+    workshop.addRecipes(created.id, [negroni])
+    workshop.restoreItem(first.id)
+    expect(workshop.getCollection(created.id).items).toHaveLength(2)
+    expect(() => {
+      workshop.restoreItem('unknown')
+    }).toThrow(/item/)
+    const added = workshop.getCollection(created.id).items.find((item) => item.recipeId === negroni)
+    if (!added) throw new Error('fixture')
+    workshop.removeItem(added.id)
     workshop.deleteCollection(created.id)
     expect(workshop.listCollections()).toEqual([])
     expect(workshop.restoreCollection(created.id).name).toBe('Carte d’été')

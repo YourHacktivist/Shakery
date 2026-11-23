@@ -259,6 +259,7 @@ export const recipeDetail = topic(
     'Une dégustation dans la fiche',
     item(journal.nextStepDone, 'Coche la prochaine étape une fois essayée, comme dans le journal.'),
     item(journal.delete, 'Met la note à la corbeille, avec « Annuler » pendant 8 secondes.'),
+    item(forms.photo.add, 'Sur une note sans photo, ouvre la zone où en déposer une.'),
   ),
   section(
     'Les marques',

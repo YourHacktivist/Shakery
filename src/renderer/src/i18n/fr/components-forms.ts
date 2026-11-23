@@ -28,6 +28,7 @@ export const componentsForms = {
     title: 'Photo',
     of: (name: string) => `Photo de ${name}`,
     tasting: 'Photo de la dégustation',
+    add: 'Ajouter une photo',
     tastingOf: (recipe: string) => `Photo de la dégustation de ${recipe}`,
     drop: 'Dépose une photo ici, ou clique pour la choisir',
     reading: 'Préparation de la photo…',

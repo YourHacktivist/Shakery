@@ -53,6 +53,13 @@ test('a collection is prepared recipe after recipe, each with its own ticks', as
 
     await page.keyboard.press('Escape')
     await expect(page.locator('main[data-scene="collections"]')).toBeVisible()
+
+    // A recipe taken out of the collection comes back with « Annuler », at its place.
+    await page.getByRole('button', { name: 'Retirer « Premier essai » de la collection' }).click()
+    await expect(page.getByRole('link', { name: 'Premier essai' })).toBeHidden()
+    await page.getByRole('button', { name: 'Annuler' }).click()
+    const names = page.locator('main ol > li a')
+    await expect(names).toHaveText(['Premier essai', 'Second essai'])
   } finally {
     await closeApp(launched)
   }

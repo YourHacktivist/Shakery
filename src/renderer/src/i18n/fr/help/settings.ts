@@ -45,7 +45,17 @@ export const settings = topic(
     item(c.steps, 'De combien bouge une dose à chaque clic dans l’atelier.'),
     item(c.stepMl, 'Le pas des boutons, flèches et molette de l’atelier. En cl, il est divisé par dix.'),
     item(c.stepOz, 'Le même pas, pour les doses en onces.'),
-    item(c.reset, 'Remet équivalences et dilutions d’origine. Les pas de l’atelier gardent ton choix.'),
+    item(c.pricing, 'Les règles du prix de vente conseillé du calculateur de coût.'),
+    item(c.multiplier, 'Le coût HT est multiplié par lui. 5 au départ.'),
+    item(c.vat, 'Ajoutée au prix conseillé, et retirée d’un coût TTC. 20 % au départ.'),
+    item(c.step, 'Le prix conseillé tombe sur un multiple de 0,10, 0,50 ou 1 €. 0,50 € au départ.'),
+    item(c.rounding, 'Au-dessus garde ta marge, au plus proche peut la réduire un peu.'),
+    item(c.roundings.up, 'Vers le multiple supérieur. Le choix de départ.'),
+    item(c.roundings.nearest, 'Vers le multiple le plus proche.'),
+    item(
+      c.reset,
+      'Remet équivalences, dilutions et prix conseillé d’origine. Les pas de l’atelier gardent ton choix.',
+    ),
   ),
   section(
     p.title,

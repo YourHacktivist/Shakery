@@ -1,4 +1,4 @@
-import { Clock, MessageSquareQuote, NotebookText, Plus, Trash2 } from 'lucide-react'
+import { Clock, ImagePlus, MessageSquareQuote, NotebookText, Plus, Trash2 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Link, useLocation } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -6,6 +6,7 @@ import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { EmptyState } from '@renderer/components/EmptyState'
+import { PhotoField } from '@renderer/components/PhotoField'
 import { Select } from '@renderer/components/Select'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Stars } from '@renderer/components/StarRating'
@@ -19,6 +20,7 @@ import {
   useCreateTasting,
   useDeleteTasting,
   useRestorePhoto,
+  useSetPhoto,
   useSetNextStepDone,
   useTastings,
 } from '@renderer/lib/queries'
@@ -186,7 +188,32 @@ export function TastingCard({
   const remove = useDeleteTasting()
   const recreate = useCreateTasting()
   const restorePhoto = useRestorePhoto()
+  const setPhoto = useSetPhoto()
   const photo = photoUrl(note.photoPath)
+  // The drop zone of a first photo, opened by the button of the card.
+  const [adding, setAdding] = useState(false)
+  const tp = fr.components.forms.photo
+
+  /** Saved at once, as on a recipe; « Annuler » puts the other one back. */
+  function savePhoto(content: string | null) {
+    setPhoto.mutate(
+      { owner: 'tasting', id: note.id, content },
+      {
+        onSuccess: ({ previous }) => {
+          setAdding(false)
+          const message = content === null ? tp.removed : tp.saved
+          if (previous === null) {
+            toast.show({ message })
+            return
+          }
+          toast.undo(message, () => {
+            restorePhoto.mutate({ owner: 'tasting', id: note.id, path: previous }, { onError: notifyError })
+          })
+        },
+        onError: notifyError,
+      },
+    )
+  }
   const scored = TASTING_CRITERIA.filter((criterion) => (note.scores[criterion] ?? 0) !== 0)
 
   function deleteNote() {
@@ -249,6 +276,18 @@ export function TastingCard({
             <Clock size={12} strokeWidth={1.75} aria-hidden="true" />
             {formatRelative(note.tastedAt)}
           </span>
+          {photo ? null : (
+            <IconButton
+              variant="ghost"
+              size="sm"
+              label={tp.add}
+              aria-pressed={adding}
+              icon={<ImagePlus size={14} strokeWidth={1.75} aria-hidden="true" />}
+              onClick={() => {
+                setAdding(!adding)
+              }}
+            />
+          )}
           <IconButton
             variant="ghost"
             size="sm"
@@ -292,14 +331,21 @@ export function TastingCard({
         </div>
       ) : null}
 
-      {photo ? (
-        <img
-          src={photo}
-          alt={fr.components.forms.photo.tastingOf(note.recipeName)}
-          loading="lazy"
-          decoding="async"
-          className="max-h-56 max-w-full self-start rounded-nested border border-border object-contain"
-        />
+      {photo || adding ? (
+        <div className="w-full max-w-sm self-start">
+          <PhotoField
+            compact
+            src={photo}
+            alt={tp.tastingOf(note.recipeName)}
+            disabled={setPhoto.isPending}
+            onPick={(picked) => {
+              savePhoto(picked.content)
+            }}
+            onRemove={() => {
+              savePhoto(null)
+            }}
+          />
+        </div>
       ) : null}
       {note.nextStep ? (
         <div

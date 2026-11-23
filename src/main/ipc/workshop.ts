@@ -43,6 +43,10 @@ export function createWorkshopHandlers(manager: DatabaseManager): Pick<IpcHandle
       repo().removeItem(id)
       return null
     },
+    'collections.restoreItem': ({ id }) => {
+      repo().restoreItem(id)
+      return null
+    },
     'collections.reorder': ({ id, itemIds }) => {
       repo().reorder(id, itemIds)
       return null

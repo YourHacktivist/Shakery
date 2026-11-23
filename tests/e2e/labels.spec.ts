@@ -123,6 +123,26 @@ test('bottle labels on a roll and on a sheet, never cropped, and a batch on pape
     await expect
       .poll(async () => shapeOf(await readFile(batch).catch(() => Buffer.alloc(0))), { timeout: 30_000 })
       .toEqual({ pages: 1, width: 210, height: 297 })
+    // Without a recipe: two lines written by hand, on paper too.
+    await page.getByRole('radio', { name: 'Sans fiche' }).click()
+    await page.getByLabel('Nom du batch').fill('Batch maison du vendredi')
+    await page.getByRole('textbox', { name: 'Ingrédient 1' }).fill('Rhum ambré')
+    await page.getByRole('spinbutton', { name: 'Dose par verre de l’ingrédient 1' }).fill('50')
+    await page.getByRole('button', { name: 'Ajouter un ingrédient' }).click()
+    await page.getByRole('textbox', { name: 'Ingrédient 2' }).fill('Jus de citron vert')
+    await page.getByRole('spinbutton', { name: 'Dose par verre de l’ingrédient 2' }).fill('20')
+    await page.getByLabel('Où va l’ingrédient 2').selectOption('fresh')
+    await expect(page.getByText('Volume de la bouteille').locator('..')).toContainText('500')
+    await expect(page.getByText('Frais, à part').locator('..')).toContainText('200')
+    expect((await auditPage(page)).overflow).toEqual([])
+    await shot('batch-manual')
+    const manual = path.join(folder, 'batch-manual.pdf')
+    await answerWith(manual)
+    await page.getByRole('button', { name: 'Enregistrer en PDF' }).click()
+    await expect
+      .poll(async () => shapeOf(await readFile(manual).catch(() => Buffer.alloc(0))), { timeout: 30_000 })
+      .toEqual({ pages: 1, width: 210, height: 297 })
+
     const daiquiriBatch = await page.evaluate(async () => {
       const list = await window.shakery.recipes.list()
       const id = list.ok ? list.data.find((recipe) => recipe.name === 'Daiquiri')?.id : undefined

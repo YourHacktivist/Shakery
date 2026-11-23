@@ -6,7 +6,7 @@ import { useBatch } from '@renderer/features/calculators/useBatch'
 import { fr } from '@renderer/i18n/fr'
 import { formatDate, formatNumber } from '@renderer/lib/format'
 import { useRecipe, useSettings } from '@renderer/lib/queries'
-import { batchPrintOptions, PRINT_READY_TITLE } from '@shared/print'
+import { batchPrintOptions, MANUAL_BATCH_ID, manualBatchOf, PRINT_READY_TITLE } from '@shared/print'
 import './batch-sheet.css'
 
 const t = fr.workshop.calculators.batch
@@ -17,8 +17,10 @@ export function BatchPrint() {
   const { id = '' } = useParams()
   const [params] = useSearchParams()
   const options = batchPrintOptions(params)
-  const recipe = useRecipe(id)
-  const batch = useBatch(recipe.data ?? null, options)
+  // A batch written by hand comes with its lines; a recipe is read from the notebook.
+  const manual = id === MANUAL_BATCH_ID ? manualBatchOf(params) : null
+  const recipe = useRecipe(manual ? undefined : id)
+  const batch = useBatch(manual ?? recipe.data ?? null, options)
   // Not a figure before the equivalences and the dilution of the settings are read.
   const settings = useSettings()
   const ready = batch.ready && !settings.isPending
@@ -35,14 +37,15 @@ export function BatchPrint() {
     })
   }, [ready])
 
-  if (!recipe.data || !ready) return <p className="p-8 text-sm">{fr.recipes.sheet.loading}</p>
+  const name = manual ? manual.name || t.defaultName : recipe.data?.name
+  if (name === undefined || !ready) return <p className="p-8 text-sm">{fr.recipes.sheet.loading}</p>
   const { result } = batch
 
   return (
     <article className="batch-sheet">
       <header className="batch-head">
         <p className="batch-eyebrow">{t.sheetTitle}</p>
-        <h1>{recipe.data.name}</h1>
+        <h1>{name}</h1>
         <p>
           {result ? `${t.drinks(formatNumber(Math.round(result.servings * 10) / 10))} · ` : ''}
           {formatDate(printedAt)}

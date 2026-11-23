@@ -124,8 +124,36 @@ test('photos: turned upright, reduced, without position, undone, kept with a tas
     await page.evaluate(() => {
       location.hash = '#/journal'
     })
-    await expect(page.getByRole('img', { name: 'Photo de la dégustation de Negroni' })).toBeVisible()
+    const tastingPhoto = page.getByRole('img', { name: 'Photo de la dégustation de Negroni' })
+    await expect(tastingPhoto).toBeVisible()
     expect(await readdir(path.join(media, 'tastings'))).toHaveLength(1)
+
+    // A saved tasting: its photo is taken off, put back by « Annuler », and one is added to another.
+    const note = page.getByRole('article').filter({ has: tastingPhoto })
+    await note.getByRole('button', { name: 'Retirer' }).click()
+    await expect(tastingPhoto).toBeHidden()
+    await page.getByRole('button', { name: 'Annuler' }).click()
+    await expect(tastingPhoto).toBeVisible()
+    await page.evaluate(async () => {
+      const list = await window.shakery.recipes.list()
+      const negroni = list.ok ? list.data.find((recipe) => recipe.name === 'Negroni') : undefined
+      if (negroni) {
+        await window.shakery.tastingNotes.create({
+          recipeId: negroni.id,
+          recipeVersion: negroni.version,
+          tastedAt: Date.now(),
+          comment: 'Sans photo',
+        })
+      }
+    })
+    await page.reload()
+    const bare = page.getByRole('article').filter({ hasText: 'Sans photo' })
+    await bare.getByRole('button', { name: 'Ajouter une photo' }).click()
+    await bare
+      .locator('input[type="file"]')
+      .setInputFiles({ name: 'second.jpg', mimeType: 'image/jpeg', buffer: jpeg })
+    await expect(bare.getByRole('img', { name: 'Photo de la dégustation de Negroni' })).toBeVisible()
+    expect(await readdir(path.join(media, 'tastings'))).toHaveLength(2)
   } finally {
     await closeApp(launched)
   }

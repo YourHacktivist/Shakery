@@ -36,6 +36,7 @@ import {
   useDeleteCollection,
   useRecipes,
   useRemoveCollectionItem,
+  useRestoreCollectionItem,
   useReorderCollection,
   useRestoreCollection,
   useUpdateCollection,
@@ -378,6 +379,7 @@ function ItemRow({
 }) {
   const update = useUpdateCollectionItem()
   const remove = useRemoveCollectionItem()
+  const restore = useRestoreCollectionItem()
   const [note, setNote] = useState(item.note ?? '')
   const [price, setPrice] = useState<number | null>(
     item.salePriceCents === null ? null : item.salePriceCents / 100,
@@ -446,7 +448,15 @@ function ItemRow({
             onClick={() => {
               remove.mutate(
                 { id: item.id },
-                { onSuccess: () => toast.show({ message: t.removed(item.title) }), onError: notifyError },
+                {
+                  onSuccess: () => {
+                    // Every deletion offers « Annuler » for 8 seconds (section 10.1).
+                    toast.undo(t.removed(item.title), () => {
+                      restore.mutate({ id: item.id }, { onError: notifyError })
+                    })
+                  },
+                  onError: notifyError,
+                },
               )
             }}
           />

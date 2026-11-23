@@ -1,5 +1,12 @@
 import { z } from 'zod'
-import { BATCH_TARGETS, LABEL_FORMAT_VALUES, MAX_LABELS, PRINT_TARGETS, RECIPE_PAPERS } from '../print'
+import {
+  BATCH_TARGETS,
+  LABEL_FORMAT_VALUES,
+  manualBatchSchema,
+  MAX_LABELS,
+  PRINT_TARGETS,
+  RECIPE_PAPERS,
+} from '../print'
 import { ALLERGEN_CODES } from '../domain/allergens'
 import { settingChangeSchema, settingsValuesSchema } from '../settings'
 import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '../domain/health'
@@ -80,6 +87,8 @@ const batchPrintInput = z
     stepMl: z.number().positive().max(1000),
     water: z.boolean(),
     garnish: z.boolean(),
+    /** With MANUAL_BATCH_ID as id: the batch written by hand. */
+    manual: manualBatchSchema.optional(),
   })
   .strict()
 
@@ -396,6 +405,7 @@ export const ipcContract = {
   },
   'collections.updateItem': { input: collectionItemInputSchema, output: done },
   'collections.removeItem': { input: idInput, output: done },
+  'collections.restoreItem': { input: idInput, output: done },
   'collections.reorder': {
     input: z
       .object({ id: z.string().min(1).max(36), itemIds: z.array(z.string().min(1).max(36)).max(5000) })

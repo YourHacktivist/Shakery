@@ -75,6 +75,14 @@ export const settings = {
     inMl: (value: string) => `${value} ml`,
     inOz: (value: number) =>
       value === 0.125 ? '⅛ oz' : value === 0.25 ? '¼ oz' : value === 0.5 ? '½ oz' : `${value} oz`,
+    pricing: 'Prix conseillé',
+    pricingHint:
+      'Ce que propose le calculateur de coût : le coût HT multiplié par le coefficient, TVA comprise, arrondi.',
+    multiplier: 'Coefficient',
+    vat: 'TVA',
+    step: 'Arrondi',
+    rounding: 'Sens de l’arrondi',
+    roundings: { up: 'Au-dessus', nearest: 'Au plus proche' },
     reset: 'Valeurs d’origine',
   },
   print: {
