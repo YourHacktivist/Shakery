@@ -3,11 +3,30 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { RendererTarget } from './security-policy'
 
+/** Folder of the notebook of a portable copy, beside its executable (D-055). */
+export const PORTABLE_DATA_FOLDER = 'Shakery Data'
+
 /**
- * End-to-end tests run several isolated instances, each with its own data folder.
- * The override is ignored in a packaged build.
+ * Folder the portable executable was started from (electron-builder `portable` target), null
+ * for an installed or a development build.
+ */
+export function portableDirectory(): string | null {
+  const dir = process.env['PORTABLE_EXECUTABLE_DIR']
+  return app.isPackaged && dir ? dir : null
+}
+
+/**
+ * A portable copy keeps its notebook, backups and logs beside it, on a USB key as on a disk.
+ * End-to-end tests run several isolated instances, each with its own data folder; that
+ * override is ignored in a packaged build.
  */
 export function applyUserDataOverride(): void {
+  const portable = portableDirectory()
+  if (portable) {
+    app.setPath('userData', join(portable, PORTABLE_DATA_FOLDER))
+    app.setAppLogsPath()
+    return
+  }
   const dir = process.env['SHAKERY_USER_DATA_DIR']
   if (!app.isPackaged && dir) app.setPath('userData', dir)
 }

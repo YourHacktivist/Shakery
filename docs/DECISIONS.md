@@ -505,6 +505,17 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - L'historique Git garde les anciennes mentions. Le réécrire demanderait un push forcé, que l'utilisateur exclut.
 - **Validation** : demande de l'utilisateur du 23 novembre 2026.
 
+### D-055 Un installeur et une version portable par version
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur veut, pour chaque version, un installeur et une version portable.
+- **Choix** :
+  - electron-builder construit les deux cibles (`nsis` et `portable`) ; la release porte l'installeur, son blockmap, `latest.yml` et `Shakery-X.Y.Z-portable.exe`. `latest.yml` ne décrit que l'installeur.
+  - La version portable ne touche pas au carnet de la version installée : carnet, photos, sauvegardes, journal et données de Chromium vont dans `Shakery Data`, à côté de l'exécutable (`PORTABLE_EXECUTABLE_DIR`, posé par le lanceur d'electron-builder, lu seulement dans une build packagée). Elle s'emporte sur une clé USB avec son carnet.
+  - electron-updater ne sait pas remplacer une version portable : téléchargé, son installeur aurait installé Shakery à côté, avec un carnet vide. La version portable cherche donc les versions au lancement comme l'autre, mais sa fenêtre propose « Télécharger la version portable », qui ouvre la page de la release (`github.com` rejoint la liste des hôtes autorisés). Le nouveau fichier, rangé à la place de l'ancien, retrouve le même dossier `Shakery Data`.
+  - Vérifié en lançant l'application packagée comme le fait le lanceur portable : données créées à côté, `%APPDATA%\Shakery` intact, recherche de mise à jour faite sur GitHub.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

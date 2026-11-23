@@ -182,6 +182,32 @@ describe('UpdateService', () => {
   })
 })
 
+describe('UpdateService on a portable copy', () => {
+  it('checks for releases, never downloads nor installs, and opens the page of the release', async () => {
+    const download = vi.fn(() => Promise.resolve())
+    const install = vi.fn()
+    const opened: string[] = []
+    const updates = service(
+      { check: () => Promise.resolve(RELEASE), download, install },
+      {
+        portable: true,
+        openReleasePage: (url) => {
+          opened.push(url)
+          return Promise.resolve(true)
+        },
+      },
+    )
+    expect(updates.current.mode).toBe('portable')
+    expect((await updates.checkOnLaunch()).status).toBe('available')
+    expect(updates.download().status).toBe('available')
+    await updates.install()
+    expect(download).not.toHaveBeenCalled()
+    expect(install).not.toHaveBeenCalled()
+    await updates.openRelease()
+    expect(opened).toEqual(['https://github.com/YourHacktivist/Shakery/releases/tag/v0.2.0'])
+  })
+})
+
 describe('releaseNotesText', () => {
   it('keeps the lines of the notes and drops every tag', () => {
     const html =

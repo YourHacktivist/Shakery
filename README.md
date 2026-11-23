@@ -28,7 +28,7 @@ L'aide est dans l'application : bouton **Aide** en haut de chaque écran, ou F1.
 
 ## Installer
 
-L'installeur Windows se construit avec `npm run dist:win` : `dist/Shakery-<version>-setup.exe`. Il s'installe pour l'utilisateur courant, sans droits administrateur. Il n'est pas signé : Windows SmartScreen affiche un avertissement au premier lancement.
+Chaque version existe en deux fichiers, sur la page des releases du dépôt. `Shakery-<version>-setup.exe` s'installe pour l'utilisateur courant, sans droits administrateur, et se met ensuite à jour seul. `Shakery-<version>-portable.exe` ne s'installe pas : il se lance d'où on veut et garde son carnet dans un dossier `Shakery Data` à côté de lui. Aucun des deux n'est signé : Windows SmartScreen affiche un avertissement au premier lancement. En local, `npm run dist:win` construit les deux dans `dist/`.
 
 Les DMG macOS (arm64 et x64) se construiraient avec `npm run dist:mac`, sur un Mac uniquement, ni signés ni notarisés. Ils ne sont pas construits pour l'instant.
 

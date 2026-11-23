@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test'
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { closeApp, electronBinary, launchApp, projectRoot, testEnv } from './helpers'
+import { APP_VERSION, closeApp, electronBinary, launchApp, projectRoot, testEnv } from './helpers'
 
 test('the app starts, shows its version and writes a log file', async () => {
   const launched = await launchApp()
   try {
-    await expect(launched.page.getByTestId('app-version')).toHaveText('Version 0.1.0')
+    await expect(launched.page.getByTestId('app-version')).toHaveText(`Version ${APP_VERSION}`)
     await expect(launched.page).toHaveTitle('Shakery')
 
     const size = await launched.page.evaluate(() => ({

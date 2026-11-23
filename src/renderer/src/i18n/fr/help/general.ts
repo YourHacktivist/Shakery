@@ -274,6 +274,10 @@ export const general = topic(
       update.update,
       'Télécharge la version. Seuls les morceaux qui ont changé sont téléchargés quand c’est possible.',
     ),
+    item(
+      update.downloadPortable,
+      'Sur une copie portable, ouvre la page de la version sur GitHub, où se trouve son fichier portable.',
+    ),
     item(update.later, 'Ferme la fenêtre. Elle revient au prochain lancement.'),
     item(
       update.skip,

@@ -278,6 +278,8 @@ export const ipcContract = {
   'updates.download': { input: noInput, output: updateStateSchema },
   /** Backs the notebook up, then quits and installs; a failed backup is in the state. */
   'updates.install': { input: noInput, output: updateStateSchema },
+  /** A portable copy: opens the page of the release on GitHub (D-055). */
+  'updates.openRelease': { input: noInput, output: updateStateSchema },
   'updates.skip': {
     input: z.object({ version: z.string().regex(VERSION_PATTERN) }).strict(),
     output: updateStateSchema,

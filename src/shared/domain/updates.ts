@@ -42,9 +42,16 @@ export const updateReleaseSchema = z
   .strict()
 export type UpdateRelease = z.infer<typeof updateReleaseSchema>
 
+/**
+ * `installed`: the setup put Shakery on the PC, an update installs itself. `portable`: a single
+ * executable that installs nothing; a new version is downloaded by hand from the release (D-055).
+ */
+export const UPDATE_MODES = ['installed', 'portable'] as const
+
 export const updateStateSchema = z
   .object({
     status: z.enum(UPDATE_STATUSES),
+    mode: z.enum(UPDATE_MODES),
     current: z.string().max(64),
     release: updateReleaseSchema.nullable(),
     /** The user chose « Ignorer cette version » for this release: no window opens by itself. */

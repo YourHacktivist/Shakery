@@ -1,9 +1,15 @@
 import { _electron as electron, type ElectronApplication, type Page } from '@playwright/test'
+import { readFileSync } from 'node:fs'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 export const projectRoot = resolve(__dirname, '..', '..')
+
+/** Version of the application under test, as package.json gives it. */
+export const APP_VERSION = (
+  JSON.parse(readFileSync(join(projectRoot, 'package.json'), 'utf8')) as { version: string }
+).version
 
 export type LaunchedApp = {
   app: ElectronApplication

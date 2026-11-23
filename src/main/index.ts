@@ -8,6 +8,7 @@ import { log, setupLogging } from './logger'
 import {
   applyUserDataOverride,
   databaseFile,
+  portableDirectory,
   defaultBackupDirectory,
   devServerUrl,
   mediaRoot,
@@ -16,7 +17,7 @@ import {
   seedFolder,
 } from './paths'
 import { handleMediaProtocol, registerMediaScheme } from './protocol'
-import { hardenAllWebContents, hardenSession } from './security'
+import { hardenAllWebContents, hardenSession, openExternalSafely } from './security'
 import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './seed/bundled'
 import { loadSeedData } from './seed/load'
 import { settleOnboarding } from './services/onboarding'
@@ -84,6 +85,10 @@ if (!app.requestSingleInstanceLock()) {
     beforeInstall: () => {
       installingUpdate = true
     },
+    // Development only: SHAKERY_FAKE_PORTABLE=1 shows what a portable copy shows.
+    portable:
+      portableDirectory() !== null || (!app.isPackaged && process.env['SHAKERY_FAKE_PORTABLE'] === '1'),
+    openReleasePage: openExternalSafely,
     log,
   })
 

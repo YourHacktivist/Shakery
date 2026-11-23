@@ -26,7 +26,7 @@ export function useUpdateState() {
   })
 }
 
-type Step = 'check' | 'download' | 'install' | 'skip'
+type Step = 'check' | 'download' | 'install' | 'skip' | 'openRelease'
 
 /** One step asked of the main; the state it answers replaces the one shown. */
 export function useUpdateStep() {
@@ -37,6 +37,7 @@ export function useUpdateStep() {
       if (step === 'check') return unwrap(updates.check())
       if (step === 'download') return unwrap(updates.download())
       if (step === 'install') return unwrap(updates.install())
+      if (step === 'openRelease') return unwrap(updates.openRelease())
       return unwrap(updates.skip({ version: version ?? '' }))
     },
     onSuccess: (state) => {

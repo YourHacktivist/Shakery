@@ -32,7 +32,9 @@ Le numéro de version suit la forme `X.Y.Z`. On augmente `Z` pour une correction
 
 3. Suis la construction dans l'onglet Actions du dépôt, sous le nom « Release ». Elle dure une quinzaine de minutes.
 
-La CI (`.github/workflows/release.yml`) vérifie que l'étiquette correspond à la version de `package.json`, installe les dépendances, contrôle le typage et lance les tests unitaires. Elle crée ensuite la release en brouillon, avec le texte de `build/release-notes.md`, y dépose l'installeur Windows et ses fichiers, vérifie qu'ils y sont tous, puis la publie. La release n'apparaît donc qu'une fois complète. La release contient trois fichiers : `Shakery-0.2.0-setup.exe`, son `.blockmap` et `latest.yml`. Shakery lit `latest.yml` pour savoir qu'une version existe, vérifie l'installeur par son empreinte SHA-512, et le blockmap lui permet de ne télécharger que ce qui a changé.
+La CI (`.github/workflows/release.yml`) vérifie que l'étiquette correspond à la version de `package.json`, installe les dépendances, contrôle le typage et lance les tests unitaires. Elle crée ensuite la release en brouillon, avec le texte de `build/release-notes.md`, y dépose l'installeur et la version portable, vérifie qu'ils y sont tous, puis la publie. La release n'apparaît donc qu'une fois complète. La release contient quatre fichiers : l'installeur `Shakery-0.2.2-setup.exe`, son `.blockmap`, `latest.yml` et la version portable `Shakery-0.2.2-portable.exe`. Shakery installé lit `latest.yml` pour savoir qu'une version existe, vérifie l'installeur par son empreinte SHA-512, et le blockmap lui permet de ne télécharger que ce qui a changé.
+
+La version portable ne s'installe pas : on la lance d'où on veut, par exemple d'une clé USB, et elle range son carnet, ses sauvegardes et son journal dans un dossier `Shakery Data` à côté d'elle. Elle ne peut pas se remplacer seule. Au lancement, elle annonce la nouvelle version comme l'autre, et son bouton ouvre la page de la release : il suffit de mettre le nouveau fichier portable à la place de l'ancien, dans le même dossier, pour retrouver le carnet.
 
 ## Écrire les notes de version
 
@@ -40,7 +42,7 @@ Avant de publier, décris les changements dans `build/release-notes.md`, en phra
 
 ## Vérifier
 
-Sur GitHub, la release `v0.2.0` existe et porte les trois fichiers. Sur le PC, lance Shakery : la fenêtre « Shakery 0.2.0 est disponible » s'ouvre quelques secondes après le démarrage. Si elle ne vient pas, ouvre Paramètres, carte « Mises à jour », et clique sur « Rechercher maintenant ».
+Sur GitHub, la release de la version existe et porte les quatre fichiers. Sur le PC, lance Shakery : la fenêtre « Shakery X.Y.Z est disponible » s'ouvre quelques secondes après le démarrage. Si elle ne vient pas, ouvre Paramètres, carte « Mises à jour », et clique sur « Rechercher maintenant ».
 
 ## La toute première fois
 

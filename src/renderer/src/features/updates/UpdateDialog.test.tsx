@@ -10,6 +10,7 @@ import { useUpdateWindow } from './useUpdates'
 
 const AVAILABLE: UpdateState = {
   status: 'available',
+  mode: 'installed',
   current: '0.1.0',
   release: { version: '0.2.0', notes: 'Nouveautés\n• Une <b>fenêtre</b>', date: Date.UTC(2026, 10, 23) },
   skipped: false,
@@ -91,6 +92,19 @@ describe('UpdateHost', () => {
     )
     show()
     expect((await screen.findByRole('alert')).textContent).toContain('La sauvegarde du carnet a échoué')
+  })
+
+  it('on a portable copy, sends to the page of the release instead of installing', async () => {
+    shakery.updates.status.mockResolvedValue(ok({ ...AVAILABLE, mode: 'portable' }))
+    shakery.updates.openRelease.mockResolvedValue(ok({ ...AVAILABLE, mode: 'portable' }))
+    show()
+    const dialog = await screen.findByRole('dialog', { name: /Shakery 0\.2\.0 est disponible/ })
+    expect(dialog.textContent).toContain('Shakery Data')
+    expect(screen.queryByRole('button', { name: 'Mettre à jour' })).toBeNull()
+    await userEvent.click(screen.getByRole('button', { name: 'Télécharger la version portable' }))
+    expect(shakery.updates.openRelease).toHaveBeenCalledTimes(1)
+    expect(shakery.updates.download).not.toHaveBeenCalled()
+    expect(screen.queryByRole('dialog')).toBeNull()
   })
 
   it('waits for the first-launch assistant', async () => {

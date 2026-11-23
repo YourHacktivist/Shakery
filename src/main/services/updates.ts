@@ -44,8 +44,15 @@ export type UpdateServiceDeps = {
   readonly backup: () => Promise<unknown>
   /** Tells the quit handler that a backup was just made and the installer is waiting. */
   readonly beforeInstall: () => void
+  /** A portable copy checks for releases but never downloads nor installs (D-055). */
+  readonly portable?: boolean
+  /** Opens the page of a release in the browser. */
+  readonly openReleasePage?: (url: string) => Promise<unknown>
   readonly log: Logger
 }
+
+/** Page of the releases of Shakery on GitHub, where the portable file of a version is. */
+export const RELEASES_URL = 'https://github.com/YourHacktivist/Shakery/releases'
 
 const ENTITIES: Readonly<Record<string, string>> = {
   amp: '&',
@@ -177,6 +184,7 @@ export class UpdateService {
   constructor(private readonly deps: UpdateServiceDeps) {
     this.state = {
       status: deps.port ? 'idle' : 'unsupported',
+      mode: deps.portable ? 'portable' : 'installed',
       current: deps.current,
       release: null,
       skipped: false,
@@ -255,7 +263,7 @@ export class UpdateService {
   download(): UpdateState {
     const port = this.deps.port
     const release = this.state.release
-    if (!port || !release) return this.state
+    if (!port || !release || this.deps.portable) return this.state
     if (this.state.status !== 'available' && this.state.status !== 'error') return this.state
     this.set({ status: 'downloading', progress: 0, error: null })
     port
@@ -282,7 +290,7 @@ export class UpdateService {
    */
   async install(): Promise<void> {
     const port = this.deps.port
-    if (!port || this.state.status !== 'ready') return
+    if (!port || this.deps.portable || this.state.status !== 'ready') return
     this.set({ error: null })
     try {
       await this.deps.backup()
@@ -294,6 +302,14 @@ export class UpdateService {
     this.deps.beforeInstall()
     this.deps.log.info(`Installing update ${this.state.release?.version ?? '?'}`)
     port.install()
+  }
+
+  /** A portable copy: the page of the release opens, its portable file is there. */
+  async openRelease(): Promise<UpdateState> {
+    const release = this.state.release
+    if (!release || !this.deps.openReleasePage) return this.state
+    await this.deps.openReleasePage(`${RELEASES_URL}/tag/v${release.version}`)
+    return this.state
   }
 
   /** « Ignorer cette version »: no window opens by itself for it any more. */

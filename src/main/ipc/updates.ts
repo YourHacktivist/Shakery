@@ -2,7 +2,12 @@ import type { UpdateService } from '../services/updates'
 import type { IpcHandlers } from './dispatch'
 
 type UpdateChannels =
-  'updates.status' | 'updates.check' | 'updates.download' | 'updates.install' | 'updates.skip'
+  | 'updates.status'
+  | 'updates.check'
+  | 'updates.download'
+  | 'updates.install'
+  | 'updates.skip'
+  | 'updates.openRelease'
 
 /** Updates from the GitHub releases (D-051). */
 export function createUpdateHandlers(updates: UpdateService): Pick<IpcHandlers, UpdateChannels> {
@@ -15,5 +20,6 @@ export function createUpdateHandlers(updates: UpdateService): Pick<IpcHandlers, 
       return updates.current
     },
     'updates.skip': ({ version }) => updates.skip(version),
+    'updates.openRelease': () => updates.openRelease(),
   }
 }

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { IPC_CHANNELS } from '../../src/shared/ipc/channels'
-import { closeApp, createUserDataDir, launchApp, TINY_WEBP, type LaunchedApp } from './helpers'
+import { APP_VERSION, closeApp, createUserDataDir, launchApp, TINY_WEBP, type LaunchedApp } from './helpers'
 
 let launched: LaunchedApp
 
@@ -80,7 +80,7 @@ test('IPC answers valid calls and refuses invalid input', async () => {
     const invalid = await call({ injected: '../../etc/passwd' })
     return { valid, invalid }
   })
-  expect(results.valid).toEqual({ ok: true, data: { version: '0.1.0' } })
+  expect(results.valid).toEqual({ ok: true, data: { version: APP_VERSION } })
   expect(results.invalid).toMatchObject({ ok: false, code: 'INVALID_INPUT' })
 })
 

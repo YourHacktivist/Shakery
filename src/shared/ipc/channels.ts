@@ -66,6 +66,7 @@ export const IPC_CHANNELS = [
   'updates.download',
   'updates.install',
   'updates.skip',
+  'updates.openRelease',
   'search.query',
   'search.notes',
   'search.rebuild',

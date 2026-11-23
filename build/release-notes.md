@@ -7,3 +7,5 @@ Les textes de l'interface suivent la typographie française et ont été relus u
 Les noms avec accents, majuscules, emoji ou caractères invisibles sont retrouvés dans la recherche, et une même étiquette n'est plus gardée deux fois.
 
 Un écran qui rencontre un problème affiche un écran de secours ; le reste de Shakery reste utilisable.
+
+Chaque version existe aussi en version portable, qui ne s'installe pas et garde son carnet dans un dossier Shakery Data à côté d'elle.

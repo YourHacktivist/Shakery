@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { readdir, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { closeApp, createUserDataDir, launchApp } from './helpers'
+import { APP_VERSION, closeApp, createUserDataDir, launchApp } from './helpers'
 
 async function backupFolders(userDataDir: string): Promise<string[]> {
   try {
@@ -61,7 +61,7 @@ test('a backup then a restore through IPC gives back the same notebook', async (
     expect(restored).toMatchObject({ ok: true, data: { id: created.data.id } })
     // The window reloads on the restored notebook.
     await launched.page.waitForLoadState('domcontentloaded')
-    await expect(launched.page.getByTestId('app-version')).toHaveText('Version 0.1.0')
+    await expect(launched.page.getByTestId('app-version')).toHaveText(`Version ${APP_VERSION}`)
     const health = await launched.page.evaluate(() => window.shakery.database.getHealth())
     expect(health).toMatchObject({ ok: true, data: { database: 'ready' } })
 
@@ -81,7 +81,7 @@ test('a damaged notebook is detected at startup and nothing is written to it', a
   await writeFile(join(userDataDir, 'shakery.db'), garbage)
   const launched = await launchApp(userDataDir)
   try {
-    await expect(launched.page.getByTestId('app-version')).toHaveText('Version 0.1.0')
+    await expect(launched.page.getByTestId('app-version')).toHaveText(`Version ${APP_VERSION}`)
     const result = await launched.page.evaluate(async () => ({
       health: await window.shakery.database.getHealth(),
       glasses: await window.shakery.reference.listGlasses(),

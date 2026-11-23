@@ -1,4 +1,4 @@
-import { Download, RotateCw, ShieldCheck } from 'lucide-react'
+import { Download, ExternalLink, RotateCw, ShieldCheck } from 'lucide-react'
 import { useEffect } from 'react'
 import type { UpdateState } from '@shared/domain/updates'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -74,6 +74,7 @@ export function UpdateHost() {
           ? t.readyNote
           : null
 
+  const portable = state.mode === 'portable'
   const progress = state.progress ?? 0
   const installing = step.isPending && step.variables.step === 'install'
 
@@ -110,16 +111,29 @@ export function UpdateHost() {
             <Button variant="outline" onClick={leave}>
               {t.later}
             </Button>
-            <Button
-              data-autofocus
-              icon={<Download size={15} aria-hidden="true" />}
-              onClick={() => {
-                show()
-                step.mutate({ step: 'download' })
-              }}
-            >
-              {t.update}
-            </Button>
+            {portable ? (
+              <Button
+                data-autofocus
+                icon={<ExternalLink size={15} aria-hidden="true" />}
+                onClick={() => {
+                  step.mutate({ step: 'openRelease' })
+                  leave()
+                }}
+              >
+                {t.downloadPortable}
+              </Button>
+            ) : (
+              <Button
+                data-autofocus
+                icon={<Download size={15} aria-hidden="true" />}
+                onClick={() => {
+                  show()
+                  step.mutate({ step: 'download' })
+                }}
+              >
+                {t.update}
+              </Button>
+            )}
           </>
         ) : view === 'downloading' ? (
           <Button
@@ -179,7 +193,7 @@ export function UpdateHost() {
           </section>
           <p className="m-0 flex items-start gap-2 text-small text-fg-secondary">
             <ShieldCheck size={16} aria-hidden="true" className="mt-0.5 shrink-0 text-accent" />
-            <span>{t.safeNote}</span>
+            <span>{portable ? t.portableNote : t.safeNote}</span>
           </p>
         </>
       ) : null}

@@ -32,6 +32,9 @@ export const shell = {
     safeNote:
       'Shakery sauvegarde ton carnet avant d’installer la nouvelle version, puis redémarre de lui-même. Tu n’as rien à réinstaller.',
     update: 'Mettre à jour',
+    downloadPortable: 'Télécharger la version portable',
+    portableNote:
+      'Cette copie portable ne s’installe pas. Télécharge le fichier portable de la nouvelle version et range-le à la place de l’ancien, dans le même dossier : il retrouvera ton carnet dans le dossier Shakery Data.',
     later: 'Plus tard',
     skip: 'Ignorer cette version',
     downloadingTitle: (version: string) => `Téléchargement de Shakery ${version}`,

@@ -1,7 +1,8 @@
 name: Release
 
-# A tag v1.2.3 builds the Windows installer and publishes it as a GitHub release, with the
-# blockmap and latest.yml that the installed Shakery reads to update itself (D-051).
+# A tag v1.2.3 builds the Windows setup and the portable executable and publishes them as a GitHub
+# release, with the blockmap and latest.yml that the installed Shakery reads to update itself
+# (D-051, D-055).
 on:
   push:
     tags: ['v*.*.*']
@@ -73,7 +74,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in latest.yml "Shakery-${GITHUB_REF_NAME#v}-setup.exe" "Shakery-${GITHUB_REF_NAME#v}-setup.exe.blockmap"; do
+          for file in latest.yml "Shakery-${GITHUB_REF_NAME#v}-setup.exe" "Shakery-${GITHUB_REF_NAME#v}-setup.exe.blockmap" "Shakery-${GITHUB_REF_NAME#v}-portable.exe"; do
             gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name' | grep -qxF "$file" || { echo "Missing $file" >&2; exit 1; }
           done
           gh release edit "$GITHUB_REF_NAME" --draft=false --latest

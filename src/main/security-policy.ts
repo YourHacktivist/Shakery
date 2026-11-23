@@ -8,8 +8,9 @@ export const MEDIA_SCHEME = 'shakery-media'
 export const MEDIA_HOST = 'media'
 export const MEDIA_ALLOWED_EXTENSIONS = ['.webp'] as const
 
-/** Hosts reachable through `shell.openExternal` (attributions and licences only). */
+/** Hosts reachable through `shell.openExternal`: attributions, licences and the releases of Shakery. */
 export const EXTERNAL_HOST_ALLOWLIST: readonly string[] = [
+  'github.com',
   'ciqual.anses.fr',
   'www.anses.fr',
   'world.openfoodfacts.org',
