@@ -97,6 +97,7 @@ test('buttons, fields and rows line up on every screen, with long names', async 
       `/prepare/${recipe}`,
     ]
 
+    const cdp = await page.context().newCDPSession(page)
     const found: string[] = []
     // The smallest window, a laptop at 125 % maximised, a large screen; then without the sidebar.
     const passes = [
@@ -123,6 +124,15 @@ test('buttons, fields and rows line up on every screen, with long names', async 
           },
           { width, height },
         )
+        // The window of a CI runner may not reach the size asked (small screen, slow resize): the page
+        // is given its width directly, and measured only once it has it.
+        await cdp.send('Emulation.setDeviceMetricsOverride', {
+          width,
+          height,
+          deviceScaleFactor: 1,
+          mobile: false,
+        })
+        await expect.poll(() => page.evaluate(() => window.innerWidth)).toBe(width)
         await page.evaluate((to) => {
           location.hash = `#${to}`
         }, route)
