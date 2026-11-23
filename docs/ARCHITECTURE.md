@@ -134,3 +134,10 @@ Une fois la fenêtre ouverte, une sauvegarde quotidienne est faite si la derniè
 - Écrans : `app/scenes.tsx` nomme la scène d'une adresse, `styles/scenes.css` porte son entrée et son motif. Un nouvel écran y ajoute sa scène, sa largeur est `max-w-page`.
 - Fenêtre : `src/main/window.ts` (barre de titre masquée, couleurs des boutons natifs) ; les zones `window-drag` déplacent la fenêtre.
 - Impression : une route `/print/…` hors coquille, rendue dans une fenêtre cachée (`src/main/services/print.ts`).
+
+## Aide, données sensibles et alignement (D-043 à D-049)
+
+- Aide : `features/help/HelpDialog.tsx`, ouverte par `useHelpStore` (pas une des fenêtres de `useOverlayStore`, pour ne pas fermer une saisie en cours). `app/help.ts` relie chaque scène à son sujet : une scène sans sujet ne compile pas. Les textes sont dans `i18n/fr/help/` et reprennent les libellés des écrans par leurs clés.
+- Effacements : corbeille (`services/trash.ts`) et réinitialisation (`db/manager.ts`) passent toujours par `backupBeforeErasing`, qui refuse d'effacer si la sauvegarde ne se vérifie pas.
+- Photos : le renderer réencode en WebP ; `services/photos.ts` relit la structure, refuse toute métadonnée et choisit le nom du fichier. Une photo n'est jamais réécrite en place ; les fichiers orphelins partent quand la corbeille est vidée.
+- Alignement : `tests/e2e/page-alignment.ts` (centres, hauteurs, rangées cassées, libellés coupés) complète `page-audit.ts` (débordements, contrastes, noms). Un contrôle dans une rangée fait 32 px, ou 28 px pour toute la rangée.

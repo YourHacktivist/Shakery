@@ -19,15 +19,18 @@ Le carnet de création du barman, installé sur son PC. Tout est local et hors l
 | **Fiche technique imprimable** | A4 ou A5, en PDF ou sur papier, avec Ctrl P.                                                                                            |
 | **Partage**                    | Markdown, image, CSV, et fichier `.shakery` pour un collègue ou un autre PC.                                                            |
 | **Deux thèmes**                | Sombre ou clair chaud, jusque dans la barre de titre.                                                                                   |
+| **Étiquettes et batch**        | Étiquettes de bouteille sur rouleau ou planche, feuille de batch avec ce qui se garde et ce qui s'ajoute au service.                    |
+| **Photos et mise en forme**    | Une photo par fiche ou dégustation, du gras, de l'italique et des listes dans les textes.                                               |
+| **Aide sur chaque écran**      | Le bouton Aide, ou F1, explique chaque champ, bouton, calcul et raccourci de l'écran affiché.                                           |
 | **Mode préparation**           | La fiche en plein écran, lisible à un mètre, avec F11.                                                                                  |
 
-Le guide d'utilisation est dans l'application : bouton **?** en bas de la barre latérale, ou Paramètres puis Guide.
+L'aide est dans l'application : bouton **Aide** en haut de chaque écran, ou F1. Le guide complet est en bas de la barre latérale, ou dans Paramètres.
 
 ## Installer
 
 L'installeur Windows se construit avec `npm run dist:win` : `dist/Shakery-<version>-setup.exe`. Il s'installe pour l'utilisateur courant, sans droits administrateur. Il n'est pas signé : Windows SmartScreen affiche un avertissement au premier lancement.
 
-Les DMG macOS (arm64 et x64) se construisent avec `npm run dist:mac`, sur un Mac uniquement. Ils ne sont ni signés ni notarisés.
+Les DMG macOS (arm64 et x64) se construiraient avec `npm run dist:mac`, sur un Mac uniquement, ni signés ni notarisés. Ils ne sont pas construits pour l'instant.
 
 Au premier lancement, le chargement des classiques prend quelques secondes, une seule fois.
 

@@ -1,22 +1,11 @@
 # Passation
 
-## Reprendre ici (22 novembre 2026, fin de session)
-
-D-039 à D-048 sont codées, en local, pas encore poussées. macOS est mis de côté. Reste à faire :
-
-1. Aide (D-048) : test de couverture des libellés de chaque écran, relecture en image, corrections.
-2. `npm run check`, e2e complet deux fois, `npm run screens`, `npm run perf`, `npx tsx scripts/seed/check-seed.ts`.
-3. README, `docs/ARCHITECTURE.md`, reste de cette passation, puis installeur Windows (celui de `dist/` date de la phase 11).
-4. Relire le diff (données personnelles), puis pousser sur main.
-
-Écarts connus, non corrigés : retrait d'une collection sans « Annuler », Ctrl+J dans l'atelier sans fiche choisie, grammes hors volume du batch, photo non modifiable sur une dégustation, batch impossible sans fiche.
-
-Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 22 novembre 2026.
+Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 23 novembre 2026.
 
 ## Lire d'abord
 
 1. `CLAUDE.md`, puis `docs/SPEC.md` en entier.
-2. `docs/DECISIONS.md` : décisions D-001 à D-038 et le tableau « À valider plus tard ».
+2. `docs/DECISIONS.md` : décisions D-001 à D-049 et le tableau « À valider plus tard ».
 3. `docs/proposals/2026-11-17-modele-donnees-maf.md` (modèle de données MAF validé) et `docs/maf-mapping.md`.
 4. `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_SOURCES.md`.
 
@@ -29,24 +18,33 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Toujours le logo fourni (`design/assets/`) pour les icônes et visuels, jamais de variante redessinée.
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
 - Dépôt distant : https://github.com/YourHacktivist/Shakery (privé, il contient les recettes de 24cocktails réservées à l'usage personnel : ne jamais le rendre public sans retirer `resources/seed/recipes-24c.json`). Pousser uniquement avec le compte YourHacktivist de l'utilisateur, déjà enregistré dans le gestionnaire d'identifiants Git ; jamais de push forcé.
+- Regarder chaque écran modifié en image, à 1100 px, à 1536 px (son écran) et en grand, barre ouverte et fermée, avec des noms longs : boutons alignés, aucun bouton seul sur sa ligne, hauteurs égales (D-049). Un audit automatique vert ne suffit pas : il l'a dit le 22 novembre en renvoyant une capture.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
-## Reprendre ici (22 novembre 2026)
+## Reprendre ici (23 novembre 2026)
 
-Phases 0 à 11 développées, sauf un critère de la phase 11 : **les DMG macOS ne sont pas construits** (impossible depuis Windows ; un workflow GitHub sur macOS serait une nouvelle configuration, à faire valider par l'utilisateur). Au 22 novembre : `npm run check` passe (359 tests), `npm run test:e2e` passe (26 tests, deux passages complets), `npm run perf` tient ses budgets, la revue des écrans (90 captures) ne relève aucun défaut mesuré.
+Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-049. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (451 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe deux fois de suite (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.
 
-**Prochaine étape** : ce que l'utilisateur choisira. Rien de la liste qui suit n'est commencé.
+**Prochaine étape** : ce que l'utilisateur choisira.
 
-Écarts restants avec la spec :
+Ce qui a été fait, avec ses repères :
 
-- photos de fiche et de dégustation, import d'image (10.4, 10.6) ;
-- gras, italique et listes dans les textes libres ;
-- filtres de 10.4 (spiritueux, verre, collection, tags, profil, allergène) et actions de palette manquantes, recherche dans le carnet et le journal ;
-- paramètres de 10.14 : dilution par méthode, équivalences d'unités, pas de l'atelier, mode performance, corbeille et réinitialisation ;
-- étiquette de bouteille et impression du batch ;
-- 7 064 classiques sans étapes ni famille, 469 ingrédients sans degré.
+- Classiques (D-039) : degrés sourcés (`scripts/seed/abv.json`), familles et étapes types (`scripts/seed/classics.ts`, mention `TYPICAL_STEPS_CREDIT` de `src/shared/classics.ts`, étapes types non indexées). Complétés dans un carnet existant seulement sur les lignes intactes (`fillReference`, `fillClassics` de `load.ts`).
+- Filtres (D-040) : `services/facets.ts`, `features/recipes/filters.ts` et `RecipeFilterBar.tsx`, allergènes et profils (`scripts/seed/allergens.json`, `profiles.ts`). « Sans » masque aussi les fiches dont un ingrédient est introuvable.
+- Palette (D-041) : notes et dégustations (`search.notes`), actions sur la fiche trouvée ou affichée, comparaison entre fiches (`CompareView`).
+- Impression (D-042) : étiquettes de bouteille (`print/BottleLabel.tsx`, 5 formats dans `shared/print.ts`), batch imprimé, règles du batch (rien de frais en bouteille).
+- Paramètres (D-043) : équivalences, dilution, pas de l'atelier, impression, corbeille (`services/trash.ts`), réinitialisation (`manager.reset()`), toujours après une sauvegarde vérifiée.
+- Mise en forme (D-044) : `core/rich-text.ts`, `components/RichText.tsx`, `FormattedTextarea.tsx`. Aucun HTML produit.
+- Photos (D-045) : `services/photos.ts` (WebP sans métadonnées, vérifié dans le main), `lib/photo.ts`, `PhotoField.tsx`.
+- Dessins de fond (D-046) : `app/backdrops/`.
+- Barre latérale fermable (D-047) : état `closed` du store, bouton « Menu » de la barre du haut, Ctrl+B.
+- Aide (D-048) : bouton Aide et F1 sur chaque écran, mode préparation compris (`features/help/`, textes dans `i18n/fr/help/`). Le guide affiche le même détail. `help.test.tsx` échoue si un libellé d'écran n'a pas d'explication : un nouveau bouton s'explique dans son sujet, ou sa clé rejoint une règle de `SAYS_ITSELF` avec une raison.
+- Alignement (D-049) : rangées à hauteur unique, grilles régulières, boutons opaques. `tests/e2e/alignment.spec.ts` mesure centres, hauteurs, retours à la ligne et libellés coupés avec des noms longs.
+- Corrigés en route : une collection se prépare d'une fiche à l'autre (bouton « Préparer », coches propres à chaque fiche) ; le calculateur de degré ne compte plus un degré inconnu pour 0 % ; délai des tests unitaires à 30 s (le chargement des classiques dépassait 5 s sur une machine lente).
 
-Non vérifié : impression sur une vraie imprimante, installation par l'installeur, DevTools coupés dans l'application installée, macOS, lecteur d'écran, contrastes des dialogues et des textes sur dégradé (hors de la mesure automatique), résultat de la CI GitHub.
+Écarts connus, non corrigés : retrait d'une fiche d'une collection sans « Annuler » ; Ctrl+J dans l'atelier ouvre une note sans fiche choisie ; une dose en grammes ne compte pas dans le volume du batch ; photo non modifiable sur une dégustation déjà enregistrée ; pas de batch sans fiche (10.13) ; « Abandonner » de l'atelier efface l'historique d'annulation sans confirmation ; coefficient et TVA du prix conseillé fixes (les réglages `pricing.*` existent sans écran).
+
+Non vérifié : impression sur une vraie imprimante et sur imprimante d'étiquettes, glisser-déposer réel d'une photo, photos de téléphone, lecteur d'écran, installation par l'installeur sur le profil de l'utilisateur, macOS, résultat de la CI GitHub. Allergènes et profils aromatiques des ingrédients ont été attribués par type de produit : l'étiquette fait foi.
 
 ## Phase 11 livrée pour Windows (finitions)
 
