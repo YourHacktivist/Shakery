@@ -25,7 +25,7 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-050. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (452 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.
 
-**Prochaine étape** : ce que l'utilisateur choisira.
+**Prochaine étape** : l'utilisateur reprend dans une autre instance pour corriger le design et ajouter des fonctions. Les deux sections qui suivent (« Modifier le design », « Ajouter une fonction ») sont écrites pour ça. Le cahier des charges est entièrement livré : il n'y a plus de phase à suivre, chaque demande se traite comme un ajout. La question Electron ou Tauri de `CLAUDE.md` est tranchée depuis le début (D-001, Electron) : ne pas la reposer.
 
 Ce qui a été fait, avec ses repères :
 
@@ -45,6 +45,30 @@ Ce qui a été fait, avec ses repères :
 Le 23 novembre, les six écarts restants sont corrigés (D-050) : Ctrl+J dans l'atelier, « Annuler » après le retrait d'une fiche de collection, grammes dans le batch, photo d'une dégustation enregistrée, réglages du prix conseillé, batch sans fiche. Reste un comportement à connaître : « Abandonner » dans l'atelier efface l'historique d'annulation sans confirmation.
 
 Non vérifié : impression sur une vraie imprimante et sur imprimante d'étiquettes, glisser-déposer réel d'une photo, photos de téléphone, lecteur d'écran, installation par l'installeur sur le profil de l'utilisateur, macOS, résultat de la CI GitHub. Allergènes et profils aromatiques des ingrédients ont été attribués par type de produit : l'étiquette fait foi.
+
+## Modifier le design
+
+Principes : section 11 de la spec, puis D-032 (interface vivante, accent cuivré unique), D-038 (thème clair, barre de titre, une scène par écran), D-046 (dessins de fond), D-049 (alignement). L'utilisateur juge sur ce qu'il voit : chaque changement se vérifie en image, pas seulement par les tests.
+
+- Couleurs et tailles : `src/renderer/src/styles/tokens.css`, le fichier vivant (thème sombre et thème clair). `design/tokens.css` est la version d'origine de la maquette et n'est plus lu par l'application. Jamais de couleur en dur dans un composant : un jeton, valable dans les deux thèmes.
+- Composants partagés : `src/renderer/src/components/` (Button, Input, Select, Combobox, NumberWithUnit, DoseStepper, SegmentedControl, FilterPill, Toggle, Checkbox, Dialog, Card, StatTile, RangeGauge, Toast…). Corriger un composant corrige tous les écrans : préférer cela à des retouches écran par écran. `/dev/kit` les montre tous, en développement seulement.
+- Rangées (D-049) : dans une même rangée, tout contrôle fait 32 px de haut (28 px en `size="sm"`, pour toute la rangée). Une suite de boutons qui peut manquer de place devient une grille à colonnes égales (`grid-cols-4`, colonnes changées par `@container`), jamais un `flex-wrap` qui laisse un bouton seul sur sa ligne. Le bouton contour est opaque (`bg-surface-1`) pour que le dessin de fond ne traverse pas son libellé.
+- `cn()` joint les classes sans les fusionner (clsx, pas tailwind-merge) : passer `rounded-full` à un composant qui a déjà `rounded-field` laisse les deux, et le résultat dépend de l'ordre du CSS. Ajouter une variante au composant plutôt que d'écraser ses classes.
+- Grilles : un élément avec `row-start` explicite est placé avant ceux qui n'en ont pas. Dans une grille qui change de colonnes, donner à chaque élément sa colonne et sa ligne aux deux tailles.
+- Écran et largeur : `app/scenes.tsx` (scène d'une adresse), `styles/scenes.css` (lumière, entrée, couleur du dessin), dessins dans `app/backdrops/`. Largeur des pages : `max-w-page` (1180 px, plus sur grand écran).
+- Tailles à vérifier : 1100 × 700 (minimum de la fenêtre), 1536 × 816 (l'écran de l'utilisateur : portable Full HD à 125 %, fenêtre agrandie), 1920 et 2560 ; barre latérale ouverte, réduite et fermée ; thème sombre et clair ; carnet vide et carnet avec des noms longs.
+- Outils : `npm run screens` (90 captures des écrans, dans `test-results/screens`, avec `report.json` des débordements, contrastes et contrôles sans nom) ; `tests/e2e/alignment.spec.ts` (centres, hauteurs, rangées cassées, libellés coupés, avec des noms longs, à trois largeurs) ; `tests/e2e/page-audit.ts` et `page-alignment.ts` à réutiliser dans un nouveau test. Ces mesures ne voient pas tout : regarder les images.
+- Photographier sans gêner l'utilisateur : lancer Electron sur un dossier de données jetable (`SHAKERY_USER_DATA_DIR`), déplacer la fenêtre hors de l'écran (`setPosition(-7000, 0)`, `setBackgroundThrottling(false)`, option `--disable-features=CalculateNativeWinOcclusion`) et fixer la taille par CDP (`Emulation.setDeviceMetricsOverride`) : `setContentSize` sur une fenêtre hors écran ne suit pas toujours.
+
+## Ajouter une fonction
+
+- Opération IPC : `docs/ARCHITECTURE.md`, « Ajouter une opération IPC » (canal dans `channels.ts`, schémas dans `contract.ts`, handler dans `src/main/ipc/`). Le preload suit seul.
+- Base : une colonne ou une table se discute d'abord avec l'utilisateur (modèle de données), puis migration (`docs/ARCHITECTURE.md`, « Couche de données »).
+- Textes : tout libellé français dans `src/renderer/src/i18n/fr/`, en tutoyant l'utilisateur.
+- Aide : chaque nouveau libellé s'explique dans `i18n/fr/help/`, dans le sujet de l'écran où il apparaît, sinon `help.test.tsx` échoue et nomme la clé. Un nouvel écran ajoute sa scène dans `app/scenes.tsx` et son sujet dans `i18n/fr/help/index.ts` (sans sujet, `app/help.ts` ne compile pas), sa page de guide si besoin, et sa route dans `tests/e2e/alignment.spec.ts`.
+- Décision : une entrée dans `docs/DECISIONS.md` (prochaine : D-051), et cette passation à jour.
+- Tests : unitaire pour le calcul ou le dépôt, e2e pour le parcours, puis `npm run check` et `npm run test:e2e`.
+- Envoi : commit en anglais sans ligne `Co-Authored-By`, puis `git push origin main` avec le compte de l'utilisateur. Installeur : voir « Phase 11 livrée pour Windows ».
 
 ## Phase 11 livrée pour Windows (finitions)
 
@@ -210,6 +234,9 @@ npx electron scripts/icons/generate.mjs
 - L'outil d'écriture de fichiers transforme les séquences `\uXXXX` en caractères réels : pour une espace insécable ou un tiret spécial dans le code, utiliser `String.fromCharCode`.
 - Les heredocs Bash contenant des apostrophes échouent : écrire le script Python dans un fichier du dossier temporaire avec l'outil d'écriture, puis `python -I fichier.py`. `python -I` ignore `PYTHONIOENCODING` : pour afficher de l'UTF-8, `sys.stdout.reconfigure(encoding='utf-8')`.
 - Prettier reformate les fichiers après coup : relire un fichier avant un remplacement par motif, sinon le motif ne correspond plus.
+- Un écran qui se remonte après un enregistrement (l'atelier, par sa clé de version) perd les rappels passés à `mutate` : attendre `mutateAsync` pour afficher un message ou ouvrir une fenêtre après coup (D-050).
+- Une donnée écrite par un appel IPC direct, dans un test ou un script, n'invalide pas le cache de TanStack Query : recharger la page avant de la chercher à l'écran.
+- Les scripts du dossier temporaire d'une session (captures, planches) ne sont pas dans le dépôt : en réécrire au besoin, sur le modèle des tests e2e.
 - Un test e2e qui change `location.hash` doit attendre `main[data-scene]` avant de lire l'écran : la route est rendue un instant après.
 - Windows verrouille les fichiers ouverts : toujours fermer une base SQLite avant de la supprimer, y compris dans les `catch`.
 - Les scripts lancés avec `tsx` sont en CommonJS : pas de `await` au niveau supérieur, envelopper dans une fonction `main`.
