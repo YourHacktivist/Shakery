@@ -49,7 +49,31 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Package and publish
+      # One release, created before any upload: electron-builder uploads its files in parallel and,
+      # without it, each upload could create a release of its own for the same tag.
+      - name: Create the draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          # What an earlier attempt for this tag left behind goes first.
+          for id in $(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" --jq ".[] | select(.tag_name == \"$GITHUB_REF_NAME\") | .id"); do
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/releases/$id"
+          done
+          gh release create "$GITHUB_REF_NAME" --draft --verify-tag --title "$version" --notes-file build/release-notes.md
+
+      - name: Package and upload
         run: npx electron-builder --win --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for file in latest.yml "Shakery-${GITHUB_REF_NAME#v}-setup.exe" "Shakery-${GITHUB_REF_NAME#v}-setup.exe.blockmap"; do
+            gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name' | grep -qxF "$file" || { echo "Missing $file" >&2; exit 1; }
+          done
+          gh release edit "$GITHUB_REF_NAME" --draft=false --latest

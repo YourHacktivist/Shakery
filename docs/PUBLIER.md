@@ -32,11 +32,11 @@ Le numéro de version suit la forme `X.Y.Z`. On augmente `Z` pour une correction
 
 3. Suis la construction dans l'onglet Actions du dépôt, sous le nom « Release ». Elle dure une quinzaine de minutes.
 
-La CI (`.github/workflows/release.yml`) vérifie que l'étiquette correspond à la version de `package.json`, installe les dépendances, contrôle le typage, lance les tests unitaires, construit l'installeur Windows et publie la release. La release contient trois fichiers : `Shakery-0.2.0-setup.exe`, son `.blockmap` et `latest.yml`. Shakery lit `latest.yml` pour savoir qu'une version existe, vérifie l'installeur par son empreinte SHA-512, et le blockmap lui permet de ne télécharger que ce qui a changé.
+La CI (`.github/workflows/release.yml`) vérifie que l'étiquette correspond à la version de `package.json`, installe les dépendances, contrôle le typage et lance les tests unitaires. Elle crée ensuite la release en brouillon, avec le texte de `build/release-notes.md`, y dépose l'installeur Windows et ses fichiers, vérifie qu'ils y sont tous, puis la publie. La release n'apparaît donc qu'une fois complète. La release contient trois fichiers : `Shakery-0.2.0-setup.exe`, son `.blockmap` et `latest.yml`. Shakery lit `latest.yml` pour savoir qu'une version existe, vérifie l'installeur par son empreinte SHA-512, et le blockmap lui permet de ne télécharger que ce qui a changé.
 
 ## Écrire les notes de version
 
-Avant de publier, décris les changements dans `build/release-notes.md`, en phrases simples séparées par une ligne vide. electron-builder recopie ce texte dans `latest.yml`, et c'est lui que la fenêtre de Shakery affiche sous « Ce qui change ». Remplace le texte à chaque version et commite-le avant `npm version`, qui demande un arbre de travail propre.
+Avant de publier, décris les changements dans `build/release-notes.md`, en phrases simples séparées par une ligne vide. electron-builder recopie ce texte dans `latest.yml`, et c'est lui que la fenêtre de Shakery affiche sous « Ce qui change ». Il sert aussi de texte à la release sur GitHub. Remplace le texte à chaque version et commite-le avant `npm version`, qui demande un arbre de travail propre.
 
 ## Vérifier
 
@@ -58,7 +58,8 @@ La version 0.1.0 installée aujourd'hui n'a pas le module de mise à jour. Tél�
   git push origin :refs/tags/v0.2.0
   ```
 
-- Un test échoue dans la CI : rien n'est publié. Corrige, pousse, puis publie le numéro suivant (`0.2.1`).
+- Un test échoue dans la CI : rien n'est publié. Corrige, pousse, puis publie le numéro suivant.
+- La construction échoue après la création du brouillon : relancer le workflow (« Re-run all jobs » dans l'onglet Actions) supprime d'abord ce que la tentative précédente a laissé pour cette étiquette, puis recommence.
 - La release existe mais aucune fenêtre ne s'ouvre : vérifie que la release contient `latest.yml` et que « Rechercher au lancement » est activé dans les paramètres. Le journal de Shakery (Paramètres, À propos, Journaux) note chaque recherche.
 
 ## Construire un installeur sans le publier
