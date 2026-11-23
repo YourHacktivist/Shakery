@@ -4,7 +4,7 @@ Une version publiée sur GitHub arrive d'elle-même sur les Shakery installés. 
 
 ## Avant de publier
 
-Le travail à publier est commité et poussé sur `main`, et les vérifications passent :
+Le travail à publier est commité et poussé sur `main`, les notes de version sont écrites (voir plus bas), et les vérifications passent :
 
 ```powershell
 npm run check
@@ -36,7 +36,7 @@ La CI (`.github/workflows/release.yml`) vérifie que l'étiquette correspond à 
 
 ## Écrire les notes de version
 
-La fenêtre de Shakery affiche le texte de la release. Une fois la release publiée, ouvre-la sur GitHub, choisis « Edit » et décris les changements, en titres et en listes si tu veux. Shakery les montre en texte simple, sans mise en forme HTML.
+Avant de publier, décris les changements dans `build/release-notes.md`, en phrases simples séparées par une ligne vide. electron-builder recopie ce texte dans `latest.yml`, et c'est lui que la fenêtre de Shakery affiche sous « Ce qui change ». Remplace le texte à chaque version et commite-le avant `npm version`, qui demande un arbre de travail propre.
 
 ## Vérifier
 
