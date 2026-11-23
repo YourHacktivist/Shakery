@@ -32,6 +32,8 @@ Le 23 novembre (suite), D-051 et D-052 :
 - Robustesse : `db/repositories/robustness.test.ts` (38 noms piégés, 45 recherches), `tests/e2e/robustness.spec.ts`, `services/file-name.ts` (un seul `safeFileName`), `uniqueTags` et caractères invisibles dans `core/normalize.ts`, écran de secours `app/RouteError.tsx` (un écran qui plante garde la coquille).
 - Textes : `i18n/typography.ts` (espaces insécables appliquées à tout `fr`), `i18n/typography.test.tsx` (tirets, mots creux, oppositions, signes mal espacés), relecture complète des textes de l'interface.
 
+Release : la v0.2.1 est publiée le 23 novembre 2026 (première version avec la mise à jour automatique ; l'utilisateur l'installe une fois à la main par-dessus la 0.1.0). La v0.2.0, publiée juste avant, était partagée entre deux releases (course entre les envois d'electron-builder) : `release.yml` crée désormais le brouillon avant les envois et ne publie qu'une release complète. Les deux releases v0.2.0 restent à supprimer sur GitHub (seul l'utilisateur peut le faire, sans jeton ici). La CI de `main` échouait sur `tests/e2e/alignment.spec.ts` (fenêtre du runner pas encore à la largeur demandée) : le test impose maintenant la largeur de la page.
+
 **Prochaine étape** : l'utilisateur reprend dans une autre instance pour corriger le design et ajouter des fonctions. Les deux sections qui suivent (« Modifier le design », « Ajouter une fonction ») sont écrites pour ça. Le cahier des charges est entièrement livré : il n'y a plus de phase à suivre, chaque demande se traite comme un ajout. La question Electron ou Tauri de `CLAUDE.md` est tranchée depuis le début (D-001, Electron) : ne pas la reposer.
 
 Ce qui a été fait, avec ses repères :
