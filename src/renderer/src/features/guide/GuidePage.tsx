@@ -52,7 +52,6 @@ export function GuidePage() {
   const page = t.pages[entry.id]
   const previous = ENTRIES[index - 1]
   const next = ENTRIES[index + 1]
-  const Icon = entry.icon
   const details = fr.help.topics[entry.id === 'start' ? 'general' : entry.id].sections
 
   // A long page: the next one starts at its top.
@@ -90,14 +89,9 @@ export function GuidePage() {
           </ul>
         </nav>
         <Card key={entry.id} as="article" className="animate-rise gap-5 p-8">
-          <div className="flex items-center gap-4">
-            <span className="flex size-12 shrink-0 animate-turn-in items-center justify-center rounded-full bg-accent-gradient text-accent-ink">
-              <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
-            </span>
-            <div className="flex min-w-0 flex-col gap-1">
-              <h2 className="m-0 text-title font-semibold tracking-tight text-fg">{page.title}</h2>
-              <p className="m-0 text-lead text-fg-secondary">{page.intro}</p>
-            </div>
+          <div className="flex min-w-0 flex-col gap-1">
+            <h2 className="m-0 text-title font-semibold tracking-tight text-fg">{page.title}</h2>
+            <p className="m-0 text-lead text-fg-secondary">{page.intro}</p>
           </div>
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {page.points.map((point) => (

@@ -9,7 +9,7 @@
  * to the user's time zone.
  */
 export type BackupReason =
-  'daily' | 'shutdown' | 'manual' | 'pre-migration' | 'pre-restore' | 'pre-purge' | 'pre-reset'
+  'daily' | 'shutdown' | 'manual' | 'pre-migration' | 'pre-restore' | 'pre-purge' | 'pre-reset' | 'pre-update'
 
 export type RotationEntry = {
   readonly id: string
@@ -82,6 +82,7 @@ export function selectBackupsToKeep(
     ['pre-restore', policy.safety],
     ['pre-purge', policy.safety],
     ['pre-reset', policy.safety],
+    ['pre-update', policy.safety],
     ['manual', policy.manual],
   ] as const) {
     newestFirst

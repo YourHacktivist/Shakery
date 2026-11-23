@@ -1,5 +1,5 @@
 {
-  "_comment": "Lecture de l'export de 24cocktails.com (D-036). units : mot d'unité vers une unité de Shakery (factor convertit la quantité, note s'ajoute à la ligne, {q} est la quantité lue). glasses, methods : valeurs de l'export. extras : texte après l'unité, traduit, ou null pour l'ignorer. ingredients : libellé vers l'ingrédient (i), la marque (b), une note (n), l'unité sans quantité (u), décoration (g), facultatif (o) ; null ignore la ligne. lines : lignes lues à la main, par texte exact. names : noms mal encodés dans l'export, réparés.",
+  "_comment": "Lecture de l'export des classiques supplémentaires (D-036). units : mot d'unité vers une unité de Shakery (factor convertit la quantité, note s'ajoute à la ligne, {q} est la quantité lue). glasses, methods : valeurs de l'export. extras : texte après l'unité, traduit, ou null pour l'ignorer. ingredients : libellé vers l'ingrédient (i), la marque (b), une note (n), l'unité sans quantité (u), décoration (g), facultatif (o) ; null ignore la ligne. lines : lignes lues à la main, par texte exact. names : noms mal encodés dans l'export, réparés.",
   "units": {
     "ml": {
       "unit": "ml"

@@ -11,21 +11,23 @@ import { recipes } from './fr/recipes'
 import { settings } from './fr/settings'
 import { shell } from './fr/shell'
 import { workshop } from './fr/workshop'
+import { typeset } from './typography'
 
 /**
  * Every user-facing string lives here, so the interface can be translated later.
- * Components never hard-code French text. Each area owns one file in ./fr/.
+ * Components never hard-code French text. Each area owns one file in ./fr/. The whole
+ * tree goes through `typeset`: no-break spaces where French typography wants them.
  */
-export const fr = {
+export const fr = typeset({
   app: {
     name: 'Shakery',
     tagline: 'Carnet de création',
   },
   errors: {
-    UNKNOWN_CHANNEL: 'Opération inconnue.',
-    FORBIDDEN: 'Opération refusée.',
+    UNKNOWN_CHANNEL: 'Cette opération est inconnue.',
+    FORBIDDEN: 'Cette opération a été refusée.',
     INVALID_INPUT: 'Les données envoyées sont invalides.',
-    NOT_FOUND: 'Élément introuvable.',
+    NOT_FOUND: 'Cet élément est introuvable.',
     CONFLICT: 'Cette modification entre en conflit avec une donnée existante.',
     UNAVAILABLE: 'Le carnet n’est pas disponible pour le moment. Son état est indiqué dans les paramètres.',
     INTERNAL: 'Une erreur interne est survenue. Le détail est dans le journal.',
@@ -42,4 +44,4 @@ export const fr = {
   guide,
   help,
   onboarding,
-} as const
+} as const)

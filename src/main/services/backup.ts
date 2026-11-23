@@ -26,7 +26,8 @@ export const BACKUP_FORMAT = 1
 const DB_NAME = 'shakery.db'
 const MANIFEST_NAME = 'manifest.json'
 const MEDIA_STORE = 'media'
-const BACKUP_ID = /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore|pre-purge|pre-reset)$/
+const BACKUP_ID =
+  /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore|pre-purge|pre-reset|pre-update)$/
 
 export type BackupCounts = {
   readonly recipes: number | null

@@ -46,6 +46,7 @@ import {
   useUpdateRecipe,
 } from '@renderer/lib/queries'
 import { UNIT_VALUES, type RecipeDetail } from '@shared/domain/catalog'
+import { NoValue } from '@renderer/components/NoValue'
 
 /** A family counts up to some 2 500 classics: the tooltip names the first ones. */
 const ZONE_MEMBERS_SHOWN = 30
@@ -500,18 +501,18 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
             <dl className="m-0 grid grid-cols-3 gap-3 border-t border-border pt-3">
               <Figure
                 label={tp.volume}
-                value={result ? `${formatNumber(result.finalVolumeMl, 0)} ${tp.units.ml}` : '–'}
+                value={result ? `${formatNumber(result.finalVolumeMl, 0)} ${tp.units.ml}` : null}
               />
               <Figure
                 label={tp.dilution}
-                value={result ? `${formatNumber(result.dilution * 100, 0)} ${tp.units.pct}` : '–'}
+                value={result ? `${formatNumber(result.dilution * 100, 0)} ${tp.units.pct}` : null}
               />
               <Figure
                 label={tp.cost}
                 value={
                   result && result.costCents !== null && result.costStatus !== 'incomplete'
                     ? formatEuros(result.costCents)
-                    : '–'
+                    : null
                 }
               />
             </dl>
@@ -637,11 +638,11 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   )
 }
 
-function Figure({ label, value }: { label: string; value: string }) {
+function Figure({ label, value }: { label: string; value: string | null }) {
   return (
     <div className="flex flex-col gap-0.5">
       <dt className="text-caption text-fg-muted">{label}</dt>
-      <dd className="nums m-0 text-lead font-medium text-fg">{value}</dd>
+      <dd className="nums m-0 text-lead font-medium text-fg">{value ?? <NoValue />}</dd>
     </div>
   )
 }

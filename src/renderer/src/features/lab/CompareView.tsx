@@ -11,6 +11,7 @@ import { unwrap } from '@renderer/lib/ipc'
 import { queryKeys, useDisplayUnit, useGlasses, useRecipes } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeDetail, RecipeInputParsed } from '@shared/domain/catalog'
 import { compareRecipes, metricDelta } from '@core/compare'
+import { NoValue } from '@renderer/components/NoValue'
 
 const t = fr.recipes.lab
 const tp = fr.recipes.panel
@@ -271,7 +272,11 @@ export function CompareView({
                     <div key={metric.id} className="flex items-baseline justify-between gap-2">
                       <dt className="text-fg-muted">{metric.label}</dt>
                       <dd className="nums m-0 text-fg">
-                        {value === null ? '–' : `${formatNumber(value, metric.decimals)} ${metric.unit}`}
+                        {value === null ? (
+                          <NoValue />
+                        ) : (
+                          `${formatNumber(value, metric.decimals)} ${metric.unit}`
+                        )}
                         {delta !== null && delta !== 0 ? (
                           <span className="ml-1.5 text-caption text-fg-muted">
                             {t.delta(formatDelta(delta, metric.decimals))}

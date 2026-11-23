@@ -1,4 +1,4 @@
-import { CalendarClock, Check, FlaskRound, Milk, Plus, Tag, Trash2, X } from 'lucide-react'
+import { CalendarClock, Check, FlaskRound, Plus, Tag, Trash2, X } from 'lucide-react'
 import { useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { bestBeforeFrom } from '@core/shelf-life'
@@ -78,7 +78,6 @@ export function PrepsPage() {
 
       {preps.isPending ? null : list.length === 0 ? (
         <EmptyState
-          icon={<Milk size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-8"

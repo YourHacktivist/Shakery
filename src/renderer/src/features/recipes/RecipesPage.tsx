@@ -1,4 +1,4 @@
-import { BookOpen, Lightbulb, Plus, Star } from 'lucide-react'
+import { Lightbulb, Plus, Star } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -142,7 +142,6 @@ export function RecipesPage() {
         </p>
       ) : recipes.isPending ? null : total === 0 ? (
         <EmptyState
-          icon={<BookOpen size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={tl.empty.title}
           description={tl.empty.description(shortcutText('quickIdea'))}
           className="min-h-[320px] p-8"

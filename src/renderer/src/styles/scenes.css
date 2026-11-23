@@ -140,6 +140,11 @@
   --scene-x: 26%;
   --scene-from: perspective(700px) rotateX(40deg);
 }
+.scene-backdrop[data-scene='prepare'] {
+  --scene-tone: #e8955a;
+  --scene-x: 70%;
+  --scene-from: translateY(40px) scale(0.94);
+}
 
 @keyframes scene-light {
   from {

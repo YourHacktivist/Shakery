@@ -65,6 +65,10 @@ const SAYS_ITSELF: readonly RegExp[] = [
   /^components\.display\.(table|sparkline)\./,
   // The notebook saves by itself: this word is on no button.
   /^journal\.notebook\.save$/,
+  // Where the updates stand, and what the update window says while it works (D-051).
+  /^settings\.updates\.status\./,
+  /^shell\.crash\.text$/,
+  /^shell\.update\.(noNotes|safeNote|downloadingNote|readyNote|restarting|errorTitle|errors\.\w+)$/,
   // A message once something happened, an error, or the wait.
   /\.(saved|created|deleted|done|copied|exported|sent|added|removed|finished|discarded|emptied|csvDone|ideaCreated|favoriteAdded|favoriteRemoved|lookupApplied)$/,
   /\.(loading|reading|saving|creating|running|applying|lookupRunning|searching|error|loadError|notFound|invalid|expired|conflict|refused|lookupNotFound|lookupFound|tooMany|costMissing|incomplete|compositionMissing|abvMissing|allergenWarning|freshWarning|compareFull|right|errorPrefix|emptyHint|nameRequired|recipeRequired|basisRequired|packTogether|barcodeInvalid)$/,

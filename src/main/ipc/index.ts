@@ -12,10 +12,12 @@ import { createSearchHandlers } from './search'
 import { createImportHandlers } from './import'
 import { createSettingsHandlers } from './settings'
 import { createShareHandlers } from './share'
+import { createUpdateHandlers } from './updates'
+import type { UpdateService } from '../services/updates'
 import { createDatabaseHandlers, type DatabaseHandlerDeps } from './database'
 import { dispatch, type IpcHandlers } from './dispatch'
 
-export type HandlerDeps = DatabaseHandlerDeps
+export type HandlerDeps = DatabaseHandlerDeps & { readonly updates: UpdateService }
 
 export function createHandlers(deps: HandlerDeps): IpcHandlers {
   return {
@@ -29,6 +31,7 @@ export function createHandlers(deps: HandlerDeps): IpcHandlers {
     ...createSearchHandlers(deps.manager),
     ...createJournalHandlers(deps.manager),
     ...createWorkshopHandlers(deps.manager),
+    ...createUpdateHandlers(deps.updates),
   }
 }
 

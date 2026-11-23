@@ -316,10 +316,13 @@ function RecipeDetailView({ recipe }: { recipe: RecipeDetail }) {
                     key={`${String(index)}-${step}`}
                     className="flex gap-3 text-body leading-relaxed text-fg"
                   >
-                    <span className="nums flex size-6 shrink-0 items-center justify-center rounded-full border border-border-strong text-caption text-fg-secondary">
+                    <span
+                      aria-hidden="true"
+                      className="nums w-5 shrink-0 text-right font-semibold text-accent-soft"
+                    >
                       {index + 1}
                     </span>
-                    <span className="min-w-0 pt-px whitespace-pre-wrap">
+                    <span className="min-w-0 whitespace-pre-wrap">
                       <InlineText text={step} />
                     </span>
                   </li>

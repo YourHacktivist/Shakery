@@ -1,4 +1,4 @@
-import { CircleAlert, Merge, Pencil, Plus, ShoppingBasket, Trash2, Wine } from 'lucide-react'
+import { CircleAlert, Merge, Pencil, Plus, ShoppingBasket, Trash2 } from 'lucide-react'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { normalizeName } from '@core/normalize'
@@ -34,6 +34,8 @@ import {
 import type { IngredientDetail, IngredientSummary, Product } from '@shared/domain/catalog'
 
 const t = fr.bar
+/** No-break space before the colon, as French typography wants. */
+const NBSP = String.fromCharCode(0xa0)
 const td = t.detail
 
 type IngredientDialog = { kind: 'create' } | { kind: 'edit' } | { kind: 'merge' } | { kind: 'delete' } | null
@@ -104,7 +106,6 @@ export function BarPage() {
         </p>
       ) : ingredients.isPending ? null : total === 0 ? (
         <EmptyState
-          icon={<Wine size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-8"
@@ -379,14 +380,9 @@ function BarOverview({ onSelect }: { onSelect: (id: string) => void }) {
   return (
     <div className="flex flex-col gap-4">
       <Card className="gap-3">
-        <div className="flex items-center gap-3">
-          <span className="flex size-9 items-center justify-center rounded-full bg-accent/14 text-accent">
-            <Wine size={16} strokeWidth={1.75} aria-hidden="true" />
-          </span>
-          <div className="flex flex-col">
-            <span className="text-lead font-semibold text-fg">{tw.makeable(tonight.makeable)}</span>
-            <span className="text-small text-fg-secondary">{t.noSelection.hint}</span>
-          </div>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-lead font-semibold text-fg">{tw.makeable(tonight.makeable)}</span>
+          <span className="text-small text-fg-secondary">{t.noSelection.hint}</span>
         </div>
       </Card>
       <Card aria-label={tw.shopping.title} className="gap-3">
@@ -414,17 +410,17 @@ function BarOverview({ onSelect }: { onSelect: (id: string) => void }) {
                     onSelect(entry.ingredientId)
                   }}
                 >
-                  <span className="nums flex size-7 shrink-0 items-center justify-center rounded-full bg-accent-gradient text-small font-bold text-accent-ink">
-                    {entry.recipes.length}
-                  </span>
-                  <span className="flex min-w-0 flex-col">
+                  <span className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-body font-medium text-fg">{entry.name}</span>
                     <span className="truncate text-caption text-fg-muted">
-                      {`${tw.shopping.unlocks(entry.recipes.length)} : ${entry.recipes
+                      {`${tw.shopping.unlocks(entry.recipes.length)}${NBSP}: ${entry.recipes
                         .slice(0, 4)
                         .map((recipe) => recipe.name)
                         .join(', ')}`}
                     </span>
+                  </span>
+                  <span className="nums shrink-0 text-lead font-semibold text-accent-soft">
+                    {`+${String(entry.recipes.length)}`}
                   </span>
                 </button>
               </li>

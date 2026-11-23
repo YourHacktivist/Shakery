@@ -8,8 +8,9 @@ import { ImportCard } from './ImportCard'
 import { MaintenanceCard } from './MaintenanceCard'
 import { OffCard } from './OffCard'
 import { PrintCard } from './PrintCard'
+import { UpdatesCard } from './UpdatesCard'
 
-/** Settings (section 10.14): appearance, calculations, printing, data, network, about, risky zone. */
+/** Settings (section 10.14): appearance, calculations, printing, data, network, updates, about, risky zone. */
 export function SettingsPage() {
   const t = fr.settings
   return (
@@ -24,6 +25,7 @@ export function SettingsPage() {
           <CalculationCard />
           <PrintCard />
           <OffCard />
+          <UpdatesCard />
         </div>
         <div className="flex min-w-0 flex-col gap-4">
           <AboutCard />

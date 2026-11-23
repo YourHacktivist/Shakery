@@ -1,6 +1,6 @@
 /**
- * Family and standard steps of a classic whose source gives neither (D-039: the export of
- * 24cocktails has the lines, the method, the glass and the garnish only). Deterministic rules,
+ * Family and standard steps of a classic whose source gives neither (D-039: the export of the
+ * extra classics has the lines, the method, the glass and the garnish only). Deterministic rules,
  * measured against the 102 IBA classics read by hand (classics.test.ts). A drink that no rule
  * recognises keeps an empty family: never « other », which the interface calls « Autre ».
  * The steps are the usual course of the method, announced as such by `TYPICAL_STEPS_CREDIT`.

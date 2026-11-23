@@ -21,7 +21,7 @@ export const settings = {
   backups: {
     eyebrow: 'Sauvegardes',
     title: 'Sauvegarder et restaurer',
-    description: 'Une sauvegarde au démarrage selon la fréquence choisie, et une à chaque fermeture.',
+    description: 'Shakery sauvegarde au démarrage selon la fréquence choisie, et à chaque fermeture.',
     frequency: 'Fréquence',
     every: (hours: number) =>
       hours === 24
@@ -49,6 +49,7 @@ export const settings = {
       'pre-restore': 'avant une restauration',
       'pre-purge': 'avant de vider la corbeille',
       'pre-reset': 'avant une réinitialisation',
+      'pre-update': 'avant d’installer une version',
     },
     confirmTitle: 'Restaurer cette sauvegarde',
     confirmText: (when: string) =>
@@ -68,7 +69,8 @@ export const settings = {
       tspMl: 'Une cuillère à café',
     },
     dilution: 'Dilution par méthode',
-    dilutionHint: 'L’eau qu’apporte la glace, en part du volume de départ. Une fiche peut avoir la sienne.',
+    dilutionHint:
+      'Chaque valeur est la part d’eau apportée par la glace, rapportée au volume de départ. Une fiche peut avoir la sienne.',
     steps: 'Pas des doses dans l’atelier',
     stepMl: 'En ml et cl',
     stepOz: 'En onces',
@@ -77,7 +79,7 @@ export const settings = {
       value === 0.125 ? '⅛ oz' : value === 0.25 ? '¼ oz' : value === 0.5 ? '½ oz' : `${value} oz`,
     pricing: 'Prix conseillé',
     pricingHint:
-      'Ce que propose le calculateur de coût : le coût HT multiplié par le coefficient, TVA comprise, arrondi.',
+      'Le calculateur de coût propose le coût HT multiplié par le coefficient, TVA comprise, puis arrondi.',
     multiplier: 'Coefficient',
     vat: 'TVA',
     step: 'Arrondi',
@@ -101,7 +103,7 @@ export const settings = {
     rebuilt: (count: number) => `Recherche reconstruite, ${count} éléments.`,
     trash: 'Corbeille…',
     trashTitle: 'Corbeille',
-    trashText: 'Ce que tu as supprimé, jusqu’à ce que tu vides la corbeille.',
+    trashText: 'Ce que tu as supprimé reste ici jusqu’à ce que tu vides la corbeille.',
     trashEmpty: 'La corbeille est vide.',
     kinds: {
       recipe: 'Fiche',
@@ -125,20 +127,21 @@ export const settings = {
     reset: 'Réinitialiser Shakery…',
     resetTitle: 'Réinitialiser Shakery',
     resetText:
-      'Tes créations, dégustations, notes, bouteilles, photos et réglages sont effacés, les classiques de départ reviennent. Le carnet actuel est sauvegardé avant : tu le retrouveras dans Sauvegardes.',
+      'Tes créations, dégustations, notes, bouteilles, photos et réglages sont effacés. Les classiques de départ reviennent. Le carnet actuel est sauvegardé avant, et tu le retrouveras dans Sauvegardes.',
     resetField: 'Tape RÉINITIALISER pour confirmer',
     resetWord: 'RÉINITIALISER',
     resetNow: 'Sauvegarder puis réinitialiser',
   },
   about: {
     title: 'À propos de Shakery',
-    tagline: 'Carnet de création du barman, local et hors ligne.',
+    tagline:
+      'Shakery est le carnet de création du barman. Il garde tout sur ce PC et fonctionne sans Internet.',
     guide: 'Guide',
     shortcuts: 'Raccourcis',
     logs: 'Journaux',
     licences: 'Licences',
     licencesTitle: 'Licences des composants',
-    licencesText: 'Les logiciels libres livrés avec Shakery.',
+    licencesText: 'Shakery est livré avec ces logiciels libres.',
     sources: [
       { name: 'Wikidata', text: 'Noms d’ingrédients et degrés, CC0.' },
       {
@@ -157,7 +160,6 @@ export const settings = {
         name: 'International Bartenders Association',
         text: 'Doses des cocktails officiels, étapes réécrites.',
       },
-      { name: '24cocktails.com', text: 'Formules des classiques, pour un usage personnel.' },
       { name: 'Open Food Facts', text: '© contributeurs Open Food Facts, ODbL.' },
       { name: 'Manrope', text: 'Police sous licence SIL Open Font License 1.1.' },
     ],
@@ -166,7 +168,7 @@ export const settings = {
     eyebrow: 'Importer',
     title: 'Importer un carnet',
     description:
-      'Un fichier .shakery venant d’un autre carnet ou d’une conversion, comme les carnets MAF. Le carnet actuel est sauvegardé avant l’import.',
+      'Importe un fichier .shakery venant d’un autre carnet ou d’une conversion, comme les carnets MAF. Le carnet actuel est sauvegardé avant l’import.',
     choose: 'Choisir un fichier…',
     reading: 'Lecture du fichier…',
     source: (label: string | null) => (label ? `Fichier : ${label}` : 'Fichier sans nom'),
@@ -210,12 +212,13 @@ export const settings = {
     eyebrow: 'Exporter',
     title: 'Exporter le carnet',
     description:
-      'Tout le carnet dans un fichier .shakery, photos comprises : à garder en lieu sûr ou à réimporter sur un autre ordinateur.',
+      'Le carnet entier part dans un fichier .shakery, photos comprises. Garde-le en lieu sûr ou réimporte-le sur un autre ordinateur.',
     full: 'Exporter tout le carnet',
     running: 'Export en cours…',
     done: 'Carnet exporté.',
     csvTitle: 'Tableaux CSV',
-    csvDescription: 'Pour un tableur : fiches avec leurs ingrédients, journal de dégustation, ingrédients.',
+    csvDescription:
+      'Exporte pour un tableur les fiches avec leurs ingrédients, le journal de dégustation ou les ingrédients.',
     csv: { recipes: 'Fiches', journal: 'Journal', ingredients: 'Ingrédients' },
     csvDone: 'Tableau enregistré.',
   },
@@ -223,8 +226,28 @@ export const settings = {
     eyebrow: 'Open Food Facts',
     title: 'Recherche par code-barres',
     description:
-      'Remplit une bouteille depuis la base libre Open Food Facts (marque, nom, contenance, degré, allergènes). C’est la seule fonction de Shakery qui utilise Internet. Désactivée, aucune requête ne part.',
+      'Remplit une bouteille depuis la base libre Open Food Facts (marque, nom, contenance, degré, allergènes). Quand elle est désactivée, aucune requête ne part vers Open Food Facts.',
     toggle: 'Recherche par code-barres',
     attribution: '© contributeurs Open Food Facts, ODbL',
+  },
+  updates: {
+    eyebrow: 'GitHub',
+    title: 'Mises à jour',
+    description:
+      'Shakery regarde sur GitHub si une version plus récente est sortie et te propose de l’installer. Rien de ton carnet n’est envoyé.',
+    toggle: 'Rechercher au lancement',
+    check: 'Rechercher maintenant',
+    show: 'Voir la nouvelle version',
+    status: {
+      unsupported: 'Cette version de développement ne se met pas à jour.',
+      idle: 'Aucune recherche n’a encore été faite depuis le lancement.',
+      checking: 'Shakery interroge GitHub…',
+      none: 'Shakery est à jour.',
+      available: (version: string) => `La version ${version} est disponible.`,
+      skipped: (version: string) => `La version ${version} est disponible, tu l’as ignorée.`,
+      downloading: (percent: string) => `La nouvelle version se télécharge (${percent}).`,
+      ready: (version: string) => `La version ${version} est prête à installer.`,
+    },
+    checkedAt: (when: string) => `Dernière recherche : ${when}.`,
   },
 } as const

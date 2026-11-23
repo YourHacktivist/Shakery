@@ -4,7 +4,6 @@ import {
   FileDown,
   ChefHat,
   GraduationCap,
-  Layers,
   Pencil,
   Plus,
   ScrollText,
@@ -88,7 +87,6 @@ export function CollectionsPage() {
 
       {collections.isPending ? null : list.length === 0 ? (
         <EmptyState
-          icon={<Layers size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-8"
@@ -395,7 +393,7 @@ function ItemRow({
 
   return (
     <Card className="flex-row items-start gap-3 py-3 transition-colors duration-150 hover:border-border-strong">
-      <span className="nums flex size-7 shrink-0 items-center justify-center rounded-full bg-surface-2 text-small font-semibold text-fg-secondary">
+      <span className="nums flex h-7 w-6 shrink-0 items-center justify-end text-body font-semibold text-fg-muted">
         {index + 1}
       </span>
       <div className="flex min-w-0 flex-1 flex-col gap-2">

@@ -1,4 +1,3 @@
-import { Plus } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '@renderer/lib/cn'
 
@@ -6,13 +5,12 @@ type EmptyStateProps = {
   title: string
   /** What to do next: an empty block always explains it (section 10.3). */
   description?: ReactNode
-  /** Icon in the round badge; a plus sign by default. */
-  icon?: ReactNode
   action?: ReactNode
   className?: string
 }
 
-export function EmptyState({ title, description, icon, action, className }: EmptyStateProps) {
+/** An empty list: its title, what to do next and the action, without any decorative badge (D-053). */
+export function EmptyState({ title, description, action, className }: EmptyStateProps) {
   return (
     <div
       className={cn(
@@ -20,9 +18,6 @@ export function EmptyState({ title, description, icon, action, className }: Empt
         className,
       )}
     >
-      <div className="flex size-10 items-center justify-center rounded-full border border-border-strong bg-surface-2 text-accent-soft">
-        {icon ?? <Plus size={16} aria-hidden="true" />}
-      </div>
       <span className="text-body font-semibold text-fg">{title}</span>
       {description ? <p className="m-0 max-w-sm text-small text-fg-secondary">{description}</p> : null}
       {action ? <div className="mt-1">{action}</div> : null}

@@ -35,7 +35,7 @@ const ingredients = read('data/seed/ingredients.json') as Array<{
   default_abv: number | null
 }>
 const bundled = read('data/seed/recipes.json') as SeedRecipe[]
-const classics = read('resources/seed/recipes-24c.json') as SeedRecipe[]
+const classics = read('resources/seed/classics.json') as SeedRecipe[]
 
 const facts = new Map(
   ingredients.map((item) => [
@@ -96,7 +96,7 @@ describe('familyOf (D-039)', () => {
     expect(missed.length, missed.join(', ')).toBeLessThanOrEqual(known.length * 0.05)
   })
 
-  it('never files a classic of 24cocktails under « other », shown as « Autre »', () => {
+  it('never files an extra classic under « other », shown as « Autre »', () => {
     expect(classics.filter((recipe) => recipe.family === 'other')).toEqual([])
   })
 

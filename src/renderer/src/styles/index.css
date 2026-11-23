@@ -20,6 +20,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Selected text takes the copper of the theme instead of the blue of the system. */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 34%, transparent);
+    color: var(--color-fg);
+  }
+
   /* Thin, discreet scrollbars that match the dark surfaces. */
   * {
     scrollbar-width: thin;

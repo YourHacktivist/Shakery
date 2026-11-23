@@ -57,4 +57,10 @@ mac:
 dmg:
   artifactName: ${productName}-${version}-${arch}.${ext}
 
-publish: null
+# Releases on GitHub (D-051): the installer, its blockmap and latest.yml, read by electron-updater.
+# Published by .github/workflows/release.yml when a v* tag is pushed; never from this PC.
+publish:
+  provider: github
+  owner: YourHacktivist
+  repo: Shakery
+  releaseType: release

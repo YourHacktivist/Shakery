@@ -38,7 +38,7 @@ export const componentsForms = {
     removed: 'Photo retirée.',
     problems: {
       type: 'Choisis une image JPEG, PNG ou WebP. Une photo HEIC d’iPhone doit d’abord être convertie.',
-      size: 'Cette image est trop lourde : 10 Mo et 80 millions de pixels au plus.',
+      size: 'Cette image est trop lourde. Elle doit faire 10 Mo et 80 millions de pixels au plus.',
       unreadable: 'Cette image ne se lit pas.',
     },
   },
@@ -53,7 +53,7 @@ export const componentsForms = {
   combobox: {
     create: (label: string) => `Créer «${NBSP}${label}${NBSP}»`,
     empty: 'Aucun résultat.',
-    more: (count: number) => `Et ${count} autres${NBSP}: tape pour affiner.`,
+    more: (count: number) => `Il reste ${count} autres résultats. Tape la suite pour affiner.`,
     listLabel: 'Suggestions',
   },
 } as const

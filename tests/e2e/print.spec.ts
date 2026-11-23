@@ -53,7 +53,7 @@ test('Ctrl+P gives a one-page recipe sheet, A4 or A5, even for the longest class
 
     // The hardest classics: longest name, most lines, longest garnish, most text.
     const seed = JSON.parse(
-      await readFile(path.join(projectRoot, 'resources', 'seed', 'recipes-24c.json'), 'utf8'),
+      await readFile(path.join(projectRoot, 'resources', 'seed', 'classics.json'), 'utf8'),
     ) as Array<{ name: string; garnish: string | null; lines: unknown[] }>
     const most = (measure: (recipe: (typeof seed)[number]) => number) =>
       seed.reduce((best, recipe) => (measure(recipe) > measure(best) ? recipe : best)).name

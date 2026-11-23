@@ -31,7 +31,7 @@ L'utilisateur est unique : un barman, professionnel ou passionné, qui travaille
 5. Gérer son bar personnel : bouteilles possédées, préparations maison en cours et leur date limite, cocktails réalisables avec ce qu'il a.
 6. Réviser les fiches d'une carte (celle du bar où il travaille, un concours, un thème).
 
-Shakery sert aussi de référence au quotidien, un « couteau suisse du barman » : environ 7 000 recettes de cocktails (export de 24cocktails.com) sont intégrées à la base de départ comme classiques, consultables hors ligne. Taper « Boulevardier » ouvre la fiche complète. Usage strictement personnel (D-036).
+Shakery sert aussi de référence au quotidien, un « couteau suisse du barman » : environ 7 000 recettes de cocktails sont intégrées à la base de départ comme classiques, consultables hors ligne. Taper « Boulevardier » ouvre la fiche complète. Usage strictement personnel (D-036).
 
 Objectifs mesurables de la version 1 :
 
@@ -47,7 +47,7 @@ Shakery est un outil personnel. Les fonctions propres à un établissement (équ
 Ces règles priment sur toute autre considération. Si une fonctionnalité ne peut pas les respecter, elle est reportée, pas adaptée.
 
 - **Tout est local.** Les données vivent dans un fichier SQLite du dossier `userData` de l'application. Aucun serveur, aucun compte, aucune base distante.
-- **Hors ligne à 100 %.** La seule fonction réseau autorisée est la recherche facultative d'un produit par code-barres sur Open Food Facts (section 9). Elle est désactivable, et l'application reste entièrement utilisable sans elle.
+- **Hors ligne à 100 %.** Deux fonctions réseau seulement : la recherche facultative d'un produit par code-barres sur Open Food Facts (section 9) et la recherche des mises à jour sur GitHub au lancement (D-051). Chacune est désactivable, et l'application reste entièrement utilisable sans elles.
 - **Aucune télémétrie,** aucun traceur, aucun CDN. Polices, icônes et images sont embarquées dans l'application.
 - **Gratuit,** sans publicité ni fonction payante.
 - **Le carnet appartient à l'utilisateur.** Export complet dans un format ouvert et lisible (JSON dans une archive ZIP) à tout moment, sans perte, photos comprises.
@@ -192,8 +192,8 @@ Shakery importe des fichiers, affiche des images et du texte libre et peut appel
 
 **Réseau**
 
-- Seul le service Open Food Facts du main émet des requêtes : hôte codé en dur, HTTPS uniquement, `User-Agent` qui identifie Shakery et sa version, timeout de 8 secondes, taille de réponse plafonnée, limiteur de débit côté client. Les réponses sont validées par Zod comme toute entrée externe.
-- Réglage désactivé = aucune requête sortante. Un test le vérifie.
+- Le main seul émet des requêtes, pour deux services : la vérification des mises à jour sur GitHub (D-051, electron-updater, installeur vérifié par SHA-512) et Open Food Facts : hôte codé en dur, HTTPS uniquement, `User-Agent` qui identifie Shakery et sa version, timeout de 8 secondes, taille de réponse plafonnée, limiteur de débit côté client. Les réponses sont validées par Zod comme toute entrée externe.
+- Réglage désactivé = aucune requête sortante (Open Food Facts) ou aucune au lancement (mises à jour). Des tests le vérifient.
 
 **Dépendances**
 
@@ -399,7 +399,7 @@ Shakery est livré avec une base de départ générée au moment du build, jamai
 | Wikidata (SPARQL) | Ingrédients génériques : types de spiritueux, liqueurs, vermouths et vins fortifiés, amers, fruits, agrumes, herbes, épices. Libellés français et alias. QID conservé dans `external_ref`. | CC0. User-Agent descriptif obligatoire, requêtes paginées. Données brutes et bruitées, à trier. |
 | Table Ciqual (Anses) | Teneur en sucres des jus et fruits, et en acides organiques quand la table la renseigne. `composition_source = 'ciqual'`. | Accès gratuit, citation de la source obligatoire. Vérifier les conditions exactes et la version sur la page de téléchargement au moment du build. |
 | Liste officielle IBA | Cocktails classiques de départ, `origin = 'classic'`, `source = 'seed_iba'`, avec leur famille. | Doses et ingrédients repris comme des faits, en vérifiant chaque fiche contre le site de l'IBA. Les étapes sont réécrites en français, jamais copiées. |
-| 24cocktails.com (export `/llms/recipes.jsonl`) | Environ 7 000 cocktails, intégrés comme les classiques IBA (`origin = 'classic'`, `source = 'seed'`, `seed_key` `c24.<slug>`). Ingrédients ramenés au référentiel français, marque gardée en note de ligne, décoration traduite, famille et étapes types de la méthode déduites à la construction (D-039). Les recettes qui portent le nom d'un classique IBA sont écartées. Aucun lien vers le site dans l'application. | Les conditions du site interdisent d'en faire un catalogue concurrent et de republier en masse : usage personnel uniquement, Shakery n'est pas diffusé avec ces recettes sans autorisation écrite de l'éditeur (D-036). |
+| Classiques supplémentaires (export de recettes, adresse hors du dépôt) | Environ 7 000 cocktails, intégrés comme les classiques IBA (`origin = 'classic'`, `source = 'seed'`, `seed_key` `classic.<slug>`). Ingrédients ramenés au référentiel français, marque gardée en note de ligne, décoration traduite, famille et étapes types de la méthode déduites à la construction (D-039). Les recettes qui portent le nom d'un classique IBA sont écartées. Aucune mention de la source dans l'application (D-054). | Usage personnel uniquement : Shakery n'est pas diffusé avec ces recettes sans autorisation écrite (D-036). |
 | Rédigé à la main | Arbre de catégories (50 à 100 nœuds), verres, types de glace, méthodes, unités, allergènes, préparations classiques (sirop simple, sirop riche, miel, grenadine, orgeat, oleo saccharum, cordial citron vert, gingembre…). | Pas de `shelf_life_days` sur les préparations de départ : la durée est fixée par l'utilisateur. |
 | Open Food Facts (API) | Recherche facultative d'une bouteille par code-barres, à l'exécution, depuis le formulaire produit. | ODbL : attribution et partage à l'identique. 100 requêtes par minute pour la lecture de produits, 10 pour la recherche. User-Agent personnalisé obligatoire. Aucune donnée OFF dans la base de départ. |
 
@@ -409,7 +409,7 @@ Vise de quelques centaines à environ deux mille ingrédients génériques propr
 
 **Intégration Open Food Facts.** Le formulaire produit propose « Rechercher par code-barres ». Une douchette USB se comporte comme un clavier, et la saisie manuelle du code fonctionne aussi. Le main interroge l'API, stocke la réponse brute dans `off_cache`, puis l'interface montre les champs trouvés (marque, nom, contenance, degré, allergènes). L'utilisateur choisit ce qu'il reprend. Les produits créés ainsi portent `source = 'off'` et la mention « © contributeurs Open Food Facts, ODbL » s'affiche partout où ces données apparaissent. Sans réseau ou avec le réglage désactivé, le bouton est masqué.
 
-**Sources écartées.** TheCocktailDB n'est pas utilisé : sa clé de test est réservée au développement et à l'usage éducatif, une diffusion publique exige l'offre Premium, et ses données sont en anglais et de qualité inégale. En dehors de l'export que 24cocktails.com publie lui-même, aucun site de recettes n'est aspiré.
+**Sources écartées.** TheCocktailDB n'est pas utilisé : sa clé de test est réservée au développement et à l'usage éducatif, une diffusion publique exige l'offre Premium, et ses données sont en anglais et de qualité inégale. En dehors de l'export des classiques supplémentaires, aucun site de recettes n'est aspiré.
 
 Toutes les sources, leur licence, leur date de récupération et les choix de tri sont consignés dans `docs/DATA_SOURCES.md`. L'écran « À propos » affiche les attributions.
 
@@ -648,7 +648,7 @@ Budgets de performance, mesurés sur une base générée de 5 000 ingrédients, 
 - electron-builder : installeur NSIS pour Windows (installation par utilisateur, sans droits administrateur), DMG pour macOS (arm64 et x64).
 - Fuses Electron activés au build (section 6).
 - Sans certificat de signature de code, Windows SmartScreen affiche un avertissement à l'installation et macOS bloque une application non notarisée. La décision (certificat, programme développeur Apple) revient à l'utilisateur avant toute diffusion publique. L'agent prépare la configuration sans l'activer.
-- Pas de mise à jour automatique en version 1, ce qui reste cohérent avec le zéro réseau. Une mise à jour manuelle déclenche migration et sauvegarde préalable.
+- Mise à jour depuis les releases GitHub (D-051, qui amende la version 1) : au lancement, une fenêtre annonce la version plus récente ; l'utilisateur la télécharge, puis Shakery sauvegarde le carnet, installe sans assistant et redémarre. Une sauvegarde qui échoue n'installe rien. La migration suit au démarrage, avec sa propre sauvegarde préalable.
 - Journaux locaux (electron-log), sans donnée personnelle, accessibles depuis « À propos ».
 
 ### 13.4 Documentation

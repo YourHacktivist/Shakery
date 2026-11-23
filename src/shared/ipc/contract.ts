@@ -29,6 +29,7 @@ import { recipeFacetsSchema } from '../domain/facets'
 import { PHOTO_OWNERS, photoContentSchema, photoPathSchema, storedPhotoPathSchema } from '../domain/photos'
 import { TRASH_KINDS, trashSchema } from '../domain/trash'
 import { referenceZonesSchema } from '../domain/zones'
+import { updateStateSchema, VERSION_PATTERN } from '../domain/updates'
 import {
   notebookEntrySchema,
   notebookInputSchema,
@@ -271,6 +272,16 @@ export const ipcContract = {
   'export.printRecipe': { input: recipePrintInput, output: z.object({ printed: z.boolean() }).strict() },
   'export.batch': { input: batchPrintInput, output: z.object({ done: z.boolean() }).strict() },
   'export.labels': { input: labelPrintInput, output: z.object({ done: z.boolean() }).strict() },
+  /** GitHub releases (D-051): the main owns the state, the renderer asks for the next step. */
+  'updates.status': { input: noInput, output: updateStateSchema },
+  'updates.check': { input: noInput, output: updateStateSchema },
+  'updates.download': { input: noInput, output: updateStateSchema },
+  /** Backs the notebook up, then quits and installs; a failed backup is in the state. */
+  'updates.install': { input: noInput, output: updateStateSchema },
+  'updates.skip': {
+    input: z.object({ version: z.string().regex(VERSION_PATTERN) }).strict(),
+    output: updateStateSchema,
+  },
   'off.status': { input: noInput, output: z.object({ enabled: z.boolean() }).strict() },
   'off.setEnabled': { input: z.object({ enabled: z.boolean() }).strict(), output: done },
   /** Bottle lookup by barcode on Open Food Facts (section 9); refused when turned off. */

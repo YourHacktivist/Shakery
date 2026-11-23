@@ -2,7 +2,7 @@
 export const kit = {
   title: 'Kit de composants',
   subtitle:
-    'Tokens et composants dans tous leurs états. Page de développement, absente de l’application livrée.',
+    'Cette page montre les tokens et les composants dans tous leurs états. Elle sert au développement et n’existe pas dans l’application livrée.',
   demo: 'Données de démonstration',
   sections: {
     colors: 'Couleurs',

@@ -21,13 +21,13 @@ import { applyImport, previewImport, validateImportData } from './import'
 const MIGRATIONS = path.resolve(__dirname, '../../../resources/migrations')
 const WEBP = Buffer.from('UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==', 'base64')
 
-// The bundled seed and a slice of the 24cocktails classics: the same in every notebook.
+// The bundled seed and a slice of the extra classics: the same in every notebook.
 const ALL = withClassics(BUNDLED_SEED, path.resolve(__dirname, '../../../resources/seed', CLASSICS_FILE))
 const SEED: SeedData = {
   ...BUNDLED_SEED,
   recipes: [
     ...BUNDLED_SEED.recipes,
-    ...ALL.recipes.filter((r) => r.seed_key.startsWith('c24.')).slice(0, 30),
+    ...ALL.recipes.filter((r) => r.seed_key.startsWith('classic.')).slice(0, 30),
   ],
 }
 

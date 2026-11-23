@@ -1,16 +1,4 @@
-import {
-  BookOpen,
-  Check,
-  Lightbulb,
-  Link2,
-  Pin,
-  PinOff,
-  Plus,
-  StickyNote,
-  Trash2,
-  Wine,
-  X,
-} from 'lucide-react'
+import { BookOpen, Check, Lightbulb, Link2, Pin, PinOff, Plus, Trash2, Wine, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { normalizeName } from '@core/normalize'
@@ -140,7 +128,6 @@ export function NotebookPage() {
 
       {notebook.isPending ? null : entries.length === 0 ? (
         <EmptyState
-          icon={<StickyNote size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-8"
@@ -214,11 +201,7 @@ export function NotebookPage() {
               onRestored={setSelectedId}
             />
           ) : (
-            <EmptyState
-              icon={<StickyNote size={16} strokeWidth={1.75} aria-hidden="true" />}
-              title={t.pick}
-              className="min-h-[320px] p-8"
-            />
+            <EmptyState title={t.pick} className="min-h-[320px] p-8" />
           )}
         </div>
       )}

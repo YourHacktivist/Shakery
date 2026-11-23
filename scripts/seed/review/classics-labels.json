@@ -1,5 +1,4 @@
 {
-  "source": "https://24cocktails.com/llms/recipes.jsonl",
   "sha256": "d605d262ed70d0b90e4f4b3697fd32f5d18d84682be952afab8f50749f9681dd",
   "recipes": 7154,
   "lines": 32418,

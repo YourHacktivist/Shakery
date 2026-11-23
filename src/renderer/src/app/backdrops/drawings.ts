@@ -519,6 +519,103 @@ function compass(pen: Pen) {
   pen.path('line', 'M268 96l18 18m0 -18l-18 18')
 }
 
+/** Preparation mode: the station once the drink is under way. */
+function station(pen: Pen) {
+  // The bar mat under everything: a ribbed rubber edge and its drainage grid.
+  pen.rect('line', 18, 512, 600, 96, 14).rect('faint', 30, 524, 600, 72, 10)
+  for (let x = 44; x < 600; x += 12) pen.segment('faint', x, 528, x - 8, 592)
+  for (let y = 536; y < 592; y += 14) pen.segment('faint', 34, y, 600, y)
+
+  // The mixing glass, cut in diamonds from its waist down.
+  const cx = 318
+  const rim = 168
+  const base = 486
+  const top = 104
+  const low = 96
+  const half = (y: number) => top + ((low - top) * (y - rim)) / (base - rim)
+  pen.ellipse('line', cx, rim, top, 20).ellipse('faint', cx, rim, top - 6, 16)
+  pen.path('line', `M${cx - top} ${rim}L${cx - low} ${base}M${cx + top} ${rim}L${cx + low} ${base}`)
+  pen.path('line', `M${cx - top - 4} ${rim - 2}q-26 -4 -34 8q14 6 30 6`)
+  pen.arc('line', cx, base, low, 18, 0, PI).arc('fine', cx, base - 14, low - 3, 16, 0, PI)
+  // The heavy bottom of the glass.
+  for (let y = base - 10; y < base + 12; y += 5) {
+    pen.arc('faint', cx, y, low - 8, 12, 0.25, PI - 0.25)
+  }
+  // The level of the drink and the ice above it.
+  const level = 262
+  pen.ellipse('fine', cx, level, half(level) - 6, 15).hatch('faint', cx, level, half(level) - 6, 15, 7)
+  const cubes: ReadonlyArray<readonly [number, number, number]> = [
+    [278, 244, -14],
+    [334, 236, 9],
+    [370, 256, 26],
+  ]
+  for (const [x, y, turn] of cubes) {
+    pen.at(x, y, turn, () => {
+      pen.rect('solid', -24, -22, 48, 44, 7).rect('fine', -17, -15, 34, 30, 5)
+      pen.segment('faint', -24, -22, -17, -15).segment('faint', 24, -22, 17, -15)
+      pen.shade('faint', 4, 2, 12, 12, 4)
+    })
+  }
+  // Rows of diamonds that follow the curve of the glass.
+  const columns = 12
+  const rows = 6
+  const from = 300
+  const step = (base - 30 - from) / rows
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < columns; column += 1) {
+      const shift = row % 2 === 0 ? 0 : 0.5
+      const angle = -PI / 2 + ((column + shift + 0.5) * PI) / columns
+      const width = PI / columns / 2
+      const y = from + row * step
+      const at = (a: number, dy: number): Point => [
+        cx + half(y + dy) * 0.96 * Math.sin(a),
+        y + dy + 14 * Math.cos(a),
+      ]
+      if (Math.abs(angle) > PI / 2 - 0.05) continue
+      pen.poly(
+        Math.abs(angle) < 0.9 ? 'fine' : 'faint',
+        [at(angle, 0), at(angle + width, step / 2), at(angle, step), at(angle - width, step / 2)],
+        true,
+      )
+    }
+  }
+
+  // The bar spoon, its twisted shaft leaning out of the glass.
+  pen.at(352, 300, -28, () => {
+    const length = 300
+    pen.path('faint', 'M-4 0q-14 22 0 40q14 -18 4 -40')
+    for (let y = -12; y > -length; y -= 9) {
+      pen.path('fine', `M-3 ${y}q3 -4.5 6 -4.5M3 ${y - 4.5}q-3 -4.5 -6 -4.5`)
+    }
+    pen.segment('line', -3, -8, -3, -length).segment('line', 3, -8, 3, -length)
+    pen.ellipse('line', 0, -length - 14, 9, 15).ellipse('faint', 0, -length - 14, 5, 10)
+  })
+
+  // The Hawthorne strainer, its spring towards us.
+  pen.at(122, 452, -12, () => {
+    pen.ellipse('line', 0, 0, 74, 30).ellipse('fine', 0, 0, 66, 25)
+    for (let index = 0; index < 34; index += 1) {
+      const angle = (index * 2 * PI) / 34
+      const [x, y] = [58 * Math.cos(angle), 21 * Math.sin(angle)]
+      pen.ellipse('faint', x, y, 5, 4)
+    }
+    for (let hole = 0; hole < 9; hole += 1) {
+      const angle = (hole * 2 * PI) / 9
+      pen.circle('faint', 30 * Math.cos(angle), 11 * Math.sin(angle), 3.5)
+    }
+    pen.circle('faint', 0, 0, 4)
+    pen.path('line', 'M70 -8l84 -10q10 0 10 9t-10 9l-84 6')
+    pen.path('fine', 'M80 -6l70 -8M80 6l70 -4')
+    pen.path('line', 'M-60 -18l-18 -16q-6 -4 -10 2l14 20M-48 22l-14 18q-4 6 2 8l20 -18')
+  })
+
+  // A wheel of lime and a sprig of mint by the glass.
+  pen.citrus(500, 450, 54, 10, 0.4)
+  pen.circle('faint', 500, 450, 60)
+  pen.sprig(452, 352, -64, 120, 4, 34)
+  pen.peel(164, 330, 18, 26, 2.2, 34)
+}
+
 const DRAW: Readonly<Record<SceneId, (pen: Pen) => void>> = {
   home: counter,
   recipes: cardBox,
@@ -534,6 +631,7 @@ const DRAW: Readonly<Record<SceneId, (pen: Pen) => void>> = {
   calculators: measures,
   settings: clockwork,
   guide: compass,
+  prepare: station,
 }
 
 const drawn = new Map<SceneId, Drawing>()

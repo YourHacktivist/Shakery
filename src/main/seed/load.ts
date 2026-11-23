@@ -103,7 +103,7 @@ const recipeLineSeedSchema = z
   .strict()
 
 /**
- * A classic cocktail (IBA or 24cocktails.com, D-036) or a classic homemade preparation. A
+ * A classic cocktail (IBA or the extra classics, D-036) or a classic homemade preparation. A
  * preparation is also an ingredient: `ingredient_key` is the seed_key given to it, `category`
  * its leaf category.
  */

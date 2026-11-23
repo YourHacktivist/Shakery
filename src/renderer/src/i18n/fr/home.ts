@@ -30,7 +30,8 @@ export const home = {
   viewsLabel: 'Créations affichées',
   empty: {
     title: 'Ton carnet est vide',
-    description: `Note une idée en quelques secondes${NBSP}: un nom, deux ingrédients, c’est tout. Tu la travailleras ensuite dans l’atelier.`,
+    description:
+      'Note une idée en quelques secondes avec un nom et deux ingrédients. Tu la travailleras ensuite dans l’atelier.',
     firstIdea: 'Noter une première idée',
     classics: 'Parcourir les classiques',
   },
@@ -46,7 +47,7 @@ export const home = {
     neverTasted: 'Pas encore goûtée',
     nextStep: 'Prochaine étape',
     nextStepFrom: (version: number) => `Notée après la dégustation de la v${version}`,
-    noNextStep: `Aucune prochaine étape${NBSP}: note une dégustation pour en fixer une.`,
+    noNextStep: 'Aucune prochaine étape n’est fixée. Note une dégustation pour en fixer une.',
     lab: 'Atelier',
     taste: 'Noter une dégustation',
     zone: (family: string, from: string, to: string) => `Zone ${family}${NBSP}: ${from} à ${to}`,
@@ -56,6 +57,6 @@ export const home = {
     acid: 'Acidité',
     ratio: 'Rapport sucre / acide',
     units: { abv: '% vol.', sugar: 'g / 100 ml', acid: 'g / 100 ml', ratio: 'ratio' },
-    zoneNote: `Zone de référence${NBSP}: disponible à partir de 5 fiches complètes`,
+    zoneNote: 'La zone de référence apparaît à partir de 5 fiches complètes',
   },
 } as const

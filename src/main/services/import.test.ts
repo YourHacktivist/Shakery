@@ -141,6 +141,23 @@ describe('archive reading', () => {
 })
 
 describe('import', () => {
+  it('reads the extra classics of an older archive under their current seed key', () => {
+    const row = { id: 'r', created_at: 1, updated_at: 1, name: 'Bijou', name_normalized: 'bijou' }
+    const data = validateImportData({
+      formatVersion: 1,
+      tables: {
+        recipes: [
+          { ...row, seed_key: 'c24.bijou' },
+          { ...row, id: 's', seed_key: 'iba.bijou' },
+        ],
+      },
+    })
+    expect(data.tables.get('recipes')?.map((recipe) => recipe['seed_key'])).toEqual([
+      'classic.bijou',
+      'iba.bijou',
+    ])
+  })
+
   it('validates every row before writing', () => {
     expect(() => validateImportData({ formatVersion: 1, tables: { hackers: [] } })).toThrow(
       ImportValidationError,

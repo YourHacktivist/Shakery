@@ -45,7 +45,8 @@ export const workshop = {
     label: {
       action: 'Imprimer une étiquette',
       title: 'Étiquette de bouteille',
-      description: 'Nom, date de fabrication et date limite, sur rouleau ou planche A4.',
+      description:
+        'L’étiquette porte le nom, la date de fabrication et la date limite, sur rouleau ou planche A4.',
       format: 'Format',
       formats: {
         roll62x29: `Rouleau 62 × 29${NBSP}mm`,
@@ -58,7 +59,8 @@ export const workshop = {
       first: 'Première case libre',
       firstHint: 'Pour finir une planche entamée.',
       allergens: 'Allergènes déclarés',
-      allergensHint: 'Ceux des ingrédients de la préparation. Vérifie les étiquettes de tes produits.',
+      allergensHint:
+        'Ils viennent des ingrédients de la préparation. Vérifie les étiquettes de tes produits.',
       scaleHint: `Imprime à 100${NBSP}%, sans « ajuster à la page ».`,
       madeOn: 'Fait le',
       bestBefore: 'À utiliser avant le',
@@ -112,7 +114,7 @@ export const workshop = {
     share: {
       title: (name: string) => `Partager ${quote(name)}`,
       description:
-        'Un fichier .shakery avec la collection, ses fiches, leurs préparations et leurs ingrédients, à importer dans un autre Shakery.',
+        'L’export crée un fichier .shakery avec la collection, ses fiches, leurs préparations et leurs ingrédients, à importer dans un autre Shakery.',
       export: 'Exporter',
       cancel: 'Annuler',
       done: 'Collection exportée.',
@@ -277,15 +279,15 @@ export const workshop = {
       recipeCost: 'Coût matière du verre',
       salePrice: 'Prix de vente conseillé',
       ratio: 'Ratio coût / prix',
-      incomplete: 'Coût incomplet : il manque le prix d’au moins une bouteille.',
+      incomplete: 'Le coût est incomplet, car il manque le prix d’au moins une bouteille.',
       rules: (multiplier: string, vat: string) => `Coefficient ${multiplier}, TVA ${vat}${NBSP}%`,
     },
   },
   bar: {
     shopping: {
       title: 'Liste d’achats',
-      description: 'Ingrédients qui débloqueraient le plus de fiches, chacun étant le seul qui manque.',
-      empty: 'Rien à suggérer : renseigne d’abord les bouteilles que tu possèdes.',
+      description: 'Ces ingrédients débloqueraient le plus de fiches. Chacun est le seul qui leur manque.',
+      empty: 'Il n’y a rien à suggérer. Renseigne d’abord les bouteilles que tu possèdes.',
       unlocks: (count: number) => `débloque ${plural(count, 'fiche', 'fiches')}`,
     },
     owned: (name: string) => `Je possède ${name}`,

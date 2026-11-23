@@ -1,5 +1,5 @@
 {
-  "about": "Degrés de référence des ingrédients génériques (D-039). Une bouteille de Mon bar prime toujours. Une valeur sans source reste vide. Le degré de l'export 24cocktails n'est jamais repris : il est calculé par mots-clés (20 % pour toute liqueur, 0 % pour la Bénédictine).",
+  "about": "Degrés de référence des ingrédients génériques (D-039). Une bouteille de Mon bar prime toujours. Une valeur sans source reste vide. Le degré de l'export des classiques supplémentaires n'est jamais repris : il est calculé par mots-clés (20 % pour toute liqueur, 0 % pour la Bénédictine).",
   "noAlcohol": {
     "note": "Sans alcool par nature : jus, fruits, laitages, sodas, sucres et sirops, café, thé, aromates, décorations.",
     "categories": [

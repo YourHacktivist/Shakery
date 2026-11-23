@@ -125,6 +125,38 @@ describe('migrations', () => {
     }
   })
 
+  it('give the extra classics of an older notebook their new seed key, deleted ones included', () => {
+    const files = readMigrationFiles({ migrationsFolder: FOLDER })
+    const before = files.length - 1
+    const db = memory()
+    db.exec(
+      `CREATE TABLE ${MIGRATIONS_TABLE} (id INTEGER PRIMARY KEY AUTOINCREMENT, hash text NOT NULL, created_at numeric)`,
+    )
+    for (const file of files.slice(0, before)) {
+      for (const statement of file.sql) if (statement.trim()) db.exec(statement)
+      db.prepare(`INSERT INTO ${MIGRATIONS_TABLE} (hash, created_at) VALUES (?, ?)`).run(
+        file.hash,
+        file.folderMillis,
+      )
+    }
+    const insert = db.prepare(
+      'INSERT INTO recipes (id, created_at, updated_at, deleted_at, name, name_normalized, seed_key) VALUES (?, 1, 1, ?, ?, ?, ?)',
+    )
+    insert.run('a', null, 'Boulevardier', 'boulevardier', 'c24.boulevardier')
+    insert.run('b', 5, 'Bijou', 'bijou', 'c24.bijou')
+    insert.run('c', null, 'Negroni', 'negroni', 'iba.negroni')
+    insert.run('d', null, 'Mien', 'mien', null)
+    runMigrations(db, FOLDER)
+    const keys = db.prepare('SELECT id, seed_key AS key FROM recipes ORDER BY id').all()
+    expect(keys).toEqual([
+      { id: 'a', key: 'classic.boulevardier' },
+      { id: 'b', key: 'classic.bijou' },
+      { id: 'c', key: 'iba.negroni' },
+      { id: 'd', key: null },
+    ])
+    db.close()
+  })
+
   it('enforce the integrity rules of the schema', () => {
     const db = memory()
     runMigrations(db, FOLDER)

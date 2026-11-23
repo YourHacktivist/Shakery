@@ -21,7 +21,7 @@ const pages: Record<GuidePageId, GuidePage> = {
       'Tape une lettre sur n’importe quel écran, ou Ctrl K, pour chercher une fiche, un ingrédient, une bouteille ou une note du carnet et du journal.',
       'Ctrl K lance aussi les actions : ouvrir une fiche dans l’atelier, la comparer avec une autre, l’imprimer, noter une dégustation.',
       'Une faute de frappe n’empêche pas de trouver.',
-      'Note une idée dès qu’elle arrive : un nom suffit, le reste viendra dans l’atelier.',
+      'Note une idée dès qu’elle arrive. Un nom suffit, et le reste viendra dans l’atelier.',
       'Le bouton soleil ou lune, en haut, change de thème.',
       'Le bouton Aide, ou F1, explique chaque détail de l’écran affiché, même pendant une saisie.',
       'La barre latérale se réduit aux icônes ou se ferme complètement. Le bouton Menu la rouvre.',
@@ -37,9 +37,9 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   home: {
     title: 'Accueil',
-    intro: 'Où en sont tes créations, en un coup d’œil.',
+    intro: 'L’accueil montre où en sont tes créations, en un coup d’œil.',
     points: [
-      'Tes trois créations les plus récentes, avec la courbe de leurs notes.',
+      'Tes trois créations les plus récentes s’affichent avec la courbe de leurs notes.',
       `Bascule entre ${quote('En cours')} et ${quote('Favoris')}, ou filtre par famille.`,
       'La création en focus montre son degré, son sucre, son acidité et la prochaine étape à tester.',
     ],
@@ -47,7 +47,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   recipes: {
     title: 'Fiches',
-    intro: 'Tous les cocktails et toutes les préparations, les tiens et les classiques.',
+    intro: 'Cet écran liste tous les cocktails et toutes les préparations, les tiens et les classiques.',
     points: [
       'Filtre par statut, famille, origine, méthode, spiritueux, verre, profil, collection, tag ou allergène, et par favoris ou fiches réalisables.',
       'Ouvre une fiche avec Entrée ou un double clic.',
@@ -62,12 +62,12 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   detail: {
     title: 'Une fiche',
-    intro: 'La recette, ses calculs, ses versions et ses dégustations.',
+    intro: 'La fiche réunit la recette, ses calculs, ses versions et ses dégustations.',
     points: [
       'Les doses s’affichent dans l’unité choisie dans les paramètres.',
       'Le panneau Calculs donne degré, volume, sucre, acidité, coût et allergènes, et dit ce qui manque.',
       'Dépose une photo : elle est gardée sans créer de version.',
-      'Depuis la fiche : atelier, mode préparation, dégustation, impression et partage.',
+      'Depuis la fiche, ouvre l’atelier, le mode préparation, la dégustation, l’impression ou le partage.',
     ],
     keys: [
       { keys: 'Ctrl E', does: 'ouvrir dans l’atelier' },
@@ -78,11 +78,11 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   editor: {
     title: 'Éditeur de fiche',
-    intro: 'Chaque champ d’une fiche, du nom à la conservation.',
+    intro: 'Cette page décrit chaque champ d’une fiche, du nom à la conservation.',
     points: [
       'Seuls le nom et l’ingrédient de chaque ligne sont obligatoires.',
       'Un ingrédient inconnu se crée sur place.',
-      'Pour une faute de frappe, coche « Simple correction » : pas de nouvelle version.',
+      'Pour une faute de frappe, coche « Simple correction » afin de ne pas créer de version.',
     ],
     keys: [
       { keys: 'Ctrl B', does: 'mettre en gras dans un texte' },
@@ -106,7 +106,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   journal: {
     title: 'Journal',
-    intro: 'Chaque essai noté, avec ce qu’il faut tester ensuite.',
+    intro: 'Le journal garde chaque essai noté, avec ce qu’il faut tester ensuite.',
     points: [
       'Note sur cinq étoiles et par critère, de trop peu à trop.',
       'Écris la prochaine étape : elle s’affiche dans la barre latérale tant qu’elle n’est pas testée.',
@@ -116,7 +116,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   notebook: {
     title: 'Carnet',
-    intro: 'Les notes libres qui ne sont pas encore des fiches.',
+    intro: 'Le carnet garde les notes libres qui ne sont pas encore des fiches.',
     points: [
       'La note s’enregistre pendant que tu écris.',
       'Tape @ pour lier une fiche, un ingrédient ou une bouteille.',
@@ -126,7 +126,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   bar: {
     title: 'Mon bar',
-    intro: 'Tes bouteilles, et ce que tu peux faire avec.',
+    intro: 'Cet écran montre tes bouteilles et ce que tu peux faire avec.',
     points: [
       `Coche ${quote('Je l’ai')} : les fiches réalisables se mettent à jour.`,
       'La liste d’achats classe les ingrédients qui débloquent le plus de fiches.',
@@ -137,7 +137,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   preps: {
     title: 'Préparations',
-    intro: 'Sirops, cordiaux et autres fabrications maison.',
+    intro: 'Cet écran rassemble sirops, cordiaux et autres fabrications maison.',
     points: [
       'Une préparation est une fiche qui sert aussi d’ingrédient.',
       'Enregistre chaque fabrication : sa date limite se calcule avec la conservation que tu as fixée.',
@@ -147,7 +147,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   collections: {
     title: 'Collections',
-    intro: 'Une carte, un concours ou un thème, dans l’ordre que tu veux.',
+    intro: 'Une collection réunit une carte, un concours ou un thème, dans l’ordre que tu veux.',
     points: [
       'Ajoute des fiches, range-les avec les flèches, donne un prix et une note à chacune.',
       'Exporte la collection en PDF.',
@@ -159,7 +159,7 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   practice: {
     title: 'Révision',
-    intro: 'Connaître une carte par cœur.',
+    intro: 'La révision t’aide à connaître une carte par cœur.',
     points: [
       'Choisis une collection et le type de séance.',
       'Les questions portent sur les doses, la méthode, le verre, la décoration et les fiches de culture importées.',
@@ -169,17 +169,17 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   calculators: {
     title: 'Calculateurs',
-    intro: 'Les calculs du bar, seuls ou à partir d’une fiche.',
+    intro: 'Cet écran fait les calculs du bar, seuls ou à partir d’une fiche.',
     points: [
       'Batch : multiplie une recette et ajoute l’eau de dilution si tu veux.',
       'Le frais reste hors de la bouteille, les bulles s’ajoutent au service.',
-      'Degré et dilution d’un mélange, conversion d’unités et coût.',
+      'Les autres calculs portent sur le degré et la dilution d’un mélange, les unités et le coût.',
     ],
     keys: [],
   },
   prepare: {
     title: 'Mode préparation',
-    intro: 'La fiche en plein écran, lisible à un mètre, pendant que tu réalises le cocktail.',
+    intro: 'La fiche s’affiche en plein écran, lisible à un mètre, pendant que tu réalises le cocktail.',
     points: [
       'L’écran ne se met pas en veille.',
       'Coche les étapes au fur et à mesure.',
@@ -202,12 +202,12 @@ const pages: Record<GuidePageId, GuidePage> = {
   },
   settings: {
     title: 'Paramètres',
-    intro: 'Les réglages, les sauvegardes et tes données.',
+    intro: 'Cet écran regroupe les réglages, les sauvegardes et tes données.',
     points: [
-      'Thème, unité des doses, animations et alerte des préparations.',
+      'Règle le thème, l’unité des doses, les animations et l’alerte des préparations.',
       'Choisis le dossier des sauvegardes, sauvegarde tout de suite ou restaure. Le carnet actuel est sauvegardé avant chaque restauration.',
       'Exporte tout le carnet pour le passer sur un autre ordinateur.',
-      'Open Food Facts est la seule fonction qui utilise Internet, et elle se coupe ici.',
+      'Deux fonctions seulement utilisent Internet, Open Food Facts et la recherche des mises à jour. Chacune se coupe ici.',
     ],
     keys: [],
   },

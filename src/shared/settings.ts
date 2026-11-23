@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { DEFAULT_DILUTION } from '../core/dilution'
 import { DEFAULT_EQUIVALENCES } from '../core/units'
+import { VERSION_PATTERN } from './domain/updates'
 import { LABEL_FORMAT_VALUES, RECIPE_PAPERS } from './print'
 
 /**
@@ -23,6 +24,10 @@ export const settingsSchemas = {
   'off.enabled': z.boolean(),
   /** Unit in which the doses in ml, cl or oz are shown (section 10.15); stored doses never change. */
   'display.unit': z.enum(['ml', 'cl', 'oz']),
+  /** Look for a newer release on GitHub at launch (D-051); false = no request at launch. */
+  'updates.autoCheck': z.boolean(),
+  /** Release the user chose to ignore: no window opens by itself for it. Written by the main only. */
+  'updates.skippedVersion': z.string().regex(VERSION_PATTERN).nullable(),
   /** First-launch assistant done (section 10.15). */
   'onboarding.done': z.boolean(),
   /** Days before its best-before date when a preparation is flagged (section 10.9). */
@@ -84,6 +89,8 @@ export const SETTING_DEFAULTS: Settings = {
   'pricing.menuRoundingStepCents': 50,
   'pricing.menuRounding': 'up',
   'off.enabled': true,
+  'updates.autoCheck': true,
+  'updates.skippedVersion': null,
   'display.unit': 'ml',
   'onboarding.done': false,
   'preps.warningDays': 2,
@@ -113,6 +120,7 @@ export const RENDERER_SETTING_KEYS = [
   'pricing.menuRoundingStepCents',
   'pricing.menuRounding',
   'off.enabled',
+  'updates.autoCheck',
   'display.unit',
   'onboarding.done',
   'preps.warningDays',

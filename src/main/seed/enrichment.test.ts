@@ -18,7 +18,7 @@ const FILE = path.resolve(__dirname, '../../../resources/seed', CLASSICS_FILE)
 
 /** The seed of today, and the same as it was before D-039: no degree, family nor steps. */
 const all = withClassics(BUNDLED_SEED, FILE)
-const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('c24.')).slice(0, 300)
+const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('classic.')).slice(0, 300)
 const today: SeedData = { ...BUNDLED_SEED, recipes: [...BUNDLED_SEED.recipes, ...classics] }
 const before: SeedData = {
   ...BUNDLED_SEED,

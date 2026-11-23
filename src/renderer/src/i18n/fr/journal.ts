@@ -54,7 +54,7 @@ export const journal = {
     versionOption: (version: number, label: string | null, current: boolean) =>
       `v${version}${label ? ` · ${label}` : ''}${current ? ' (actuelle)' : ''}`,
     scores: 'Critères',
-    scoresHint: 'De trop peu à trop, au centre c’est juste.',
+    scoresHint: 'Le centre de l’échelle correspond au bon dosage, entre trop peu et trop.',
     comment: 'Commentaire',
     nextStep: 'Prochaine étape à tester',
     nextStepPlaceholder: 'Par exemple, 5 ml de sirop en moins',
@@ -84,7 +84,7 @@ export const journal = {
     empty: {
       title: 'Ton carnet est vide',
       description:
-        'Associations de saveurs, techniques, bouteilles à goûter : tout ce qui n’est pas encore une fiche.',
+        'Note ici ce qui n’est pas encore une fiche, comme une association de saveurs, une technique ou une bouteille à goûter.',
     },
     pick: 'Choisis une note ou crée-en une.',
     untitled: 'Nouvelle note',

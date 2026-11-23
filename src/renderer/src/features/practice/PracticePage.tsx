@@ -85,7 +85,6 @@ export function PracticePage() {
 
       {collections.isPending ? null : list.length === 0 ? (
         <EmptyState
-          icon={<GraduationCap size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.emptyCollections.title}
           description={t.emptyCollections.description}
           className="min-h-[320px] p-8"

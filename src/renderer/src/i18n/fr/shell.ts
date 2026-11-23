@@ -13,6 +13,47 @@ export const shell = {
   },
   version: (version: string) => `Version ${version}`,
   versionUnknown: 'Version inconnue',
+  /** What replaces a screen that failed, instead of an empty window. */
+  crash: {
+    title: 'Cet écran a rencontré un problème',
+    text: 'Ton carnet n’est pas touché. Recharge l’écran, ou passe à un autre par la barre latérale.',
+    detail: 'Détail technique',
+    reload: 'Recharger',
+    home: 'Revenir à l’accueil',
+  },
+  /** Window shown when a newer release is out on GitHub (D-051). */
+  update: {
+    eyebrow: 'Nouvelle version',
+    title: (version: string) => `Shakery ${version} est disponible`,
+    current: (version: string) => `Tu as la version ${version}.`,
+    published: (date: string) => `Publiée le ${date}.`,
+    notesTitle: 'Ce qui change',
+    noNotes: 'GitHub ne donne aucune note pour cette version.',
+    safeNote:
+      'Shakery sauvegarde ton carnet avant d’installer la nouvelle version, puis redémarre de lui-même. Tu n’as rien à réinstaller.',
+    update: 'Mettre à jour',
+    later: 'Plus tard',
+    skip: 'Ignorer cette version',
+    downloadingTitle: (version: string) => `Téléchargement de Shakery ${version}`,
+    percent: (value: string) => `${value}${NBSP}%`,
+    downloadingNote:
+      'Tu peux continuer à travailler pendant le téléchargement. Cette fenêtre reviendra quand la version sera prête.',
+    background: 'Continuer en arrière-plan',
+    readyTitle: (version: string) => `Shakery ${version} est prêt`,
+    readyNote:
+      'Si tu redémarres maintenant, Shakery sauvegarde ton carnet puis installe la version en quelques secondes. Sinon, elle s’installera quand tu fermeras Shakery.',
+    restart: 'Redémarrer maintenant',
+    restarting: 'Sauvegarde et installation…',
+    errorTitle: 'La mise à jour n’a pas abouti',
+    errors: {
+      offline: 'GitHub ne répond pas. Vérifie ta connexion à Internet, puis réessaie.',
+      failed: 'Le téléchargement a échoué. Le détail est dans le journal (Paramètres, À propos).',
+      backup:
+        'La sauvegarde du carnet a échoué, donc rien n’a été installé. Vérifie le dossier des sauvegardes dans les paramètres.',
+    },
+    retry: 'Réessayer',
+    close: 'Fermer',
+  },
   sidebar: {
     guide: 'Guide d’utilisation',
     label: 'Barre latérale',
@@ -113,7 +154,7 @@ export const shell = {
   },
   quickIdea: {
     title: 'Idée rapide',
-    description: 'Un nom suffit. Entrée crée la fiche au statut idée.',
+    description: 'Seul le nom est obligatoire. Entrée crée la fiche au statut idée.',
     name: 'Nom',
     namePlaceholder: 'Par exemple, Highball yuzu',
     nameRequired: 'Donne un nom à ton idée.',

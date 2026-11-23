@@ -6,6 +6,7 @@ import { fr } from '@renderer/i18n/fr'
 import { formatNumber } from '@renderer/lib/format'
 import { useRecipeComputation } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeInput } from '@shared/domain/catalog'
+import { NoValue } from '@renderer/components/NoValue'
 
 const t = fr.recipes.panel
 
@@ -73,12 +74,7 @@ function Row({
         </dt>
         <dd className="m-0 flex shrink-0 items-baseline gap-1">
           {empty ? (
-            <>
-              <span aria-hidden="true" className="text-lead text-fg-muted">
-                –
-              </span>
-              <span className="sr-only">{fr.components.display.stat.empty}</span>
-            </>
+            <NoValue className="self-center" />
           ) : (
             <span className="nums text-lead font-medium text-fg">{formatNumber(value, decimals)}</span>
           )}

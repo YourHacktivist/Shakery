@@ -9,8 +9,8 @@
  * - allergens of allergens.json and flavour profile of profiles.ts (D-040);
  * then data/seed/recipes.json: the classic preparations of preps.json, then the IBA cocktails
  * (review/iba-raw.json read through iba-map.json, French texts of iba-fr.json);
- * then resources/seed/recipes-24c.json, read by the application at start-up: the classics of 24cocktails.com (D-036, cached export read
- * through 24c-map.json, garnishes of 24c-garnish-fr.json, new ingredients of 24c-ingredients.json),
+ * then resources/seed/classics.json, read by the application at start-up: the extra classics (D-036, cached export read
+ * through classics-map.json, garnishes of classics-garnish-fr.json, new ingredients of classics-ingredients.json),
  * one compact recipe per line, with the family and the standard steps of classics.ts (D-039).
  *
  * Fails on an unknown category, a duplicate normalised name in a category, an alias that is
@@ -25,7 +25,7 @@ import { normalizeName } from '../../src/core/normalize'
 import { TYPICAL_STEPS_CREDIT } from '../../src/shared/classics'
 import type { CiqualValue } from './ciqual'
 import { familyOf, typicalSteps, type Classic } from './classics'
-import { build24c, EXPORT_CACHE, type Map24c, readExport, slugOf } from './cocktails24'
+import { buildExtraClassics, EXPORT_CACHE, type ClassicsMap, readExport, slugOf } from './extra-classics'
 import type { IbaCocktail } from './iba'
 import { CACHE_DIR, DATA_DIR, readJson, REVIEW_DIR, SEED_DIR, slugify, writeJson } from './lib'
 import { flavorTagsOf } from './profiles'
@@ -129,9 +129,9 @@ async function main(): Promise<void> {
   const unmatched = Object.keys(decisions.accept).filter((name) => !used.has(name))
   if (unmatched.length > 0) throw new Error(`Decisions without candidate: ${unmatched.join(', ')}`)
 
-  // Ingredients created for the 24cocktails labels (D-036) follow the same rules.
+  // Ingredients created for the labels of the extra classics (D-036) follow the same rules.
   const { ingredients: extra24 } = await readJson<{ ingredients: HandIngredient[] }>(
-    path.join(SEED_DIR, '24c-ingredients.json'),
+    path.join(SEED_DIR, 'classics-ingredients.json'),
   )
   for (const item of [...hand, ...extra24]) {
     out.push({
@@ -281,29 +281,33 @@ async function main(): Promise<void> {
   await writeJson(path.join(DATA_DIR, 'recipes.json'), recipes)
   console.log(`${preps.length} preparations and ${iba.recipes.length} IBA cocktails written`)
 
-  const raw24 = readExport(await readFile(path.join(CACHE_DIR, EXPORT_CACHE), 'utf8'))
-  const map24 = await readJson<Map24c>(path.join(SEED_DIR, '24c-map.json'))
-  const garnish24 = await readJson<Record<string, string>>(path.join(SEED_DIR, '24c-garnish-fr.json'))
+  const rawClassics = readExport(await readFile(path.join(CACHE_DIR, EXPORT_CACHE), 'utf8'))
+  const classicsMap = await readJson<ClassicsMap>(path.join(SEED_DIR, 'classics-map.json'))
+  const classicsGarnish = await readJson<Record<string, string>>(
+    path.join(SEED_DIR, 'classics-garnish-fr.json'),
+  )
   const reserved = new Set(recipes.map((recipe) => normalizeName(recipe.name)))
-  const c24 = build24c(raw24, map24, garnish24, byName, reserved)
-  if (c24.problems.length > 0) {
-    throw new Error(`24cocktails: ${c24.problems.length} problems\n${c24.problems.slice(0, 80).join('\n')}`)
+  const extra = buildExtraClassics(rawClassics, classicsMap, classicsGarnish, byName, reserved)
+  if (extra.problems.length > 0) {
+    throw new Error(
+      `Extra classics: ${extra.problems.length} problems\n${extra.problems.slice(0, 80).join('\n')}`,
+    )
   }
   describeClassics(
-    c24.recipes,
-    new Map(raw24.map((item) => [`c24.${slugOf(item.url)}`, item.method] as const)),
+    extra.recipes,
+    new Map(rawClassics.map((item) => [`classic.${slugOf(item.url)}`, item.method] as const)),
     out,
     recipes,
   )
   // Compact, one recipe per line: about 7 000 entries stay readable in a diff.
-  const sorted24 = c24.recipes.sort((a, b) => a.seed_key.localeCompare(b.seed_key))
+  const sortedClassics = extra.recipes.sort((a, b) => a.seed_key.localeCompare(b.seed_key))
   await writeFile(
-    path.resolve(DATA_DIR, '..', '..', 'resources', 'seed', 'recipes-24c.json'),
-    `[\n${sorted24.map((recipe) => JSON.stringify(recipe)).join(',\n')}\n]\n`,
+    path.resolve(DATA_DIR, '..', '..', 'resources', 'seed', 'classics.json'),
+    `[\n${sortedClassics.map((recipe) => JSON.stringify(recipe)).join(',\n')}\n]\n`,
     'utf8',
   )
   console.log(
-    `${sorted24.length} 24cocktails recipes written, ${c24.skipped.length} left out as IBA names: ${c24.skipped.join(', ')}`,
+    `${sortedClassics.length} extra classics written, ${extra.skipped.length} left out as IBA names: ${extra.skipped.join(', ')}`,
   )
 }
 

@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, FlaskConical, Info, Lightbulb, NotebookPen, Plus } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, FlaskConical, Info, NotebookPen, Plus } from 'lucide-react'
 import { useMemo, useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -144,10 +144,7 @@ export function HomePage() {
       {empty ? (
         <div className="grid grid-cols-[minmax(0,1fr)_356px] gap-4">
           <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong bg-bg-base/90 px-5 py-14 text-center">
-            <div className="flex size-16 items-center justify-center rounded-nested border border-border-strong bg-surface-2 text-accent">
-              <Lightbulb size={26} strokeWidth={1.6} aria-hidden="true" />
-            </div>
-            <h2 className="m-0 mt-2 text-heading font-normal text-fg">{t.empty.title}</h2>
+            <h2 className="m-0 text-heading font-normal text-fg">{t.empty.title}</h2>
             <p className="m-0 max-w-md text-body leading-relaxed text-fg-secondary">{t.empty.description}</p>
             <div className="mt-3 flex flex-col items-center gap-3">
               <Button

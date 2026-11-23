@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { build24c, type Map24c, parseLine, parseQuantity, type Raw24c } from './cocktails24'
+import {
+  buildExtraClassics,
+  type ClassicsMap,
+  parseLine,
+  parseQuantity,
+  type RawClassic,
+} from './extra-classics'
 
-describe('24cocktails line reading', () => {
+describe('line reading of the extra classics', () => {
   it('cuts a label, a quantity and a unit', () => {
     expect(parseLine('Rutte Dry Gin 30 ml')).toEqual({
       label: 'rutte dry gin',
@@ -58,8 +64,8 @@ describe('24cocktails line reading', () => {
   })
 })
 
-describe('24cocktails recipe build', () => {
-  const map: Map24c = {
+describe('recipe build of the extra classics', () => {
+  const map: ClassicsMap = {
     units: {
       ml: { unit: 'ml' },
       dash: { unit: 'dash' },
@@ -83,9 +89,9 @@ describe('24cocktails recipe build', () => {
     ['vermouth rouge', 'ing.vermouth-rouge'],
     ['orange', 'ing.orange'],
   ])
-  const raw = (name: string, ingredients: string[]): Raw24c => ({
+  const raw = (name: string, ingredients: string[]): RawClassic => ({
     name,
-    url: `https://24cocktails.com/cocktail/${name.toLowerCase()}`,
+    url: `https://recettes.test/cocktail/${name.toLowerCase()}`,
     abv: 25,
     base: 'whiskey',
     method: 'stirred',
@@ -95,7 +101,7 @@ describe('24cocktails recipe build', () => {
   })
 
   it('turns a recipe into a classic seed with brand notes, garnish and no link', () => {
-    const result = build24c(
+    const result = buildExtraClassics(
       [
         raw('Boulevardier', [
           'Bourbon 45 ml',
@@ -113,7 +119,7 @@ describe('24cocktails recipe build', () => {
     expect(result.problems).toEqual([])
     const [recipe] = result.recipes
     expect(recipe).toMatchObject({
-      seed_key: 'c24.boulevardier',
+      seed_key: 'classic.boulevardier',
       name: 'Boulevardier',
       source: 'seed',
       credit: null,
@@ -158,7 +164,7 @@ describe('24cocktails recipe build', () => {
   })
 
   it('leaves out a name already taken by an IBA classic and reports unknown labels', () => {
-    const result = build24c(
+    const result = buildExtraClassics(
       [raw('Negroni', ['Campari 30 ml']), raw('Mystery', ['Unicorn tears 10 ml'])],
       map,
       { 'Orange zest': "Zeste d'orange" },

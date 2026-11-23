@@ -1,8 +1,11 @@
 import { activeNavIndex, NAV_ITEMS, type ScreenId } from '@renderer/app/navigation'
 import { backdropOf } from '@renderer/app/backdrops/drawings'
 
-/** A screen as seen by the animations: the navigation screens, plus a recipe and its editor. */
-export type SceneId = ScreenId | 'detail' | 'editor' | 'guide'
+/**
+ * A screen as seen by the animations: the navigation screens, plus a recipe, its editor, the
+ * guide and the preparation mode (outside the shell, it shows its backdrop itself).
+ */
+export type SceneId = ScreenId | 'detail' | 'editor' | 'guide' | 'prepare'
 
 export function sceneOf(pathname: string): SceneId {
   if (pathname === '/guide') return 'guide'

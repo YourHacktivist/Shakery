@@ -1,14 +1,4 @@
-import {
-  Calculator,
-  Droplets,
-  Euro,
-  FileDown,
-  FlaskConical,
-  Plus,
-  Printer,
-  Repeat,
-  Trash2,
-} from 'lucide-react'
+import { Droplets, Euro, FileDown, FlaskConical, Plus, Printer, Repeat, Trash2 } from 'lucide-react'
 import { useMemo, useState, type ReactNode } from 'react'
 import { BATCH_STEPS_ML, type BatchHint } from '@core/batch'
 import { salePrice, type PricingRules } from '@core/cost'
@@ -46,6 +36,7 @@ import {
   type ManualBatch,
   type PrintTarget,
 } from '@shared/print'
+import { NoValue } from '@renderer/components/NoValue'
 
 const t = fr.workshop.calculators
 
@@ -108,7 +99,8 @@ function Result({
   strong = false,
 }: {
   label: string
-  value: string
+  /** null while a figure it needs is missing. */
+  value: string | null
   unit?: string
   strong?: boolean
 }) {
@@ -118,7 +110,7 @@ function Result({
       <span className="text-caption font-medium text-fg-muted">{label}</span>
       <span className="nums flex items-baseline gap-1">
         <span className={cn('font-light text-fg', strong ? 'text-metric text-copper' : 'text-title')}>
-          {value}
+          {value ?? <NoValue />}
         </span>
         {unit ? <span className="text-small text-fg-muted">{unit}</span> : null}
       </span>
@@ -126,15 +118,8 @@ function Result({
   )
 }
 
-function Panel({ icon, children }: { icon: ReactNode; children: ReactNode }) {
-  return (
-    <Card className="gap-4">
-      <span className="flex size-9 items-center justify-center rounded-full bg-accent/14 text-accent">
-        {icon}
-      </span>
-      {children}
-    </Card>
-  )
+function Panel({ children }: { children: ReactNode }) {
+  return <Card className="gap-4">{children}</Card>
 }
 
 // ---------------------------------------------------------------------------------------
@@ -164,7 +149,7 @@ function BatchCalculator() {
 
   return (
     <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-4">
-      <Panel icon={<FlaskConical size={16} aria-hidden="true" />}>
+      <Panel>
         <div className="flex flex-col gap-1.5">
           <span aria-hidden="true" className="text-small font-medium text-fg-secondary">
             {t.batch.start}
@@ -481,12 +466,14 @@ function BatchResult({ source }: { source: RecipeDetail | ManualBatch }) {
                         ) : null}
                       </td>
                       <td className="nums py-2 text-right text-fg-secondary">
-                        {line.quantity === null
-                          ? '–'
-                          : formatDose({ quantity: line.quantity, unit: line.unit, topEstimateMl: null })}
+                        {line.quantity === null ? (
+                          <NoValue />
+                        ) : (
+                          formatDose({ quantity: line.quantity, unit: line.unit, topEstimateMl: null })
+                        )}
                       </td>
                       <td className="nums py-2 text-right text-fg">
-                        {line.ml === null ? '–' : `${formatNumber(line.ml)} ml`}
+                        {line.ml === null ? <NoValue /> : `${formatNumber(line.ml)} ml`}
                       </td>
                     </tr>
                   ))}
@@ -580,7 +567,7 @@ function AbvCalculator() {
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_320px] items-start gap-4">
-      <Panel icon={<Droplets size={16} aria-hidden="true" />}>
+      <Panel>
         <RecipePicker value={recipeId} onSelect={setRecipeId} />
         <p className="-mt-2 m-0 text-caption text-fg-muted">{t.abv.fromRecipeHint}</p>
         <ol className="m-0 flex list-none flex-col gap-2 p-0">
@@ -649,11 +636,11 @@ function AbvCalculator() {
       <div className="flex flex-col gap-3">
         <Result
           label={t.abv.after}
-          value={after === null ? '–' : formatNumber(after, 1)}
+          value={after === null ? null : formatNumber(after, 1)}
           unit="% vol"
           strong
         />
-        <Result label={t.abv.before} value={before === null ? '–' : formatNumber(before, 1)} unit="% vol" />
+        <Result label={t.abv.before} value={before === null ? null : formatNumber(before, 1)} unit="% vol" />
         <Result label={t.abv.served} value={formatNumber(Math.round(v0 * (1 + d)))} unit="ml" />
       </div>
     </div>
@@ -677,7 +664,7 @@ function ConvertCalculator() {
     lineVolumeMl({ quantity: 1, unit: target, topEstimateMl: null }, equivalences)
   return (
     <div className="grid grid-cols-[340px_minmax(0,1fr)] items-start gap-4">
-      <Panel icon={<Repeat size={16} aria-hidden="true" />}>
+      <Panel>
         <NumberWithUnit
           label={t.convert.value}
           value={value}
@@ -707,7 +694,7 @@ function ConvertCalculator() {
                   ? `${fr.recipes.units[target]} · ${t.convert.approx}`
                   : fr.recipes.units[target]
               }
-              value={converted === null ? '–' : formatNumber(converted, converted < 10 ? 2 : 1)}
+              value={converted === null ? null : formatNumber(converted, converted < 10 ? 2 : 1)}
             />
           )
         })}
@@ -749,7 +736,7 @@ function CostCalculator() {
 
   return (
     <div className="grid grid-cols-2 items-start gap-4">
-      <Panel icon={<Calculator size={16} aria-hidden="true" />}>
+      <Panel>
         <div className="grid grid-cols-3 gap-3">
           <NumberWithUnit
             label={t.cost.price}
@@ -783,18 +770,18 @@ function CostCalculator() {
         <div className="grid grid-cols-2 gap-3">
           <Result
             label={t.cost.perDose}
-            value={perMl === null || dose === null ? '–' : formatNumber((perMl * dose) / 100, 2)}
+            value={perMl === null || dose === null ? null : formatNumber((perMl * dose) / 100, 2)}
             unit="€"
             strong
           />
           <Result
             label={t.cost.perLitre}
-            value={perMl === null ? '–' : formatNumber((perMl * 1000) / 100, 2)}
+            value={perMl === null ? null : formatNumber((perMl * 1000) / 100, 2)}
             unit="€"
           />
         </div>
       </Panel>
-      <Panel icon={<Euro size={16} aria-hidden="true" />}>
+      <Panel>
         <RecipePicker value={recipeId} onSelect={setRecipeId} />
         {recipe.data ? (
           costHt === null || !sale ? (

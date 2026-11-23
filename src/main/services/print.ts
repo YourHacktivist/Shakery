@@ -8,6 +8,7 @@ import { BrowserWindow, dialog } from 'electron'
 import { PRINT_READY_TITLE } from '../../shared/print'
 import { devServerUrl, rendererIndexFile } from '../paths'
 import { secureWebPreferences } from '../window'
+import { safeFileName } from './file-name'
 
 const READY_TIMEOUT_MS = 20_000
 
@@ -111,15 +112,6 @@ export function printRoute(route: string, paper: Paper): Promise<boolean> {
         )
       }),
   )
-}
-
-/** File name without the characters Windows and macOS refuse. */
-export function safeFileName(name: string): string {
-  const forbidden = '<>:"/\\|?*'
-  let kept = ''
-  for (const char of name) kept += char.charCodeAt(0) < 32 || forbidden.includes(char) ? ' ' : char
-  const cleaned = kept.replace(/\s+/g, ' ').trim()
-  return cleaned === '' ? 'Shakery' : cleaned.slice(0, 120)
 }
 
 /** Asks where to save, then writes the PDF of the route. False when the user cancels. */

@@ -3,6 +3,7 @@
  * a maximum length and every array a maximum size (section 6).
  */
 import { z } from 'zod'
+import { uniqueTags } from '../../core/normalize'
 import { ALLERGEN_CODES } from './allergens'
 
 const id = z.string().min(1).max(36)
@@ -213,7 +214,7 @@ export const recipeInputSchema = z
     garnish: optionalText(1000).default(null),
     steps: z.array(text(1000)).max(50).default([]),
     notes: optionalText(10_000).default(null),
-    tags: z.array(z.string().trim().min(1).max(40)).max(30).default([]),
+    tags: z.array(z.string().trim().min(1).max(40)).max(30).transform(uniqueTags).default([]),
     dilutionOverridePct: percent.nullable().default(null),
     parentRecipeId: id.nullable().default(null),
     yieldMl: z.number().int().positive().max(100_000).nullable().default(null),

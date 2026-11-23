@@ -11,19 +11,26 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 
 ## Façon de travailler attendue par l'utilisateur
 
-- Aucun tiret cadratin, aucune tournure « style IA », dans le code, les docs, les commits et les messages.
+- Aucun tiret cadratin ou demi-cadratin, aucune tournure « style IA », dans le code, les docs, les commits et les messages. Ses règles complètes sont dans le fichier « prompt anti IA.txt » de son dossier Téléchargements (D-052) : pas de tournure par opposition, de formule choc suivie de deux-points, de phrase sans verbe pour l'effet, d'énumération rythmique ni de mot creux (crucial, essentiel, véritable, majeur, levier…) ; des phrases complètes et factuelles ; espace insécable avant : ; ? ! et dans « ». Il a relevé une phrase fautive le 23 novembre : relire chaque nouveau texte de l'interface contre cette liste.
 - Enchaîner les phases sans s'arrêter pour validation en fin de phase. S'arrêter seulement pour une décision bloquante (modèle de données, architecture, sécurité, licence), avec une recommandation claire.
 - Messages courts, en français. L'utilisateur atteint souvent sa limite d'usage : limiter les sous-agents (il l'a redemandé le 19 novembre, même avec le mode ultracode). Un workflow seulement pour un vrai volume de données (des milliers d'éléments), à effort moyen et sans double relecture ; revues et recherches faites directement.
-- Les recettes de 24cocktails font partie de Shakery comme des classiques : jamais de lien ni de bouton vers le site, jamais d'origine « Autre », jamais d'export ou d'import demandé à l'utilisateur. Ne plus rouvrir la question (D-036).
+- Les classiques supplémentaires font partie de Shakery comme ceux de l'IBA : jamais de mention de leur source, ni dans l'application, ni dans le code, ni dans la documentation (D-054), jamais de lien ni de bouton vers un site, jamais d'origine « Autre », jamais d'export ou d'import demandé à l'utilisateur. Ne plus rouvrir la question (D-036).
 - Toujours le logo fourni (`design/assets/`) pour les icônes et visuels, jamais de variante redessinée.
 - Les données de `imports/maf/` (nom de l'élève, école) sont personnelles : jamais committées (le dossier est ignoré par git), jamais envoyées à un service externe.
-- Dépôt distant : https://github.com/YourHacktivist/Shakery (privé, il contient les recettes de 24cocktails réservées à l'usage personnel : ne jamais le rendre public sans retirer `resources/seed/recipes-24c.json`). Pousser uniquement avec le compte YourHacktivist de l'utilisateur, déjà enregistré dans le gestionnaire d'identifiants Git ; jamais de push forcé.
+- Dépôt distant : https://github.com/YourHacktivist/Shakery, rendu public par l'utilisateur le 23 novembre 2026 pour que Shakery lise ses releases sans jeton (D-051). Il contient les classiques réservés à l'usage personnel (`resources/seed/classics.json`), que chaque installeur publié contient aussi : l'utilisateur le sait. L'historique Git garde les anciennes mentions : ne pas le réécrire sans son accord (push forcé). Pousser uniquement avec le compte YourHacktivist de l'utilisateur, déjà enregistré dans le gestionnaire d'identifiants Git ; jamais de push forcé.
+- Pas d'éléments qui font « design IA » : ni icône dans une pastille ronde ou orange, ni chiffre dans un rond, ni carte encadrée pour chaque élément d'une liste (D-053). Viser un design sobre et éditorial, comme la fiche imprimée.
 - Regarder chaque écran modifié en image, à 1100 px, à 1536 px (son écran) et en grand, barre ouverte et fermée, avec des noms longs : boutons alignés, aucun bouton seul sur sa ligne, hauteurs égales (D-049). Un audit automatique vert ne suffit pas : il l'a dit le 22 novembre en renvoyant une capture.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
 ## Reprendre ici (23 novembre 2026)
 
 Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-050. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (452 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.
+
+Le 23 novembre (suite), D-051 et D-052 :
+
+- Mises à jour : `services/updates.ts` (état, règles, notes de version réduites à du texte), `services/updater-electron.ts` (electron-updater, faux port `SHAKERY_FAKE_UPDATE` hors build packagée), IPC `updates.*`, fenêtre `features/updates/UpdateDialog.tsx` montée dans la coquille, carte `features/settings/UpdatesCard.tsx`, réglages `updates.autoCheck` et `updates.skippedVersion`, sauvegarde `pre-update`. Publication : marche à suivre dans `docs/PUBLIER.md` (`npm version X.Y.Z`, `git push origin main --follow-tags`, puis `.github/workflows/release.yml` construit et publie). La version 0.1.0 installée n'a pas encore le module : la première version qui l'a s'installe à la main. Jamais testé sur une vraie release : aucune n'a été publiée.
+- Robustesse : `db/repositories/robustness.test.ts` (38 noms piégés, 45 recherches), `tests/e2e/robustness.spec.ts`, `services/file-name.ts` (un seul `safeFileName`), `uniqueTags` et caractères invisibles dans `core/normalize.ts`, écran de secours `app/RouteError.tsx` (un écran qui plante garde la coquille).
+- Textes : `i18n/typography.ts` (espaces insécables appliquées à tout `fr`), `i18n/typography.test.tsx` (tirets, mots creux, oppositions, signes mal espacés), relecture complète des textes de l'interface.
 
 **Prochaine étape** : l'utilisateur reprend dans une autre instance pour corriger le design et ajouter des fonctions. Les deux sections qui suivent (« Modifier le design », « Ajouter une fonction ») sont écrites pour ça. Le cahier des charges est entièrement livré : il n'y a plus de phase à suivre, chaque demande se traite comme un ajout. La question Electron ou Tauri de `CLAUDE.md` est tranchée depuis le début (D-001, Electron) : ne pas la reposer.
 
@@ -44,7 +51,7 @@ Ce qui a été fait, avec ses repères :
 
 Le 23 novembre, les six écarts restants sont corrigés (D-050) : Ctrl+J dans l'atelier, « Annuler » après le retrait d'une fiche de collection, grammes dans le batch, photo d'une dégustation enregistrée, réglages du prix conseillé, batch sans fiche. Reste un comportement à connaître : « Abandonner » dans l'atelier efface l'historique d'annulation sans confirmation.
 
-Non vérifié : impression sur une vraie imprimante et sur imprimante d'étiquettes, glisser-déposer réel d'une photo, photos de téléphone, lecteur d'écran, installation par l'installeur sur le profil de l'utilisateur, macOS, résultat de la CI GitHub. Allergènes et profils aromatiques des ingrédients ont été attribués par type de produit : l'étiquette fait foi.
+Non vérifié : impression sur une vraie imprimante et sur imprimante d'étiquettes, glisser-déposer réel d'une photo, photos de téléphone, lecteur d'écran, installation par l'installeur sur le profil de l'utilisateur, mise à jour réelle depuis une release GitHub, macOS, résultat de la CI GitHub. Allergènes et profils aromatiques des ingrédients ont été attribués par type de produit : l'étiquette fait foi.
 
 ## Modifier le design
 
@@ -66,7 +73,8 @@ Principes : section 11 de la spec, puis D-032 (interface vivante, accent cuivré
 - Base : une colonne ou une table se discute d'abord avec l'utilisateur (modèle de données), puis migration (`docs/ARCHITECTURE.md`, « Couche de données »).
 - Textes : tout libellé français dans `src/renderer/src/i18n/fr/`, en tutoyant l'utilisateur.
 - Aide : chaque nouveau libellé s'explique dans `i18n/fr/help/`, dans le sujet de l'écran où il apparaît, sinon `help.test.tsx` échoue et nomme la clé. Un nouvel écran ajoute sa scène dans `app/scenes.tsx` et son sujet dans `i18n/fr/help/index.ts` (sans sujet, `app/help.ts` ne compile pas), sa page de guide si besoin, et sa route dans `tests/e2e/alignment.spec.ts`.
-- Décision : une entrée dans `docs/DECISIONS.md` (prochaine : D-051), et cette passation à jour.
+- Décision : une entrée dans `docs/DECISIONS.md` (prochaine : D-055), et cette passation à jour.
+- Texte : relire chaque nouveau libellé et chaque phrase contre les règles d'écriture (D-052) ; `typography.test.tsx` n'attrape que ce qu'un motif peut voir.
 - Tests : unitaire pour le calcul ou le dépôt, e2e pour le parcours, puis `npm run check` et `npm run test:e2e`.
 - Envoi : commit en anglais sans ligne `Co-Authored-By`, puis `git push origin main` avec le compte de l'utilisateur. Installeur : voir « Phase 11 livrée pour Windows ».
 
@@ -94,11 +102,11 @@ Choix consignés dans D-037.
 - Palette : à chaque nouvelle liste de résultats, la sélection revient sur le premier (sinon Entrée ouvrait une variante restée sélectionnée pendant la frappe).
 - Tests : `export.test.ts` (aller-retour d'un carnet dans une installation neuve, classiques modifiés, photos, conflits, export partiel), `csv.test.ts`, `off.test.ts`, `share.test.tsx`, `CommandPalette.test.tsx`, e2e `tests/e2e/share.spec.ts`.
 
-## Recettes de 24cocktails (19 et 20 novembre 2026)
+## Classiques supplémentaires (19 et 20 novembre 2026)
 
-Les recettes de 24cocktails.com sont intégrées (D-036, spec sections 2 et 9, `docs/DATA_SOURCES.md`).
+Environ 7 000 classiques sont intégrés (D-036, spec sections 2 et 9, `docs/DATA_SOURCES.md`).
 
-- Pipeline : `scripts/seed/cocktails24-fetch.ts` (export en cache), `cocktails24.ts` (lecture des lignes, assemblage), `24c-map.json` (unités, verres, méthodes, noms réparés, 2 404 libellés vers le référentiel), `24c-ingredients.json` (469 ingrédients nouveaux), `24c-garnish-fr.json` (2 517 décorations traduites). `build.ts` écrit `resources/seed/recipes-24c.json` : 7 064 cocktails (90 écartés car portant le nom d'un classique IBA ou en double).
+- Pipeline : `scripts/seed/extra-classics-fetch.ts` (export en cache, adresse dans `SHAKERY_CLASSICS_EXPORT_URL`), `extra-classics.ts` (lecture des lignes, assemblage), `classics-map.json` (unités, verres, méthodes, noms réparés, 2 404 libellés vers le référentiel), `classics-ingredients.json` (469 ingrédients nouveaux), `classics-garnish-fr.json` (2 517 décorations traduites). `build.ts` écrit `resources/seed/classics.json` : 7 064 cocktails (90 écartés car portant le nom d'un classique IBA ou en double).
 - Application : `bundled.ts` lit ce fichier au démarrage (`withClassics`, `seedFolder()`). `load.ts` charge les cocktails en bloc (`bulkCocktailWriter`, requêtes préparées une fois, instantané construit par `recipeDetailFromRows` comme `get`), le tout dans une transaction : environ 3 à 5 s au premier lancement, 0,1 à 0,3 s ensuite. Toutes les fiches sont `origin = 'classic'`, sans crédit ni lien.
 - Index de recherche : `indexEntity(..., { fresh: true })` évite le parcours complet de la table FTS5 pour une entrée neuve (c'était quadratique : 181 s de chargement). La recherche cherche aussi la saisie entière comme une expression (« My Tie », « AT&T », « Daisy No.2 »), la recherche approchée classe à distance égale le nom de longueur la plus proche et ne détaille que 100 candidats, et la distance est calculée en bande diagonale (`core/fuzzy.ts`). La liste déroulante (`Combobox`) met le nom exact en tête puis les noms les plus courts.
 - Contrôle complet : `npx tsx scripts/seed/check-seed.ts` charge tout dans une base neuve et vérifie chaque cocktail (chargé, ouvert, calculé, premier résultat quand on tape son nom). Dernier passage : 7 166 cocktails sur 7 166, recherche la plus lente 19 ms.

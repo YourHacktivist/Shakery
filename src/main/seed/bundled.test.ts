@@ -215,12 +215,12 @@ describe('bundled seed data', () => {
   })
 })
 
-describe('classics of 24cocktails (D-036)', () => {
+describe('extra classics (D-036)', () => {
   const file = path.resolve(__dirname, '../../../resources/seed', CLASSICS_FILE)
 
   it('validate with the bundled seed: thousands of classics, each cocktail name once', () => {
     const checked = validateSeedData(withClassics(BUNDLED_SEED, file))
-    expect(checked.recipes.filter((recipe) => recipe.seed_key.startsWith('c24.')).length).toBeGreaterThan(
+    expect(checked.recipes.filter((recipe) => recipe.seed_key.startsWith('classic.')).length).toBeGreaterThan(
       7000,
     )
     const names = checked.recipes
@@ -242,7 +242,7 @@ describe('classics of 24cocktails (D-036)', () => {
       ),
     }
     const all = withClassics(BUNDLED_SEED, file)
-    const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('c24.')).slice(0, 40)
+    const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('classic.')).slice(0, 40)
     const report = loadSeedData(db, ids, { ...BUNDLED_SEED, recipes: [...BUNDLED_SEED.recipes, ...classics] })
     expect(report.recipes).toBe(BUNDLED_SEED.recipes.length + classics.length)
     const recipes = new RecipeRepository(db, ids, new IngredientRepository(db, ids))

@@ -1,17 +1,18 @@
 /**
- * Recipes of 24cocktails.com for the seed (D-036). The publisher's bulk export
- * (https://24cocktails.com/llms/recipes.jsonl) is fetched once by cocktails24-fetch.ts and kept
- * in .cache/. Each ingredient line (« Rutte Dry Gin 30 ml ») is cut into a label, a quantity, a
- * unit word and an extra text; 24c-map.json then gives, for every label, the ingredient of the
+ * The extra classics of the seed (D-036). A bulk export of recipes, whose address is given by
+ * SHAKERY_CLASSICS_EXPORT_URL and kept out of the repository, is fetched once by
+ * extra-classics-fetch.ts and kept in .cache/. Each ingredient line (« Rutte Dry Gin 30 ml ») is cut into a label, a quantity, a
+ * unit word and an extra text; classics-map.json then gives, for every label, the ingredient of the
  * French reference it stands for, the brand kept as a note and the unit to use without quantity.
  */
 import { normalizeName } from '../../src/core/normalize'
 import type { RecipeLineSeed, RecipeSeed, SeedUnit } from './recipes'
 
-export const EXPORT_URL = 'https://24cocktails.com/llms/recipes.jsonl'
-export const EXPORT_CACHE = '24cocktails/recipes.jsonl'
+/** Address of the export, outside the repository; only a new fetch needs it. */
+export const EXPORT_URL = process.env['SHAKERY_CLASSICS_EXPORT_URL'] ?? ''
+export const EXPORT_CACHE = 'classics/recipes.jsonl'
 
-export type Raw24c = {
+export type RawClassic = {
   name: string
   url: string
   abv: number
@@ -23,7 +24,7 @@ export type Raw24c = {
 }
 
 export type ParsedLine = {
-  /** Lower case, single spaces, NFC: the key of 24c-map.json. */
+  /** Lower case, single spaces, NFC: the key of classics-map.json. */
   label: string
   quantity: number | null
   /** Lower case unit word as written (« dash », « spoon »), null without one. */
@@ -230,22 +231,22 @@ export function parseLine(raw: string): ParsedLine | null {
 /** Last segment of the recipe URL: stable, unique, ASCII. */
 export function slugOf(url: string): string {
   const slug = url.replace(/\/+$/, '').split('/').pop() ?? ''
-  if (!/^[a-z0-9_-]+$/.test(slug)) throw new Error(`Unexpected 24cocktails URL: ${url}`)
+  if (!/^[a-z0-9_-]+$/.test(slug)) throw new Error(`Unexpected recipe URL: ${url}`)
   return slug
 }
 
-export function readExport(body: string): Raw24c[] {
+export function readExport(body: string): RawClassic[] {
   return body
     .split('\n')
     .filter((line) => line.trim() !== '')
-    .map((line) => JSON.parse(line) as Raw24c)
+    .map((line) => JSON.parse(line) as RawClassic)
 }
 
 // ---------------------------------------------------------------------------------------------
 // Build
 // ---------------------------------------------------------------------------------------------
 
-/** One label of the export read by hand (24c-map.json, « ingredients »). */
+/** One label of the export read by hand (classics-map.json, « ingredients »). */
 export type LabelEntry = {
   /** Name of an ingredient of the reference (or of a classic preparation). */
   i: string
@@ -262,7 +263,7 @@ export type LabelEntry = {
 }
 
 /** A label that is not an ingredient (« ice crushed ») is mapped to null and dropped. */
-export type Map24c = {
+export type ClassicsMap = {
   units: Record<string, { unit: SeedUnit; factor?: number; note?: string }>
   glasses: Record<string, string | null>
   methods: Record<string, string | null>
@@ -275,7 +276,7 @@ export type Map24c = {
   lines: Record<string, Array<{ i: string; q: number | null; u: SeedUnit; n?: string; g?: boolean }> | null>
 }
 
-export type Build24cResult = {
+export type ExtraClassicsResult = {
   recipes: RecipeSeed[]
   skipped: string[]
   problems: string[]
@@ -285,13 +286,13 @@ export type Build24cResult = {
  * Turns the export into recipe seeds. `ingredientKeys` maps a normalised ingredient name to its
  * seed_key; `reserved` holds the normalised names already taken by IBA cocktails and preparations.
  */
-export function build24c(
-  raw: readonly Raw24c[],
-  map: Map24c,
+export function buildExtraClassics(
+  raw: readonly RawClassic[],
+  map: ClassicsMap,
   garnishFr: Readonly<Record<string, string>>,
   ingredientKeys: ReadonlyMap<string, string>,
   reserved: ReadonlySet<string>,
-): Build24cResult {
+): ExtraClassicsResult {
   const recipes: RecipeSeed[] = []
   const skipped: string[] = []
   const problems: string[] = []
@@ -406,7 +407,7 @@ export function build24c(
     }
 
     recipes.push({
-      seed_key: `c24.${slug}`,
+      seed_key: `classic.${slug}`,
       name,
       kind: 'cocktail',
       source: 'seed',

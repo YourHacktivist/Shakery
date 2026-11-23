@@ -22,6 +22,7 @@ import { buildExport } from '../services/export'
 import { createOffClient } from '../services/off'
 import { printRoute, savePdf } from '../services/print'
 import type { IpcHandlers } from './dispatch'
+import { safeFileName } from '../services/file-name'
 
 type Kind = 'shakery' | 'csv' | 'markdown' | 'png'
 
@@ -35,24 +36,11 @@ const FILTERS: Record<Kind, Electron.FileFilter> = {
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
 const MAX_PNG_BYTES = 10_000_000
 
-/** A file name without the characters Windows refuses, never empty. */
-export function safeFileName(name: string, extension: string): string {
-  const base = Array.from(name.normalize('NFC'))
-    .filter((char) => char.charCodeAt(0) >= 32)
-    .join('')
-    .replace(/[\\/:*?"<>|]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/[. ]+$/, '')
-    .slice(0, 100)
-  return `${base === '' ? 'shakery' : base}.${extension}`
-}
-
 /** Asks where to save; null when the user cancels. */
 async function chooseTarget(kind: Kind, name: string): Promise<string | null> {
   const window = BrowserWindow.getFocusedWindow()
   const options: Electron.SaveDialogOptions = {
-    defaultPath: safeFileName(name, FILTERS[kind].extensions[0] ?? kind),
+    defaultPath: `${safeFileName(name, 'shakery')}.${FILTERS[kind].extensions[0] ?? kind}`,
     filters: [FILTERS[kind]],
   }
   const choice = window ? await dialog.showSaveDialog(window, options) : await dialog.showSaveDialog(options)

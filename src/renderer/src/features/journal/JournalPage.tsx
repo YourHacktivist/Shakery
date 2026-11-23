@@ -1,4 +1,4 @@
-import { Clock, ImagePlus, MessageSquareQuote, NotebookText, Plus, Trash2 } from 'lucide-react'
+import { Clock, ImagePlus, MessageSquareQuote, Plus, Trash2 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Link, useLocation } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
@@ -98,7 +98,6 @@ export function JournalPage() {
 
       {tastings.isPending ? null : notes.length === 0 ? (
         <EmptyState
-          icon={<NotebookText size={16} strokeWidth={1.75} aria-hidden="true" />}
           title={t.empty.title}
           description={t.empty.description}
           className="min-h-[320px] p-8"

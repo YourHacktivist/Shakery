@@ -286,12 +286,12 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 - **Choix** : sur la fiche ingrédient de Mon bar, la bascule coche la première bouteille ; s'il n'y en a aucune, elle crée une bouteille au nom de l'ingrédient, déjà possédée. La décocher retire « possédée » de toutes ses bouteilles. Aucun changement de modèle.
 - **Validation** : non requise.
 
-### D-036 Recettes de 24cocktails dans la base de départ
+### D-036 Classiques supplémentaires dans la base de départ
 
 - **Date** : 2026-11-19
 - **Contexte** : l'utilisateur veut que Shakery contienne (presque) tous les cocktails, consultables hors ligne, sans export ni import de sa part. L'usage est strictement personnel : Shakery n'est pas diffusé.
-- **Choix** : les 7 154 recettes de l'export `https://24cocktails.com/llms/recipes.jsonl` (publié par l'éditeur) entrent dans la base de départ, générée au build par `scripts/seed/`. Chaque recette devient une fiche classique comme celles de l'IBA (`final`, `origin = 'classic'`, `source = 'seed'`, `seed_key` `c24.<slug>`), sans crédit ni lien vers le site : l'utilisateur ne veut ni catégorie « Autre » ni ouverture du site. Aucun changement de modèle. Nom d'origine conservé ; doses, méthode et verre repris ; décoration traduite en français ; ingrédients ramenés au référentiel français (ingrédients nouveaux créés dans une feuille de l'arbre), marque gardée en note de ligne. Les recettes qui portent le nom d'un des 102 classiques IBA sont écartées. Aucun appel réseau à l'exécution. Résultat : 7 064 fiches (90 écartées) et 469 ingrédients nouveaux ; le fichier généré `resources/seed/recipes-24c.json` est lu au démarrage et chargé en bloc, en une transaction (environ 3 à 5 s au premier lancement, puis 0,1 à 0,3 s de vérification à chaque démarrage). La garniture accepte désormais 1 000 caractères au lieu de 300.
-- **Risque** : les conditions du site interdisent de bâtir un catalogue concurrent et de republier en masse. Si Shakery devait un jour être diffusé, retirer ces recettes ou obtenir d'abord une autorisation écrite de l'éditeur.
+- **Choix** : les 7 154 recettes d'un export de recettes, dont l'adresse reste hors du dépôt, entrent dans la base de départ, générée au build par `scripts/seed/`. Chaque recette devient une fiche classique comme celles de l'IBA (`final`, `origin = 'classic'`, `source = 'seed'`, `seed_key` `classic.<slug>` depuis D-054), sans crédit ni lien vers le site : l'utilisateur ne veut ni catégorie « Autre » ni ouverture du site. Aucun changement de modèle. Nom d'origine conservé ; doses, méthode et verre repris ; décoration traduite en français ; ingrédients ramenés au référentiel français (ingrédients nouveaux créés dans une feuille de l'arbre), marque gardée en note de ligne. Les recettes qui portent le nom d'un des 102 classiques IBA sont écartées. Aucun appel réseau à l'exécution. Résultat : 7 064 fiches (90 écartées) et 469 ingrédients nouveaux ; le fichier généré `resources/seed/classics.json` est lu au démarrage et chargé en bloc, en une transaction (environ 3 à 5 s au premier lancement, puis 0,1 à 0,3 s de vérification à chaque démarrage). La garniture accepte désormais 1 000 caractères au lieu de 300.
+- **Risque** : ces recettes sont réservées à un usage personnel. Si Shakery devait un jour être diffusé, les retirer ou obtenir d'abord une autorisation écrite.
 - **Validation** : l'utilisateur, le 19 novembre 2026.
 
 ### D-037 Export, partage et Open Food Facts (phase 10)
@@ -324,7 +324,7 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
 ### D-039 Classiques complétés : degrés de référence, familles, étapes types
 
 - **Date** : 2026-11-22
-- **Contexte** : demande de l'utilisateur de compléter les classiques. L'export de 24cocktails ne donne ni étapes ni famille, et 762 des 777 ingrédients de départ n'avaient pas de degré : 2 de ces classiques seulement avaient un degré calculable.
+- **Contexte** : demande de l'utilisateur de compléter les classiques. L'export des classiques supplémentaires ne donne ni étapes ni famille, et 762 des 777 ingrédients de départ n'avaient pas de degré : 2 de ces classiques seulement avaient un degré calculable.
 - **Choix** :
   - Degrés (`scripts/seed/abv.json`) : une valeur de référence par ingrédient générique, chacune rattachée à sa source (règlements européens, Wikidata, Ciqual, fiches de produits) ; 0 pour ce qui est sans alcool par nature. La bouteille choisie prime toujours. Sans source, la valeur reste vide (96 ingrédients). Cela élargit D-030, qui ne gardait que les degrés des produits uniques. Pour une catégorie de spiritueux, la source est souvent le minimum légal : le degré réel d'une bouteille peut être un peu plus haut.
   - Le champ « abv » de l'export n'est pas repris : vérification faite, il est calculé par mots-clés (20 % pour toute liqueur, 0 % pour la Bénédictine).
@@ -459,6 +459,52 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Batch sans fiche (10.13) : ingrédients, doses par verre et place de chacun saisis à la main, imprimable. Ses lignes voyagent dans la route d'impression, validées par `manualBatchSchema`.
 - **Validation** : demande de l'utilisateur du 23 novembre 2026.
 
+### D-051 Mises à jour depuis GitHub, robustesse des saisies
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur veut qu'au lancement une fenêtre annonce une release plus récente publiée sur GitHub et mette Shakery à jour sans le réinstaller. Cela amende la section 13.3 (« pas de mise à jour automatique en version 1 ») et le principe « hors ligne à 100 % » de la section 2. Il a rendu le dépôt public pour que l'application lise les releases sans jeton : `resources/seed/classics.json` (usage personnel, D-036) est donc lisible publiquement, et chaque installeur publié le contient. Il demande aussi des tests de casse et de caractères qui pourraient faire planter l'application.
+- **Choix** :
+  - electron-updater 6.8.12 (MIT, branche de electron-builder 26) lit les releases de `YourHacktivist/Shakery` (`publish` de `electron-builder.yml`). Sa session réseau est la sienne (`electron-updater`), à part de la session durcie de la fenêtre. Il vérifie le SHA-512 de l'installeur donné par `latest.yml` et ne télécharge que les blocs changés quand c'est possible (blockmap). L'installeur tourne en silence (`quitAndInstall(true, true)`), garde le dossier d'installation et rouvre Shakery : ni assistant, ni réinstallation.
+  - Au lancement (2,5 s après la fenêtre), réglage `updates.autoCheck` (activé par défaut, Paramètres > Mises à jour). La fenêtre s'ouvre seule quand une version plus récente existe, une fois l'assistant de premier lancement terminé et aucune autre fenêtre ouverte. « Mettre à jour » télécharge, « Redémarrer maintenant » sauvegarde le carnet (raison `pre-update`) puis installe. Une sauvegarde qui échoue n'installe rien. « Plus tard » : la version s'installe quand Shakery se ferme. « Ignorer cette version » (`updates.skippedVersion`, écrit par le main seul) : plus de fenêtre pour elle, elle reste dans les paramètres.
+  - Le main tient l'état (`services/updates.ts`, testé sans réseau derrière `UpdaterPort`) ; le renderer le lit par `updates.*`. Les notes de version arrivent en HTML de GitHub : converties en texte en un seul passage (une expression régulière était quadratique : 33 s sur 300 000 « < »), jamais rendues comme HTML.
+  - Publication : `.github/workflows/release.yml`. Un tag `vX.Y.Z` égal à la version de `package.json` construit l'installeur Windows et publie la release (installeur, blockmap, `latest.yml`) avec le jeton de la CI. Rien n'est publié depuis le PC.
+  - Une build de développement n'a rien à mettre à jour ; `SHAKERY_FAKE_UPDATE=9.9.9` y simule une release pour les tests et les captures (ignoré par une build packagée).
+  - Robustesse : 38 noms piégés (syntaxe SQL, FTS5 et LIKE, HTML, Markdown, formules, noms de périphériques Windows, emoji composés, arabe et hébreu, caractères invisibles, accents décomposés, 120 caractères) écrits, relus et cherchés en majuscules, minuscules et sans accents (`robustness.test.ts`), 45 recherches faites de syntaxe seule, et un parcours de bout en bout (`tests/e2e/robustness.spec.ts`). Ces tests ont mené à quatre corrections. Les caractères invisibles (espace sans chasse, trait d'union conditionnel, BOM, marques de direction) sont ignorés par `normalizeName` ; une étiquette tapée deux fois dans une autre casse n'est gardée qu'une fois, et les filtres réunissent « Agrumes » et « agrumes » ; un seul `safeFileName`, qui renomme `CON`, `NUL`, `AUX`… et ne coupe plus un emoji ; un écran qui plante est remplacé par un écran de secours et la barre latérale reste utilisable, alors qu'auparavant la page d'erreur anglaise de React Router remplaçait toute l'application.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026 (dépôt rendu public par lui, publication par la CI choisie par lui).
+
+### D-052 Règles d'écriture de l'utilisateur dans l'interface
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur a fourni ses règles d'écriture (aucun tiret cadratin ou demi-cadratin, ni tournure par opposition, formule choc suivie de deux-points, phrase sans verbe pour l'effet, énumération rythmique ou mot creux ; phrases complètes et factuelles ; espace insécable avant : ; ? ! et dans les guillemets) et a relevé une phrase fautive dans la fenêtre de mise à jour.
+- **Choix** :
+  - Typographie : `i18n/typography.ts` passe tout l'arbre `fr` dans `typeset` au chargement, fonctions comprises. Une espace ordinaire avant : ; ? ! ou dans « » devient insécable, y compris autour d'un nom saisi. Les 157 textes concernés sont donc corrigés sans être réécrits un à un.
+  - `i18n/typography.test.tsx` lit les 2 600 textes de l'interface et échoue sur un tiret interdit, un mot creux de la liste, une tournure par opposition, une espace ordinaire avant un signe ou un signe collé à son mot. Les autres tournures ne se détectent pas par un motif : chaque nouveau texte se relit.
+  - Relecture complète des textes de l'interface, phrases réécrites quand elles enfreignaient une règle ; les libellés courts (boutons, champs, titres) ne changent pas, sauf « L'essentiel » devenu « Nom et statut ». Messages d'erreur en phrases complètes.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026.
+
+### D-053 Ni pastille ni chiffre dans un rond
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur trouve que les chiffres dans des ronds et les icônes dans de grosses pastilles orange font « design IA », et que le mode préparation en avait l'air (cartes encadrées, étapes barrées avec une coche verte, doses orange géantes en police fine).
+- **Choix** :
+  - Plus aucune icône dans une pastille : états vides (`EmptyState` sans icône), accueil vide, carte « Ce soir » de Mon bar, panneaux des calculateurs, en-tête des pages du guide, écran de secours (le signe passe à côté du titre). Le logo garde son halo cuivré, imposé par la section 11.
+  - Un chiffre reste un chiffre : étapes d'une fiche et de la fiche imprimée en chiffres cuivrés alignés à droite, ordre d'une collection en chiffres discrets, liste d'achats avec le nombre de fiches débloquées à droite (« +3 »).
+  - Une valeur inconnue s'affiche par un trait dessiné (`components/NoValue.tsx`, avec son texte pour le lecteur d'écran) au lieu du caractère « – », dans les calculateurs, l'atelier, la comparaison et le panneau des calculs.
+  - Mode préparation refait après deux retours (« design IA », puis « diapo pptx ») : il reprend l'identité de l'application, avec sa gravure (scène `prepare`, un verre à mélange taillé, sa cuillère torsadée, une passoire Hawthorne, du citron vert et de la menthe sur un tapis de bar), une largeur maximale et des marges régulières, la petite marque Shakery en haut, et la recette posée sur une fiche au matériau des cartes : en-tête avec la famille, le nom et les repères étiquetés (méthode, verre, glace), puis deux colonnes séparées par un filet. Intertitres en petites capitales cuivrées, doses et noms à la même taille dans une colonne plafonnée, étapes numérotées sans encadré ; une étape faite s'estompe, l'étape en cours ressort avec son numéro cuivré.
+  - Sélection de texte au cuivre du thème (`::selection`), au lieu du bleu du système.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026, rendu à confirmer par lui.
+
+### D-054 Aucune mention de la source des classiques supplémentaires
+
+- **Date** : 2026-11-23
+- **Contexte** : l'utilisateur demande de retirer toute mention de la source des 7 064 classiques supplémentaires (D-036) : « le logiciel est pour moi ».
+- **Choix** :
+  - Aucune mention dans l'interface (la carte « À propos » ne la cite plus), le code, les noms de fichiers ni la documentation. Fichiers renommés : `resources/seed/classics.json`, `scripts/seed/extra-classics.ts`, `extra-classics-fetch.ts`, `classics-map.json`, `classics-ingredients.json`, `classics-garnish-fr.json`, `review/classics-labels.json`.
+  - L'adresse de l'export sort du dépôt : le script de relevé la lit dans `SHAKERY_CLASSICS_EXPORT_URL`. Le cache local et les fichiers déjà construits suffisent à reconstruire la base de départ.
+  - Les clés de départ de ces fiches deviennent `classic.<slug>`. La migration `0003_classic_seed_keys` renomme l'ancien préfixe dans un carnet existant, fiches supprimées comprises, après la sauvegarde d'avant migration : aucune fiche n'est recréée en double. L'import d'une archive plus ancienne lit l'ancien préfixe sous la nouvelle clé. Cet ancien préfixe, opaque, ne reste que dans la migration, l'import et leurs tests.
+  - L'historique Git garde les anciennes mentions. Le réécrire demanderait un push forcé, que l'utilisateur exclut.
+- **Validation** : demande de l'utilisateur du 23 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |
@@ -473,14 +519,15 @@ Versions exactes verrouillées dans `package.json` et `package-lock.json`. La pl
 
 ### Embarquées dans l'application
 
-| Paquet         | Version | Licence    | Rôle et justification                                                                              |
-| -------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------- |
-| react          | 19.3.1  | MIT        | Interface (section 4).                                                                             |
-| react-dom      | 19.3.1  | MIT        | Rendu de React dans le renderer.                                                                   |
-| zod            | 4.6.7   | MIT        | Schémas du contrat IPC, partagés entre main et renderer (sections 4 et 6).                         |
-| electron-log   | 5.4.4   | MIT        | Journal local avec rotation (section 4). Canal IPC retiré, voir D-009.                             |
-| better-sqlite3 | 13.2.0  | MIT        | Base SQLite, accès exclusif depuis le main (section 4). Node-API, sans recompilation : voir D-021. |
-| drizzle-orm    | 0.45.4  | Apache-2.0 | Schéma typé, requêtes paramétrées et migrations au démarrage (sections 4 et 6).                    |
+| Paquet           | Version | Licence    | Rôle et justification                                                                                                                                                                  |
+| ---------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| react            | 19.3.1  | MIT        | Interface (section 4).                                                                                                                                                                 |
+| react-dom        | 19.3.1  | MIT        | Rendu de React dans le renderer.                                                                                                                                                       |
+| zod              | 4.6.7   | MIT        | Schémas du contrat IPC, partagés entre main et renderer (sections 4 et 6).                                                                                                             |
+| electron-log     | 5.4.4   | MIT        | Journal local avec rotation (section 4). Canal IPC retiré, voir D-009.                                                                                                                 |
+| better-sqlite3   | 13.2.0  | MIT        | Base SQLite, accès exclusif depuis le main (section 4). Node-API, sans recompilation : voir D-021.                                                                                     |
+| drizzle-orm      | 0.45.4  | Apache-2.0 | Schéma typé, requêtes paramétrées et migrations au démarrage (sections 4 et 6).                                                                                                        |
+| electron-updater | 6.8.12  | MIT        | Mises à jour depuis les releases GitHub (D-051). Dépendances MIT : builder-util-runtime, semver, js-yaml, fs-extra, lazy-val, lodash.isequal, lodash.escaperegexp, tiny-typed-emitter. |
 
 ### Outillage de développement
 

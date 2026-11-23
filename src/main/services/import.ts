@@ -104,6 +104,17 @@ const dataSchema = z
   })
   .strict()
 
+/** Seed key of the extra classics before D-054, still found in older archives. */
+const FORMER_CLASSIC_PREFIX = 'c24.'
+
+/** A recipe of an older archive keeps matching its classic here (migration 0003). */
+function currentSeedKey(row: Row): Row {
+  const key = row['seed_key']
+  return typeof key === 'string' && key.startsWith(FORMER_CLASSIC_PREFIX)
+    ? { ...row, seed_key: `classic.${key.slice(FORMER_CLASSIC_PREFIX.length)}` }
+    : row
+}
+
 /** Full validation of data.json, before any write. */
 export function validateImportData(raw: unknown): ImportData {
   const parsed = dataSchema.safeParse(raw)
@@ -115,7 +126,7 @@ export function validateImportData(raw: unknown): ImportData {
     rows.forEach((row, index) => {
       checkRow(info, row, `${name}[${String(index)}]`)
     })
-    tables.set(name, rows)
+    tables.set(name, name === 'recipes' ? rows.map(currentSeedKey) : rows)
   }
   return { tables }
 }

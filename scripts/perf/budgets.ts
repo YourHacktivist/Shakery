@@ -78,7 +78,7 @@ async function main(): Promise<void> {
     const db = createDb(sqlite)
     const clock = Date.now()
     const ids = systemIds()
-    // Seed of the first launch (about 7 000 recipes of 24cocktails, D-036), then the check made
+    // Seed of the first launch (about 7 000 classics, D-036), then the check made
     // at every later launch, which must stay well inside the 3 s start-up budget.
     const seedStart = performance.now()
     const seed = withClassics(BUNDLED_SEED, path.resolve(__dirname, '../../resources/seed', CLASSICS_FILE))

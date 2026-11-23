@@ -1,13 +1,14 @@
 /**
- * Fetches the 24cocktails.com export (D-036) into the cache, then writes
- * review/24c-labels.json: every distinct ingredient label with its count and examples, the unit
+ * Fetches the export of the extra classics (D-036) into the cache, then writes
+ * review/classics-labels.json: every distinct ingredient label with its count and examples, the unit
  * words, the extra texts, the glasses, the methods and the garnish texts, for the hand mapping
- * of 24c-map.json and 24c-garnish-fr.json.
+ * of classics-map.json and classics-garnish-fr.json.
  *
- * Usage: npx tsx scripts/seed/cocktails24-fetch.ts [--refresh]
+ * Usage: npx tsx scripts/seed/extra-classics-fetch.ts [--refresh], with the address of the export in
+ * SHAKERY_CLASSICS_EXPORT_URL (it is not kept in the repository).
  */
 import path from 'node:path'
-import { EXPORT_CACHE, EXPORT_URL, parseLine, readExport } from './cocktails24'
+import { EXPORT_CACHE, EXPORT_URL, parseLine, readExport } from './extra-classics'
 import { fetchCached, REVIEW_DIR, sha256, writeJson } from './lib'
 
 type LabelStat = { label: string; count: number; withoutQuantity: number; examples: string[] }
@@ -21,6 +22,7 @@ function sorted(counter: Map<string, number>): Record<string, number> {
 }
 
 async function main(): Promise<void> {
+  if (EXPORT_URL === '') throw new Error('Set SHAKERY_CLASSICS_EXPORT_URL to the address of the export')
   const body = await fetchCached(
     EXPORT_URL,
     EXPORT_CACHE,
@@ -50,8 +52,7 @@ async function main(): Promise<void> {
     }
   }
   const list = [...labels.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
-  await writeJson(path.join(REVIEW_DIR, '24c-labels.json'), {
-    source: EXPORT_URL,
+  await writeJson(path.join(REVIEW_DIR, 'classics-labels.json'), {
     sha256: sha256(body),
     recipes: raw.length,
     lines: raw.reduce((sum, cocktail) => sum + cocktail.ingredients.length, 0),

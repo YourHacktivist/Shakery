@@ -2,7 +2,6 @@ import type { RecipeStatus } from '@renderer/components/StatusBadge'
 import type { AllergenCode } from '@shared/domain/allergens'
 
 const NBSP = String.fromCharCode(0xa0)
-const EN_DASH = String.fromCharCode(0x2013)
 
 /** « 24,6 % »: the value and its unit joined by a no-break space. */
 function withUnit(value: string, unit?: string): string {
@@ -32,7 +31,7 @@ export const componentsDisplay = {
     emptySeries: (label: string) => `${label} : pas encore de valeur`,
   },
   gauge: {
-    range: (from: string, to: string, unit?: string) => withUnit(`${from}${EN_DASH}${to}`, unit),
+    range: (from: string, to: string, unit?: string) => withUnit(`${from} à ${to}`, unit),
     scaleZone: (range: string) => `zone ${range}`,
     describe: (
       label: string,

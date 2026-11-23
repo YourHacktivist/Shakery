@@ -8,9 +8,10 @@ export const BACKUP_REASON_VALUES = [
   'pre-restore',
   'pre-purge',
   'pre-reset',
+  'pre-update',
 ] as const
 export const BACKUP_ID_PATTERN =
-  /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore|pre-purge|pre-reset)$/
+  /^\d{8}T\d{9}Z_(daily|shutdown|manual|pre-migration|pre-restore|pre-purge|pre-reset|pre-update)$/
 
 export const backupSummarySchema = z
   .object({

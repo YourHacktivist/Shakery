@@ -1,5 +1,6 @@
 /** Tasting journal and notebook (sections 10.6 and 10.7): schemas shared by main and renderer. */
 import { z } from 'zod'
+import { uniqueTags } from '../../core/normalize'
 import { storedPhotoPathSchema } from './photos'
 
 const id = z.string().min(1).max(36)
@@ -72,7 +73,7 @@ export const notebookInputSchema = z
   .object({
     title: z.string().trim().min(1).max(200),
     body: z.string().max(20_000).default(''),
-    tags: z.array(z.string().trim().min(1).max(40)).max(30).default([]),
+    tags: z.array(z.string().trim().min(1).max(40)).max(30).transform(uniqueTags).default([]),
     isPinned: z.boolean().default(false),
     links: z.array(notebookLinkSchema).max(100).default([]),
   })

@@ -264,17 +264,13 @@
   counter-increment: step;
 }
 
+/* The number of a step as a copper figure, right-aligned: no disc around it (D-053). */
 .sheet-steps li::before {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.7em;
-  border-radius: 50%;
-  background: var(--copper);
-  color: #fff6ee;
+  color: var(--copper);
   content: counter(step);
+  font-variant-numeric: tabular-nums;
   font-weight: 700;
-  line-height: 1;
+  text-align: right;
 }
 
 .sheet-garnish {

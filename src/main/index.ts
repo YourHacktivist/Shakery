@@ -20,6 +20,9 @@ import { hardenAllWebContents, hardenSession } from './security'
 import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './seed/bundled'
 import { loadSeedData } from './seed/load'
 import { settleOnboarding } from './services/onboarding'
+import { electronUpdaterPort, fakeUpdaterPort } from './services/updater-electron'
+import { UpdateService, type UpdaterPort } from './services/updates'
+import { VERSION_PATTERN } from '../shared/domain/updates'
 import { applyWindowTheme, createMainWindow } from './window'
 
 // The data folder must be fixed before the single instance lock, which is tied to it.
@@ -55,6 +58,35 @@ if (!app.requestSingleInstanceLock()) {
 
   let mainWindow: BrowserWindow | null = null
 
+  const settingsRepository = () => new SqliteSettingsRepository(database.db, systemIds().now)
+  const settingsReady = () => database.status === 'ready'
+
+  /** Set once the pre-update backup is made: the quit handler then only closes the database. */
+  let installingUpdate = false
+
+  // A packaged build reads the GitHub releases; a development build can fake one (D-051).
+  const fakeUpdate = process.env['SHAKERY_FAKE_UPDATE']
+  const updaterPort: UpdaterPort | null = app.isPackaged
+    ? electronUpdaterPort(log)
+    : fakeUpdate && VERSION_PATTERN.test(fakeUpdate)
+      ? fakeUpdaterPort(fakeUpdate, log)
+      : null
+  const updates = new UpdateService({
+    port: updaterPort,
+    current: app.getVersion(),
+    now: () => Date.now(),
+    autoCheck: () => settingsReady() && settingsRepository().get('updates.autoCheck'),
+    skippedVersion: () => (settingsReady() ? settingsRepository().get('updates.skippedVersion') : null),
+    setSkippedVersion: (version) => {
+      if (settingsReady()) settingsRepository().set('updates.skippedVersion', version)
+    },
+    backup: () => database.backup('pre-update'),
+    beforeInstall: () => {
+      installingUpdate = true
+    },
+    log,
+  })
+
   const savedTheme = () =>
     database.status === 'ready'
       ? new SqliteSettingsRepository(database.db, systemIds().now).get('appearance.theme')
@@ -86,7 +118,8 @@ if (!app.requestSingleInstanceLock()) {
   app.on('before-quit', (event) => {
     if (shuttingDown) return
     shuttingDown = true
-    if (database.status !== 'ready') {
+    // Backed up just before: the silent installer is waiting for Shakery to close.
+    if (database.status !== 'ready' || installingUpdate) {
       database.close()
       return
     }
@@ -112,6 +145,7 @@ if (!app.requestSingleInstanceLock()) {
         target,
         createHandlers({
           manager: database,
+          updates,
           onRestored: () => {
             setImmediate(() => {
               // The restored notebook brings its own settings, theme included.
@@ -124,6 +158,10 @@ if (!app.requestSingleInstanceLock()) {
       openMainWindow()
       // Daily backup once the window is up, so it never delays startup.
       database.backupIfDue().catch(() => undefined)
+      // Then the releases on GitHub, a little later and only when the setting allows it.
+      setTimeout(() => {
+        void updates.checkOnLaunch()
+      }, 2500)
     })
     .catch((error: unknown) => {
       log.error('Startup failed', error)

@@ -34,6 +34,10 @@ Les DMG macOS (arm64 et x64) se construiraient avec `npm run dist:mac`, sur un M
 
 Au premier lancement, le chargement des classiques prend quelques secondes, une seule fois.
 
+## Publier une version
+
+Shakery installé regarde au lancement les releases de ce dépôt et propose la plus récente dans une fenêtre ; la mise à jour s'installe sans assistant et Shakery redémarre. La marche à suivre complète est dans [docs/PUBLIER.md](docs/PUBLIER.md) : `npm version X.Y.Z`, puis `git push origin main --follow-tags`, et la CI construit et publie la release.
+
 ## Développer
 
 Il faut Node.js 22.12 ou plus récent (testé avec Node 24).
@@ -75,6 +79,6 @@ Documentation : [cahier des charges](docs/SPEC.md), [architecture](docs/ARCHITEC
 
 ## Données et confidentialité
 
-Le carnet est un fichier SQLite dans le dossier de données de l'application, sauvegardé chaque jour. Une seule fonction utilise Internet, la recherche d'une bouteille par code-barres, et elle se coupe dans les paramètres.
+Le carnet est un fichier SQLite dans le dossier de données de l'application, sauvegardé chaque jour. Deux fonctions utilisent Internet, la recherche d'une bouteille par code-barres et la recherche des mises à jour au lancement ; chacune se coupe dans les paramètres.
 
-Les formules des classiques viennent de l'IBA et de 24cocktails.com. Ces dernières sont réservées à un usage personnel : ce dépôt doit rester privé tant qu'il contient `resources/seed/recipes-24c.json`.
+Les classiques sont réservés à un usage personnel. Le dépôt a été rendu public le 23 novembre 2026 pour les mises à jour : `resources/seed/classics.json` et les installeurs publiés les rendent lisibles par tous (D-051).

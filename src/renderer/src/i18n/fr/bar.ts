@@ -40,7 +40,8 @@ export const bar = {
     delete: 'Supprimer',
     category: 'Catégorie',
     abv: 'Degré de référence',
-    abvHint: 'Valeur type de cet ingrédient. Le degré de la bouteille choisie sur une fiche passe avant.',
+    abvHint:
+      'C’est la valeur type de cet ingrédient. Le degré de la bouteille choisie sur une fiche passe avant.',
     sugar: 'Sucre',
     acid: 'Acidité',
     perLitre: 'g/L',
@@ -50,8 +51,8 @@ export const bar = {
     source: (source: string, confidence: string | null) =>
       confidence ? `Source${colon} ${source}, ${confidence}` : `Source${colon} ${source}`,
     compositionMissing:
-      'Composition incomplète. Renseigne le sucre et l’acidité pour que les calculs des fiches soient complets.',
-    abvMissing: 'Degré inconnu. Renseigne-le pour estimer le degré des fiches.',
+      'La composition est incomplète. Renseigne le sucre et l’acidité pour que les calculs des fiches soient complets.',
+    abvMissing: 'Le degré est inconnu. Renseigne-le pour estimer le degré des fiches.',
     allergens: 'Allergènes',
     noAllergen: 'Aucun allergène déclaré.',
     flavors: 'Profil aromatique',
@@ -86,7 +87,7 @@ export const bar = {
     sugar: 'Sucre',
     acid: 'Acidité',
     density: 'Masse volumique',
-    densityHint: 'Pour compter une dose en grammes : 1,59 pour le sucre dissous.',
+    densityHint: 'Elle sert à compter une dose en grammes, par exemple 1,59 pour le sucre dissous.',
     source: 'Source de la composition',
     confidence: 'Confiance',
     allergens: 'Allergènes',
@@ -190,7 +191,7 @@ export const bar = {
     description: 'L’ingrédient et ses alias disparaissent de Mon bar.',
     used: (count: number) =>
       `Il est utilisé par ${count} ${plural(count, 'fiche', 'fiches')}. Fusionne-le avec un autre ingrédient plutôt que de le supprimer.`,
-    refused: `Suppression refusée${colon} cet ingrédient est encore utilisé. Fusionne-le avec un autre ingrédient plutôt que de le supprimer.`,
+    refused: `La suppression est refusée, car cet ingrédient est encore utilisé. Fusionne-le avec un autre ingrédient plutôt que de le supprimer.`,
     confirm: 'Supprimer',
     cancel: 'Annuler',
     done: (name: string) => `Ingrédient ${quote(name)} supprimé.`,

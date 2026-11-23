@@ -5,6 +5,7 @@
 import { and, isNull } from 'drizzle-orm'
 import { recipeAllergens } from '../../core/allergens'
 import type { LineInput } from '../../core/model'
+import { normalizeName, uniqueTags } from '../../core/normalize'
 import { lineVolumeMl } from '../../core/units'
 import { NO_SPIRIT, type RecipeFacets } from '../../shared/domain/facets'
 import type { Db } from '../db/client'
@@ -81,6 +82,16 @@ export function recipeFacets(db: Db): RecipeFacets[] {
     .where(isNull(recipes.deletedAt))
     .all()
 
+  // One spelling per tag across the notebook, the first met: « Agrumes » and « agrumes »
+  // are one filter, which keeps the recipes of both.
+  const spelling = new Map<string, string>()
+  for (const row of rows) {
+    for (const tag of row.tags) {
+      const key = normalizeName(tag)
+      if (key !== '' && !spelling.has(key)) spelling.set(key, tag.trim())
+    }
+  }
+
   return rows.map((row) => {
     const recipe = notebook.recipes.get(row.id)
     const lines: readonly LineInput[] = recipe?.lines ?? []
@@ -111,7 +122,7 @@ export function recipeFacets(db: Db): RecipeFacets[] {
       id: row.id,
       glassId: row.glassId,
       spirit,
-      tags: row.tags.slice(0, 30),
+      tags: uniqueTags(row.tags.map((tag) => spelling.get(normalizeName(tag)) ?? tag)).slice(0, 30),
       flavors: [...flavors],
       allergens: allergens ? [...allergens.required, ...allergens.optional] : [],
       allergensUnknown: allergens === null || allergens.unresolvedLineIds.length > 0,

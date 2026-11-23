@@ -12,6 +12,7 @@ import {
 import { AppearanceSync } from '@renderer/app/AppearanceSync'
 import { KIT_PATH } from '@renderer/app/navigation'
 import { QuickIdeaDialog } from '@renderer/app/QuickIdeaDialog'
+import { AppError, ScreenError } from '@renderer/app/RouteError'
 import { ShortcutsDialog } from '@renderer/app/ShortcutsDialog'
 import { SceneBackdrop, sceneOf, type SceneId } from '@renderer/app/scenes'
 import { Sidebar } from '@renderer/app/Sidebar'
@@ -37,6 +38,7 @@ import { PrepsPage } from '@renderer/features/preps/PrepsPage'
 import { PrepModePage } from '@renderer/features/prepare/PrepModePage'
 import { RecipeDetailPage } from '@renderer/features/recipes/RecipeDetailPage'
 import { PrintRecipeDialog } from '@renderer/features/recipes/PrintRecipeDialog'
+import { UpdateHost } from '@renderer/features/updates/UpdateDialog'
 import { RecipeEditorPage } from '@renderer/features/recipes/RecipeEditorPage'
 import { RecipesPage } from '@renderer/features/recipes/RecipesPage'
 import { SettingsPage } from '@renderer/features/settings/SettingsPage'
@@ -79,12 +81,19 @@ export function App() {
   // The preparation mode is outside the shell: full screen, no sidebar (section 10.12).
   const [router] = useState(() =>
     createHashRouter([
-      { path: '/prepare/:id', element: <PrepModePage /> },
-      { path: '/print/collection/:id', element: <CollectionPrint /> },
-      { path: '/print/recipe/:id', element: <RecipePrint /> },
-      { path: '/print/batch/:id', element: <BatchPrint /> },
-      { path: '/print/label/:id/:batchId', element: <LabelPrint /> },
-      { element: <Shell />, children: SCREENS },
+      {
+        // A failure anywhere shows a way back instead of an empty window.
+        errorElement: <AppError />,
+        children: [
+          { path: '/prepare/:id', element: <PrepModePage /> },
+          { path: '/print/collection/:id', element: <CollectionPrint /> },
+          { path: '/print/recipe/:id', element: <RecipePrint /> },
+          { path: '/print/batch/:id', element: <BatchPrint /> },
+          { path: '/print/label/:id/:batchId', element: <LabelPrint /> },
+          // A screen that fails keeps the shell around it.
+          { element: <Shell />, children: [{ errorElement: <ScreenError />, children: SCREENS }] },
+        ],
+      },
     ]),
   )
   return (
@@ -150,6 +159,7 @@ function Shell() {
       />
       <PrintRecipeDialog recipeId={overlay === 'print' ? shownRecipe : null} onClose={closeOverlay} />
       <HelpDialog />
+      <UpdateHost />
       <Toaster />
     </div>
   )

@@ -37,7 +37,7 @@ describe('CalculatorsPage', () => {
     await user.click(screen.getByRole('radio', { name: t.tabs.abv }))
     await user.clear(screen.getByRole('spinbutton', { name: `${t.abv.lineAbv} 2` }))
     // Counted as 0 %, the 30 ml would have given 15,3 % served.
-    expect(figure(t.abv.after)).toContain('–')
+    expect(figure(t.abv.after)).toContain(fr.components.display.stat.empty)
     expect(figure(t.abv.served)).toContain('108')
   })
 
