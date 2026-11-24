@@ -1,8 +1,8 @@
 name: Release
 
-# A tag v1.2.3 builds the Windows setup and the portable executable and publishes them as a GitHub
+# A tag v1.2.3 builds the Windows setup and the portable archive and publishes them as a GitHub
 # release, with the blockmap and latest.yml that the installed Shakery reads to update itself
-# (D-051, D-055).
+# (D-051, D-056).
 on:
   push:
     tags: ['v*.*.*']
@@ -69,12 +69,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # The portable version: the same folder, zipped with its « Shakery Data » folder (D-056).
+      - name: Portable archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx tsx scripts/release/portable-zip.ts
+          gh release upload "$GITHUB_REF_NAME" "dist/Shakery-${GITHUB_REF_NAME#v}-portable.zip"
+
       - name: Publish the release
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in latest.yml "Shakery-${GITHUB_REF_NAME#v}-setup.exe" "Shakery-${GITHUB_REF_NAME#v}-setup.exe.blockmap" "Shakery-${GITHUB_REF_NAME#v}-portable.exe"; do
+          for file in latest.yml "Shakery-${GITHUB_REF_NAME#v}-setup.exe" "Shakery-${GITHUB_REF_NAME#v}-setup.exe.blockmap" "Shakery-${GITHUB_REF_NAME#v}-portable.zip"; do
             gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name' | grep -qxF "$file" || { echo "Missing $file" >&2; exit 1; }
           done
           gh release edit "$GITHUB_REF_NAME" --draft=false --latest

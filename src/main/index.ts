@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { app, BrowserWindow, Menu, session } from 'electron'
 import { systemIds } from './db/client'
@@ -21,6 +22,7 @@ import { hardenAllWebContents, hardenSession, openExternalSafely } from './secur
 import { BUNDLED_SEED, CLASSICS_FILE, withClassics } from './seed/bundled'
 import { loadSeedData } from './seed/load'
 import { settleOnboarding } from './services/onboarding'
+import { closeSplashWith, showSplash } from './splash'
 import { electronUpdaterPort, fakeUpdaterPort } from './services/updater-electron'
 import { UpdateService, type UpdaterPort } from './services/updates'
 import { VERSION_PATTERN } from '../shared/domain/updates'
@@ -144,6 +146,8 @@ if (!app.requestSingleInstanceLock()) {
       log.info(`Shakery ${app.getVersion()} starting (Electron ${process.versions.electron})`)
       Menu.setApplicationMenu(null)
       hardenSession(session.defaultSession, devServerUrl())
+      // Something on screen at once: the notebook opens behind, the classics load on the first launch.
+      const splash = showSplash(!existsSync(databaseFile()))
       await handleMediaProtocol(mediaRoot())
       await database.open()
       registerIpcHandlers(
@@ -161,6 +165,7 @@ if (!app.requestSingleInstanceLock()) {
         }),
       )
       openMainWindow()
+      if (mainWindow) closeSplashWith(splash, mainWindow)
       // Daily backup once the window is up, so it never delays startup.
       database.backupIfDue().catch(() => undefined)
       // Then the releases on GitHub, a little later and only when the setting allows it.

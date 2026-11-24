@@ -13,6 +13,11 @@ export const shell = {
   },
   version: (version: string) => `Version ${version}`,
   versionUnknown: 'Version inconnue',
+  /** Start-up window, while the notebook opens (D-056). */
+  splash: {
+    opening: 'Ouverture de ton carnet…',
+    firstLaunch: `Shakery prépare ses 7${NBSP}000 classiques. Ce premier lancement prend quelques secondes, une seule fois.`,
+  },
   /** What replaces a screen that failed, instead of an empty window. */
   crash: {
     title: 'Cet écran a rencontré un problème',
@@ -34,7 +39,7 @@ export const shell = {
     update: 'Mettre à jour',
     downloadPortable: 'Télécharger la version portable',
     portableNote:
-      'Cette copie portable ne s’installe pas. Télécharge le fichier portable de la nouvelle version et range-le à la place de l’ancien, dans le même dossier : il retrouvera ton carnet dans le dossier Shakery Data.',
+      'Cette copie portable ne s’installe pas. Télécharge l’archive portable de la nouvelle version et décompresse-la au même endroit, en remplaçant les fichiers : ton carnet, dans le dossier Shakery Data, reste en place.',
     later: 'Plus tard',
     skip: 'Ignorer cette version',
     downloadingTitle: (version: string) => `Téléchargement de Shakery ${version}`,

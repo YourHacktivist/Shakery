@@ -1,8 +1,17 @@
-import { expect, test } from '@playwright/test'
+import { _electron as electron, expect, test, type Page } from '@playwright/test'
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
+import { rm } from 'node:fs/promises'
 import { join } from 'node:path'
-import { APP_VERSION, closeApp, electronBinary, launchApp, projectRoot, testEnv } from './helpers'
+import {
+  APP_VERSION,
+  closeApp,
+  createUserDataDir,
+  electronBinary,
+  launchApp,
+  projectRoot,
+  testEnv,
+} from './helpers'
 
 test('the app starts, shows its version and writes a log file', async () => {
   const launched = await launchApp()
@@ -42,5 +51,27 @@ test('a second instance on the same data exits and leaves the first one alone', 
     expect(launched.app.windows()).toHaveLength(1)
   } finally {
     await closeApp(launched)
+  }
+})
+
+test('a start-up window shows at once, says what happens, then gives way to the main window', async () => {
+  const dir = await createUserDataDir()
+  const env = { ...testEnv(dir) }
+  delete env['SHAKERY_NO_SPLASH']
+  const app = await electron.launch({ args: [projectRoot], env })
+  try {
+    const splash = await app.firstWindow()
+    await expect(splash.locator('h1')).toHaveText('Shakery')
+    // A new notebook: the classics load, and the window says it.
+    await expect(splash.getByRole('status')).toContainText('premier lancement')
+    const isMain = (page: Page) => page.url().includes('index.html')
+    await expect.poll(() => app.windows().some(isMain), { timeout: 30_000 }).toBe(true)
+    const main = app.windows().find(isMain)
+    if (!main) throw new Error('No main window')
+    await expect(main.getByTestId('app-version')).toBeVisible()
+    await expect.poll(() => app.windows().filter((page) => page.url().includes('splash.html')).length).toBe(0)
+  } finally {
+    await app.close()
+    await rm(dir, { recursive: true, force: true })
   }
 })

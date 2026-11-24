@@ -32,7 +32,9 @@ Le 23 novembre (suite), D-051 et D-052 :
 - Robustesse : `db/repositories/robustness.test.ts` (38 noms piégés, 45 recherches), `tests/e2e/robustness.spec.ts`, `services/file-name.ts` (un seul `safeFileName`), `uniqueTags` et caractères invisibles dans `core/normalize.ts`, écran de secours `app/RouteError.tsx` (un écran qui plante garde la coquille).
 - Textes : `i18n/typography.ts` (espaces insécables appliquées à tout `fr`), `i18n/typography.test.tsx` (tirets, mots creux, oppositions, signes mal espacés), relecture complète des textes de l'interface.
 
-Versions portables (D-055) : chaque release porte aussi `Shakery-X.Y.Z-portable.exe`, qui garde ses données dans `Shakery Data` à côté de lui et ne s'installe pas ; sa fenêtre de mise à jour ouvre la page de la release. En développement, `SHAKERY_FAKE_PORTABLE=1` montre ce mode.
+Versions portables (D-055, D-056) : chaque release porte aussi `Shakery-X.Y.Z-portable.zip` (`scripts/release/portable-zip.ts`), le dossier de l'application avec un dossier `Shakery Data` à côté de `Shakery.exe`. Ce dossier met Shakery en mode portable (`portableDirectory` de `paths.ts`) : données à côté, fenêtre de mise à jour qui ouvre la page de la release. La 0.2.2 avait un exécutable portable qui se décompressait à chaque lancement (10 à 20 s) : abandonné. En développement, `SHAKERY_FAKE_PORTABLE=1` montre ce mode.
+
+Écran de démarrage (D-056) : `src/main/splash.ts` et `src/renderer/splash.html`, montré dès qu'Electron est prêt, fermé quand la fenêtre principale apparaît. Les tests de bout en bout le désactivent par `SHAKERY_NO_SPLASH=1` (posé par `testEnv`), sauf celui de `app.spec.ts` qui le vérifie.
 
 Release : la v0.2.2 est la version en cours, publiée le 23 novembre 2026 avec l'installeur et la version portable (la v0.2.1, publiée juste avant, n'a que l'installeur). L'utilisateur installe une fois à la main la première version qui a la mise à jour automatique, par-dessus la 0.1.0. La v0.2.0, publiée juste avant, était partagée entre deux releases (course entre les envois d'electron-builder) : `release.yml` crée désormais le brouillon avant les envois et ne publie qu'une release complète. Les deux releases v0.2.0 restent à supprimer sur GitHub (seul l'utilisateur peut le faire, sans jeton ici). La CI de `main` échouait sur `tests/e2e/alignment.spec.ts` (fenêtre du runner pas encore à la largeur demandée) : le test impose maintenant la largeur de la page.
 
@@ -77,7 +79,7 @@ Principes : section 11 de la spec, puis D-032 (interface vivante, accent cuivré
 - Base : une colonne ou une table se discute d'abord avec l'utilisateur (modèle de données), puis migration (`docs/ARCHITECTURE.md`, « Couche de données »).
 - Textes : tout libellé français dans `src/renderer/src/i18n/fr/`, en tutoyant l'utilisateur.
 - Aide : chaque nouveau libellé s'explique dans `i18n/fr/help/`, dans le sujet de l'écran où il apparaît, sinon `help.test.tsx` échoue et nomme la clé. Un nouvel écran ajoute sa scène dans `app/scenes.tsx` et son sujet dans `i18n/fr/help/index.ts` (sans sujet, `app/help.ts` ne compile pas), sa page de guide si besoin, et sa route dans `tests/e2e/alignment.spec.ts`.
-- Décision : une entrée dans `docs/DECISIONS.md` (prochaine : D-056), et cette passation à jour.
+- Décision : une entrée dans `docs/DECISIONS.md` (prochaine : D-057), et cette passation à jour.
 - Texte : relire chaque nouveau libellé et chaque phrase contre les règles d'écriture (D-052) ; `typography.test.tsx` n'attrape que ce qu'un motif peut voir.
 - Tests : unitaire pour le calcul ou le dépôt, e2e pour le parcours, puis `npm run check` et `npm run test:e2e`.
 - Envoi : commit en anglais sans ligne `Co-Authored-By`, puis `git push origin main` avec le compte de l'utilisateur. Installeur : voir « Phase 11 livrée pour Windows ».

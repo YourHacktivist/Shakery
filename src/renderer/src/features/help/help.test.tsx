@@ -68,6 +68,8 @@ const SAYS_ITSELF: readonly RegExp[] = [
   // Where the updates stand, and what the update window says while it works (D-051).
   /^settings\.updates\.status\./,
   /^shell\.crash\.text$/,
+  // What the start-up window says while the notebook opens.
+  /^shell\.splash\./,
   /^shell\.update\.(noNotes|safeNote|downloadingNote|readyNote|restarting|errorTitle|errors\.\w+)$/,
   // A message once something happened, an error, or the wait.
   /\.(saved|created|deleted|done|copied|exported|sent|added|removed|finished|discarded|emptied|csvDone|ideaCreated|favoriteAdded|favoriteRemoved|lookupApplied)$/,

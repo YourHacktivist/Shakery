@@ -32,6 +32,8 @@ export function testEnv(userDataDir: string): Record<string, string> {
   env['SHAKERY_USER_DATA_DIR'] = userDataDir
   // The first-launch assistant has its own test (onboarding.spec.ts).
   env['SHAKERY_SKIP_ONBOARDING'] = '1'
+  // The start-up window has its own test (app.spec.ts): here the first window is the main one.
+  env['SHAKERY_NO_SPLASH'] = '1'
   return env
 }
 

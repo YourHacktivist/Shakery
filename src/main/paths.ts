@@ -1,5 +1,6 @@
 import { app } from 'electron'
-import { join } from 'node:path'
+import { existsSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { RendererTarget } from './security-policy'
 
@@ -7,12 +8,16 @@ import type { RendererTarget } from './security-policy'
 export const PORTABLE_DATA_FOLDER = 'Shakery Data'
 
 /**
- * Folder the portable executable was started from (electron-builder `portable` target), null
- * for an installed or a development build.
+ * Folder of a portable copy, null for an installed or a development build (D-056). The portable
+ * archive puts a « Shakery Data » folder beside Shakery.exe; the self-extracting executable of
+ * 0.2.2 gave its own folder through PORTABLE_EXECUTABLE_DIR.
  */
 export function portableDirectory(): string | null {
-  const dir = process.env['PORTABLE_EXECUTABLE_DIR']
-  return app.isPackaged && dir ? dir : null
+  if (!app.isPackaged) return null
+  const launcher = process.env['PORTABLE_EXECUTABLE_DIR']
+  if (launcher) return launcher
+  const beside = dirname(process.execPath)
+  return existsSync(join(beside, PORTABLE_DATA_FOLDER)) ? beside : null
 }
 
 /**
@@ -38,6 +43,11 @@ export function devServerUrl(): string | null {
 
 export function rendererIndexFile(): string {
   return join(__dirname, '../renderer/index.html')
+}
+
+/** Start-up window (D-056), built beside the interface. */
+export function splashFile(): string {
+  return join(__dirname, '../renderer/splash.html')
 }
 
 export function preloadFile(): string {

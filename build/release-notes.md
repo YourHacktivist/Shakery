@@ -8,4 +8,6 @@ Les noms avec accents, majuscules, emoji ou caractères invisibles sont retrouv�
 
 Un écran qui rencontre un problème affiche un écran de secours ; le reste de Shakery reste utilisable.
 
-Chaque version existe aussi en version portable, qui ne s'installe pas et garde son carnet dans un dossier Shakery Data à côté d'elle.
+Un écran de démarrage s'affiche tout de suite, le temps d'ouvrir le carnet. Au premier lancement, il prévient que Shakery prépare ses 7 000 classiques, ce qui prend quelques secondes une seule fois.
+
+La version portable devient une archive zip : décompressée une fois, elle démarre aussi vite que la version installée, au lieu de se décompresser à chaque lancement. Son carnet reste dans le dossier Shakery Data, à côté de Shakery.exe.

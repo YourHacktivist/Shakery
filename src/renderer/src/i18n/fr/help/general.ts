@@ -276,7 +276,7 @@ export const general = topic(
     ),
     item(
       update.downloadPortable,
-      'Sur une copie portable, ouvre la page de la version sur GitHub, où se trouve son fichier portable.',
+      'Sur une copie portable, ouvre la page de la version sur GitHub, où se trouve son archive portable.',
     ),
     item(update.later, 'Ferme la fenêtre. Elle revient au prochain lancement.'),
     item(

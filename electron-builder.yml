@@ -30,12 +30,10 @@ electronFuses:
 
 win:
   icon: build/icon.ico
-  # The setup, which updates itself, and a portable executable that installs nothing and keeps
-  # its notebook in « Shakery Data » beside it (D-055).
+  # The setup, which updates itself. The portable version is the same folder, zipped with a
+  # « Shakery Data » folder beside Shakery.exe by scripts/release/portable-zip.ts (D-056).
   target:
     - target: nsis
-      arch: [x64]
-    - target: portable
       arch: [x64]
   # Code signing is prepared but not enabled: the decision belongs to the user (section 13.3).
 
@@ -46,9 +44,6 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   artifactName: ${productName}-${version}-setup.${ext}
-
-portable:
-  artifactName: ${productName}-${version}-portable.${ext}
 
 mac:
   icon: build/icon.icns

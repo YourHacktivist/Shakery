@@ -516,6 +516,16 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Vérifié en lançant l'application packagée comme le fait le lanceur portable : données créées à côté, `%APPDATA%\Shakery` intact, recherche de mise à jour faite sur GitHub.
 - **Validation** : demande de l'utilisateur du 23 novembre 2026.
 
+### D-056 Écran de démarrage et version portable en archive
+
+- **Date** : 2026-11-24
+- **Contexte** : l'utilisateur voit Shakery mettre environ 15 secondes à s'ouvrir, sans rien à l'écran. Mesuré : l'exécutable portable de la 0.2.2 décompresse 330 Mo à chaque lancement (10 à 20 s selon l'antivirus, une archive zip n'y change presque rien), puis le premier lancement charge les classiques (2 à 5 s) avant d'ouvrir la fenêtre.
+- **Choix** :
+  - Écran de démarrage (`src/main/splash.ts`, `src/renderer/splash.html`) : fenêtre sans cadre de 420 × 300, montrée dès qu'Electron est prêt, avant l'ouverture du carnet, fermée quand la fenêtre principale apparaît. Logo sur son halo, nom, message (« Ouverture de ton carnet… », ou au premier lancement l'annonce des 7 000 classiques à préparer), fine ligne cuivrée qui défile, immobile si l'animation réduite est demandée. Sans preload ni accès à l'application.
+  - La version portable devient une archive zip (`scripts/release/portable-zip.ts`) : le dossier de l'application et un dossier `Shakery Data` à côté de `Shakery.exe`, avec un fichier `LISEZMOI.txt`. Décompressée une fois, elle démarre comme la version installée. La présence de `Shakery Data` à côté de l'exécutable met Shakery en mode portable ; la variable du lanceur de la 0.2.2 reste lue. Cela remplace l'exécutable portable de D-055.
+  - Mesuré sur une copie décompressée : processus lancé en 0,7 à 1,2 s, carnet prêt en 5,8 s au premier lancement et en 1,9 s ensuite.
+- **Validation** : demande de l'utilisateur du 24 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

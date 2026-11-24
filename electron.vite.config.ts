@@ -52,6 +52,13 @@ export default defineConfig({
       sourcemap: false,
       // electron-vite does not minify by default; a smaller bundle parses faster at startup.
       minify: true,
+      rollupOptions: {
+        // The interface, and the start-up window shown while the notebook opens (D-056).
+        input: {
+          index: resolve('src/renderer/index.html'),
+          splash: resolve('src/renderer/splash.html'),
+        },
+      },
     },
   },
 })
