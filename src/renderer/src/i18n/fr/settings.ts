@@ -1,27 +1,52 @@
-/** Settings screen (section 10.14). */
+/** Settings screen (section 10.14, D-057). */
 export const settings = {
   title: 'Paramètres',
-  subtitle: 'Ton Shakery, à ta façon',
+  subtitle: 'Réglages et données du carnet',
+  /** Table of contents on the left of the page: short names of the blocks. */
+  toc: {
+    label: 'Sommaire des paramètres',
+    appearance: 'Apparence',
+    backups: 'Sauvegarde',
+    transfer: 'Import et export',
+    calculation: 'Calculs',
+    print: 'Impression',
+    barcode: 'Code-barres',
+    updates: 'Mises à jour',
+    about: 'À propos',
+  },
+  /** Small capitals over the groups of rows inside a block. */
+  groups: {
+    display: 'Affichage',
+    reminders: 'Unités et rappels',
+    automatic: 'Sauvegarde automatique',
+    recent: 'Sauvegardes récentes',
+    whole: 'Carnet entier',
+    equivalences: 'Équivalences',
+    help: 'Aide',
+    credits: 'Crédits des données',
+  },
   appearance: {
-    eyebrow: 'Affichage',
     title: 'Apparence et unités',
+    description: 'Ces choix valent pour tous les écrans de Shakery.',
     theme: 'Thème',
     themes: { dark: 'Sombre', light: 'Clair' },
     unit: 'Unité des doses',
     units: { ml: 'ml', cl: 'cl', oz: 'oz' },
     warning: 'Alerte des préparations',
+    warningHint: 'Une préparation est signalée avant d’atteindre sa date limite.',
     days: (count: number) =>
       count === 0 ? 'Le jour même' : count === 1 ? '1 jour avant' : `${count} jours avant`,
     animations: 'Animations',
-    blur: 'Effet de verre',
-    blurs: { full: 'Fort', light: 'Léger', none: 'Aucun' },
     performance: 'Mode performance',
-    note: 'Le mode performance retire flou, ombres, dessins de fond et animations. Les animations se coupent aussi quand Windows les réduit.',
+    note: 'Ce mode retire le flou, les ombres, les dessins de fond et les animations. Les animations se coupent aussi quand Windows les réduit.',
   },
   backups: {
-    eyebrow: 'Sauvegardes',
     title: 'Sauvegarder et restaurer',
     description: 'Shakery sauvegarde au démarrage selon la fréquence choisie, et à chaque fermeture.',
+    manual: 'Sauvegarde manuelle',
+    lastBackup: (when: string | null) =>
+      when === null ? 'Aucune sauvegarde pour l’instant.' : `Dernière sauvegarde le ${when}.`,
+    folder: 'Dossier des sauvegardes',
     frequency: 'Fréquence',
     every: (hours: number) =>
       hours === 24
@@ -32,8 +57,10 @@ export const settings = {
             ? `Toutes les ${hours} h`
             : `Tous les ${hours / 24} jours`,
     keepDaily: 'Jours gardés',
+    keepDailyHint: 'Les sauvegardes quotidiennes plus anciennes sont effacées.',
     keptDays: (count: number) => `${count} jours`,
     keepWeekly: 'Semaines gardées',
+    keepWeeklyHint: 'Une sauvegarde par semaine est gardée en plus.',
     keptWeeks: (count: number) => (count === 0 ? 'Aucune' : `${count} semaines`),
     create: 'Sauvegarder maintenant',
     created: 'Carnet sauvegardé.',
@@ -57,8 +84,7 @@ export const settings = {
     cancel: 'Annuler',
   },
   calculation: {
-    eyebrow: 'Calculs',
-    title: 'Équivalences, dilution, atelier',
+    title: 'Calculs',
     description: 'Chaque fiche, jauge et calculateur suit ces valeurs. Les doses notées ne changent pas.',
     ounce: 'Une once',
     ounces: { bar: '30 ml', exact: '29,57 ml' },
@@ -88,22 +114,23 @@ export const settings = {
     reset: 'Valeurs d’origine',
   },
   print: {
-    eyebrow: 'Impression',
-    title: 'Proposé à l’impression',
+    title: 'Impression',
     description: 'Chaque fenêtre d’impression part de ces choix.',
     paper: 'Papier des fiches',
     indicators: 'Indicateurs sur la fiche',
     label: 'Format des étiquettes',
   },
   maintenance: {
-    eyebrow: 'Zone sensible',
     title: 'Corbeille et entretien',
     description: 'Une sauvegarde est faite avant tout effacement définitif.',
+    search: 'Recherche',
+    rebuildHint: 'À relancer si une fiche manque dans les résultats.',
     rebuild: 'Reconstruire la recherche',
     rebuilt: (count: number) => `Recherche reconstruite, ${count} éléments.`,
-    trash: 'Corbeille…',
+    trashHint: 'Un élément supprimé s’y retrouve, à restaurer ou à effacer pour de bon.',
+    trash: 'Ouvrir la corbeille',
     trashTitle: 'Corbeille',
-    trashText: 'Ce que tu as supprimé reste ici jusqu’à ce que tu vides la corbeille.',
+    trashText: 'Un élément supprimé reste ici jusqu’à ce que la corbeille soit vidée.',
     trashEmpty: 'La corbeille est vide.',
     kinds: {
       recipe: 'Fiche',
@@ -124,18 +151,21 @@ export const settings = {
     emptyNow: 'Effacer pour de bon',
     emptied: 'Corbeille vidée, après une sauvegarde.',
     cancel: 'Annuler',
-    reset: 'Réinitialiser Shakery…',
+    resetHint: 'Le carnet est vidé après une dernière sauvegarde.',
+    reset: 'Réinitialiser…',
     resetTitle: 'Réinitialiser Shakery',
     resetText:
-      'Tes créations, dégustations, notes, bouteilles, photos et réglages sont effacés. Les classiques de départ reviennent. Le carnet actuel est sauvegardé avant, et tu le retrouveras dans Sauvegardes.',
-    resetField: 'Tape RÉINITIALISER pour confirmer',
+      'Les créations, dégustations, notes, bouteilles, photos et réglages sont effacés, et les classiques de départ reviennent. Le carnet actuel est sauvegardé avant et reste disponible parmi les sauvegardes.',
+    resetField: 'Saisir RÉINITIALISER pour confirmer',
     resetWord: 'RÉINITIALISER',
     resetNow: 'Sauvegarder puis réinitialiser',
   },
   about: {
-    title: 'À propos de Shakery',
+    title: 'À propos',
     tagline:
       'Shakery est le carnet de création du barman. Il garde tout sur ce PC et fonctionne sans Internet.',
+    tools: 'Guide et outils',
+    toolsHint: 'Les journaux aident à comprendre un problème au moment de le signaler.',
     guide: 'Guide',
     shortcuts: 'Raccourcis',
     logs: 'Journaux',
@@ -164,11 +194,15 @@ export const settings = {
       { name: 'Manrope', text: 'Police sous licence SIL Open Font License 1.1.' },
     ],
   },
+  /** The block that gathers the export and the import of a whole notebook. */
+  transfer: {
+    title: 'Exporter et importer',
+    description: 'Le carnet passe ainsi d’un ordinateur à l’autre, ou se reprend dans un tableur.',
+  },
   import: {
-    eyebrow: 'Importer',
     title: 'Importer un carnet',
     description:
-      'Importe un fichier .shakery venant d’un autre carnet ou d’une conversion, comme les carnets MAF. Le carnet actuel est sauvegardé avant l’import.',
+      'Le fichier .shakery peut venir d’un autre carnet ou d’une conversion, comme les carnets MAF. Le carnet actuel est sauvegardé avant l’import.',
     choose: 'Choisir un fichier…',
     reading: 'Lecture du fichier…',
     source: (label: string | null) => (label ? `Fichier : ${label}` : 'Fichier sans nom'),
@@ -179,7 +213,7 @@ export const settings = {
         : `${count} éléments existent déjà avec un contenu différent.`,
     strategyLabel: 'Éléments déjà présents',
     strategies: {
-      ignore: 'Garder les miens',
+      ignore: 'Garder l’existant',
       replace: 'Remplacer',
       duplicate: 'Garder les deux',
     },
@@ -191,7 +225,7 @@ export const settings = {
         ? `Import terminé : ${inserted} éléments ajoutés, ${updated} remplacés.`
         : `Import terminé : ${inserted} éléments ajoutés.`,
     invalid: 'Ce fichier n’est pas un carnet Shakery valide. Rien n’a été modifié.',
-    expired: 'Le fichier choisi a expiré. Choisis-le à nouveau.',
+    expired: 'Le fichier choisi a expiré. Il faut le choisir à nouveau.',
     /** Names of the tables shown in the preview; the others are counted in « Autres éléments ». */
     tables: {
       recipes: 'Recettes',
@@ -209,33 +243,32 @@ export const settings = {
     otherTables: 'Autres éléments',
   },
   export: {
-    eyebrow: 'Exporter',
     title: 'Exporter le carnet',
-    description:
-      'Le carnet entier part dans un fichier .shakery, photos comprises. Garde-le en lieu sûr ou réimporte-le sur un autre ordinateur.',
+    description: 'Le carnet entier part dans un fichier .shakery, photos comprises.',
     full: 'Exporter tout le carnet',
     running: 'Export en cours…',
     done: 'Carnet exporté.',
     csvTitle: 'Tableaux CSV',
+    csvLabel: 'Exporter pour un tableur',
     csvDescription:
-      'Exporte pour un tableur les fiches avec leurs ingrédients, le journal de dégustation ou les ingrédients.',
+      'Un tableur reçoit les fiches avec leurs ingrédients, le journal de dégustation ou la liste des ingrédients.',
     csv: { recipes: 'Fiches', journal: 'Journal', ingredients: 'Ingrédients' },
     csvDone: 'Tableau enregistré.',
   },
   off: {
-    eyebrow: 'Open Food Facts',
     title: 'Recherche par code-barres',
     description:
-      'Remplit une bouteille depuis la base libre Open Food Facts (marque, nom, contenance, degré, allergènes). Quand elle est désactivée, aucune requête ne part vers Open Food Facts.',
+      'La recherche par code-barres remplit une bouteille depuis la base libre Open Food Facts, avec la marque, le nom, la contenance, le degré et les allergènes.',
     toggle: 'Recherche par code-barres',
-    attribution: '© contributeurs Open Food Facts, ODbL',
+    toggleHint: 'Quand elle est désactivée, aucune requête ne part vers Open Food Facts.',
   },
   updates: {
-    eyebrow: 'GitHub',
     title: 'Mises à jour',
     description:
-      'Shakery regarde sur GitHub si une version plus récente est sortie et te propose de l’installer. Rien de ton carnet n’est envoyé.',
+      'Shakery cherche sur GitHub une version plus récente et propose de l’installer. Aucune donnée du carnet n’est envoyée.',
     toggle: 'Rechercher au lancement',
+    /** Label of the row of the version while the version is being read. */
+    installed: 'Version installée',
     check: 'Rechercher maintenant',
     show: 'Voir la nouvelle version',
     status: {
@@ -244,7 +277,7 @@ export const settings = {
       checking: 'Shakery interroge GitHub…',
       none: 'Shakery est à jour.',
       available: (version: string) => `La version ${version} est disponible.`,
-      skipped: (version: string) => `La version ${version} est disponible, tu l’as ignorée.`,
+      skipped: (version: string) => `La version ${version} est disponible et a été ignorée.`,
       downloading: (percent: string) => `La nouvelle version se télécharge (${percent}).`,
       ready: (version: string) => `La version ${version} est prête à installer.`,
     },

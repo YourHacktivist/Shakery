@@ -1,13 +1,17 @@
-Shakery se met désormais à jour tout seul. Au lancement, une fenêtre annonce chaque nouvelle version ; Shakery sauvegarde ton carnet, installe la version et redémarre, sans réinstallation.
+L'interface est réorganisée. La barre latérale range les écrans en trois groupes, Création, Bar et Outils, et Paramètres descend en bas. Chaque écran n'a plus qu'un seul bouton principal.
 
-Le mode préparation est redessiné : la recette est posée sur une fiche, devant une gravure du poste de travail.
+La page Fiches s'ouvre sur les créations, et les classiques ont leur propre onglet. Trois filtres restent visibles, les autres se trouvent sous « Plus de filtres ».
 
-Les textes de l'interface suivent la typographie française et ont été relus un par un.
+La fiche d'un cocktail reprend la présentation du mode préparation. Les actions plus rares, suppression comprise, passent dans le menu « Plus ».
 
-Les noms avec accents, majuscules, emoji ou caractères invisibles sont retrouvés dans la recherche, et une même étiquette n'est plus gardée deux fois.
+Mon bar s'appelle désormais Ingrédients, avec une case par ligne pour indiquer ce qui est au bar. Le Carnet s'appelle Notes, et la révision se lance depuis chaque collection.
 
-Un écran qui rencontre un problème affiche un écran de secours ; le reste de Shakery reste utilisable.
+Les préparations maison se lisent en liste, avec les lots en cours en tête. Les paramètres ont un sommaire.
 
-Un écran de démarrage s'affiche tout de suite, le temps d'ouvrir le carnet. Au premier lancement, il prévient que Shakery prépare ses 7 000 classiques, ce qui prend quelques secondes une seule fois.
+Les textes de l'interface ne tutoient plus et ne s'adressent plus à personne en particulier.
 
-La version portable devient une archive zip : décompressée une fois, elle démarre aussi vite que la version installée, au lieu de se décompresser à chaque lancement. Son carnet reste dans le dossier Shakery Data, à côté de Shakery.exe.
+Les volumes servis s'affichent arrondis à 5 ml près.
+
+La fiche imprimée gagne un en-tête clair et indique la famille, la catégorie (short drink ou long drink), le moment et l'origine du cocktail.
+
+Les dessins de fond sont plus discrets et ne gênent plus la lecture. Le réglage « Effet de verre » disparaît, car le flou ne concerne plus que les fenêtres flottantes.

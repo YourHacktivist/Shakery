@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FileUp } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
+import { ControlRow } from '@renderer/components/ControlRow'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { toast } from '@renderer/components/Toast'
 import { errorMessage } from '@renderer/features/shared/notify'
@@ -36,8 +36,11 @@ function previewRows(tables: Preview['tables']): Row[] {
   return other.total > 0 ? [...rows, other] : rows
 }
 
-/** Import of a .shakery file: choose, read the preview, decide for the conflicts, import. */
-export function ImportCard() {
+/**
+ * Import of a .shakery file as a row of the transfer block: choose, read the preview under the
+ * row, decide for the conflicts, import.
+ */
+export function ImportRow() {
   const t = fr.settings.import
   const queryClient = useQueryClient()
   const [preview, setPreview] = useState<Preview | null>(null)
@@ -75,16 +78,22 @@ export function ImportCard() {
   const busy = choose.isPending || apply.isPending
 
   return (
-    <Card eyebrow={t.eyebrow} aria-labelledby="settings-import-title">
-      <div className="flex flex-col gap-1">
-        <h2 id="settings-import-title" className="m-0 text-heading font-semibold text-fg">
-          {t.title}
-        </h2>
-        <p className="m-0 max-w-[60ch] text-small text-fg-secondary">{t.description}</p>
-      </div>
+    <>
+      <ControlRow label={t.title} hint={t.description}>
+        <Button
+          variant="outline"
+          icon={<FileUp size={16} aria-hidden="true" />}
+          onClick={() => {
+            choose.mutate()
+          }}
+          disabled={busy}
+        >
+          {choose.isPending ? t.reading : t.choose}
+        </Button>
+      </ControlRow>
 
       {preview ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 border-t border-border pt-3 pb-4">
           <p className="m-0 text-small text-fg-secondary">{t.source(preview.label)}</p>
           <table className="w-full border-collapse text-small">
             <thead>
@@ -134,6 +143,7 @@ export function ImportCard() {
           ) : null}
           <div className="flex gap-2">
             <Button
+              variant="outline"
               onClick={() => {
                 apply.mutate(preview.token)
               }}
@@ -152,20 +162,7 @@ export function ImportCard() {
             </Button>
           </div>
         </div>
-      ) : (
-        <div>
-          <Button
-            variant="outline"
-            icon={<FileUp size={16} strokeWidth={1.75} aria-hidden="true" />}
-            onClick={() => {
-              choose.mutate()
-            }}
-            disabled={busy}
-          >
-            {choose.isPending ? t.reading : t.choose}
-          </Button>
-        </div>
-      )}
-    </Card>
+      ) : null}
+    </>
   )
 }

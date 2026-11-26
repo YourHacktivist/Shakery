@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8" /><title>Préparations en liste à colonnes</title>
+<link rel="stylesheet" href="../assets/index-DthCMq1t.css" />
+<link rel="stylesheet" href="../assets/planches.css" />
+<style>
+  html, body { height: auto; background: var(--color-bg-base); color: var(--color-fg); font-family: var(--font-sans); }
+  body { margin: 0; padding: 56px 64px 72px; }
+  .b-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .b-kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-fg-muted); }
+  .b-title { margin: 0 0 36px; font-size: 34px; font-weight: 600; letter-spacing: -0.01em; }
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .b-shot { display: block; width: 100%; border: 1px solid var(--color-border-strong); border-radius: 10px; }
+  .b-col > * + * { margin-top: 28px; }
+  .b-list { margin: 0; padding: 0; list-style: none; }
+  .b-list li { position: relative; padding: 10px 0; border-bottom: 1px solid var(--color-border); font-size: 15px; line-height: 1.55; color: var(--color-fg-secondary); }
+  .b-empty { font-size: 15px; color: var(--color-fg-muted); }
+  .b-index a { color: var(--color-fg); text-decoration: none; }
+  .b-index li { display: grid; grid-template-columns: 60px 1fr; padding: 14px 0; border-bottom: 1px solid var(--color-border); font-size: 17px; }
+  .b-index li span { color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+</style></head><body>
+<div class="b-top"><span class="b-kicker">Shakery · refonte ergonomique · planche 06 sur 10</span><span class="b-kicker">24 novembre 2026</span></div>
+<h1 class="b-title">Préparations en liste à colonnes</h1>
+<div class="b-grid">
+  <div class="b-col">
+    <p class="pl-section-title is-muted">Avant</p>
+    <img class="b-shot" src="../../png/avant/06-preparations.png" alt="" />
+    <p class="pl-section-title">Ce qui change</p>
+    <ul class="b-list "><li>Les dix cartes identiques deviennent une liste à colonnes alignées (préparation, conservation, dernier lot, à utiliser avant, action) séparées par des filets, pour lire l’état de toutes les préparations d’un coup d’œil.</li><li>Les préparations sont rangées sous deux titres en petites capitales avec filet, « Lots en cours » en cuivre puis « Sans lot en cours » en gris, pour que ce qui demande ton attention soit en haut.</li><li>Une durée de conservation inconnue s’affiche par un petit trait dessiné, à la place de la phrase « Durée de conservation non précisée » répétée sur chaque carte.</li><li>Les deux lots en cours montrent leur date, leur volume, leur date limite et le temps restant, par exemple le sirop simple du 22 nov., à utiliser avant le 6 déc.</li><li>Le cordial citron vert, lot du 23 nov., est signalé par « encore 2 jours » en cuivre doux et en gras, sans fond, sans pastille et sans orange vif.</li><li>« Nouvelle fabrication » devient un bouton texte gris et discret sur chaque ligne, et « Nouvelle préparation » devient le seul bouton plein cuivre de la page.</li><li>Une phrase sous le titre explique qu’une préparation est une base faite à l’avance (sirop, cordial, oleo saccharum) et qu’une fabrication enregistre un lot daté, et le sur-titre annonce « 10 préparations, 2 lots en cours ».</li><li>Sous chaque nom, une ligne grise rappelle la base de la préparation, par exemple « Sucre et eau, 2 pour 1 », pour distinguer les sirops entre eux.</li><li>Toutes les cellules d’une ligne, bouton compris, partagent la ligne de base du nom, et le motif du fond passe à 9 % d’opacité pour ne plus traverser le texte.</li></ul>
+    <p class="pl-section-title is-muted">À trancher</p>
+    <ul class="b-list is-q"><li>La ligne grise sous chaque nom doit-elle être tirée automatiquement des ingrédients de la recette, ou saisie à la main dans la préparation ?</li><li>Pour les préparations sans lot, la colonne « Dernier lot » affiche « Jamais » ou la date du dernier lot. Cette information t’est-elle utile, ou préfères-tu une cellule vide ?</li><li>Faut-il ajouter sur les lots en cours une action « Lot terminé » à côté de « Nouvelle fabrication » ?</li><li>À partir de combien de jours restants un lot doit-il passer en cuivre (ici à 2 jours) ?</li><li>Le bouton « Nouvelle fabrication » doit-il rester visible sur chaque ligne, ou n’apparaître qu’au survol de la ligne ?</li></ul>
+  </div>
+  <div class="b-col">
+    <p class="pl-section-title">Après</p>
+    <img class="b-shot" src="../../png/apres/06-preparations.png" alt="" />
+    
+  </div>
+</div>
+</body></html>

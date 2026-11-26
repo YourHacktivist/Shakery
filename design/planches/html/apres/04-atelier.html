@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" data-platform="other" data-blur="full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shakery</title>
+
+    <link rel="stylesheet" crossorigin="" href="../assets/index-DthCMq1t.css" />
+    <link rel="stylesheet" href="../assets/planches.css" />
+    <style id="planche-fenetre">
+      /* Place des boutons de la fenêtre Windows */
+      .window-controls-space {
+        padding-right: 148px !important;
+      }
+    </style>
+  
+    <style id="p04">
+      /* Planche 04 : atelier, interrupteur nommé et indicateurs incomplets regroupés */
+      .p04-card > .pl-section-title { margin: 0; }
+      .p04-lines { margin: 0; padding: 0; list-style: none; }
+      .p04-row { display: grid; grid-template-columns: 104px minmax(0, 1fr) auto 32px; align-items: center; column-gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
+      .p04-row:last-child { border-bottom: 0; }
+      .p04-row.p04-head { padding: 0 0 8px; }
+      .p04-head > span, .p04-dosehead > span { font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-fg-muted); white-space: nowrap; }
+      .p04-dosehead { display: flex; gap: 8px; }
+      .p04-dosehead > span:first-child { width: 176px; }
+      .p04-dosehead > span:last-child { width: 144px; }
+      .p04-unit { width: 144px; flex: none; }
+      .p04-help { margin: 0; font-size: var(--text-caption); line-height: 1.5; color: var(--color-fg-muted); }
+      .p04-missing { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1px solid var(--color-border); }
+      .p04-missing p { margin: 0; font-size: var(--text-small); line-height: 1.55; color: var(--color-fg-muted); }
+      .p04-link { display: inline-flex; width: fit-content; align-items: center; gap: 4px; font-size: var(--text-small); font-weight: 600; color: var(--color-accent-soft); text-decoration: none; }
+      .p04-saved { font-size: var(--text-small); color: var(--color-fg-muted); }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-shell flex h-full overflow-clip">
+        <aside aria-label="Barre latérale" data-collapsed="false" class="flex h-full shrink-0 flex-col overflow-hidden bg-sidebar border-r border-border w-[220px]">
+<div class="window-drag sidebar-brand group/brand flex h-12 shrink-0 items-center gap-2.5 px-3 whitespace-nowrap">
+            <span class="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full"
+              ><img alt="" width="28" height="28" class="size-7" src="../assets/logo-160-BWVCxwO_.png" /></span
+            ><span class="flex min-w-0 flex-col gap-0.5 transition-opacity duration-200 ease-out-soft"
+              ><span class="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">Shakery</span
+              ><span class="text-caption text-fg-muted">Carnet de création</span></span
+            ><span class="ml-auto"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                aria-label="Fermer la barre latérale"
+                title="Fermer la barre latérale"
+                id="sidebar-close"
+                aria-keyshortcuts="Control+B"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-panel-left-close lucide-sidebar-close"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M9 3v18"></path>
+                  <path d="m16 15-3-3 3-3"></path>
+                </svg></button
+            ></span>
+          </div>
+<div class="pl-scroll"><nav aria-label="Navigation principale" class="pl-nav">
+<ul class="pl-list"><li><a class="pl-item" href="#/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" ></path></svg><span>Accueil</span></a></li></ul>
+<div><p class="pl-group-title">Création</p><ul class="pl-list"><li><a class="pl-item" href="#/recipes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M12 5v16"></path> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" ></path></svg><span>Fiches</span></a></li><li><a class="pl-item is-active" aria-current="page" href="#/lab"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" ></path> <path d="M6.453 15h11.094"></path> <path d="M8.5 2h7"></path></svg><span>Atelier</span></a></li><li><a class="pl-item" href="#/journal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M2 6h4"></path> <path d="M2 10h4"></path> <path d="M2 14h4"></path> <path d="M2 18h4"></path> <rect width="16" height="20" x="4" y="2" rx="2"></rect> <path d="M9.5 8h5"></path> <path d="M9.5 12H16"></path> <path d="M9.5 16H14"></path></svg><span>Journal</span></a></li><li><a class="pl-item" href="#/notebook"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z" ></path> <path d="M15 3v5a1 1 0 0 0 1 1h5"></path></svg><span>Notes</span></a></li></ul></div>
+<div><p class="pl-group-title">Bar</p><ul class="pl-list"><li><a class="pl-item" href="#/bar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M8 22h8"></path> <path d="M7 10h10"></path> <path d="M12 15v7"></path> <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg><span>Mon bar</span></a></li><li><a class="pl-item" href="#/preps"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M8 2h8"></path> <path d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2" ></path> <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg><span>Préparations</span></a></li></ul></div>
+<div><p class="pl-group-title">Outils</p><ul class="pl-list"><li><a class="pl-item" href="#/collections"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" ></path> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg><span>Collections</span></a></li><li><a class="pl-item" href="#/calculators"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <rect width="16" height="20" x="4" y="2" rx="2"></rect> <line x1="8" x2="16" y1="6" y2="6"></line> <line x1="16" x2="16" y1="14" y2="18"></line> <path d="M16 10h.01"></path> <path d="M12 10h.01"></path> <path d="M8 10h.01"></path> <path d="M12 14h.01"></path> <path d="M8 14h.01"></path> <path d="M12 18h.01"></path> <path d="M8 18h.01"></path></svg><span>Calculateurs</span></a></li></ul></div>
+</nav></div>
+<div class="pl-foot"><ul class="pl-list"><li><a class="pl-item" href="#/settings"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" ></path> <circle cx="12" cy="12" r="3"></circle></svg><span>Paramètres</span></a></li></ul>
+<div class="pl-footbar"><span>Version 0.2.3</span><span style="display:flex;gap:2px"><button type="button" class="pl-iconbtn" aria-label="Raccourcis clavier"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M10 8h.01"></path> <path d="M12 12h.01"></path> <path d="M14 8h.01"></path> <path d="M16 12h.01"></path> <path d="M18 8h.01"></path> <path d="M6 8h.01"></path> <path d="M7 16h10"></path> <path d="M8 12h.01"></path> <rect width="20" height="16" x="2" y="4" rx="2"></rect> </svg></button><button type="button" class="pl-iconbtn" aria-label="Réduire aux icônes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="m11 17-5-5 5-5"></path> <path d="m18 17-5-5 5-5"></path> </svg></button></span></div></div>
+</aside>
+        <div class="relative isolate flex min-w-0 flex-1 flex-col">
+          <div aria-hidden="true" data-scene="lab" class="scene-backdrop">
+            <span class="scene-light"></span
+            ><svg class="scene-motif" viewBox="0 0 600 600" fill="none" focusable="false">
+              <path
+                class="engraving-line"
+                d="M156 150A34 9 0 1 1 224 150A34 9 0 1 1 156 150ZM156 150C156 208 120 226 112 254H268C260 226 224 208 224 150M108 254H272A4 4 0 0 1 276 258V266A4 4 0 0 1 272 270H108A4 4 0 0 1 104 266V258A4 4 0 0 1 108 254ZM112 270C62 330 70 448 130 470H250C310 448 318 330 268 270M156 150C160 96 250 70 420 170M178 141C200 108 268 100 408 182M160 104A30 8 0 1 1 220 104A30 8 0 1 1 160 104ZM378 182H478A6 6 0 0 1 484 188V374A6 6 0 0 1 478 380H378A6 6 0 0 1 372 374V188A6 6 0 0 1 378 182ZM410 380v22h18v-22M400 462h38v28l44 72a10 10 0 0 1 -9 14h-108a10 10 0 0 1 -9 -14l44 -72zM529 190H529A9 9 0 0 1 538 199V401A9 9 0 0 1 529 410H529A9 9 0 0 1 520 401V199A9 9 0 0 1 529 190ZM512 426A17 17 0 1 1 546 426A17 17 0 1 1 512 426ZM136 478H244A4 4 0 0 1 248 482V544A4 4 0 0 1 244 548H136A4 4 0 0 1 132 544V482A4 4 0 0 1 136 478ZM50 576L590 576"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M124 282C84 334 88 432 138 456H242C292 432 296 334 256 282M303 378L302.6 379.3L301.5 380.6L299.5 381.9L296.9 383.2L293.5 384.4L289.4 385.6L284.6 386.8L279.2 387.8L273.1 388.8L266.5 389.8L259.4 390.6L251.8 391.4L243.8 392.1L235.4 392.7L226.7 393.1L217.7 393.5L208.6 393.8L199.3 393.9L190 394L180.7 393.9L171.4 393.8L162.3 393.5L153.3 393.1L144.6 392.7L136.2 392.1L128.2 391.4L120.6 390.6L113.5 389.8L106.9 388.8L100.8 387.8L95.4 386.8L90.6 385.6L86.5 384.4L83.1 383.2L80.5 381.9L78.5 380.6L77.4 379.3L77 378M92 404L92 432M101 401L101 432M110 398L110 432M119 406L119 432M128 403L128 432M137 400L137 432M146 408L146 432M155 405L155 432M164 402L164 432M173 399L173 432M182 407L182 432M191 404L191 432M200 401L200 432M209 398L209 432M218 406L218 432M227 403L227 432M236 400L236 432M245 408L245 432M254 405L254 432M263 402L263 432M272 399L272 432M281 407L281 432M200.2 412A1.4 1.4 0 1 1 202.9 412A1.4 1.4 0 1 1 200.2 412ZM172.9 416.1A2.3 2.3 0 1 1 177.6 416.1A2.3 2.3 0 1 1 172.9 416.1ZM189 404.3A3.3 3.3 0 1 1 195.5 404.3A3.3 3.3 0 1 1 189 404.3ZM206.8 419.3A1.8 1.8 0 1 1 210.4 419.3A1.8 1.8 0 1 1 206.8 419.3ZM153.1 410.2A2.8 2.8 0 1 1 158.7 410.2A2.8 2.8 0 1 1 153.1 410.2ZM221 405.8A1.4 1.4 0 1 1 223.7 405.8A1.4 1.4 0 1 1 221 405.8ZM176.9 424.1A2.3 2.3 0 1 1 181.5 424.1A2.3 2.3 0 1 1 176.9 424.1ZM166.1 400.1A3.3 3.3 0 1 1 172.7 400.1A3.3 3.3 0 1 1 166.1 400.1ZM232.9 416.9A1.8 1.8 0 1 1 236.6 416.9A1.8 1.8 0 1 1 232.9 416.9ZM140.7 417.8A2.8 2.8 0 1 1 146.3 417.8A2.8 2.8 0 1 1 140.7 417.8ZM211.1 397.6A1.4 1.4 0 1 1 213.8 397.6A1.4 1.4 0 1 1 211.1 397.6ZM204.3 427.9A2.3 2.3 0 1 1 208.9 427.9A2.3 2.3 0 1 1 204.3 427.9ZM136.8 403.3A3.3 3.3 0 1 1 143.3 403.3A3.3 3.3 0 1 1 136.8 403.3ZM246.8 408.1A1.8 1.8 0 1 1 250.4 408.1A1.8 1.8 0 1 1 246.8 408.1ZM151.4 427.3A2.8 2.8 0 1 1 157 427.3A2.8 2.8 0 1 1 151.4 427.3ZM180.4 392.9A1.4 1.4 0 1 1 183.1 392.9A1.4 1.4 0 1 1 180.4 392.9ZM238.4 424.8A2.3 2.3 0 1 1 243 424.8A2.3 2.3 0 1 1 238.4 424.8ZM118.5 412.8A3.3 3.3 0 1 1 125 412.8A3.3 3.3 0 1 1 118.5 412.8ZM238 397.1A1.8 1.8 0 1 1 241.6 397.1A1.8 1.8 0 1 1 238 397.1ZM183.9 433.6A2.8 2.8 0 1 1 189.5 433.6A2.8 2.8 0 1 1 183.9 433.6ZM141.3 395A1.4 1.4 0 1 1 144 395A1.4 1.4 0 1 1 141.3 395ZM262.7 415A2.3 2.3 0 1 1 267.4 415A2.3 2.3 0 1 1 262.7 415ZM123.1 425.3A3.3 3.3 0 1 1 129.7 425.3A3.3 3.3 0 1 1 123.1 425.3ZM205.5 388.8A1.8 1.8 0 1 1 209.2 388.8A1.8 1.8 0 1 1 205.5 388.8ZM468 205L467.9 205.8L467.5 206.6L466.8 207.5L465.8 208.2L464.6 209L463.2 209.8L461.5 210.5L459.6 211.1L457.4 211.8L455.1 212.4L452.6 212.9L449.9 213.4L447 213.8L444.1 214.2L441 214.5L437.8 214.7L434.6 214.9L431.3 215L428 215L424.7 215L421.4 214.9L418.2 214.7L415 214.5L411.9 214.2L409 213.8L406.1 213.4L403.4 212.9L400.9 212.4L398.6 211.8L396.4 211.1L394.5 210.5L392.8 209.8L391.4 209L390.2 208.2L389.2 207.5L388.5 206.6L388.1 205.8L388 205M468 227L467.9 227.8L467.5 228.6L466.8 229.5L465.8 230.2L464.6 231L463.2 231.8L461.5 232.5L459.6 233.1L457.4 233.8L455.1 234.4L452.6 234.9L449.9 235.4L447 235.8L444.1 236.2L441 236.5L437.8 236.7L434.6 236.9L431.3 237L428 237L424.7 237L421.4 236.9L418.2 236.7L415 236.5L411.9 236.2L409 235.8L406.1 235.4L403.4 234.9L400.9 234.4L398.6 233.8L396.4 233.1L394.5 232.5L392.8 231.8L391.4 231L390.2 230.2L389.2 229.5L388.5 228.6L388.1 227.8L388 227M468 249L467.9 249.8L467.5 250.6L466.8 251.5L465.8 252.2L464.6 253L463.2 253.8L461.5 254.5L459.6 255.1L457.4 255.8L455.1 256.4L452.6 256.9L449.9 257.4L447 257.8L444.1 258.2L441 258.5L437.8 258.7L434.6 258.9L431.3 259L428 259L424.7 259L421.4 258.9L418.2 258.7L415 258.5L411.9 258.2L409 257.8L406.1 257.4L403.4 256.9L400.9 256.4L398.6 255.8L396.4 255.1L394.5 254.5L392.8 253.8L391.4 253L390.2 252.2L389.2 251.5L388.5 250.6L388.1 249.8L388 249M468 271L467.9 271.8L467.5 272.6L466.8 273.5L465.8 274.2L464.6 275L463.2 275.8L461.5 276.5L459.6 277.1L457.4 277.8L455.1 278.4L452.6 278.9L449.9 279.4L447 279.8L444.1 280.2L441 280.5L437.8 280.7L434.6 280.9L431.3 281L428 281L424.7 281L421.4 280.9L418.2 280.7L415 280.5L411.9 280.2L409 279.8L406.1 279.4L403.4 278.9L400.9 278.4L398.6 277.8L396.4 277.1L394.5 276.5L392.8 275.8L391.4 275L390.2 274.2L389.2 273.5L388.5 272.6L388.1 271.8L388 271M468 293L467.9 293.8L467.5 294.6L466.8 295.5L465.8 296.2L464.6 297L463.2 297.8L461.5 298.5L459.6 299.1L457.4 299.8L455.1 300.4L452.6 300.9L449.9 301.4L447 301.8L444.1 302.2L441 302.5L437.8 302.7L434.6 302.9L431.3 303L428 303L424.7 303L421.4 302.9L418.2 302.7L415 302.5L411.9 302.2L409 301.8L406.1 301.4L403.4 300.9L400.9 300.4L398.6 299.8L396.4 299.1L394.5 298.5L392.8 297.8L391.4 297L390.2 296.2L389.2 295.5L388.5 294.6L388.1 293.8L388 293M468 315L467.9 315.8L467.5 316.6L466.8 317.5L465.8 318.2L464.6 319L463.2 319.8L461.5 320.5L459.6 321.1L457.4 321.8L455.1 322.4L452.6 322.9L449.9 323.4L447 323.8L444.1 324.2L441 324.5L437.8 324.7L434.6 324.9L431.3 325L428 325L424.7 325L421.4 324.9L418.2 324.7L415 324.5L411.9 324.2L409 323.8L406.1 323.4L403.4 322.9L400.9 322.4L398.6 321.8L396.4 321.1L394.5 320.5L392.8 319.8L391.4 319L390.2 318.2L389.2 317.5L388.5 316.6L388.1 315.8L388 315M468 337L467.9 337.8L467.5 338.6L466.8 339.5L465.8 340.2L464.6 341L463.2 341.8L461.5 342.5L459.6 343.1L457.4 343.8L455.1 344.4L452.6 344.9L449.9 345.4L447 345.8L444.1 346.2L441 346.5L437.8 346.7L434.6 346.9L431.3 347L428 347L424.7 347L421.4 346.9L418.2 346.7L415 346.5L411.9 346.2L409 345.8L406.1 345.4L403.4 344.9L400.9 344.4L398.6 343.8L396.4 343.1L394.5 342.5L392.8 341.8L391.4 341L390.2 340.2L389.2 339.5L388.5 338.6L388.1 337.8L388 337M468 359L467.9 359.8L467.5 360.6L466.8 361.5L465.8 362.2L464.6 363L463.2 363.8L461.5 364.5L459.6 365.1L457.4 365.8L455.1 366.4L452.6 366.9L449.9 367.4L447 367.8L444.1 368.2L441 368.5L437.8 368.7L434.6 368.9L431.3 369L428 369L424.7 369L421.4 368.9L418.2 368.7L415 368.5L411.9 368.2L409 367.8L406.1 367.4L403.4 366.9L400.9 366.4L398.6 365.8L396.4 365.1L394.5 364.5L392.8 363.8L391.4 363L390.2 362.2L389.2 361.5L388.5 360.6L388.1 359.8L388 359M472 194L482 194M472 201L482 201M472 208L482 208M472 215L482 215M472 222L482 222M472 229L482 229M472 236L482 236M472 243L482 243M472 250L482 250M472 257L482 257M472 264L482 264M472 271L482 271M472 278L482 278M472 285L482 285M472 292L482 292M472 299L482 299M472 306L482 306M472 313L482 313M472 320L482 320M472 327L482 327M472 334L482 334M472 341L482 341M472 348L482 348M472 355L482 355M472 362L482 362M472 369L482 369M538 206L556 206M538 213L548 213M538 220L556 220M538 227L548 227M538 234L548 234M538 241L556 241M538 248L548 248M538 255L556 255M538 262L548 262M538 269L548 269M538 276L556 276M538 283L548 283M538 290L556 290M538 297L548 297M538 304L548 304M538 311L556 311M538 318L548 318M538 325L556 325M538 332L548 332M538 339L548 339M538 346L556 346M538 353L548 353M538 360L556 360M538 367L548 367M538 374L548 374M538 381L556 381M538 388L548 388M538 395L556 395M50 582L590 582"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M304 368L303.6 369.3L302.4 370.6L300.5 371.9L297.8 373.2L294.4 374.4L290.3 375.6L285.4 376.8L280 377.8L273.9 378.8L267.2 379.8L260 380.6L252.4 381.4L244.3 382.1L235.8 382.7L227 383.1L218 383.5L208.8 383.8L199.4 383.9L190 384L180.6 383.9L171.2 383.8L162 383.5L153 383.1L144.2 382.7L135.7 382.1L127.6 381.4L120 380.6L112.8 379.8L106.1 378.8L100 377.8L94.6 376.8L89.7 375.6L85.6 374.4L82.2 373.2L79.5 371.9L77.6 370.6L76.4 369.3L76 368M111.6 262A2.4 2.4 0 1 1 116.4 262A2.4 2.4 0 1 1 111.6 262ZM123.6 262A2.4 2.4 0 1 1 128.4 262A2.4 2.4 0 1 1 123.6 262ZM135.6 262A2.4 2.4 0 1 1 140.4 262A2.4 2.4 0 1 1 135.6 262ZM147.6 262A2.4 2.4 0 1 1 152.4 262A2.4 2.4 0 1 1 147.6 262ZM159.6 262A2.4 2.4 0 1 1 164.4 262A2.4 2.4 0 1 1 159.6 262ZM171.6 262A2.4 2.4 0 1 1 176.4 262A2.4 2.4 0 1 1 171.6 262ZM183.6 262A2.4 2.4 0 1 1 188.4 262A2.4 2.4 0 1 1 183.6 262ZM195.6 262A2.4 2.4 0 1 1 200.4 262A2.4 2.4 0 1 1 195.6 262ZM207.6 262A2.4 2.4 0 1 1 212.4 262A2.4 2.4 0 1 1 207.6 262ZM219.6 262A2.4 2.4 0 1 1 224.4 262A2.4 2.4 0 1 1 219.6 262ZM231.6 262A2.4 2.4 0 1 1 236.4 262A2.4 2.4 0 1 1 231.6 262ZM243.6 262A2.4 2.4 0 1 1 248.4 262A2.4 2.4 0 1 1 243.6 262ZM255.6 262A2.4 2.4 0 1 1 260.4 262A2.4 2.4 0 1 1 255.6 262ZM182 88A8 8 0 1 1 198 88A8 8 0 1 1 182 88ZM388 200A40 10 0 1 1 468 200A40 10 0 1 1 388 200ZM388 222A40 10 0 1 1 468 222A40 10 0 1 1 388 222ZM388 244A40 10 0 1 1 468 244A40 10 0 1 1 388 244ZM388 266A40 10 0 1 1 468 266A40 10 0 1 1 388 266ZM388 288A40 10 0 1 1 468 288A40 10 0 1 1 388 288ZM388 310A40 10 0 1 1 468 310A40 10 0 1 1 388 310ZM388 332A40 10 0 1 1 468 332A40 10 0 1 1 388 332ZM388 354A40 10 0 1 1 468 354A40 10 0 1 1 388 354ZM419 414c6 8 6 12 0 13c-6 -1 -6 -5 0 -13zM419 432c6 8 6 12 0 13c-6 -1 -6 -5 0 -13zM419 450c6 8 6 12 0 13c-6 -1 -6 -5 0 -13zM467 536L466.8 536.6L466.3 537.2L465.5 537.7L464.4 538.3L463 538.8L461.2 539.3L459.2 539.8L456.9 540.3L454.3 540.7L451.5 541.2L448.5 541.5L445.3 541.9L441.8 542.2L438.3 542.4L434.6 542.6L430.8 542.8L426.9 542.9L423 543L419 543L415 543L411.1 542.9L407.2 542.8L403.4 542.6L399.7 542.4L396.2 542.2L392.7 541.9L389.5 541.5L386.5 541.2L383.7 540.7L381.1 540.3L378.8 539.8L376.8 539.3L375 538.8L373.6 538.3L372.5 537.7L371.7 537.2L371.2 536.6L371 536M432 504L446 504M432 513L446 513M432 522L446 522M432 531L446 531M432 540L446 540M432 549L446 549M432 558L446 558M529 420L529 280M146 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34zM164 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34zM182 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34zM200 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34zM218 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34zM236 536c-9 -12 4 -20 2 -34c12 12 10 26 -2 34z"
+                vector-effect="non-scaling-stroke"
+              ></path>
+            </svg>
+          </div>
+          <header aria-label="Barre d’outils" class="window-drag flex items-center gap-2 window-controls-space h-12 shrink-0 pl-4"><button
+              type="button"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+K"
+              class="flex h-8 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2 rounded-field border border-border-strong bg-surface-1 px-2.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-search shrink-0"
+                aria-hidden="true"
+              >
+                <path d="m21 21-4.34-4.34"></path>
+                <circle cx="11" cy="11" r="8"></circle></svg
+              ><span class="min-w-0 flex-1 truncate">Rechercher une fiche, un ingrédient, une note</span
+              ><span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary"
+                  >Ctrl K</kbd
+                ></span
+              ></button><button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body gap-2" aria-haspopup="dialog" aria-keyshortcuts="Control+N"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M5 12h14"></path> <path d="M12 5v14"></path></svg>Idée rapide<span aria-hidden="true"><kbd class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary">Ctrl N</kbd></span></button><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="F1"
+              title="Aide de l’écran affiché (F1)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                <path d="M12 17h.01"></path></svg
+              >Aide</button></header>
+          <main data-scene="lab" class="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8">
+            <div class="mx-auto flex max-w-page flex-col gap-4 min-h-full">
+              <header class="flex flex-wrap items-end justify-between gap-3">
+                <div class="flex min-w-0 flex-col gap-1">
+                  <span class="text-small text-fg-muted">Atelier · version enregistrée v1</span>
+                  <h1 class="m-0 truncate text-title font-semibold tracking-tight text-fg">Negroni fumé</h1>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                    aria-label="Annuler la dernière modification"
+                    title="Annuler la dernière modification"
+                    disabled=""
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-undo-2"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 14 4 9l5-5"></path>
+                      <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                    aria-label="Rétablir"
+                    title="Rétablir"
+                    disabled=""
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-redo-2"
+                      aria-hidden="true"
+                    >
+                      <path d="m15 14 5-5-5-5"></path>
+                      <path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"></path>
+                    </svg>
+                  </button>
+                  <div
+                    role="radiogroup"
+                    aria-label="Comparer"
+                    class="relative inline-flex h-8 w-fit shrink-0 items-stretch gap-0.5 rounded-field border border-border-strong bg-surface-1 p-[3px]"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="pointer-events-none absolute top-[3px] bottom-[3px] left-0 rounded-[5px] border border-border-strong bg-surface-3 opacity-0 shadow-thumb transition-[transform,width,opacity] duration-200 ease-out-soft"
+                      style="opacity: 1; width: 62px; transform: translateX(3px)"
+                    ></span
+                    ><button
+                      type="button"
+                      role="radio"
+                      aria-checked="true"
+                      tabindex="0"
+                      class="relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed text-fg"
+                    >
+                      Atelier</button
+                    ><button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      tabindex="-1"
+                      class="relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed text-fg-muted hover:text-fg-secondary"
+                    >
+                      Comparer
+                    </button>
+                  </div>
+                </div>
+              </header>
+              <div class="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] items-start gap-4">
+                <section class="p04-card flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card" aria-label="Lignes">
+                  <h2 class="pl-section-title">Lignes</h2>
+                  <ul class="p04-lines">
+                    <li class="p04-row p04-head" aria-hidden="true"><span>Dans le verre</span><span>Ingrédient</span><span class="p04-dosehead"><span>Dose</span><span>Unité</span></span><span></span></li>
+                    <li class="p04-row">
+                      <div class="inline-flex items-center gap-2.5">
+                        <button
+                          id="_r_1u_"
+                          type="button"
+                          role="switch"
+                          aria-checked="true"
+                          aria-label="Compter Gin dans le verre"
+                          class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border p-0.5 transition-colors duration-150 ease-out-soft disabled:cursor-not-allowed border-transparent bg-accent-gradient shadow-glow"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="flex size-3.5 items-center justify-center rounded-full transition-transform duration-150 ease-out-soft translate-x-4 bg-accent-ink text-accent"
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="10"
+                              height="10"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-check"
+                              aria-hidden="true"
+                            >
+                              <path d="M20 6 9 17l-5-5"></path></svg
+                          ></span>
+                        </button>
+                      </div>
+                      <span class="min-w-0 text-body break-words text-fg">Gin</span>
+                      <div
+                        class="flex min-w-0 items-center gap-2"
+                      >
+                        <div class="flex min-w-0 flex-col gap-1.5 w-44 shrink-0">
+                          <label for="_r_1v_" class="text-small font-medium text-fg-secondary sr-only">Dose de Gin</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 w-44 gap-0.5 px-[3px]"
+                          >
+                            <button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Retirer 2,5&nbsp;ml"
+                              title="Retirer 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-minus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                              </svg></button
+                            ><input
+                              id="_r_1v_"
+                              class="nums h-full min-w-0 flex-1 bg-transparent text-right text-body text-fg outline-none disabled:cursor-not-allowed"
+                              inputmode="decimal"
+                              role="spinbutton"
+                              autocomplete="off"
+                              aria-valuenow="30"
+                              aria-valuemin="0"
+                              aria-valuetext="30,0&nbsp;ml"
+                              type="text"
+                              value="30,0"
+                              style=""
+                            /><span aria-hidden="true" class="shrink-0 pr-1 pl-1.5 text-small text-fg-muted">ml</span
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Ajouter 2,5&nbsp;ml"
+                              title="Ajouter 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-plus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="flex min-w-0 flex-col gap-1.5 p04-unit">
+                          <label for="_r_20_" class="text-small font-medium text-fg-secondary sr-only">Unité de Gin</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 relative"
+                          >
+                            <select
+                              id="_r_20_"
+                              class="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg outline-none disabled:cursor-not-allowed"
+                            >
+                              <option value="ml">ml</option>
+                              <option value="cl">cl</option>
+                              <option value="oz">oz</option>
+                              <option value="dash">trait</option>
+                              <option value="drop">goutte</option>
+                              <option value="barspoon">cuillère de bar</option>
+                              <option value="tsp">cuillère à café</option>
+                              <option value="g">g</option>
+                              <option value="piece">pièce</option>
+                              <option value="leaf">feuille</option>
+                              <option value="slice">tranche</option>
+                              <option value="wedge">quartier</option>
+                              <option value="top">à compléter</option>
+                              <option value="to_taste">selon le goût</option></select
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-chevron-down pointer-events-none absolute right-3 text-fg-muted"
+                              aria-hidden="true"
+                            >
+                              <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                        aria-label="Retirer Gin"
+                        title="Retirer Gin"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-trash lucide-trash-2"
+                          aria-hidden="true"
+                        >
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                          <path d="M3 6h18"></path>
+                          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                      </button>
+                    </li>
+                    <li class="p04-row">
+                      <div class="inline-flex items-center gap-2.5">
+                        <button
+                          id="_r_21_"
+                          type="button"
+                          role="switch"
+                          aria-checked="true"
+                          aria-label="Compter Campari dans le verre"
+                          class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border p-0.5 transition-colors duration-150 ease-out-soft disabled:cursor-not-allowed border-transparent bg-accent-gradient shadow-glow"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="flex size-3.5 items-center justify-center rounded-full transition-transform duration-150 ease-out-soft translate-x-4 bg-accent-ink text-accent"
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="10"
+                              height="10"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-check"
+                              aria-hidden="true"
+                            >
+                              <path d="M20 6 9 17l-5-5"></path></svg
+                          ></span>
+                        </button>
+                      </div>
+                      <span class="min-w-0 text-body break-words text-fg">Campari</span>
+                      <div
+                        class="flex min-w-0 items-center gap-2"
+                      >
+                        <div class="flex min-w-0 flex-col gap-1.5 w-44 shrink-0">
+                          <label for="_r_22_" class="text-small font-medium text-fg-secondary sr-only">Dose de Campari</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 w-44 gap-0.5 px-[3px]"
+                          >
+                            <button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Retirer 2,5&nbsp;ml"
+                              title="Retirer 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-minus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                              </svg></button
+                            ><input
+                              id="_r_22_"
+                              class="nums h-full min-w-0 flex-1 bg-transparent text-right text-body text-fg outline-none disabled:cursor-not-allowed"
+                              inputmode="decimal"
+                              role="spinbutton"
+                              autocomplete="off"
+                              aria-valuenow="30"
+                              aria-valuemin="0"
+                              aria-valuetext="30,0&nbsp;ml"
+                              type="text"
+                              value="30,0"
+                              style=""
+                            /><span aria-hidden="true" class="shrink-0 pr-1 pl-1.5 text-small text-fg-muted">ml</span
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Ajouter 2,5&nbsp;ml"
+                              title="Ajouter 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-plus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="flex min-w-0 flex-col gap-1.5 p04-unit">
+                          <label for="_r_23_" class="text-small font-medium text-fg-secondary sr-only">Unité de Campari</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 relative"
+                          >
+                            <select
+                              id="_r_23_"
+                              class="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg outline-none disabled:cursor-not-allowed"
+                            >
+                              <option value="ml">ml</option>
+                              <option value="cl">cl</option>
+                              <option value="oz">oz</option>
+                              <option value="dash">trait</option>
+                              <option value="drop">goutte</option>
+                              <option value="barspoon">cuillère de bar</option>
+                              <option value="tsp">cuillère à café</option>
+                              <option value="g">g</option>
+                              <option value="piece">pièce</option>
+                              <option value="leaf">feuille</option>
+                              <option value="slice">tranche</option>
+                              <option value="wedge">quartier</option>
+                              <option value="top">à compléter</option>
+                              <option value="to_taste">selon le goût</option></select
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-chevron-down pointer-events-none absolute right-3 text-fg-muted"
+                              aria-hidden="true"
+                            >
+                              <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                        aria-label="Retirer Campari"
+                        title="Retirer Campari"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-trash lucide-trash-2"
+                          aria-hidden="true"
+                        >
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                          <path d="M3 6h18"></path>
+                          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                      </button>
+                    </li>
+                    <li class="p04-row">
+                      <div class="inline-flex items-center gap-2.5">
+                        <button
+                          id="_r_24_"
+                          type="button"
+                          role="switch"
+                          aria-checked="true"
+                          aria-label="Compter Vermouth rouge dans le verre"
+                          class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border p-0.5 transition-colors duration-150 ease-out-soft disabled:cursor-not-allowed border-transparent bg-accent-gradient shadow-glow"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="flex size-3.5 items-center justify-center rounded-full transition-transform duration-150 ease-out-soft translate-x-4 bg-accent-ink text-accent"
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="10"
+                              height="10"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-check"
+                              aria-hidden="true"
+                            >
+                              <path d="M20 6 9 17l-5-5"></path></svg
+                          ></span>
+                        </button>
+                      </div>
+                      <span class="min-w-0 text-body break-words text-fg">Vermouth rouge</span>
+                      <div
+                        class="flex min-w-0 items-center gap-2"
+                      >
+                        <div class="flex min-w-0 flex-col gap-1.5 w-44 shrink-0">
+                          <label for="_r_25_" class="text-small font-medium text-fg-secondary sr-only">Dose de Vermouth rouge</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 w-44 gap-0.5 px-[3px]"
+                          >
+                            <button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Retirer 2,5&nbsp;ml"
+                              title="Retirer 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-minus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                              </svg></button
+                            ><input
+                              id="_r_25_"
+                              class="nums h-full min-w-0 flex-1 bg-transparent text-right text-body text-fg outline-none disabled:cursor-not-allowed"
+                              inputmode="decimal"
+                              role="spinbutton"
+                              autocomplete="off"
+                              aria-valuenow="30"
+                              aria-valuemin="0"
+                              aria-valuetext="30,0&nbsp;ml"
+                              type="text"
+                              value="30,0"
+                              style=""
+                            /><span aria-hidden="true" class="shrink-0 pr-1 pl-1.5 text-small text-fg-muted">ml</span
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Ajouter 2,5&nbsp;ml"
+                              title="Ajouter 2,5&nbsp;ml"
+                              tabindex="-1"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-plus"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="flex min-w-0 flex-col gap-1.5 p04-unit">
+                          <label for="_r_26_" class="text-small font-medium text-fg-secondary sr-only">Unité de Vermouth rouge</label>
+                          <div
+                            class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 relative"
+                          >
+                            <select
+                              id="_r_26_"
+                              class="shk-select h-full w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-3.5 text-body text-fg outline-none disabled:cursor-not-allowed"
+                            >
+                              <option value="ml">ml</option>
+                              <option value="cl">cl</option>
+                              <option value="oz">oz</option>
+                              <option value="dash">trait</option>
+                              <option value="drop">goutte</option>
+                              <option value="barspoon">cuillère de bar</option>
+                              <option value="tsp">cuillère à café</option>
+                              <option value="g">g</option>
+                              <option value="piece">pièce</option>
+                              <option value="leaf">feuille</option>
+                              <option value="slice">tranche</option>
+                              <option value="wedge">quartier</option>
+                              <option value="top">à compléter</option>
+                              <option value="to_taste">selon le goût</option></select
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-chevron-down pointer-events-none absolute right-3 text-fg-muted"
+                              aria-hidden="true"
+                            >
+                              <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                        aria-label="Retirer Vermouth rouge"
+                        title="Retirer Vermouth rouge"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-trash lucide-trash-2"
+                          aria-hidden="true"
+                        >
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                          <path d="M3 6h18"></path>
+                          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  </ul>
+                  <p class="p04-help">Décoche « Dans le verre » pour sortir un ingrédient du calcul sans l’enlever de la recette.</p>
+                  <div class="flex min-w-0 flex-col gap-1.5">
+                    <label for="_r_27_" class="text-small font-medium text-fg-secondary sr-only">Ajouter un ingrédient</label>
+                    <div tabindex="-1" class="min-w-0" cmdk-root="">
+                      <label
+                        cmdk-label=""
+                        for="radix-_r_2d_"
+                        id="radix-_r_2c_"
+                        style="
+                          position: absolute;
+                          width: 1px;
+                          height: 1px;
+                          padding: 0px;
+                          margin: -1px;
+                          overflow: hidden;
+                          clip: rect(0px, 0px, 0px, 0px);
+                          white-space: nowrap;
+                          border-width: 0px;
+                        "
+                      ></label>
+                      <div
+                        class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-2 pr-3 pl-3.5"
+                      >
+                        <input
+                          id="_r_27_"
+                          role="combobox"
+                          autocomplete="off"
+                          spellcheck="false"
+                          aria-autocomplete="list"
+                          aria-expanded="false"
+                          placeholder="Cherche un ingrédient"
+                          class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed"
+                          type="text"
+                          value=""
+                          style=""
+                        /><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-chevrons-up-down shrink-0 text-fg-muted"
+                          aria-hidden="true"
+                        >
+                          <path d="m7 15 5 5 5-5"></path>
+                          <path d="m7 9 5-5 5 5"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section
+                  class="p04-card flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card"
+                  aria-label="Indicateurs en direct"
+                >
+                  <h2 class="pl-section-title">Indicateurs en direct</h2>
+                  <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1.5">
+                      <div class="flex items-baseline justify-between gap-2">
+                        <span class="text-small text-fg-secondary">Degré estimé</span
+                        ><span class="nums text-lead font-medium text-fg">23,5 % vol</span>
+                      </div>
+                      <div class="flex min-w-0 flex-col gap-2">
+                        <div
+                          role="img"
+                          aria-label="Degré estimé&nbsp;: 23,5&nbsp;% vol, zone de référence de 23,3 à 28,6&nbsp;% vol, v1 à 23,5&nbsp;% vol"
+                          class="relative h-7 overflow-clip [overflow-clip-margin:12px]"
+                        >
+                          <div class="absolute inset-x-0 top-2.5 flex h-2 items-center justify-between">
+                            <span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span><span class="h-2 w-px shrink-0 bg-border-strong"></span
+                            ><span class="h-2 w-px shrink-0 bg-border-strong"></span>
+                          </div>
+                          <div
+                            data-part="zone"
+                            class="absolute top-2.5 h-2 rounded-full border border-accent/35 bg-accent/18"
+                            style="left: 25%; width: 50%"
+                          ></div>
+                          <div
+                            data-part="saved"
+                            class="absolute top-[9px] size-2.5 rounded-full border-2 border-fg-secondary bg-surface-2"
+                            style="left: calc(26.4368% - 5px)"
+                          ></div>
+                          <div
+                            data-part="value"
+                            class="pointer-events-none absolute top-[7px] -right-[7px] left-[7px] h-3.5 transition-transform duration-200 ease-out-soft"
+                            style="transform: translateX(-73.5632%)"
+                          >
+                            <span
+                              class="absolute top-0 right-0 size-3.5 rounded-full border-2 border-surface-1 bg-accent shadow-[0_0_0_3px_rgb(239_120_43/0.25)]"
+                            ></span>
+                          </div>
+                        </div>
+                        <ul aria-label="Légende" class="m-0 flex list-none flex-col gap-2 p-0 pt-1">
+                          <li class="nums flex items-center gap-2.5 text-caption text-fg-secondary">
+                            <span aria-hidden="true" class="h-2 w-6 flex-none rounded-full border border-accent/35 bg-accent/18"></span>Zone
+                            de référence 23,3 à 28,6&nbsp;% vol (1583 fiches)
+                          </li>
+                          <li class="nums flex items-center gap-2.5 text-caption text-fg-secondary">
+                            <span aria-hidden="true" class="flex w-6 flex-none justify-center"
+                              ><span
+                                class="size-3.5 rounded-full border-2 border-surface-1 bg-accent shadow-[0_0_0_3px_rgb(239_120_43/0.25)]"
+                              ></span></span
+                            >Valeur actuelle 23,5&nbsp;% vol
+                          </li>
+                          <li class="nums flex items-center gap-2.5 text-caption text-fg-secondary">
+                            <span aria-hidden="true" class="flex w-6 flex-none justify-center"
+                              ><span class="size-2.5 rounded-full border-2 border-fg-secondary bg-surface-2"></span></span
+                            >Version enregistrée (v1) 23,5&nbsp;% vol
+                          </li>
+                        </ul>
+                      </div>
+                      <p
+                        class="m-0 w-fit cursor-help text-caption text-fg-muted underline decoration-dotted"
+                        title="Angel Face, Black Russian, Boulevardier, Cardinale, Dry Martini, French Connection, Hanky Panky, Manhattan, Martinez, Mint Julep, Negroni, Rabo de Galo, Remember the Maine, Rusty Nail, Sazerac, Stinger, Tipperary, Tuxedo, Vesper, Vieux Carré, 100 Year Old Cigar, 1910, 1920s Artist, 30 e Lode, A.B.C. Cocktail, A Choice Hobson, 'A Clockwork Orange' Negroni, A Dream to Be, Añejo Old Fashioned, A Few of My Favourite Things et 1553 autres"
+                      >
+                        Zone de la famille, 1583 fiches
+                      </p>
+                    </div>
+                    <div class="p04-missing">
+                      <span class="text-small text-fg-secondary">Sucre, acidité et rapport sucre / acide</span>
+                      <p>Il manque le sucre et l’acidité des trois ingrédients. Les jauges apparaîtront dès qu’ils seront renseignés.</p>
+                      <a class="p04-link" href="#">Compléter les ingrédients<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+                    </div>
+                  </div>
+                  <dl class="m-0 grid grid-cols-3 gap-3 border-t border-border pt-3">
+                    <div class="flex flex-col gap-0.5">
+                      <dt class="text-caption text-fg-muted">Volume servi</dt>
+                      <dd class="nums m-0 text-lead font-medium text-fg">99 ml</dd>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                      <dt class="text-caption text-fg-muted">Dilution</dt>
+                      <dd class="nums m-0 text-lead font-medium text-fg">10 %</dd>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                      <dt class="text-caption text-fg-muted">Coût</dt>
+                      <dd class="nums m-0 text-lead font-medium text-fg">
+                        <span class="inline-flex items-center align-middle"
+                          ><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span
+                          ><span class="sr-only">Pas encore de valeur</span></span
+                        >
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+              </div>
+              <footer class="sticky -bottom-8 mt-auto -mb-8 flex flex-wrap items-center gap-2 border-t border-border bg-bg-base py-1.5">
+                <button
+                  type="button"
+                  class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body"
+                  disabled=""
+                >
+                  Enregistrer comme nouvelle version</button
+                ><button
+                  type="button"
+                  class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+                >
+                  Enregistrer comme variante</button
+                ><button
+                  type="button"
+                  class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-8 gap-1.5 px-3 text-body"
+                  disabled=""
+                >
+                  Abandonner</button
+                ><span class="p04-saved">Rien n’a changé depuis la v1.</span><button
+                  type="button"
+                  class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body ml-auto"
+                  aria-keyshortcuts="Control+J"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-notebook-pen"
+                    aria-hidden="true"
+                  >
+                    <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"></path>
+                    <path d="M2 6h4"></path>
+                    <path d="M2 10h4"></path>
+                    <path d="M2 14h4"></path>
+                    <path d="M2 18h4"></path>
+                    <path
+                      d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path></svg
+                  >Noter une dégustation
+                </button>
+              </footer>
+              <dialog
+                aria-labelledby="_r_2e_"
+                class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(400px,calc(100vw-32px))]"
+              ></dialog>
+              <dialog
+                aria-labelledby="_r_2g_"
+                aria-describedby="_r_2h_"
+                class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(400px,calc(100vw-32px))]"
+              ></dialog>
+            </div>
+          </main>
+        </div>
+        <dialog
+          aria-labelledby="_r_e_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in mx-auto mt-[12vh] mb-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_g_"
+          aria-describedby="_r_h_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_i_"
+          aria-describedby="_r_j_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_k_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_m_"
+          aria-describedby="_r_n_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_o_"
+          aria-describedby="_r_p_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <section aria-label="Notifications" class="pointer-events-none fixed right-4 bottom-4 z-50 w-[min(340px,calc(100vw-32px))]">
+          <div role="status" aria-live="polite" aria-atomic="false" class="flex flex-col gap-1.5"></div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

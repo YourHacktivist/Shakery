@@ -22,6 +22,15 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Regarder chaque écran modifié en image, à 1100 px, à 1536 px (son écran) et en grand, barre ouverte et fermée, avec des noms longs : boutons alignés, aucun bouton seul sur sa ligne, hauteurs égales (D-049). Un audit automatique vert ne suffit pas : il l'a dit le 22 novembre en renvoyant une capture.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
 
+## Refonte livrée en 0.2.4 (24 au 26 novembre 2026)
+
+Refonte ergonomique validée sur planches (D-057) et interface sans désignation (D-058). Les planches avant et après sont dans `design/planches/` (README, `notes.json`, outils `rendu.cjs` et `assembler.cjs`).
+
+- Fait : coquille (barre latérale en groupes, barre du haut allégée, défilement remis en haut, bug des classes des liens corrigé), accueil, fiches, fiche avec menu Plus, atelier, Ingrédients (ex-Mon bar) avec case Au bar, préparations en liste, collections avec onglet Réviser (`/practice` redirige), paramètres avec sommaire, calculateurs ; tous les textes et l'aide sans tutoiement ; test des pronoms dans `typography.test.tsx`. Volumes servis arrondis à 5 ml à l'affichage (`roundServedVolume`), dessins de fond à 16 % d'opacité, fiche imprimée avec famille, catégorie et type, crédit dans le pied (D-059).
+- Vérifié le 26 novembre : lint, typage, 713 tests unitaires ; e2e 41 sur 42, `alignment.spec.ts` n'échoue que dans la suite complète et passe seul.
+- Fiche imprimée revue (D-060) : en-tête clair, deux rangées de repères alignées, famille exacte du socle par `recipes.familyLabel`. Familles inchangées à la demande de l'utilisateur. Réglage « Effet de verre » retiré.
+- Publiée en version 0.2.4 le 26 novembre, à la demande de l'utilisateur.
+
 ## Reprendre ici (23 novembre 2026)
 
 Phases 0 à 11 livrées pour Windows, puis les demandes de l'utilisateur du 22 novembre, dans son ordre : D-039 à D-050. macOS est mis de côté à sa demande : ne plus proposer le DMG. Au 23 novembre : `npm run check` passe (452 tests, couverture du cœur 97 % des lignes), `npm run test:e2e` passe (36 tests), `npm run screens` ne relève rien sur 90 captures, `npm run perf` tient ses budgets, `scripts/seed/check-seed.ts` retrouve les 7 166 cocktails.

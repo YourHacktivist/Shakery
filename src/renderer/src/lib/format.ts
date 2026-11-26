@@ -21,6 +21,11 @@ export function formatNumber(value: number, decimals?: number): string {
   return decimals === undefined ? formatter(0, 2).format(value) : formatter(decimals, decimals).format(value)
 }
 
+/** A served volume as a bar writes it: to the nearest 5 ml (126 becomes 125), to the millilitre under 20 ml. */
+export function roundServedVolume(ml: number): number {
+  return ml < 20 ? Math.round(ml) : Math.round(ml / 5) * 5
+}
+
 const MINUS = '\u2212'
 
 /** Signed difference: « +0,6 », « \u22121,2 » (true minus sign), « = » when it rounds to zero. */

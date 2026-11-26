@@ -1,29 +1,21 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
+import { ChevronsLeft, ChevronsRight, Keyboard, PanelLeftClose } from 'lucide-react'
+import { useId, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { NavLink, useLocation } from 'react-router'
 import {
-  ArrowRight,
-  CircleHelp,
-  Keyboard,
-  ChevronsLeft,
-  ChevronsRight,
-  Milk,
-  PanelLeftClose,
-  RotateCcw,
-  Wine,
-} from 'lucide-react'
-import { useId, type ReactNode } from 'react'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router'
-import { activeNavIndex, NAV_ITEMS, type NavItem } from '@renderer/app/navigation'
+  SIDEBAR_BOTTOM,
+  SIDEBAR_GROUPS,
+  SIDEBAR_TOP,
+  type NavGroup,
+  type NavItem,
+} from '@renderer/app/navigation'
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
 import { useAppVersion } from '@renderer/app/useAppVersion'
 import logoUrl from '@renderer/assets/logo-160.png'
 import { IconButton, type ButtonSize } from '@renderer/components/Button'
-import { ExpiryPill } from '@renderer/components/ExpiryPill'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
 import { ariaKeyShortcut } from '@renderer/lib/shortcuts'
-import { daysLeftFromNow } from '@renderer/lib/format'
-import { useTonight } from '@renderer/features/shared/tonight'
-import { usePreps, useSetting, useTastings } from '@renderer/lib/queries'
 
 /** The button that closes the sidebar takes the focus back when it opens again. */
 export const SIDEBAR_CLOSE_ID = 'sidebar-close'
@@ -35,13 +27,31 @@ export function focusNextFrame(id: string) {
   requestAnimationFrame(() => document.getElementById(id)?.focus())
 }
 
-const SCROLLBAR = '[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]'
+/**
+ * A label that folds away: it fades, shrinks to nothing and takes the gap that precedes it, so
+ * the folded sidebar holds only its icons and nothing sticks out of it.
+ */
+const FOLD = 'transition-[opacity,max-width,margin] duration-200 ease-out-soft'
+const FOLDED = '-ml-2.5 max-w-0 opacity-0'
 
-/** Height of a navigation entry plus the gap between two of them, for the sliding indicator. */
-const ENTRY_PITCH = 34
+const SCROLLBAR = '[scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]'
 
 /** Text that fades out while the sidebar folds; the width animation does the rest. */
 const FADE = 'transition-opacity duration-200 ease-out-soft'
+
+/**
+ * An entry of the navigation. A plain string: the tooltip trigger (Radix `asChild`) joins the
+ * class names as text, so a NavLink class function would reach the DOM as its source code
+ * (D-057). The active state is read from the `aria-current="page"` that NavLink sets.
+ */
+export const NAV_ENTRY_CLASS =
+  'group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap text-fg-secondary transition-colors duration-150 ease-out-soft hover:bg-tint/4 hover:text-fg aria-[current=page]:text-fg aria-[current=page]:hover:bg-transparent'
+
+/** Copper pill of the active entry, with its lit edge on the left. */
+const PILL = cn(
+  'pointer-events-none rounded-field border border-accent/20 bg-[linear-gradient(90deg,rgb(239_120_43/0.16),rgb(239_120_43/0.03))]',
+  "before:absolute before:top-2 before:-left-px before:h-4 before:w-[3px] before:rounded-full before:bg-accent before:shadow-[0_0_10px_rgb(239_120_43/0.8)] before:content-['']",
+)
 
 /** Label shown on the right of a folded sidebar entry, on hover and on keyboard focus. */
 function SideTooltip({ label, enabled, children }: { label: string; enabled: boolean; children: ReactNode }) {
@@ -61,24 +71,30 @@ function SideTooltip({ label, enabled, children }: { label: string; enabled: boo
   )
 }
 
-function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
+/**
+ * `ownPill`: the entry draws its pill itself. Paramètres sits outside the list where the
+ * sliding pill runs.
+ */
+function NavEntry({
+  item,
+  collapsed,
+  ownPill = false,
+}: {
+  item: NavItem
+  collapsed: boolean
+  ownPill?: boolean
+}) {
   const label = fr.shell.nav[item.id]
   const Icon = item.icon
   return (
     <li>
       <SideTooltip label={label} enabled={collapsed}>
-        <NavLink
-          to={item.path}
-          end={item.path === '/'}
-          className={({ isActive }) =>
-            cn(
-              'group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft',
-              isActive ? 'text-fg' : 'text-fg-secondary hover:bg-tint/4 hover:text-fg',
-            )
-          }
-        >
+        <NavLink to={item.path} end={item.path === '/'} className={NAV_ENTRY_CLASS}>
           {({ isActive }) => (
             <>
+              {ownPill && isActive ? (
+                <span aria-hidden="true" className={cn('absolute inset-0 -z-10', PILL)} />
+              ) : null}
               <Icon
                 size={16}
                 strokeWidth={1.75}
@@ -88,7 +104,7 @@ function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
                   isActive ? 'text-accent' : 'group-hover/nav:translate-x-px',
                 )}
               />
-              <span className={cn('truncate', FADE, collapsed && 'opacity-0')}>{label}</span>
+              <span className={cn('truncate', FOLD, collapsed ? FOLDED : 'max-w-[170px]')}>{label}</span>
             </>
           )}
         </NavLink>
@@ -97,160 +113,91 @@ function NavEntry({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
   )
 }
 
-/** Copper pill under the active entry: it slides from one entry to the next (transform only). */
-function ActiveIndicator({ index }: { index: number }) {
+function NavList({
+  items,
+  collapsed,
+  labelledBy,
+  ownPill,
+}: {
+  items: readonly NavItem[]
+  collapsed: boolean
+  labelledBy?: string
+  ownPill?: boolean
+}) {
+  return (
+    <ul aria-labelledby={labelledBy} className="m-0 flex list-none flex-col gap-0.5 p-0">
+      {items.map((item) => (
+        <NavEntry key={item.id} item={item} collapsed={collapsed} ownPill={ownPill} />
+      ))}
+    </ul>
+  )
+}
+
+/**
+ * A titled group, in small capitals with a hairline (D-057). Folded, the title leaves its
+ * hairline alone, at the same height, so the icons do not move.
+ */
+function NavGroupBlock({ group, collapsed }: { group: NavGroup; collapsed: boolean }) {
+  const id = useId()
+  return (
+    <div>
+      <p
+        id={id}
+        className={cn(
+          'm-0 mb-1.5 flex h-4 items-center text-[10.5px] font-semibold tracking-[0.09em] whitespace-nowrap text-fg-muted uppercase',
+          "after:h-px after:min-w-0 after:flex-1 after:bg-border after:content-['']",
+          collapsed ? 'px-1' : 'px-2',
+        )}
+      >
+        <span
+          className={cn(
+            'overflow-hidden transition-[opacity,max-width,margin] duration-200 ease-out-soft',
+            collapsed ? 'mr-0 max-w-0 opacity-0' : 'mr-2 max-w-[160px]',
+          )}
+        >
+          {fr.shell.nav.groups[group.id]}
+        </span>
+      </p>
+      <NavList items={group.items} collapsed={collapsed} labelledBy={id} />
+    </div>
+  )
+}
+
+/**
+ * Where the copper pill stands: the active link, measured once the entries are laid out (the
+ * group titles make the steps uneven). Hidden where no entry leads (guide, Révision).
+ */
+function useActivePill(list: RefObject<HTMLDivElement | null>, pathname: string, collapsed: boolean) {
+  const [pill, setPill] = useState<{ top: number; shown: boolean } | null>(null)
+  useLayoutEffect(() => {
+    const active = list.current?.querySelector<HTMLElement>('a[aria-current="page"]')
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mirrors the DOM after commit, before paint
+    setPill((previous) => {
+      if (active) {
+        return previous?.top === active.offsetTop && previous.shown
+          ? previous
+          : { top: active.offsetTop, shown: true }
+      }
+      return previous && previous.shown ? { ...previous, shown: false } : previous
+    })
+  }, [list, pathname, collapsed])
+  return pill
+}
+
+/** The pill slides from one entry to the next (transform only). */
+function ActiveIndicator({ pill }: { pill: { top: number; shown: boolean } | null }) {
+  if (!pill) return null
   return (
     <span
       aria-hidden="true"
+      data-testid="nav-indicator"
       className={cn(
-        'pointer-events-none absolute top-0 left-0 h-8 w-full rounded-field border border-accent/20 bg-[linear-gradient(90deg,rgb(239_120_43/0.16),rgb(239_120_43/0.03))] transition-[transform,opacity] duration-250 ease-out-soft',
-        "before:absolute before:top-2 before:-left-px before:h-4 before:w-[3px] before:rounded-full before:bg-accent before:shadow-[0_0_10px_rgb(239_120_43/0.8)] before:content-['']",
-        index < 0 && 'opacity-0',
+        'absolute top-0 left-0 h-8 w-full transition-[transform,opacity] duration-250 ease-out-soft',
+        PILL,
+        !pill.shown && 'opacity-0',
       )}
-      style={{ transform: `translateY(${String(Math.max(index, 0) * ENTRY_PITCH)}px)` }}
+      style={{ transform: `translateY(${String(pill.top)}px)` }}
     />
-  )
-}
-
-/** Small titled block under the navigation (section 10.3). */
-function SideBlock({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
-  const id = useId()
-  return (
-    <section aria-labelledby={id} className="flex flex-col gap-1.5">
-      <h2
-        id={id}
-        className="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted"
-      >
-        {icon}
-        <span>{title}</span>
-      </h2>
-      {children}
-    </section>
-  )
-}
-
-/** Next steps still to test, from the tasting journal (section 10.3). */
-function RetestBlock() {
-  const t = fr.shell.side.retest
-  const tastings = useTastings({ toRetest: true })
-  const steps = (tastings.data ?? []).filter((note) => note.nextStep !== null).slice(0, 3)
-  return (
-    <SideBlock icon={<RotateCcw size={14} strokeWidth={1.75} aria-hidden="true" />} title={t.title}>
-      {steps.length === 0 ? (
-        <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
-      ) : (
-        <ul className="m-0 flex list-none flex-col gap-1 p-0">
-          {steps.map((note) => (
-            <li key={note.id}>
-              <Link
-                to={`/recipes/${note.recipeId}`}
-                className="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
-              >
-                <span className="truncate text-small font-medium text-fg">{note.recipeName}</span>
-                <span className="line-clamp-2 text-caption leading-snug text-fg-secondary">
-                  {note.nextStep}
-                </span>
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
-              to="/journal"
-              className="inline-flex items-center gap-1.5 rounded-sm px-1.5 text-caption font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
-            >
-              <span>{fr.journal.side.open}</span>
-              <ArrowRight size={12} strokeWidth={1.75} aria-hidden="true" />
-            </Link>
-          </li>
-        </ul>
-      )}
-    </SideBlock>
-  )
-}
-
-/** Batches in use that expire soon or have expired (section 10.3). */
-function PrepsBlock() {
-  const t = fr.shell.side.preps
-  const preps = usePreps()
-  const warningDays = useSetting('preps.warningDays')
-  const watched = (preps.data ?? [])
-    .flatMap((prep) =>
-      prep.batches
-        .filter((batch) => batch.status === 'active')
-        .map((batch) => ({ prep, batch, days: daysLeftFromNow(batch.bestBefore) })),
-    )
-    .filter((entry) => entry.days !== null && entry.days <= warningDays)
-    .sort((a, b) => (a.days ?? 0) - (b.days ?? 0))
-  return (
-    <SideBlock icon={<Milk size={14} strokeWidth={1.75} aria-hidden="true" />} title={t.title}>
-      {watched.length === 0 ? (
-        <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
-      ) : (
-        <ul className="m-0 flex list-none flex-col gap-1 p-0">
-          {watched.slice(0, 3).map(({ prep, batch, days }) => (
-            <li key={batch.id}>
-              <Link
-                to="/preps"
-                className="flex items-center justify-between gap-2 rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
-              >
-                <span className="truncate text-small font-medium text-fg">{prep.name}</span>
-                <ExpiryPill days={days} warningDays={warningDays} />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </SideBlock>
-  )
-}
-
-function TonightCard() {
-  const id = useId()
-  const t = fr.shell.side.tonight
-  const tonight = useTonight()
-  const best = tonight.unlockers[0]
-  return (
-    <section
-      aria-labelledby={id}
-      className="flex flex-col gap-1.5 rounded-nested border border-border bg-tonight p-3"
-    >
-      <h2
-        id={id}
-        className="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted"
-      >
-        <Wine size={14} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
-        <span>{t.title}</span>
-      </h2>
-      {tonight.ready && (tonight.makeable > 0 || tonight.unlockers.length > 0) ? (
-        <>
-          <p className="m-0 text-small leading-normal text-fg">
-            <span className="nums text-heading font-semibold text-copper">{tonight.makeable}</span>{' '}
-            <span className="text-fg-secondary">
-              {fr.workshop.bar.makeable(tonight.makeable).replace(/^\d+ /, '')}
-            </span>
-          </p>
-          {best ? (
-            <p className="m-0 text-caption leading-snug text-fg-muted">
-              {fr.workshop.bar.unlock(best.name, best.recipes.length)}
-            </p>
-          ) : null}
-        </>
-      ) : (
-        <p className="m-0 text-small leading-normal text-fg-secondary">{t.empty}</p>
-      )}
-      <Link
-        to="/bar"
-        className="group/link inline-flex items-center gap-1.5 self-start rounded-sm text-small font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
-      >
-        <span>{t.action}</span>
-        <ArrowRight
-          size={14}
-          strokeWidth={1.75}
-          aria-hidden="true"
-          className="transition-transform duration-200 ease-out-soft group-hover/link:translate-x-0.5"
-        />
-      </Link>
-    </section>
   )
 }
 
@@ -293,9 +240,10 @@ function VersionCaption({ collapsed }: { collapsed: boolean }) {
 }
 
 /**
- * Sidebar (section 10.1): brand, navigation, side blocks, version. Folded, it keeps the icons
- * only; closed (D-047), nothing is left of it and the top bar offers to open it. Ctrl+B closes
- * and opens it. The width is the only animated layout property of the interface (D-032).
+ * Sidebar (section 10.1, D-057): brand, Accueil, three titled groups, Paramètres at the foot,
+ * then the version. Folded, it keeps the icons only; closed (D-047), nothing is left of it and
+ * the top bar offers to open it. Ctrl+B closes and opens it. The width is the only animated
+ * layout property of the interface (D-032).
  */
 export function Sidebar({ className }: { className?: string }) {
   const collapsed = useSidebarStore((state) => state.collapsed)
@@ -303,7 +251,8 @@ export function Sidebar({ className }: { className?: string }) {
   const toggle = useSidebarStore((state) => state.toggle)
   const openOverlay = useOverlayStore((state) => state.open)
   const { pathname } = useLocation()
-  const navigate = useNavigate()
+  const list = useRef<HTMLDivElement>(null)
+  const pill = useActivePill(list, pathname, collapsed)
   const t = fr.shell
   const toggleLabel = collapsed ? t.sidebar.expand : t.sidebar.collapse
 
@@ -324,7 +273,13 @@ export function Sidebar({ className }: { className?: string }) {
         <span className="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full">
           <img src={logoUrl} alt="" width={28} height={28} className="size-7" />
         </span>
-        <span className={cn('flex min-w-0 flex-col gap-0.5', FADE, collapsed && 'opacity-0')}>
+        <span
+          className={cn(
+            'flex min-w-0 flex-col gap-0.5 overflow-hidden',
+            FOLD,
+            collapsed ? FOLDED : 'max-w-[170px]',
+          )}
+        >
           <span className="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">
             {t.brand.name}
           </span>
@@ -337,35 +292,25 @@ export function Sidebar({ className }: { className?: string }) {
         )}
       </div>
 
-      <div
-        className={cn(
-          'flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto px-3 pt-2 pb-4',
-          SCROLLBAR,
-        )}
-      >
-        <Tooltip.Provider delayDuration={250}>
-          <nav aria-label={t.nav.label}>
-            <ul className="relative m-0 flex list-none flex-col gap-0.5 p-0">
-              <ActiveIndicator index={activeNavIndex(pathname)} />
-              {NAV_ITEMS.map((item) => (
-                <NavEntry key={item.id} item={item} collapsed={collapsed} />
+      <Tooltip.Provider delayDuration={250}>
+        <nav aria-label={t.nav.label} className="flex min-h-0 flex-1 flex-col">
+          <div
+            data-testid="nav-scroll"
+            className={cn('min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-3 pt-2 pb-4', SCROLLBAR)}
+          >
+            <div ref={list} className="relative flex flex-col gap-[18px]">
+              <ActiveIndicator pill={pill} />
+              <NavList items={SIDEBAR_TOP} collapsed={collapsed} />
+              {SIDEBAR_GROUPS.map((group) => (
+                <NavGroupBlock key={group.id} group={group} collapsed={collapsed} />
               ))}
-            </ul>
-          </nav>
-        </Tooltip.Provider>
-
-        <div
-          inert={collapsed}
-          aria-hidden={collapsed || undefined}
-          className={cn('flex w-[184px] flex-col gap-4', FADE, collapsed && 'h-0 overflow-hidden opacity-0')}
-        >
-          <div className="flex flex-col gap-3 px-1">
-            <RetestBlock />
-            <PrepsBlock />
+            </div>
           </div>
-          <TonightCard />
-        </div>
-      </div>
+          <div className="px-3 pb-2">
+            <NavList items={SIDEBAR_BOTTOM} collapsed={collapsed} ownPill />
+          </div>
+        </nav>
+      </Tooltip.Provider>
 
       {collapsed ? (
         <div className="flex justify-end border-t border-border px-3.5 pt-2">
@@ -380,13 +325,6 @@ export function Sidebar({ className }: { className?: string }) {
       >
         <VersionCaption collapsed={collapsed} />
         <span inert={collapsed} className={cn('flex shrink-0', FADE, collapsed && 'opacity-0')}>
-          <IconButton
-            variant="ghost"
-            size="sm"
-            label={t.sidebar.guide}
-            icon={<CircleHelp size={16} strokeWidth={1.75} aria-hidden="true" />}
-            onClick={() => void navigate('/guide')}
-          />
           <IconButton
             variant="ghost"
             size="sm"

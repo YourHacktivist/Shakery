@@ -5,7 +5,9 @@ import { Button } from '@renderer/components/Button'
 import { Dialog } from '@renderer/components/Dialog'
 import { Select } from '@renderer/components/Select'
 import { toast } from '@renderer/components/Toast'
-import { SettingCard } from '@renderer/features/settings/SettingCard'
+import { ControlRow } from '@renderer/components/ControlRow'
+import { MaintenanceGroup } from '@renderer/features/settings/MaintenanceCard'
+import { SettingsBlock, SettingsGroup } from '@renderer/features/settings/SettingsBlock'
 import { BACKUPS_KEY, useBackupDirectory } from '@renderer/features/settings/useBackupDirectory'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
@@ -21,9 +23,13 @@ const KEPT_WEEKS = [0, 4, 8, 12, 26, 52]
 
 const dateTime = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
 
-/** Folder, backup now, restore with a confirmation (sections 10.14 and 12.3). */
+/**
+ * Backup now, folder, automatic backups, recent ones to restore with a confirmation, then the
+ * trash and the upkeep, since a backup comes before any erasing (sections 10.14 and 12.3, D-057).
+ */
 export function BackupsCard() {
   const t = fr.settings.backups
+  const groups = fr.settings.groups
   const client = useQueryClient()
   const folder = useBackupDirectory()
   const frequency = useSetting('backup.frequencyHours')
@@ -36,10 +42,25 @@ export function BackupsCard() {
       value: frequency,
       values: FREQUENCY_HOURS,
       name: t.frequency,
+      hint: undefined,
       label: t.every,
     },
-    { key: 'backup.keepDaily', value: days, values: KEPT_DAYS, name: t.keepDaily, label: t.keptDays },
-    { key: 'backup.keepWeekly', value: weeks, values: KEPT_WEEKS, name: t.keepWeekly, label: t.keptWeeks },
+    {
+      key: 'backup.keepDaily',
+      value: days,
+      values: KEPT_DAYS,
+      name: t.keepDaily,
+      hint: t.keepDailyHint,
+      label: t.keptDays,
+    },
+    {
+      key: 'backup.keepWeekly',
+      value: weeks,
+      values: KEPT_WEEKS,
+      name: t.keepWeekly,
+      hint: t.keepWeeklyHint,
+      label: t.keptWeeks,
+    },
   ] as const
   const [restoring, setRestoring] = useState<BackupSummary | null>(null)
   const list = useQuery({
@@ -61,85 +82,94 @@ export function BackupsCard() {
   })
   const backups = (list.data ?? []).filter((backup) => backup.integrity === 'ok').slice(0, SHOWN)
 
+  const latest = list.data?.find((backup) => backup.integrity === 'ok')
+
   return (
-    <SettingCard eyebrow={t.eyebrow} title={t.title} description={t.description}>
-      {folder.directory ? (
-        <p className="m-0 rounded-nested border border-border bg-surface-2 px-3 py-2 text-small break-all text-fg">
-          {folder.directory.directory}
-        </p>
-      ) : null}
-      <div className="grid grid-cols-2 gap-2">
-        <Button
-          size="sm"
-          icon={<Save size={14} aria-hidden="true" />}
-          disabled={create.isPending}
-          onClick={() => {
-            create.mutate()
-          }}
-        >
-          {t.create}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<FolderOpen size={14} aria-hidden="true" />}
-          disabled={folder.busy}
-          onClick={folder.choose}
-        >
-          {t.choose}
-        </Button>
-        {folder.directory && !folder.directory.isDefault ? (
+    <SettingsBlock block="backups" title={t.title} description={t.description}>
+      <SettingsGroup>
+        <ControlRow label={t.manual} hint={t.lastBackup(latest ? dateTime.format(latest.createdAt) : null)}>
           <Button
-            variant="ghost"
-            size="sm"
-            className="col-span-2"
-            disabled={folder.busy}
-            onClick={folder.reset}
-          >
-            {t.useDefault}
-          </Button>
-        ) : null}
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {selects.map((select) => (
-          <Select
-            key={select.key}
-            className={select.key === 'backup.frequencyHours' ? 'col-span-2' : undefined}
-            label={select.name}
-            value={String(select.value)}
-            options={[...new Set([...select.values, select.value])]
-              .sort((a, b) => a - b)
-              .map((value) => ({ value: String(value), label: select.label(value) }))}
-            onChange={(event) => {
-              change({ key: select.key, value: Number(event.target.value) }, { onError: notifyError })
+            icon={<Save size={16} aria-hidden="true" />}
+            disabled={create.isPending}
+            onClick={() => {
+              create.mutate()
             }}
-          />
+          >
+            {t.create}
+          </Button>
+        </ControlRow>
+        <ControlRow
+          label={t.folder}
+          hint={
+            folder.directory ? <span className="break-all">{folder.directory.directory}</span> : undefined
+          }
+        >
+          {folder.directory && !folder.directory.isDefault ? (
+            <Button variant="ghost" disabled={folder.busy} onClick={folder.reset}>
+              {t.useDefault}
+            </Button>
+          ) : null}
+          <Button
+            variant="outline"
+            icon={<FolderOpen size={16} aria-hidden="true" />}
+            disabled={folder.busy}
+            onClick={folder.choose}
+          >
+            {t.choose}
+          </Button>
+        </ControlRow>
+      </SettingsGroup>
+      <SettingsGroup title={groups.automatic}>
+        {selects.map((select) => (
+          <ControlRow key={select.key} label={select.name} hint={select.hint}>
+            <Select
+              label={select.name}
+              hideLabel
+              className="w-44"
+              value={String(select.value)}
+              options={[...new Set([...select.values, select.value])]
+                .sort((a, b) => a - b)
+                .map((value) => ({ value: String(value), label: select.label(value) }))}
+              onChange={(event) => {
+                change({ key: select.key, value: Number(event.target.value) }, { onError: notifyError })
+              }}
+            />
+          </ControlRow>
         ))}
-      </div>
+      </SettingsGroup>
       {backups.length > 0 ? (
-        <ul className="m-0 flex list-none flex-col border-t border-border p-0 pt-1">
-          {backups.map((backup) => {
-            const when = dateTime.format(backup.createdAt)
-            return (
-              <li key={backup.id} className="flex items-center justify-between gap-3 py-1">
-                <span className="nums min-w-0 text-small text-fg">
-                  {when} <span className="text-fg-muted">{t.reasons[backup.reason]}</span>
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  aria-label={t.restoreOf(when)}
-                  onClick={() => {
-                    setRestoring(backup)
-                  }}
-                >
-                  {t.restore}
-                </Button>
-              </li>
-            )
-          })}
-        </ul>
+        <SettingsGroup title={groups.recent}>
+          <ul className="m-0 flex list-none flex-col p-0">
+            {backups.map((backup) => {
+              const when = dateTime.format(backup.createdAt)
+              return (
+                <li key={backup.id} className="border-t border-border first:border-t-0">
+                  <ControlRow
+                    compact
+                    label={
+                      <span className="nums">
+                        {when} <span className="text-small text-fg-muted">{t.reasons[backup.reason]}</span>
+                      </span>
+                    }
+                  >
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      aria-label={t.restoreOf(when)}
+                      onClick={() => {
+                        setRestoring(backup)
+                      }}
+                    >
+                      {t.restore}
+                    </Button>
+                  </ControlRow>
+                </li>
+              )
+            })}
+          </ul>
+        </SettingsGroup>
       ) : null}
+      <MaintenanceGroup />
 
       <Dialog
         open={restoring !== null}
@@ -172,6 +202,6 @@ export function BackupsCard() {
           </>
         }
       />
-    </SettingCard>
+    </SettingsBlock>
   )
 }

@@ -125,7 +125,7 @@ describe('NumberWithUnit', () => {
     render(<Harness initial={12} />)
     await user.type(field(), 'x')
     expect(field().getAttribute('aria-invalid')).toBe('true')
-    expect(screen.getByText('Saisis un nombre, par exemple 22,5.')).toBeDefined()
+    expect(screen.getByText('Un nombre est attendu, par exemple 22,5.')).toBeDefined()
     expect(stored()).toBe('12')
     await user.tab()
     expect(field().value).toBe('12')

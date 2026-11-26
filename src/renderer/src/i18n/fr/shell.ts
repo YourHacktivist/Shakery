@@ -15,13 +15,13 @@ export const shell = {
   versionUnknown: 'Version inconnue',
   /** Start-up window, while the notebook opens (D-056). */
   splash: {
-    opening: 'Ouverture de ton carnet…',
+    opening: 'Ouverture du carnet…',
     firstLaunch: `Shakery prépare ses 7${NBSP}000 classiques. Ce premier lancement prend quelques secondes, une seule fois.`,
   },
   /** What replaces a screen that failed, instead of an empty window. */
   crash: {
     title: 'Cet écran a rencontré un problème',
-    text: 'Ton carnet n’est pas touché. Recharge l’écran, ou passe à un autre par la barre latérale.',
+    text: 'Le carnet n’a pas été modifié. Recharger l’écran ou ouvrir un autre écran depuis la barre latérale permet de reprendre.',
     detail: 'Détail technique',
     reload: 'Recharger',
     home: 'Revenir à l’accueil',
@@ -30,39 +30,40 @@ export const shell = {
   update: {
     eyebrow: 'Nouvelle version',
     title: (version: string) => `Shakery ${version} est disponible`,
-    current: (version: string) => `Tu as la version ${version}.`,
+    current: (version: string) => `La version installée est la ${version}.`,
     published: (date: string) => `Publiée le ${date}.`,
     notesTitle: 'Ce qui change',
     noNotes: 'GitHub ne donne aucune note pour cette version.',
     safeNote:
-      'Shakery sauvegarde ton carnet avant d’installer la nouvelle version, puis redémarre de lui-même. Tu n’as rien à réinstaller.',
+      'Shakery sauvegarde le carnet avant d’installer la nouvelle version, puis redémarre de lui-même. Aucune réinstallation n’est nécessaire.',
     update: 'Mettre à jour',
     downloadPortable: 'Télécharger la version portable',
     portableNote:
-      'Cette copie portable ne s’installe pas. Télécharge l’archive portable de la nouvelle version et décompresse-la au même endroit, en remplaçant les fichiers : ton carnet, dans le dossier Shakery Data, reste en place.',
+      'Cette copie portable ne s’installe pas. L’archive portable de la nouvelle version se télécharge, puis se décompresse au même endroit en remplaçant les fichiers. Le carnet, rangé dans le dossier Shakery Data, reste en place.',
     later: 'Plus tard',
     skip: 'Ignorer cette version',
     downloadingTitle: (version: string) => `Téléchargement de Shakery ${version}`,
     percent: (value: string) => `${value}${NBSP}%`,
     downloadingNote:
-      'Tu peux continuer à travailler pendant le téléchargement. Cette fenêtre reviendra quand la version sera prête.',
+      'Le travail peut continuer pendant le téléchargement. Cette fenêtre reviendra quand la version sera prête.',
     background: 'Continuer en arrière-plan',
     readyTitle: (version: string) => `Shakery ${version} est prêt`,
     readyNote:
-      'Si tu redémarres maintenant, Shakery sauvegarde ton carnet puis installe la version en quelques secondes. Sinon, elle s’installera quand tu fermeras Shakery.',
+      'Avec un redémarrage immédiat, Shakery sauvegarde le carnet puis installe la version en quelques secondes. Sinon, elle s’installera à la fermeture de Shakery.',
     restart: 'Redémarrer maintenant',
     restarting: 'Sauvegarde et installation…',
     errorTitle: 'La mise à jour n’a pas abouti',
     errors: {
-      offline: 'GitHub ne répond pas. Vérifie ta connexion à Internet, puis réessaie.',
+      offline: 'GitHub ne répond pas. Il faut vérifier la connexion à Internet, puis réessayer.',
       failed: 'Le téléchargement a échoué. Le détail est dans le journal (Paramètres, À propos).',
       backup:
-        'La sauvegarde du carnet a échoué, donc rien n’a été installé. Vérifie le dossier des sauvegardes dans les paramètres.',
+        'La sauvegarde du carnet a échoué, donc rien n’a été installé. Il faut vérifier le dossier des sauvegardes dans les paramètres.',
     },
     retry: 'Réessayer',
     close: 'Fermer',
   },
   sidebar: {
+    /** No button of the sidebar any more (D-057): the guide opens from the help and the palette. */
     guide: 'Guide d’utilisation',
     label: 'Barre latérale',
     close: 'Fermer la barre latérale',
@@ -78,36 +79,28 @@ export const shell = {
     recipes: 'Fiches',
     lab: 'Atelier',
     journal: 'Journal',
-    notebook: 'Carnet',
-    bar: 'Mon bar',
+    notebook: 'Notes',
+    bar: 'Ingrédients',
     preps: 'Préparations',
     collections: 'Collections',
+    /** Reached from a collection (D-057), no longer from the sidebar. */
     practice: 'Révision',
     calculators: 'Calculateurs',
     settings: 'Paramètres',
     kit: 'Kit de composants (développement)',
-  },
-  side: {
-    retest: {
-      title: 'À retester',
-      empty: 'Rien à retester pour l’instant.',
-    },
-    preps: {
-      title: 'Préparations',
-      empty: 'Aucune préparation en cours.',
-    },
-    tonight: {
-      title: 'Ce soir',
-      empty: 'Coche les bouteilles que tu possèdes pour voir ce que tu peux préparer.',
-      action: 'Ouvrir Mon bar',
+    /** Titles of the groups of the sidebar (D-057). */
+    groups: {
+      create: 'Création',
+      bar: 'Bar',
+      tools: 'Outils',
     },
   },
   topbar: {
     label: 'Barre d’outils',
     search: 'Rechercher une fiche, un ingrédient, une note',
     quickIdea: 'Idée rapide',
-    settings: 'Paramètres',
     help: 'Aide',
+    /** Action of the palette: the theme switch left the top bar for Paramètres (D-057). */
     theme: { light: 'Passer au thème clair', dark: 'Passer au thème sombre' },
   },
   keys: {
@@ -135,13 +128,14 @@ export const shell = {
     listLabel: 'Résultats',
     groupScreens: 'Aller à',
     empty: 'Aucun résultat',
-    emptyHint: 'Essaie quelques lettres du nom, ou un autre nom de l’ingrédient.',
+    emptyHint:
+      'Une recherche sur quelques lettres du nom, ou sur un autre nom de l’ingrédient, peut donner un résultat.',
     groupRecipes: 'Fiches',
     groupIngredients: 'Ingrédients',
     groupProducts: 'Bouteilles',
     groupActions: 'Actions',
     prepare: (name: string) => `Préparer ${name} en mode préparation`,
-    groupNotes: 'Carnet et journal',
+    groupNotes: 'Notes et journal',
     groupShown: 'Fiche affichée',
     groupGeneral: 'Partout',
     tasting: (recipe: string) => `Dégustation de ${recipe}`,
@@ -165,13 +159,13 @@ export const shell = {
     description: 'Seul le nom est obligatoire. Entrée crée la fiche au statut idée.',
     name: 'Nom',
     namePlaceholder: 'Par exemple, Highball yuzu',
-    nameRequired: 'Donne un nom à ton idée.',
+    nameRequired: 'L’idée a besoin d’un nom.',
     ingredients: 'Ingrédients',
-    ingredientsPlaceholder: 'Tape un ingrédient puis Entrée ou virgule',
+    ingredientsPlaceholder: 'Saisir un ingrédient, puis Entrée ou une virgule',
     ingredientsHint: 'Les ingrédients inconnus sont créés dans la catégorie À classer.',
     suggestions: 'Ingrédients connus',
     remove: (name: string) => `Retirer ${name}`,
-    tooMany: 'Vingt ingrédients au plus pour une idée.',
+    tooMany: 'Une idée compte vingt ingrédients au plus.',
     note: 'Note',
     notePlaceholder: 'Une ligne pour ne pas oublier',
     create: 'Créer l’idée',

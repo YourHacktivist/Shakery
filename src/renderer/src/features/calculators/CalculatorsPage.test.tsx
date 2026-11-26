@@ -21,6 +21,21 @@ function figure(label: string): string {
 }
 
 describe('CalculatorsPage', () => {
+  it('describes the calculator shown above the title, the tabs under it', async () => {
+    const user = userEvent.setup()
+    renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')
+    expect(screen.getByRole('heading', { level: 1, name: t.title })).toBeDefined()
+    expect(screen.getByText(t.batch.caption)).toBeDefined()
+    expect(screen.getByText(t.batch.empty)).toBeDefined()
+    await user.click(screen.getByRole('radio', { name: t.tabs.cost }))
+    expect(screen.getByText(t.cost.caption)).toBeDefined()
+    expect(screen.queryByText(t.batch.caption)).toBeNull()
+    const tabs = screen.getByRole('radiogroup', { name: t.tabsLabel })
+    expect(tabs.compareDocumentPosition(screen.getByRole('heading', { level: 1 }))).toBe(
+      Node.DOCUMENT_POSITION_PRECEDING,
+    )
+  })
+
   it('computes the served ABV of the default lines with their dilution', async () => {
     const user = userEvent.setup()
     renderRoutes([{ path: '/calculators', element: <CalculatorsPage /> }], '/calculators')
@@ -28,7 +43,7 @@ describe('CalculatorsPage', () => {
     // (30 × 40 + 30 × 25 + 30 × 15) / 100 = 24 ml of alcohol in 90 ml, then 108 ml served.
     expect(figure(t.abv.before)).toContain('26,7')
     expect(figure(t.abv.after)).toContain('22,2')
-    expect(figure(t.abv.served)).toContain('108')
+    expect(figure(t.abv.served)).toContain('110')
   })
 
   it('gives no degree while the degree of a poured line is unknown', async () => {
@@ -38,7 +53,7 @@ describe('CalculatorsPage', () => {
     await user.clear(screen.getByRole('spinbutton', { name: `${t.abv.lineAbv} 2` }))
     // Counted as 0 %, the 30 ml would have given 15,3 % served.
     expect(figure(t.abv.after)).toContain(fr.components.display.stat.empty)
-    expect(figure(t.abv.served)).toContain('108')
+    expect(figure(t.abv.served)).toContain('110')
   })
 
   it('multiplies a batch written by hand, the fresh apart from the bottle', async () => {

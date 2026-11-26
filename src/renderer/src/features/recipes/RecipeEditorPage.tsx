@@ -71,6 +71,7 @@ import {
 import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
 import { PhotoField } from '@renderer/components/PhotoField'
 import type { PickedPhoto } from '@renderer/lib/photo'
+import { TYPICAL_STEPS_CREDIT } from '@shared/classics'
 import { photoUrl } from '@shared/domain/photos'
 
 const t = fr.recipes
@@ -146,7 +147,11 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
   const iceTypes = useIceTypes()
   const create = useCreateRecipe()
   const update = useUpdateRecipe()
-  const [defaults] = useState(() => (recipe ? detailToInput(recipe) : emptyRecipe()))
+  // The marker of a classic's typical steps is stored as its credit: hidden in the field, kept on save (D-058).
+  const typicalSteps = recipe?.credit === TYPICAL_STEPS_CREDIT
+  const [defaults] = useState(() =>
+    recipe ? { ...detailToInput(recipe), credit: typicalSteps ? null : recipe.credit } : emptyRecipe(),
+  )
   const {
     control,
     register,
@@ -203,7 +208,8 @@ function RecipeEditor({ recipe }: { recipe: RecipeDetail | null }) {
   )
 
   async function save(values: RecipeInputParsed) {
-    const data = cleanForSave(values)
+    const cleaned = cleanForSave(values)
+    const data = typicalSteps && !cleaned.credit ? { ...cleaned, credit: TYPICAL_STEPS_CREDIT } : cleaned
     allowLeave.current = true
     try {
       const saved =

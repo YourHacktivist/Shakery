@@ -116,9 +116,21 @@ export const ingredientDetailSchema = ingredientSummarySchema
   })
   .strict()
 
+/**
+ * What the list of the ingredients shows beside each name (D-057): whether a bottle of it is
+ * owned, and how many live recipes use it. Ingredients used by no recipe are left out of `usage`.
+ */
+export const ingredientInventorySchema = z
+  .object({
+    owned: z.array(id).max(20_000),
+    usage: z.array(z.object({ id, count: z.number().int().min(0) }).strict()).max(20_000),
+  })
+  .strict()
+
 export type IngredientSummary = z.output<typeof ingredientSummarySchema>
 export type IngredientInput = z.input<typeof ingredientInputSchema>
 export type IngredientDetail = z.output<typeof ingredientDetailSchema>
+export type IngredientInventory = z.output<typeof ingredientInventorySchema>
 
 // ---------------------------------------------------------------------------------------
 // Bottles

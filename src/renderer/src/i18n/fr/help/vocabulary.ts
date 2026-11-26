@@ -36,7 +36,7 @@ export const families = section(
   item(fam.punch, 'Il réunit spiritueux, acide, sucre et allongement, souvent pour plusieurs.'),
   item(fam.shot, 'C’est une petite dose, bue d’un trait.'),
   item(fam.non_alcoholic, 'La recette ne contient aucun alcool.'),
-  item(fam.other, 'Choisis-la toi-même quand aucune famille ne convient.'),
+  item(fam.other, 'Elle convient quand aucune autre famille ne correspond.'),
 )
 
 export const methods = section(
@@ -59,16 +59,16 @@ export const methods = section(
 
 export const origins = section(
   'Les origines',
-  item(o.mine, 'La recette est de toi.'),
+  item(o.mine, 'La recette est une création du carnet.'),
   item(o.classic, 'C’est une recette de référence. Elle entre dans la zone de référence de sa famille.'),
-  item(o.other, 'La recette vient de quelqu’un d’autre, et tu choisis de l’indiquer ainsi.'),
+  item(o.other, 'La recette vient de quelqu’un d’autre, sans être un classique.'),
 )
 
 export const units = section(
   'Les unités',
   item(u.ml, 'Le millilitre est l’unité de tous les calculs.'),
   item(u.cl, 'Cette unité vaut 10 ml.'),
-  item(u.oz, 'Cette unité vaut 30 ml, ou 29,57 ml selon tes paramètres.'),
+  item(u.oz, 'Cette unité vaut 30 ml, ou 29,57 ml selon les paramètres.'),
   item(u.dash, 'Cette unité vaut 0,25 ml au départ, réglable dans les paramètres.'),
   item(u.drop, 'Cette unité vaut 0,05 ml au départ, réglable.'),
   item(u.barspoon, 'Cette unité vaut 5 ml au départ, réglable.'),
@@ -84,15 +84,21 @@ export const units = section(
 
 export const missing = section(
   'Ce que dit « Manque »',
-  item(why.missing_quantity, 'La ligne n’a pas de dose. Donne-lui en une dans l’éditeur.'),
-  item(why.top_without_estimate, 'Un « à compléter » n’a pas de volume estimé. Saisis-le dans l’éditeur.'),
-  item(why.missing_abv, 'Renseigne le degré de l’ingrédient ou de sa bouteille dans Mon bar, 0 sans alcool.'),
-  item(why.missing_sugar, 'Renseigne le sucre de l’ingrédient ou de sa bouteille, 0 s’il n’y en a pas.'),
-  item(why.missing_acid, 'Renseigne l’acidité de l’ingrédient ou de sa bouteille, 0 s’il n’y en a pas.'),
-  item(why.missing_price, 'Ajoute une bouteille possédée, avec prix, base HT ou TTC et contenance.'),
-  item(why.mixed_price_basis, 'La recette mélange des prix HT et TTC. Saisis-les tous dans la même base.'),
-  item(why.unknown_ingredient, 'L’ingrédient de la ligne n’existe plus. Choisis-en un autre.'),
-  item(why.cycle, 'Une préparation finit par se contenir elle-même. Change une de ses lignes.'),
+  item(why.missing_quantity, 'La ligne n’a pas de dose. Elle se donne dans l’éditeur.'),
+  item(why.top_without_estimate, 'Un « à compléter » n’a pas de volume estimé. Il se saisit dans l’éditeur.'),
+  item(
+    why.missing_abv,
+    'Le degré de l’ingrédient ou de sa bouteille se renseigne dans Ingrédients, 0 sans alcool.',
+  ),
+  item(why.missing_sugar, 'Le sucre de l’ingrédient ou de sa bouteille se renseigne, 0 s’il n’y en a pas.'),
+  item(why.missing_acid, 'L’acidité de l’ingrédient ou de sa bouteille se renseigne, 0 s’il n’y en a pas.'),
+  item(why.missing_price, 'Il faut une bouteille cochée Au bar, avec prix, base HT ou TTC et contenance.'),
+  item(
+    why.mixed_price_basis,
+    'La recette mélange des prix HT et TTC. Ils doivent tous être saisis dans la même base.',
+  ),
+  item(why.unknown_ingredient, 'L’ingrédient de la ligne n’existe plus. Un autre doit être choisi.'),
+  item(why.cycle, 'Une préparation finit par se contenir elle-même. Une de ses lignes doit changer.'),
 )
 
 export const allergens = section(

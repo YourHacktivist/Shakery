@@ -1,4 +1,7 @@
-/** Help of what is on every screen (D-048): the window, the search, the two quick dialogs, the fields. */
+/**
+ * Help of what is on every screen (D-048): the window, the search, the two quick dialogs, the
+ * fields. Like the whole interface, it designates no one (D-058).
+ */
 import { componentsDisplay as display } from '../components-display'
 import { componentsForms as forms } from '../components-forms'
 import { journal } from '../journal'
@@ -11,35 +14,44 @@ const dialog = journal.dialog
 const idea = shell.quickIdea
 const palette = shell.palette
 const update = shell.update
+const nav = shell.nav
 
 export const general = topic(
   'Partout dans Shakery',
-  'Ces éléments marchent de la même façon sur tous les écrans : la fenêtre, la recherche, les saisies et le clavier.',
+  'Ces éléments fonctionnent de la même façon sur tous les écrans : la fenêtre, la recherche, les saisies et le clavier.',
   section(
     'La barre du haut',
     item(
       shell.topbar.search,
-      'Ouvre la palette de recherche. Ctrl K fait pareil, et taper une lettre hors d’un champ aussi.',
+      'Ouvre la palette de recherche. Ctrl K l’ouvre aussi, de même qu’une lettre tapée hors d’un champ.',
     ),
-    item(shell.topbar.quickIdea, 'Note un cocktail à creuser, sans quitter l’écran où tu es.'),
+    item(
+      shell.topbar.quickIdea,
+      'Ce bouton discret note un cocktail à creuser sans quitter l’écran affiché. Ctrl N l’ouvre de partout.',
+    ),
     item(
       shell.topbar.help,
-      'Explique l’écran affiché. F1 fait pareil, même par-dessus une fenêtre ouverte, sans rien perdre de ta saisie.',
+      'Explique l’écran affiché. F1 l’ouvre aussi, même par-dessus une fenêtre ouverte, sans rien perdre de la saisie.',
     ),
-    item(shell.topbar.theme.light, 'Le bouton soleil passe au thème clair, qui est couleur sable.'),
-    item(shell.topbar.theme.dark, 'Le bouton lune revient au thème sombre.'),
-    item(shell.topbar.settings, 'L’engrenage ouvre les réglages, les sauvegardes et tes données.'),
+    item(
+      shell.topbar.theme.light,
+      'Cette action de la palette passe au thème clair, couleur sable. Le thème se règle aussi dans les paramètres.',
+    ),
+    item(shell.topbar.theme.dark, 'Cette action de la palette revient au thème sombre.'),
     item(
       'Déplacer la fenêtre',
-      'Tire-la par les zones vides du haut. Sa taille minimale est de 1 100 × 700 pixels.',
+      'La fenêtre se déplace en la tirant par les zones vides du haut. Sa taille minimale est de 1 100 × 700 pixels.',
     ),
   ),
   section(
     shell.sidebar.label,
     item(
-      shell.nav.label,
-      'Elle mène aux onze écrans. Le trait cuivré suit celui qui est affiché. En icônes, le nom apparaît au survol.',
+      nav.label,
+      'Elle mène à l’accueil, aux écrans rangés en trois groupes, puis aux paramètres, tout en bas au-dessus du numéro de version. Le trait cuivré suit l’écran affiché. Réduite aux icônes, elle montre le nom au survol.',
     ),
+    item(nav.groups.create, 'Ce groupe réunit les fiches, l’atelier, le journal et les notes.'),
+    item(nav.groups.bar, 'Ce groupe réunit les ingrédients et les préparations maison.'),
+    item(nav.groups.tools, 'Ce groupe réunit les collections et les calculateurs.'),
     item(
       shell.sidebar.close,
       'La barre disparaît entièrement et l’écran prend toute la largeur. Ctrl B la ferme et la rouvre.',
@@ -48,49 +60,50 @@ export const general = topic(
       shell.sidebar.menu,
       'Ce bouton, avec le logo, remplace la barre fermée et la rouvre telle qu’elle était.',
     ),
-    item(shell.sidebar.open, 'Fait la même chose que le bouton Menu, comme l’indique sa bulle au survol.'),
+    item(shell.sidebar.open, 'C’est la bulle du bouton Menu, qui rouvre la barre latérale.'),
     item(shell.sidebar.collapse, 'Ne garde que les icônes.'),
-    item(shell.sidebar.expand, 'Remet les noms et les blocs. Ton choix est gardé au prochain lancement.'),
     item(
-      shell.side.retest.title,
-      'Affiche les trois dernières prochaines étapes du journal pas encore testées. Clique pour ouvrir la fiche.',
+      shell.sidebar.expand,
+      'Remet les noms et les titres des groupes. Le choix est gardé au prochain lancement.',
     ),
-    item(journal.side.open, 'Sous « À retester », ouvre le journal entier.'),
-    item(
-      shell.side.preps.title,
-      'Affiche jusqu’à trois fabrications qui expirent bientôt ou qui sont expirées. Le délai se règle dans les paramètres.',
-    ),
-    item(
-      shell.side.tonight.title,
-      'Donne le nombre de cocktails faisables avec ton bar, et l’achat qui en débloquerait le plus.',
-    ),
-    item(shell.side.tonight.action, 'Ouvre le bar et sa liste d’achats.'),
-    item(shell.sidebar.guide, 'Ouvre le guide complet, qui compte une page par écran.'),
     item(shell.sidebar.shortcuts, 'Ouvre la liste des raccourcis, comme la touche ?.'),
+    item(
+      shell.sidebar.guide,
+      'Il compte une page par écran. Il s’ouvre depuis la palette, avec l’action Ouvrir le guide, ou depuis la section À propos des paramètres.',
+    ),
   ),
   section(
-    'Les onze écrans',
-    item(shell.nav.home, 'Montre où en sont tes créations.'),
-    item(shell.nav.recipes, 'Liste tous les cocktails et préparations, avec filtres et tri.'),
-    item(shell.nav.lab, 'Règle une recette en direct.'),
-    item(shell.nav.journal, 'Rassemble tes dégustations et ce qu’il reste à retester.'),
-    item(shell.nav.notebook, 'Garde tes notes libres.'),
-    item(shell.nav.bar, 'Gère ingrédients, bouteilles et liste d’achats.'),
-    item(shell.nav.preps, 'Suit fabrications maison, dates limites et étiquettes.'),
-    item(shell.nav.collections, 'Regroupe cartes, concours et thèmes.'),
-    item(shell.nav.practice, 'Propose cartes mémoire et QCM sur une collection.'),
-    item(shell.nav.calculators, 'Calcule batch, degré, conversion et coût.'),
-    item(shell.nav.settings, 'Regroupe réglages, sauvegardes et données.'),
+    'Les écrans',
+    item(
+      nav.home,
+      'Montre la création en focus, les étapes à retester, les créations en cours, ce que permet le bar ce soir et les préparations en cours.',
+    ),
+    item(
+      nav.recipes,
+      'Liste les créations, les classiques, les favoris et les fiches réalisables, avec leurs filtres et leur tri.',
+    ),
+    item(nav.lab, 'Règle une recette en direct.'),
+    item(nav.journal, 'Rassemble les dégustations et ce qu’il reste à retester.'),
+    item(nav.notebook, 'Garde les notes libres qui ne sont pas encore des fiches.'),
+    item(nav.bar, 'Liste les ingrédients avec leur case Au bar, leurs bouteilles et la liste d’achats.'),
+    item(nav.preps, 'Suit les fabrications maison, leurs dates limites et leurs étiquettes.'),
+    item(nav.collections, 'Regroupe cartes, concours et thèmes, chacun avec son onglet Réviser.'),
+    item(nav.calculators, 'Calcule batch, degré, conversion et coût.'),
+    item(nav.settings, 'Regroupe le thème, les réglages, les sauvegardes et les données.'),
+    item(
+      nav.practice,
+      'La révision d’une collection se lance depuis son onglet Réviser, ou depuis le bouton Réviser de sa ligne dans la liste des collections.',
+    ),
   ),
   section(
     palette.title,
     item(
       palette.groupRecipes,
-      'La recherche lit le nom, les tags, les notes, la garniture, le profil, et les étapes que tu as écrites. Pour les cocktails qui contiennent un ingrédient, ouvre cet ingrédient.',
+      'La recherche lit le nom, les tags, les notes, la garniture, le profil et les étapes écrites à la main. Les cocktails qui contiennent un ingrédient se trouvent en ouvrant cet ingrédient.',
     ),
     item(
       palette.groupIngredients,
-      'Ils sont cherchés par nom et par alias. Le choix ouvre Mon bar sur l’ingrédient.',
+      'Ils sont cherchés par nom et par alias. Le choix ouvre l’écran Ingrédients sur l’ingrédient.',
     ),
     item(
       palette.groupProducts,
@@ -98,7 +111,7 @@ export const general = topic(
     ),
     item(
       palette.groupNotes,
-      'La recherche lit titre, texte et tags du carnet, commentaire et prochaine étape du journal. Le choix ouvre la note.',
+      'La recherche lit le titre, le texte et les tags des notes, ainsi que le commentaire et la prochaine étape du journal. Le choix ouvre la note.',
     ),
     item(
       palette.groupActions,
@@ -106,15 +119,15 @@ export const general = topic(
     ),
     item(
       palette.groupShown,
-      'Les mêmes actions portent sur la fiche affichée. Dans l’atelier, seule la comparaison est proposée, pour garder ton brouillon.',
+      'Les mêmes actions portent sur la fiche affichée. Dans l’atelier, seule la comparaison est proposée, pour garder le brouillon.',
     ),
     item(
       palette.groupGeneral,
-      'Elles apparaissent dès que tu tapes : idée rapide, fiche complète, dégustation, thème, aide, guide et raccourcis.',
+      'Elles apparaissent dès la première lettre : idée rapide, fiche complète, dégustation, thème, aide, guide et raccourcis.',
     ),
     item(palette.guide, 'Cette action ouvre le guide, page par page.'),
     item(palette.shortcuts, 'Cette action ouvre la liste des raccourcis.'),
-    item(palette.groupScreens, 'Liste tous les écrans, filtrés par ce que tu tapes.'),
+    item(palette.groupScreens, 'Liste les écrans de la barre latérale, filtrés par le texte saisi.'),
     item(
       'Fautes de frappe',
       'Accents et majuscules ne comptent pas. Si rien n’est trouvé, une faute est tolérée à partir de 4 lettres, deux au-delà de 6.',
@@ -125,7 +138,7 @@ export const general = topic(
     ),
     item(
       'Valider',
-      '↑ et ↓ choisissent, Entrée ouvre, Échap ferme. Entrée tapée très vite attend les résultats du mot entier.',
+      '↑ et ↓ choisissent, Entrée ouvre, Échap ferme. Une touche Entrée tapée très vite attend les résultats du mot entier.',
     ),
   ),
   section(
@@ -133,9 +146,9 @@ export const general = topic(
     item(idea.name, 'C’est le seul champ obligatoire. Entrée crée la fiche au statut Idée.'),
     item(
       idea.ingredients,
-      'Entrée ou virgule ajoute, ↑ et ↓ prennent une suggestion, Retour arrière retire le dernier, coller une liste à virgules la découpe. Le champ en prend vingt au plus. Un ingrédient inconnu est créé dans « À classer ».',
+      'Entrée ou une virgule ajoute l’ingrédient, ↑ et ↓ prennent une suggestion, Retour arrière retire le dernier, et une liste collée avec des virgules est découpée. Le champ en prend vingt au plus. Un ingrédient inconnu est créé dans « À classer ».',
     ),
-    item(idea.suggestions, 'Montre jusqu’à cinq noms connus sous le champ, pour ne pas créer de doublon.'),
+    item(idea.suggestions, 'Jusqu’à cinq noms connus s’affichent sous le champ, pour éviter un doublon.'),
     item(idea.note, 'Cette ligne devient la note de la fiche.'),
     item(idea.create, 'Crée l’idée. Le message qui suit propose de l’ouvrir.'),
     item(idea.open, 'Dans le message qui suit, ouvre la fiche créée.'),
@@ -143,34 +156,37 @@ export const general = topic(
   ),
   section(
     dialog.title,
-    item(dialog.recipe, 'C’est le seul champ obligatoire. Ctrl J depuis une fiche la remplit pour toi.'),
+    item(dialog.recipe, 'C’est le seul champ obligatoire. Ctrl J depuis une fiche le remplit d’office.'),
     item(
       dialog.version,
-      'La version courante est choisie par défaut. Change-la si tu as goûté une version plus ancienne.',
+      'La version courante est choisie par défaut. Une version plus ancienne se choisit ici quand c’est elle qui a été goûtée.',
     ),
-    item(dialog.overall, 'De 1 à 5 étoiles, à la souris ou aux flèches. Recliquer la même étoile l’efface.'),
+    item(
+      dialog.overall,
+      'De 1 à 5 étoiles, à la souris ou aux flèches. Un nouveau clic sur la même étoile l’efface.',
+    ),
     item(
       dialog.scores,
       'Chaque critère a cinq crans : bien trop peu, plutôt trop peu, juste, plutôt trop, bien trop. Le centre veut dire juste. Seuls les écarts s’affichent dans le journal.',
     ),
-    item(journal.criteria.balance, 'L’ensemble tient-il, sans qu’un goût écrase les autres ?'),
-    item(journal.criteria.sweetness, 'Juge le sucré, de sec à sirupeux.'),
-    item(journal.criteria.acidity, 'Juge le vif, de plat à mordant.'),
-    item(journal.criteria.bitterness, 'Juge l’amer, d’absent à envahissant.'),
-    item(journal.criteria.strength, 'Juge la chaleur de l’alcool.'),
-    item(journal.criteria.dilution, 'Juge l’eau, de trop serré à délavé.'),
-    item(journal.criteria.texture, 'Juge la tenue en bouche : mousse, gras, corps.'),
-    item(journal.criteria.aroma, 'Juge ce qui arrive au nez.'),
+    item(journal.criteria.balance, 'Ce critère juge si l’ensemble tient, sans qu’un goût écrase les autres.'),
+    item(journal.criteria.sweetness, 'Ce critère juge le sucré, de sec à sirupeux.'),
+    item(journal.criteria.acidity, 'Ce critère juge le vif, de plat à mordant.'),
+    item(journal.criteria.bitterness, 'Ce critère juge l’amer, d’absent à envahissant.'),
+    item(journal.criteria.strength, 'Ce critère juge la chaleur de l’alcool.'),
+    item(journal.criteria.dilution, 'Ce critère juge l’eau, de trop serré à délavé.'),
+    item(journal.criteria.texture, 'Ce critère juge la tenue en bouche : mousse, gras, corps.'),
+    item(journal.criteria.aroma, 'Ce critère juge ce qui arrive au nez.'),
     item(
       forms.photo.title,
       'Ajoute une photo de cet essai. Elle se change ou se retire ensuite depuis la note, dans le journal ou sur la fiche.',
     ),
-    item(dialog.comment, 'Décris ce que tu as goûté. Gras, italique et listes sont possibles.'),
+    item(dialog.comment, 'Il décrit ce qui a été goûté. Gras, italique et listes sont possibles.'),
     item(
       dialog.nextStep,
-      'Note ce qu’il faudra essayer. Elle reste dans « À retester » tant que tu ne l’as pas cochée comme testée.',
+      'Elle note ce qu’il faudra essayer. Elle reste dans « À retester » tant qu’elle n’est pas cochée comme testée.',
     ),
-    item(dialog.context, 'Note le lieu, l’occasion, la glace, ce qui explique la note.'),
+    item(dialog.context, 'Il garde le lieu, l’occasion et la glace, tout ce qui explique la note.'),
     item(dialog.save, 'Enregistre la note avec la date et l’heure du moment.'),
     item(dialog.cancel, 'Ferme sans rien enregistrer.'),
   ),
@@ -182,7 +198,7 @@ export const general = topic(
     ),
     item(
       'Champs avec suggestions',
-      'Tape pour filtrer, ↑ et ↓ choisissent, Entrée valide. La liste montre 100 lignes au plus : tape plus pour affiner.',
+      'La saisie filtre la liste, ↑ et ↓ choisissent, Entrée valide. La liste montre 100 lignes au plus, et quelques lettres de plus l’affinent.',
     ),
     item(
       'Pastilles de filtre',
@@ -192,24 +208,27 @@ export const general = topic(
       'Boutons à segments',
       '← et → passent d’un choix à l’autre, Début et Fin vont au premier et au dernier.',
     ),
-    item(forms.formatting.bold, 'Entoure la sélection de **deux étoiles**. Recommencer enlève le gras.'),
-    item(forms.formatting.italic, 'Entoure la sélection d’*une étoile*. Recommencer l’enlève.'),
-    item(forms.formatting.bullets, 'Met un tiret au début de chaque ligne choisie. Recommencer l’enlève.'),
-    item(forms.formatting.numbers, 'Numérote les lignes choisies. Recommencer enlève les numéros.'),
+    item(forms.formatting.bold, 'Entoure la sélection de **deux étoiles**. Un second appui enlève le gras.'),
+    item(forms.formatting.italic, 'Entoure la sélection d’*une étoile*. Un second appui l’enlève.'),
+    item(
+      forms.formatting.bullets,
+      'Met un tiret au début de chaque ligne choisie. Un second appui l’enlève.',
+    ),
+    item(forms.formatting.numbers, 'Numérote les lignes choisies. Un second appui enlève les numéros.'),
     item(forms.formatting.preview, 'Montre le rendu sous le champ dès qu’il y a de la mise en forme.'),
     item(forms.photo.add, 'Sur une dégustation sans photo, l’icône image ouvre la zone où en déposer une.'),
     item(forms.photo.change, 'Choisit une autre image à la place.'),
     item(forms.photo.remove, 'Enlève l’image.'),
     item(
       forms.photo.drop,
-      'La zone accepte JPEG, PNG ou WebP, 10 Mo et 80 millions de pixels au plus. La copie gardée est allégée à 1 600 pixels, et ton fichier n’est pas touché. Une photo HEIC d’iPhone doit d’abord être convertie.',
+      'La zone accepte JPEG, PNG ou WebP, 10 Mo et 80 millions de pixels au plus. La copie gardée est allégée à 1 600 pixels, et le fichier d’origine n’est pas touché. Une photo HEIC d’iPhone doit d’abord être convertie.',
     ),
   ),
   section(
     'Les signes communs',
     item(forms.toggle.on, 'L’interrupteur est allumé.'),
     item(forms.toggle.off, 'L’interrupteur est éteint.'),
-    item(display.stat.empty, 'Un tiret signale une valeur qui manque. Shakery ne la devine pas.'),
+    item(display.stat.empty, 'Un trait signale une valeur qui manque. Shakery ne la devine pas.'),
     item(
       display.gauge.legend,
       'Sous une jauge, elle décrit la bande, le curseur plein et le repère creux, avec leurs valeurs.',
@@ -230,7 +249,7 @@ export const general = topic(
     ),
     item(
       'Corbeille',
-      'Dans les paramètres, elle garde fiches, ingrédients, bouteilles, dégustations, notes, fabrications et collections supprimés, jusqu’à ce que tu la vides.',
+      'Dans les paramètres, elle garde fiches, ingrédients, bouteilles, dégustations, notes, fabrications et collections supprimés, jusqu’à ce qu’elle soit vidée.',
     ),
     item(
       'Quitter sans enregistrer',
@@ -238,22 +257,25 @@ export const general = topic(
     ),
     item(
       'Enregistrement automatique',
-      'Le carnet, les notes et prix des collections et les paramètres s’enregistrent seuls. Les autres formulaires attendent leur bouton.',
+      'Les notes, les cases Au bar, les notes et prix des collections et les paramètres s’enregistrent seuls. Les autres formulaires attendent leur bouton.',
     ),
-    item('Hors ligne', 'Tout est sur cet ordinateur. Seule la recherche par code-barres utilise Internet.'),
+    item(
+      'Hors ligne',
+      'Tout est sur cet ordinateur. Seules la recherche par code-barres et la recherche des mises à jour utilisent Internet.',
+    ),
   ),
   section(
     onboarding.title,
     item(
       onboarding.steps.display.title,
-      'Au premier lancement, tu choisis l’unité des doses et le thème. Tout se change ensuite dans les paramètres.',
+      'Au premier lancement, l’assistant demande l’unité des doses et le thème. Tout se change ensuite dans les paramètres.',
     ),
     item(
       onboarding.steps.base.title,
       'Donne le nombre de cocktails, de préparations et d’ingrédients déjà là.',
     ),
-    item(onboarding.steps.backups.title, 'Choisis un dossier, de préférence sur un autre disque.'),
-    item(onboarding.next, 'Passe à l’étape suivante. « Retour » revient à la précédente.'),
+    item(onboarding.steps.backups.title, 'Le dossier se choisit ici, de préférence sur un autre disque.'),
+    item(onboarding.next, 'Mène à l’étape suivante. « Retour » revient à la précédente.'),
     item(onboarding.back, 'Revient à l’étape précédente.'),
     item(onboarding.finish, 'À la dernière étape, ferme l’assistant et ouvre l’accueil.'),
     item(
@@ -286,7 +308,7 @@ export const general = topic(
     item(update.background, 'Ferme la fenêtre, et le téléchargement continue.'),
     item(
       update.restart,
-      'Sauvegarde le carnet puis installe la version sans assistant. Shakery se rouvre ensuite avec toutes tes données.',
+      'Sauvegarde le carnet puis installe la version sans assistant. Shakery se rouvre ensuite avec toutes les données.',
     ),
     item(update.retry, 'Relance la dernière étape qui a échoué.'),
     item(update.close, 'Ferme la fenêtre sans rien changer.'),

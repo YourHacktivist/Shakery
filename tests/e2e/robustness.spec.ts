@@ -125,7 +125,9 @@ test('names and searches with special characters never break a screen', async ()
 
     // Share and print dialogs of the hardest name.
     await go(page, `#/recipes/${ids[0] ?? ''}`)
-    await page.getByRole('button', { name: 'Partager' }).click()
+    // Partager sits in the menu « Plus » of the recipe (D-057).
+    await page.getByRole('button', { name: 'Plus', exact: true }).click()
+    await page.getByRole('menuitem', { name: /^Partager/ }).click()
     const share = page.getByRole('dialog', { name: 'Partager la fiche' })
     await expect(share).toBeVisible()
     await page.keyboard.press('Escape')

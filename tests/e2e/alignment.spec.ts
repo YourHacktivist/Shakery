@@ -150,6 +150,7 @@ test('buttons, fields and rows line up on every screen, with long names', async 
     })
     const help = page.getByRole('button', { name: 'Aide', exact: true })
     await expect(help).toBeVisible()
+    await page.waitForTimeout(450)
     await help.evaluate((button) => {
       button.style.position = 'relative'
       button.style.top = '5px'

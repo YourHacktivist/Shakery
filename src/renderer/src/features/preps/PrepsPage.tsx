@@ -3,12 +3,13 @@ import { useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { bestBeforeFrom } from '@core/shelf-life'
 import { Button, IconButton } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
 import { Dialog } from '@renderer/components/Dialog'
 import { EmptyState } from '@renderer/components/EmptyState'
-import { ExpiryPill } from '@renderer/components/ExpiryPill'
+import { ExpiryPill, expiryState, expiryText } from '@renderer/components/ExpiryPill'
 import { Input } from '@renderer/components/Input'
+import { NoValue } from '@renderer/components/NoValue'
 import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
+import { SectionTitle } from '@renderer/components/SectionTitle'
 import { toast } from '@renderer/components/Toast'
 import { LabelDialog } from '@renderer/features/preps/LabelDialog'
 import { errorMessage, notifyError } from '@renderer/features/shared/notify'
@@ -25,6 +26,9 @@ import {
 import type { Batch, PrepOverview } from '@shared/domain/workshop'
 
 const t = fr.workshop.preps
+
+/** Same columns for the header and for every row of the list. */
+const COLUMNS = 'grid grid-cols-[minmax(0,1fr)_150px_150px_170px_auto] items-start gap-x-6'
 
 /** « 2026-11-18 » of a timestamp, in local time, for a date field. */
 function dateValue(timestamp: number): string {
@@ -48,32 +52,46 @@ function fromDateValue(value: string, now: number): number | null {
   return Number.isNaN(date.getTime()) ? null : date.getTime()
 }
 
-/** Homemade preparations and their batches (section 10.9). */
+/** « Citron vert, sucre »: the names after the first one start in lower case. */
+function listed(names: readonly string[]): string[] {
+  return names.map((name, index) =>
+    index === 0 ? name : `${name.charAt(0).toLocaleLowerCase('fr')}${name.slice(1)}`,
+  )
+}
+
+/**
+ * Homemade preparations and their batches (section 10.9, D-057): a list of ruled rows, the
+ * preparations with a batch in use first.
+ */
 export function PrepsPage() {
   const navigate = useNavigate()
   const preps = usePreps()
   const [making, setMaking] = useState<PrepOverview | null>(null)
   const [labelling, setLabelling] = useState<Batch | null>(null)
   const list = preps.data ?? []
+  const inUse = (prep: PrepOverview) => prep.batches.some((batch) => batch.status === 'active')
+  const running = list.filter(inUse)
+  const idle = list.filter((prep) => !inUse(prep))
+  const activeBatches = list.reduce(
+    (total, prep) => total + prep.batches.filter((batch) => batch.status === 'active').length,
+    0,
+  )
 
   const newPrep = (
-    <Button
-      variant="outline"
-      icon={<Plus size={16} aria-hidden="true" />}
-      onClick={() => void navigate('/recipes/new')}
-    >
+    <Button icon={<Plus size={16} aria-hidden="true" />} onClick={() => void navigate('/recipes/new')}>
       {t.newPrep}
     </Button>
   )
 
   return (
-    <div className="mx-auto flex max-w-page flex-col gap-4">
-      <header className="flex items-end justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <span className="text-caption text-fg-muted">{t.count(list.length)}</span>
+    <div className="mx-auto flex max-w-page flex-col gap-6">
+      <header className="flex items-start justify-between gap-4">
+        <div className="flex min-w-0 flex-col gap-1">
+          <span className="text-caption text-fg-muted">{t.summary(list.length, activeBatches)}</span>
           <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
+          <p className="m-0 mt-2 max-w-[700px] text-body text-fg-secondary">{t.description}</p>
         </div>
-        {newPrep}
+        {list.length > 0 ? newPrep : null}
       </header>
 
       {preps.isPending ? null : list.length === 0 ? (
@@ -84,23 +102,33 @@ export function PrepsPage() {
           action={newPrep}
         />
       ) : (
-        <ul className="m-0 grid list-none grid-cols-2 gap-4 p-0">
-          {list.map((prep, index) => (
-            <li
-              key={prep.recipeId}
-              className="animate-rise"
-              style={{ '--rise-index': Math.min(index, 10) } as CSSProperties}
-            >
-              <PrepCard
-                prep={prep}
-                onMake={() => {
-                  setMaking(prep)
-                }}
-                onLabel={setLabelling}
-              />
-            </li>
-          ))}
-        </ul>
+        <section aria-label={t.listLabel} className="flex flex-col gap-6">
+          <div aria-hidden="true" className={cn(COLUMNS, 'text-caption text-fg-muted')}>
+            <span>{t.columns.prep}</span>
+            <span>{t.columns.shelfLife}</span>
+            <span>{t.columns.lastBatch}</span>
+            <span>{t.columns.useBy}</span>
+            <span className="w-[148px]" />
+          </div>
+          {running.length > 0 ? (
+            <PrepGroup
+              id="preps-active"
+              title={t.groups.active}
+              preps={running}
+              onMake={setMaking}
+              onLabel={setLabelling}
+            />
+          ) : null}
+          {idle.length > 0 ? (
+            <PrepGroup
+              id="preps-idle"
+              title={t.groups.idle}
+              preps={idle}
+              onMake={setMaking}
+              onLabel={setLabelling}
+            />
+          ) : null}
+        </section>
       )}
 
       <LabelDialog
@@ -119,52 +147,141 @@ export function PrepsPage() {
   )
 }
 
-function PrepCard({
+function PrepGroup({
+  id,
+  title,
+  preps,
+  onMake,
+  onLabel,
+}: {
+  id: string
+  title: string
+  preps: readonly PrepOverview[]
+  onMake: (prep: PrepOverview) => void
+  onLabel: (batch: Batch) => void
+}) {
+  return (
+    <section aria-labelledby={id} className="flex flex-col">
+      <SectionTitle id={id} tone="muted" className="pb-1">
+        {title}
+      </SectionTitle>
+      <ul className="m-0 list-none p-0">
+        {preps.map((prep, index) => (
+          <PrepRow
+            key={prep.recipeId}
+            prep={prep}
+            index={index}
+            onMake={() => {
+              onMake(prep)
+            }}
+            onLabel={onLabel}
+          />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+function PrepRow({
   prep,
+  index,
   onMake,
   onLabel,
 }: {
   prep: PrepOverview
+  index: number
   onMake: () => void
   onLabel: (batch: Batch) => void
 }) {
+  const warningDays = useSetting('preps.warningDays')
   const active = prep.batches.filter((batch) => batch.status === 'active')
   const past = prep.batches.filter((batch) => batch.status !== 'active')
+  const last = prep.batches.reduce<Batch | null>(
+    (latest, batch) => (latest === null || batch.madeAt > latest.madeAt ? batch : latest),
+    null,
+  )
+  // Batches in use come soonest best-before first: the first one is the next to use.
+  const next = active[0] ?? null
+  const days = next ? daysLeftFromNow(next.bestBefore) : null
+  const state = expiryState(days, warningDays)
+  const composition = listed(prep.composition)
   return (
-    <Card as="article" className="h-full gap-3 transition-colors duration-150 hover:border-border-strong">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 flex-col gap-0.5">
+    <li
+      className="animate-rise border-b border-border py-2.5"
+      style={{ '--rise-index': Math.min(index, 8) } as CSSProperties}
+    >
+      <div className={COLUMNS}>
+        <div className="flex min-w-0 flex-col">
           <Link
             to={`/recipes/${prep.recipeId}`}
-            className="truncate text-lead font-semibold text-fg transition-colors duration-150 hover:text-accent-soft"
+            className="w-fit max-w-full truncate rounded-sm text-body leading-5 font-medium text-fg transition-colors duration-150 hover:text-accent-soft"
           >
             {prep.name}
           </Link>
-          <span className="flex items-center gap-1.5 text-caption text-fg-muted">
-            <CalendarClock size={12} strokeWidth={1.75} aria-hidden="true" />
-            {t.shelfLife(prep.shelfLifeDays)}
-            {prep.yieldMl === null ? null : <span>{` · ${t.yield(prep.yieldMl)}`}</span>}
-          </span>
+          {composition.length > 0 ? (
+            <span className="truncate text-caption leading-4 text-fg-muted">
+              {t.composition(composition)}
+            </span>
+          ) : null}
         </div>
-        <Button size="sm" icon={<FlaskRound size={14} aria-hidden="true" />} onClick={onMake}>
+        <span className="text-body leading-5 text-fg-secondary">
+          {prep.shelfLifeDays === null ? <NoValue /> : t.keeps(prep.shelfLifeDays)}
+        </span>
+        <div className="nums flex flex-col text-body leading-5 text-fg-secondary">
+          <span className={cn(last?.status === 'active' && 'font-medium text-fg')}>
+            {last === null
+              ? t.lastBatch.none
+              : last.status === 'active'
+                ? t.lastBatch.active(formatDate(last.madeAt))
+                : t.lastBatch.past(formatDate(last.madeAt))}
+          </span>
+          {last?.status === 'active' && last.quantityMl !== null ? (
+            <span className="text-caption leading-4 text-fg-muted">{`${formatNumber(last.quantityMl)} ml`}</span>
+          ) : null}
+        </div>
+        <div className="nums flex flex-col text-body leading-5 text-fg-secondary">
+          {next?.bestBefore ? (
+            <>
+              <span className="font-medium text-fg">{formatDate(next.bestBefore)}</span>
+              <span
+                className={cn(
+                  'text-caption leading-4',
+                  state === 'expired'
+                    ? 'font-semibold text-status-danger'
+                    : state === 'expiring'
+                      ? 'font-semibold text-accent-soft'
+                      : 'text-fg-muted',
+                )}
+              >
+                {expiryText(days, warningDays)}
+              </span>
+            </>
+          ) : null}
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="-mt-1 justify-self-end text-fg-muted"
+          aria-label={t.makeOf(prep.name)}
+          icon={<FlaskRound size={14} aria-hidden="true" />}
+          onClick={onMake}
+        >
           {t.newBatch}
         </Button>
       </div>
-      {active.length === 0 ? (
-        <p className="m-0 text-small text-fg-secondary">{t.noBatch}</p>
-      ) : (
-        <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+      {active.length > 0 ? (
+        <ul aria-label={t.batchesOf(prep.name)} className="m-0 mt-1.5 flex list-none flex-col p-0">
           {active.map((batch) => (
-            <BatchRow key={batch.id} batch={batch} name={prep.name} onLabel={onLabel} />
+            <BatchRow key={batch.id} batch={batch} onLabel={onLabel} />
           ))}
         </ul>
-      )}
+      ) : null}
       {past.length > 0 ? (
-        <details className="group/past">
-          <summary className="cursor-pointer text-caption font-medium text-fg-muted transition-colors hover:text-fg-secondary">
+        <details className="mt-1">
+          <summary className="w-fit cursor-pointer rounded-sm text-caption font-medium text-fg-muted transition-colors hover:text-fg-secondary">
             {t.batch.history}
           </summary>
-          <ul className="m-0 mt-2 flex list-none flex-col gap-1 p-0">
+          <ul className="m-0 mt-2 flex max-w-[420px] list-none flex-col gap-1 p-0">
             {past.map((batch) => (
               <li key={batch.id} className="flex items-center justify-between text-caption text-fg-muted">
                 <span>{t.batch.madeOn(formatDate(batch.madeAt))}</span>
@@ -174,11 +291,11 @@ function PrepCard({
           </ul>
         </details>
       ) : null}
-    </Card>
+    </li>
   )
 }
 
-function BatchRow({ batch, name, onLabel }: { batch: Batch; name: string; onLabel: (batch: Batch) => void }) {
+function BatchRow({ batch, onLabel }: { batch: Batch; onLabel: (batch: Batch) => void }) {
   const setStatus = useSetBatchStatus()
   const remove = useDeleteBatch()
   const recreate = useCreateBatch()
@@ -203,78 +320,76 @@ function BatchRow({ batch, name, onLabel }: { batch: Batch; name: string; onLabe
   return (
     <li
       className={cn(
-        // What it is on the first line, what can be done on the second.
-        'grid grid-cols-[minmax(0,1fr)_repeat(4,auto)] items-center gap-x-1 gap-y-2 rounded-nested border px-3 py-2',
-        expired ? 'border-status-danger/30 bg-status-danger/6' : 'border-border bg-surface-2',
+        'flex flex-wrap items-center gap-x-3 gap-y-1 rounded-nested px-2 py-1',
+        expired && 'bg-status-danger/6',
       )}
     >
-      <div className="col-span-full flex min-w-0 flex-col">
-        <span className="nums text-small text-fg">{t.batch.madeOn(formatDate(batch.madeAt))}</span>
-        <span className="nums text-caption text-fg-muted">
-          {[
-            batch.quantityMl === null ? null : `${formatNumber(batch.quantityMl)} ml`,
-            batch.bestBefore === null ? null : t.batch.bestBefore(formatDate(batch.bestBefore)),
-          ]
-            .filter(Boolean)
-            .join(' · ')}
-        </span>
-      </div>
-      <ExpiryPill days={days} warningDays={warningDays} className="justify-self-start" />
-      <IconButton
-        variant="ghost"
-        size="sm"
-        label={t.label.action}
-        icon={<Tag size={14} aria-hidden="true" />}
-        onClick={() => {
-          onLabel(batch)
-        }}
-      />
-      <IconButton
-        variant="ghost"
-        size="sm"
-        label={t.batch.finish}
-        icon={<Check size={14} aria-hidden="true" />}
-        onClick={() => {
-          close('finished')
-        }}
-      />
-      <IconButton
-        variant="ghost"
-        size="sm"
-        label={t.batch.discard}
-        icon={<X size={14} aria-hidden="true" />}
-        onClick={() => {
-          close('discarded')
-        }}
-      />
-      <IconButton
-        variant="ghost"
-        size="sm"
-        label={t.batch.delete}
-        icon={<Trash2 size={14} aria-hidden="true" />}
-        onClick={() => {
-          remove.mutate(
-            { id: batch.id },
-            {
-              onSuccess: () => {
-                toast.undo(t.batch.deleted, () => {
-                  recreate.mutate(
-                    {
-                      recipeId: batch.recipeId,
-                      madeAt: batch.madeAt,
-                      quantityMl: batch.quantityMl,
-                      notes: batch.notes,
-                    },
-                    { onError: notifyError },
-                  )
-                })
+      <span className="nums min-w-0 flex-1 truncate text-small text-fg-secondary">
+        {[
+          t.batch.madeOn(formatDate(batch.madeAt)),
+          batch.quantityMl === null ? null : `${formatNumber(batch.quantityMl)} ml`,
+          batch.bestBefore === null ? null : t.batch.bestBefore(formatDate(batch.bestBefore)),
+        ]
+          .filter(Boolean)
+          .join(' · ')}
+      </span>
+      <ExpiryPill days={days} warningDays={warningDays} />
+      <div className="flex items-center">
+        <IconButton
+          variant="ghost"
+          size="sm"
+          label={t.label.action}
+          icon={<Tag size={14} aria-hidden="true" />}
+          onClick={() => {
+            onLabel(batch)
+          }}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          label={t.batch.finish}
+          icon={<Check size={14} aria-hidden="true" />}
+          onClick={() => {
+            close('finished')
+          }}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          label={t.batch.discard}
+          icon={<X size={14} aria-hidden="true" />}
+          onClick={() => {
+            close('discarded')
+          }}
+        />
+        <IconButton
+          variant="ghost"
+          size="sm"
+          label={t.batch.delete}
+          icon={<Trash2 size={14} aria-hidden="true" />}
+          onClick={() => {
+            remove.mutate(
+              { id: batch.id },
+              {
+                onSuccess: () => {
+                  toast.undo(t.batch.deleted, () => {
+                    recreate.mutate(
+                      {
+                        recipeId: batch.recipeId,
+                        madeAt: batch.madeAt,
+                        quantityMl: batch.quantityMl,
+                        notes: batch.notes,
+                      },
+                      { onError: notifyError },
+                    )
+                  })
+                },
+                onError: notifyError,
               },
-              onError: notifyError,
-            },
-          )
-        }}
-      />
-      <span className="sr-only">{name}</span>
+            )
+          }}
+        />
+      </div>
     </li>
   )
 }

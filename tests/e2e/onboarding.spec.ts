@@ -26,7 +26,7 @@ test('a new notebook starts with three steps, keeps the choices and does not ask
     }, folder)
     await dialog.getByRole('button', { name: 'Changer de dossier…' }).click()
     await expect(dialog.getByText(folder)).toBeVisible()
-    await dialog.getByRole('button', { name: 'Ouvrir mon carnet' }).click()
+    await dialog.getByRole('button', { name: 'Ouvrir le carnet' }).click()
     await expect(dialog).toBeHidden()
 
     const settings = await page.evaluate(() => window.shakery.settings.getAll())

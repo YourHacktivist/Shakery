@@ -1,12 +1,14 @@
-import { Info } from 'lucide-react'
-import { useId, type ReactNode } from 'react'
-import { AllergenBadge } from '@renderer/components/AllergenBadge'
+import { ArrowRight, Info } from 'lucide-react'
+import { useId, useState, type ReactNode } from 'react'
+import { AllergenBadge, allergenLabel } from '@renderer/components/AllergenBadge'
 import { Card } from '@renderer/components/Card'
+import { NoValue } from '@renderer/components/NoValue'
+import { SectionTitle } from '@renderer/components/SectionTitle'
 import { fr } from '@renderer/i18n/fr'
-import { formatNumber } from '@renderer/lib/format'
+import { cn } from '@renderer/lib/cn'
+import { formatNumber, roundServedVolume } from '@renderer/lib/format'
 import { useRecipeComputation } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeInput } from '@shared/domain/catalog'
-import { NoValue } from '@renderer/components/NoValue'
 
 const t = fr.recipes.panel
 
@@ -91,6 +93,11 @@ type ComputedPanelProps = {
   data: RecipeInput | null
   /** Ingredient names, to say which lines are missing something. */
   names: ReadonlyMap<string, string>
+  /**
+   * `card` in the editor; `side` in the side column of a recipe (D-057): no card, the unknown
+   * values gathered in one sentence, the allergens in their own section.
+   */
+  variant?: 'card' | 'side'
   className?: string
 }
 
@@ -98,9 +105,35 @@ type ComputedPanelProps = {
  * Calculated panel (section 10.4): displays what recipes.compute returns, nothing more.
  * An incomplete value names the lines at fault; an estimated one is marked as such.
  */
-export function ComputedPanel({ data, names, className }: ComputedPanelProps) {
+export function ComputedPanel({ data, names, variant = 'card', className }: ComputedPanelProps) {
   const computation = useRecipeComputation(data)
   const titleId = useId()
+
+  if (variant === 'side') {
+    return (
+      <>
+        <section aria-labelledby={titleId} className={cn('flex flex-col', className)}>
+          <SectionTitle id={titleId} tone="muted">
+            {t.title}
+          </SectionTitle>
+          {data === null ? (
+            <p className="m-0 mt-2 text-small text-fg-muted">{t.empty}</p>
+          ) : computation.isError ? (
+            <p role="alert" className="m-0 mt-2 text-small text-status-danger">
+              {t.error}
+            </p>
+          ) : computation.data === undefined ? (
+            <p className="m-0 mt-2 text-small text-fg-muted" aria-busy="true">
+              {t.loading}
+            </p>
+          ) : (
+            <SideContent result={computation.data} names={names} />
+          )}
+        </section>
+        {data !== null && computation.data ? <SideAllergens result={computation.data} /> : null}
+      </>
+    )
+  }
 
   return (
     <Card className={className} aria-labelledby={titleId}>
@@ -148,7 +181,7 @@ function PanelContent({ result, names }: { result: RecipeComputation; names: Rea
         />
         <Row
           label={t.volume}
-          value={volumeIncomplete ? null : result.finalVolumeMl}
+          value={volumeIncomplete ? null : roundServedVolume(result.finalVolumeMl)}
           decimals={0}
           unit={t.units.ml}
           marker={
@@ -223,5 +256,174 @@ function PanelContent({ result, names }: { result: RecipeComputation; names: Rea
 
       {result.approximate ? <p className="m-0 text-caption text-fg-muted">{t.approximateNote}</p> : null}
     </div>
+  )
+}
+
+/** One known value of the side column: label on the left, value and unit on the right. */
+function SideRow({
+  label,
+  value,
+  decimals = 1,
+  unit,
+  marker,
+  hint,
+}: {
+  label: string
+  value: number
+  decimals?: number
+  unit: string
+  marker?: string | null
+  hint?: string | null
+}) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 border-b border-border py-2">
+      <dt className="min-w-0 text-small text-fg-secondary">
+        {label}
+        {marker ? <span className="text-caption text-fg-muted">{` ${marker}`}</span> : null}
+      </dt>
+      <dd className="m-0 flex items-baseline gap-1">
+        <span className="nums text-lead font-medium text-fg">{formatNumber(value, decimals)}</span>
+        <span className="text-caption text-fg-muted">{unit}</span>
+      </dd>
+      {hint ? <span className="nums col-span-2 mt-0.5 text-caption text-fg-muted">{hint}</span> : null}
+    </div>
+  )
+}
+
+/** The known values in rows, the unknown ones named in one sentence, their detail on demand. */
+function SideContent({ result, names }: { result: RecipeComputation; names: ReadonlyMap<string, string> }) {
+  const [open, setOpen] = useState(false)
+  const detailId = useId()
+  const known = (metric: Metric) => metric.status !== 'incomplete' && metric.value !== null
+  const volumeIncomplete = result.abv.issues.some((issue) => VOLUME_REASONS.has(issue.reason))
+  const costKnown = result.costStatus !== 'incomplete' && result.costCents !== null
+  const costUnit = result.costBasis ? `€ ${t.costBasis[result.costBasis]}` : '€'
+  const marker = (status: Metric['status']) => (status === 'estimated' ? t.estimated : null)
+
+  const unknown: string[] = []
+  if (!known(result.abv)) unknown.push(t.unknown.abv)
+  if (volumeIncomplete) unknown.push(t.unknown.volume)
+  if (!known(result.sugarPer100Ml)) unknown.push(t.unknown.sugar)
+  if (!known(result.acidPer100Ml)) unknown.push(t.unknown.acid)
+  // Without sugar or acidity, the ratio cannot be known either: no need to name it.
+  if (!known(result.ratio) && known(result.sugarPer100Ml) && known(result.acidPer100Ml)) {
+    unknown.push(t.unknown.ratio)
+  }
+  if (!costKnown) unknown.push(t.unknown.cost)
+
+  const missing = describeIssues(
+    [result.abv, result.sugarPer100Ml, result.acidPer100Ml, result.ratio].flatMap((metric) =>
+      metric.status === 'incomplete' ? metric.issues : [],
+    ),
+    names,
+  )
+
+  return (
+    <>
+      <dl className="m-0 flex flex-col">
+        {known(result.abv) && result.abv.value !== null ? (
+          <SideRow
+            label={t.abv}
+            value={result.abv.value}
+            unit={t.units.abv}
+            marker={marker(result.abv.status)}
+          />
+        ) : null}
+        {volumeIncomplete ? null : (
+          <SideRow
+            label={t.volume}
+            value={roundServedVolume(result.finalVolumeMl)}
+            decimals={0}
+            unit={t.units.ml}
+            marker={result.approximate ? t.approximate : null}
+            hint={t.initialVolume(formatNumber(result.initialVolumeMl, 0))}
+          />
+        )}
+        {known(result.sugarPer100Ml) && result.sugarPer100Ml.value !== null ? (
+          <SideRow
+            label={t.sugar}
+            value={result.sugarPer100Ml.value}
+            unit={t.units.per100}
+            marker={marker(result.sugarPer100Ml.status)}
+          />
+        ) : null}
+        {known(result.acidPer100Ml) && result.acidPer100Ml.value !== null ? (
+          <SideRow
+            label={t.acid}
+            value={result.acidPer100Ml.value}
+            decimals={2}
+            unit={t.units.per100}
+            marker={marker(result.acidPer100Ml.status)}
+          />
+        ) : null}
+        {known(result.ratio) && result.ratio.value !== null ? (
+          <SideRow
+            label={t.ratio}
+            value={result.ratio.value}
+            decimals={0}
+            unit={t.units.ratio}
+            marker={marker(result.ratio.status)}
+          />
+        ) : null}
+        <SideRow label={t.dilution} value={result.dilution * 100} decimals={0} unit={t.units.pct} />
+        {costKnown && result.costCents !== null ? (
+          <SideRow
+            label={t.cost}
+            value={result.costCents / 100}
+            decimals={2}
+            unit={costUnit}
+            marker={result.costStatus === 'estimated' ? t.estimated : null}
+          />
+        ) : null}
+      </dl>
+
+      {unknown.length > 0 ? (
+        <p className="m-0 mt-2.5 text-small leading-[1.55] text-fg-muted">
+          {`${t.toComplete(unknown)} `}
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls={open ? detailId : undefined}
+            className="group/link inline-flex cursor-pointer items-center gap-1 rounded-sm font-semibold whitespace-nowrap text-accent-soft transition-colors duration-150 hover:text-accent"
+            onClick={() => {
+              setOpen(!open)
+            }}
+          >
+            {open ? t.hideMissing : t.showMissing}
+            <ArrowRight
+              size={13}
+              aria-hidden="true"
+              className={cn('transition-transform duration-150', open && 'rotate-90')}
+            />
+          </button>
+        </p>
+      ) : null}
+      {open && unknown.length > 0 ? (
+        <div id={detailId} className="mt-2 flex flex-col gap-1.5 text-caption leading-snug text-fg-muted">
+          {missing === '' ? null : <p className="m-0">{t.missing(missing)}</p>}
+          {costKnown ? null : <p className="m-0">{t.costMissing}</p>}
+        </div>
+      ) : null}
+      {result.approximate ? <p className="m-0 mt-2 text-caption text-fg-muted">{t.approximateNote}</p> : null}
+    </>
+  )
+}
+
+/** The allergens of the recipe in plain words, in their own section of the side column. */
+function SideAllergens({ result }: { result: RecipeComputation }) {
+  const titleId = useId()
+  const optional = fr.components.display.allergenOptional
+  const labels = [
+    ...result.allergens.map((code) => allergenLabel(code)),
+    ...result.optionalAllergens.map((code) => `${allergenLabel(code)} ${optional}`),
+  ]
+  return (
+    <section aria-labelledby={titleId} className="flex flex-col">
+      <SectionTitle id={titleId} tone="muted">
+        {t.allergens}
+      </SectionTitle>
+      <p className="m-0 mt-2 text-body text-fg">{labels.length === 0 ? t.noAllergen : labels.join(', ')}</p>
+      <p className="m-0 mt-0.5 text-small text-fg-muted">{t.allergenSourceNote}</p>
+    </section>
   )
 }

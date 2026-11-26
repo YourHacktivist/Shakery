@@ -68,11 +68,12 @@ export const recipes = {
   sheet: {
     open: 'Imprimer',
     title: 'Imprimer la fiche',
-    description: 'Crée une fiche technique en PDF ou envoie-la directement à ton imprimante.',
+    description: 'La fiche technique s’enregistre en PDF ou part directement à l’imprimante.',
     paper: 'Format du papier',
     papers: { a4: 'A4', a5: 'A5' },
     indicators: 'Avec les indicateurs',
-    indicatorsHint: 'Ajoute le degré, le sucre, l’acidité et les allergènes quand ils sont calculables.',
+    indicatorsHint:
+      'Le degré, le sucre, l’acidité et les allergènes figurent sur la fiche quand ils sont calculables.',
     savePdf: 'Enregistrer en PDF',
     print: 'Imprimer sur papier',
     saved: 'PDF de la fiche enregistré.',
@@ -83,6 +84,12 @@ export const recipes = {
     glass: 'Verre',
     ice: 'Glace',
     volume: 'Volume servi',
+    family: 'Famille',
+    category: 'Catégorie',
+    categories: { short: 'Short drink', long: 'Long drink' } satisfies Record<DrinkLength, string>,
+    moment: 'Moment',
+    origin: 'Origine',
+    profile: 'Profil',
     amount: (value: string, unit: string) => `${value}${NBSP}${unit}`,
     garnish: 'Décoration',
     notes: 'Notes',
@@ -92,7 +99,8 @@ export const recipes = {
   share: {
     open: 'Partager',
     title: 'Partager la fiche',
-    description: 'Envoie la fiche dans une messagerie ou à un collègue. Rien ne part sans ton choix.',
+    description:
+      'La fiche se copie pour une messagerie ou s’enregistre en fichier pour un collègue. Rien n’est envoyé automatiquement.',
     copyMarkdown: 'Copier en Markdown',
     copied: 'Fiche copiée en Markdown.',
     saveMarkdown: 'Enregistrer en Markdown',
@@ -100,8 +108,8 @@ export const recipes = {
     saved: 'Fichier enregistré.',
     colleague: 'Exporter pour un collègue',
     colleagueHint:
-      'Crée un fichier .shakery avec la fiche, ses préparations et ses ingrédients, à importer dans un autre Shakery.',
-    includePrivate: 'Inclure mes dégustations, mes notes du carnet et les prix de mes bouteilles',
+      'Un fichier .shakery réunit la fiche, ses préparations et ses ingrédients, à importer dans un autre Shakery.',
+    includePrivate: 'Inclure les dégustations, les notes et les prix d’achat des bouteilles',
     exported: 'Fiche exportée.',
     garnish: (text: string) => `**Décoration**${colon} ${text}`,
     garnishPlain: (text: string) => `Décoration${colon} ${text}`,
@@ -131,7 +139,7 @@ export const recipes = {
     non_alcoholic: 'Sans alcool',
     other: 'Autre',
   } satisfies Record<Family, string>,
-  origins: { mine: 'Ma création', classic: 'Classique', other: 'Autre' } satisfies Record<Origin, string>,
+  origins: { mine: 'Création', classic: 'Classique', other: 'Autre' } satisfies Record<Origin, string>,
   lengths: { short: 'Court', long: 'Long' } satisfies Record<DrinkLength, string>,
   moments: {
     before_dinner: 'Avant le repas',
@@ -162,10 +170,9 @@ export const recipes = {
       allStatuses: 'Tous statuts',
       family: 'Famille',
       allFamilies: 'Toutes familles',
-      origin: 'Origine',
-      allOrigins: 'Toutes origines',
-      view: 'Affichage',
-      all: 'Toutes',
+      view: 'Fiches affichées',
+      mine: 'Créations',
+      classics: 'Classiques',
       favorites: 'Favoris',
       makeable: 'Réalisables',
       method: 'Méthode',
@@ -189,22 +196,52 @@ export const recipes = {
       allAllergens: 'Tous allergènes',
       without: (allergen: string) => `Sans${colon} ${allergen}`,
       allergenWarning:
-        'Ce filtre se fonde sur les allergènes déclarés dans Shakery. Pour un client allergique, vérifie chaque étiquette.',
+        'Ce filtre se fonde sur les allergènes déclarés dans Shakery. Pour un client allergique, chaque étiquette reste à vérifier.',
       reset: 'Effacer les filtres',
+      more: 'Plus de filtres',
+      moreGroup: 'Autres filtres',
+      /** Name of the « Plus de filtres » button: how many filters it holds, or how many of them act. */
+      moreName: (hidden: number, active: number) =>
+        active > 0
+          ? `Plus de filtres, ${active} ${plural(active, 'actif', 'actifs')}`
+          : `Plus de filtres, ${hidden} filtres supplémentaires`,
     },
     rating: (value: string) => `${value} / 5`,
     noRating: 'non notée',
     favorite: 'Favori',
     noFamily: 'Sans famille',
-    openHint: 'Appuie sur Entrée ou double-clique pour ouvrir la fiche sélectionnée.',
+    openHint: 'Entrée ou double-clic ouvre la fiche sélectionnée.',
+    classicsNote: 'Les recettes classiques sont rangées dans leur propre onglet.',
+    browseClassics: 'Parcourir les classiques',
     empty: {
       title: 'Aucune fiche pour l’instant',
       description: (shortcut: string) =>
-        `Note une idée en quelques secondes avec ${shortcut}, ou crée une fiche complète avec ses doses et ses étapes.`,
+        `Une idée se note en quelques secondes avec ${shortcut}. Nouvelle fiche ouvre l’éditeur complet, avec les doses et les étapes.`,
+    },
+    emptyView: {
+      mine: {
+        title: 'Aucune création pour l’instant',
+        description: (shortcut: string) =>
+          `Une idée se note en quelques secondes avec ${shortcut}. Nouvelle fiche ouvre l’éditeur complet, avec les doses et les étapes.`,
+      },
+      classics: {
+        title: 'Aucun classique dans le carnet',
+        description: 'Les recettes classiques supprimées n’apparaissent plus dans cette liste.',
+      },
+      favorites: {
+        title: 'Aucun favori pour l’instant',
+        description: 'L’étoile en haut d’une fiche l’ajoute aux favoris.',
+      },
+      makeable: {
+        title: 'Aucune fiche réalisable',
+        description:
+          'Une fiche devient réalisable quand toutes ses bouteilles sont cochées dans Ingrédients.',
+      },
     },
     noMatch: {
       title: 'Aucune fiche ne correspond',
-      description: 'Change ou efface les filtres pour retrouver tes fiches.',
+      description:
+        'Aucune fiche ne réunit tous ces filtres. Effacer les filtres affiche de nouveau toute la liste.',
     },
     loadError: 'Impossible de charger les fiches.',
   },
@@ -218,7 +255,8 @@ export const recipes = {
     variant: 'Créer une variante',
     favoriteAdd: 'Ajouter aux favoris',
     favoriteRemove: 'Retirer des favoris',
-    delete: 'Supprimer',
+    delete: 'Supprimer la fiche',
+    more: 'Plus',
     lab: 'Atelier',
     labPhase: 'Phase 6',
     taste: 'Noter une dégustation',
@@ -239,8 +277,10 @@ export const recipes = {
       service: 'Service',
       prep: 'Préparation',
       history: 'Versions',
+      tastings: 'Dégustations',
+      side: 'Informations d’appoint',
     },
-    noLines: 'Aucun ingrédient pour l’instant. Modifie la fiche pour ajouter les doses.',
+    noLines: 'Aucun ingrédient pour l’instant. Les doses s’ajoutent en modifiant la fiche.',
     noSteps: 'Aucune étape notée.',
     optional: 'optionnel',
     garnishLine: 'garniture',
@@ -265,6 +305,10 @@ export const recipes = {
     shelfLifeUnset: 'Non fixée',
     versionLabel: (version: string, label: string | null) => (label ? `${version}, ${label}` : version),
     current: 'actuelle',
+    neverTasted: 'Aucune dégustation notée pour l’instant.',
+    /** Under the standard steps of a classic (D-039), instead of the credit stored with them. */
+    typicalStepsNote: 'Étapes types de la méthode, à adapter selon la façon de travailler.',
+    tastingMeta: (date: string, version: string) => `${date} · ${version}`,
     variantDialog: {
       title: 'Créer une variante',
       description: 'La variante reprend toutes les lignes de cette fiche, au statut brouillon.',
@@ -302,7 +346,7 @@ export const recipes = {
     costBasis: { ht: 'HT', ttc: 'TTC' },
     costMissing: 'Il manque le prix d’au moins une bouteille.',
     approximateNote: 'Traits, gouttes et cuillères sont convertis en volume par approximation.',
-    missing: (items: string) => `Manque${colon} ${items}.`,
+    missing: (items: string) => `Valeurs manquantes${colon} ${items}.`,
     /** « ligne 2, Citron vert (dose manquante) ». */
     issue: (line: number | null, name: string | null, reason: string) =>
       [line === null ? null : `ligne ${line}`, name].filter((part) => part !== null).join(', ') +
@@ -310,7 +354,26 @@ export const recipes = {
     reasons: ISSUE_REASONS,
     noAllergen: 'Aucun allergène déclaré dans les ingrédients.',
     allergenNote: 'Cette information dépend des données saisies pour chaque ingrédient et chaque bouteille.',
-    empty: 'Ajoute des lignes avec leurs doses pour voir les calculs.',
+    empty: 'Les calculs apparaissent dès qu’une ligne a sa dose.',
+    /** What the side column of a recipe names when a value is still unknown. */
+    unknown: {
+      abv: 'le degré',
+      volume: 'le volume servi',
+      sugar: 'le sucre',
+      acid: 'l’acidité',
+      ratio: 'le rapport sucre / acide',
+      cost: 'le coût',
+    },
+    /** « Le sucre, l’acidité et le coût sont encore à compléter. » */
+    toComplete: (names: readonly string[]) => {
+      const listed =
+        names.length < 2 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')} et ${names.at(-1) ?? ''}`
+      const text = `${listed.charAt(0).toUpperCase()}${listed.slice(1)}`
+      return `${text} ${names.length < 2 ? 'est' : 'sont'} encore à compléter.`
+    },
+    showMissing: 'Voir ce qui manque',
+    hideMissing: 'Masquer le détail',
+    allergenSourceNote: 'La liste vient des données des ingrédients.',
   },
 
   editor: {
@@ -339,7 +402,7 @@ export const recipes = {
       status: 'Statut',
       origin: 'Origine',
       credit: 'Origine et crédit',
-      creditHint: 'Indique le bar, l’auteur ou la source de la recette.',
+      creditHint: 'Le bar, l’auteur ou la source de la recette peuvent y figurer.',
       method: 'Méthode',
       glass: 'Verre',
       ice: 'Glace',
@@ -347,38 +410,38 @@ export const recipes = {
       length: 'Longueur',
       moment: 'Moment',
       profile: 'Profil',
-      profileHint: 'Décris-le en quelques mots, par exemple amer et herbacé.',
+      profileHint: 'Quelques mots suffisent, par exemple amer et herbacé.',
       dilution: 'Dilution choisie',
-      dilutionHint: 'Laisse vide pour utiliser le taux de la méthode.',
+      dilutionHint: 'Laissé vide, le champ applique le taux de la méthode.',
       steps: 'Étapes',
-      stepsHint: 'Écris une étape par ligne.',
+      stepsHint: 'Chaque ligne forme une étape.',
       garnish: 'Garniture',
       garnishCost: 'Coût de la garniture',
-      garnishCostHint: 'Indique le montant HT par verre.',
+      garnishCostHint: 'Le montant s’entend HT, pour un verre.',
       notes: 'Notes',
       tags: 'Tags',
-      tagsHint: 'Sépare-les par des virgules.',
+      tagsHint: 'Les tags se séparent par des virgules.',
       yield: 'Rendement',
-      yieldHint: 'Indique le volume obtenu une fois la préparation terminée.',
+      yieldHint: 'Il s’agit du volume obtenu une fois la préparation terminée.',
       shelfLife: 'Durée de conservation',
       shelfLifeUnit: 'jours',
-      shelfLifeHint: 'Tu la fixes d’après ta recette et ton stockage. Shakery n’en propose jamais.',
+      shelfLifeHint: 'Elle se fixe d’après la recette et le stockage. Shakery n’en propose jamais.',
       storage: 'Notes de stockage',
       category: 'Catégorie de l’ingrédient',
-      categoryHint: 'Une préparation devient aussi un ingrédient de Mon bar.',
+      categoryHint: 'Une préparation figure aussi dans la liste des ingrédients.',
       newVersion: 'Simple correction (sans nouvelle version)',
-      newVersionHint: 'Coche-la pour corriger une faute sans créer de version.',
+      newVersionHint: 'Cochée, elle corrige une faute sans créer de version.',
       label: 'Nom de la version',
       labelHint: 'Ce nom est facultatif, par exemple moins de sirop.',
     },
     kindOptions: { cocktail: 'Cocktail', prep: 'Préparation' },
     lines: {
       add: 'Ajouter un ingrédient',
-      empty: 'Aucune ligne. Ajoute un premier ingrédient.',
+      empty: 'Aucune ligne pour l’instant. Le bouton Ajouter un ingrédient crée la première.',
       listLabel: 'Lignes de la fiche',
       position: (index: number) => `Ligne ${index}`,
       ingredient: (index: number) => `Ingrédient de la ligne ${index}`,
-      ingredientPlaceholder: 'Cherche un ingrédient',
+      ingredientPlaceholder: 'Rechercher un ingrédient',
       quantity: (index: number) => `Dose de la ligne ${index}`,
       unit: (index: number) => `Unité de la ligne ${index}`,
       topEstimate: (index: number) => `Volume estimé de la ligne ${index}`,
@@ -393,14 +456,14 @@ export const recipes = {
       moveDown: (index: number) => `Descendre la ligne ${index}`,
       remove: (index: number) => `Retirer la ligne ${index}`,
       drag: (index: number) => `Déplacer la ligne ${index}`,
-      reorderHint: 'Glisse une ligne avec la poignée, ou utilise Alt et les flèches haut et bas.',
+      reorderHint: 'Une ligne se déplace avec sa poignée, ou avec Alt et les flèches haut et bas.',
       moved: (name: string, position: number, total: number) =>
         `${name} déplacé en position ${position} sur ${total}.`,
       unnamed: 'Ligne sans ingrédient',
     },
     leave: {
       title: 'Quitter sans enregistrer ?',
-      description: 'Tes modifications de cette fiche seront perdues.',
+      description: 'Les modifications de cette fiche seront perdues.',
       stay: 'Rester',
       leave: 'Quitter sans enregistrer',
     },
@@ -408,8 +471,9 @@ export const recipes = {
 
   lab: {
     title: 'Atelier',
-    pickTitle: 'Choisis une fiche à travailler',
-    pickHint: 'L’atelier travaille sur une copie : rien n’est enregistré avant que tu le demandes.',
+    pickTitle: 'Choisir une fiche à travailler',
+    pickHint:
+      'L’atelier travaille sur une copie de la fiche. Rien n’est enregistré sans une demande explicite.',
     filter: 'Filtrer les fiches',
     filterPlaceholder: 'Nom de la fiche',
     blank: 'Partir de zéro',
@@ -420,14 +484,36 @@ export const recipes = {
     undo: 'Annuler la dernière modification',
     redo: 'Rétablir',
     lines: 'Lignes',
-    lineOn: (name: string) => `Utiliser ${name}`,
+    /** Heads of the columns of the lines (D-057). */
+    head: { inGlass: 'Dans le verre', ingredient: 'Ingrédient', dose: 'Dose', unit: 'Unité' },
+    lineOn: (name: string) => `Compter ${name} dans le verre`,
     remove: (name: string) => `Retirer ${name}`,
     dose: (name: string) => `Dose de ${name}`,
     unit: (name: string) => `Unité de ${name}`,
     add: 'Ajouter un ingrédient',
-    addPlaceholder: 'Cherche un ingrédient',
-    offNote: 'Les lignes désactivées ne comptent pas dans les calculs et ne sont pas enregistrées.',
+    addPlaceholder: 'Rechercher un ingrédient',
+    offNote:
+      'Une ligne décochée sous « Dans le verre » ne compte plus dans les calculs. Elle reste dans l’atelier et n’est pas enregistrée avec la fiche.',
     indicators: 'Indicateurs en direct',
+    /** « Sucre, acidité et rapport sucre / acide »: the gauges that wait for data. */
+    missingTitle: (labels: readonly string[]) => {
+      const names = labels.map((label, index) =>
+        index === 0 ? label : `${label.charAt(0).toLocaleLowerCase('fr')}${label.slice(1)}`,
+      )
+      return names.length < 2 ? names.join('') : `${names.slice(0, -1).join(', ')} et ${names.at(-1) ?? ''}`
+    },
+    missingWord: (reason: 'missing_sugar' | 'missing_acid' | 'missing_abv') =>
+      reason === 'missing_sugar' ? 'le sucre' : reason === 'missing_acid' ? 'l’acidité' : 'le degré',
+    missingData: (words: readonly string[], count: number) => {
+      const what =
+        words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} et ${words.at(-1) ?? ''}`
+      return count === 1
+        ? `Il manque ${what} d’un ingrédient. Les jauges apparaîtront dès qu’il sera renseigné.`
+        : `Il manque ${what} de ${count} ingrédients. Les jauges apparaîtront dès qu’ils seront renseignés.`
+    },
+    missingDosesNote: 'Les jauges apparaîtront dès que les lignes auront des doses mesurables.',
+    complete: (count: number) => (count === 1 ? 'Compléter l’ingrédient' : 'Compléter les ingrédients'),
+    unchanged: (version: string) => `Rien n’a changé depuis la ${version}.`,
     zone: (count: number) => `Zone de la famille, ${count} fiches`,
     zoneMembers: (names: string, others: number) => (others > 0 ? `${names} et ${others} autres` : names),
     zoneRecipes: 'Fiches de la zone',
@@ -448,10 +534,10 @@ export const recipes = {
     nothingToSave: 'Aucune modification à enregistrer.',
     compare: 'Comparer',
     compareTitle: 'Comparaison',
-    compareHint: 'Choisis jusqu’à trois versions ou fiches. La première sert de référence.',
+    compareHint: 'Trois versions ou fiches au plus se comparent côte à côte. La première sert de référence.',
     compareWith: 'Comparer avec une autre fiche',
-    compareWithPlaceholder: 'Tape le nom d’une fiche',
-    compareFull: 'Trois colonnes au plus sont permises. Décoche-en une pour ajouter une fiche.',
+    compareWithPlaceholder: 'Nom d’une fiche',
+    compareFull: 'Trois colonnes au plus sont permises. Il faut en décocher une pour ajouter une fiche.',
     draft: 'Brouillon de l’atelier',
     noChange: 'Aucune différence avec la référence.',
     reordered: 'Les lignes sont les mêmes, dans un autre ordre.',
@@ -470,7 +556,7 @@ export const recipes = {
     method: 'Méthode',
     glass: 'Verre',
     ice: 'Glace',
-    stepsHint: 'Touche une étape faite pour l’estomper, et touche-la de nouveau pour la rétablir.',
+    stepsHint: 'Toucher une étape faite l’estompe, la toucher de nouveau la rétablit.',
     optional: 'facultatif',
     noSteps: 'Aucune étape notée.',
     notFound: 'Cette fiche n’existe pas ou a été supprimée.',
@@ -482,10 +568,11 @@ export const recipes = {
 
   ingredientDialog: {
     title: 'Nouvel ingrédient',
-    description: 'Choisis sa catégorie. Tu pourras compléter son degré et sa composition dans Mon bar.',
+    description:
+      'L’ingrédient a besoin d’une catégorie. Son degré et sa composition se complètent ensuite dans Ingrédients.',
     name: 'Nom',
     category: 'Catégorie',
-    categoryPlaceholder: 'Choisis une catégorie',
+    categoryPlaceholder: 'Choisir une catégorie',
     create: 'Créer l’ingrédient',
     cancel: 'Annuler',
     similar: 'Un ingrédient au nom proche existe déjà :',
@@ -496,12 +583,12 @@ export const recipes = {
 
   form: {
     required: 'Ce champ est obligatoire.',
-    nameRequired: 'Donne un nom à la fiche.',
-    ingredientRequired: 'Choisis un ingrédient.',
-    categoryRequired: 'Choisis une catégorie.',
+    nameRequired: 'La fiche a besoin d’un nom.',
+    ingredientRequired: 'La ligne a besoin d’un ingrédient.',
+    categoryRequired: 'Une catégorie est nécessaire.',
     tooLong: 'Ce texte est trop long.',
     outOfRange: 'Cette valeur sort des limites permises.',
-    integer: 'Saisis un nombre entier.',
+    integer: 'Un nombre entier est attendu.',
     invalid: 'Cette valeur n’est pas valide.',
   },
 } as const

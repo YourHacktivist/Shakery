@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8" /><title>Atelier avec colonne « Dans le verre » et indicateurs regroupés</title>
+<link rel="stylesheet" href="../assets/index-DthCMq1t.css" />
+<link rel="stylesheet" href="../assets/planches.css" />
+<style>
+  html, body { height: auto; background: var(--color-bg-base); color: var(--color-fg); font-family: var(--font-sans); }
+  body { margin: 0; padding: 56px 64px 72px; }
+  .b-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .b-kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-fg-muted); }
+  .b-title { margin: 0 0 36px; font-size: 34px; font-weight: 600; letter-spacing: -0.01em; }
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .b-shot { display: block; width: 100%; border: 1px solid var(--color-border-strong); border-radius: 10px; }
+  .b-col > * + * { margin-top: 28px; }
+  .b-list { margin: 0; padding: 0; list-style: none; }
+  .b-list li { position: relative; padding: 10px 0; border-bottom: 1px solid var(--color-border); font-size: 15px; line-height: 1.55; color: var(--color-fg-secondary); }
+  .b-empty { font-size: 15px; color: var(--color-fg-muted); }
+  .b-index a { color: var(--color-fg); text-decoration: none; }
+  .b-index li { display: grid; grid-template-columns: 60px 1fr; padding: 14px 0; border-bottom: 1px solid var(--color-border); font-size: 17px; }
+  .b-index li span { color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+</style></head><body>
+<div class="b-top"><span class="b-kicker">Shakery · refonte ergonomique · planche 04 sur 10</span><span class="b-kicker">24 novembre 2026</span></div>
+<h1 class="b-title">Atelier avec colonne « Dans le verre » et indicateurs regroupés</h1>
+<div class="b-grid">
+  <div class="b-col">
+    <p class="pl-section-title is-muted">Avant</p>
+    <img class="b-shot" src="../../png/avant/04-atelier.png" alt="" />
+    <p class="pl-section-title">Ce qui change</p>
+    <ul class="b-list "><li>Une rangée d’en-têtes en petites capitales nomme les colonnes (Dans le verre, Ingrédient, Dose, Unité), pour que l’interrupteur se lise comme « cet ingrédient compte dans le verre ».</li><li>Une phrase sous la liste explique que décocher « Dans le verre » sort l’ingrédient du calcul sans l’enlever de la recette.</li><li>L’étiquette accessible de chaque interrupteur devient « Compter Gin dans le verre » au lieu de « Utiliser Gin », pour dire la même chose aux lecteurs d’écran.</li><li>Les lignes ne sont plus des boîtes bordées et deviennent des rangées séparées par des filets, alignées sur une grille commune avec les en-têtes.</li><li>Les trois jauges vides Sucre, Acidité et Rapport sucre / acide laissent place à un seul bloc sous un filet, avec un intitulé, la phrase « Il manque le sucre et l’acidité des trois ingrédients. Les jauges apparaîtront dès qu’ils seront renseignés. » et le lien « Compléter les ingrédients ».</li><li>Les titres « Lignes » et « Indicateurs en direct » passent en petites capitales cuivre avec filet, et les deux panneaux gardent leur carte, puisque l’atelier reste un espace de travail.</li><li>La barre du bas garde un seul bouton plein, Enregistrer comme nouvelle version, grisé tant que rien ne change, et ajoute la mention « Rien n’a changé depuis la v1. » pour expliquer cet état.</li></ul>
+    <p class="pl-section-title is-muted">À trancher</p>
+    <ul class="b-list is-q"><li>Faut-il garder les cartes autour des deux panneaux de l’atelier, ou les retirer comme sur la fiche ?</li><li>L’intitulé « Dans le verre » te convient-il, ou préfères-tu « Dans le calcul » ?</li><li>Le lien « Compléter les ingrédients » doit-il ouvrir la première fiche ingrédient incomplète, ou une liste de toutes celles à compléter ?</li><li>« Enregistrer comme variante » reste actif même sans changement, comme dans l’appli actuelle. Faut-il le griser lui aussi tant que rien n’a changé ?</li></ul>
+  </div>
+  <div class="b-col">
+    <p class="pl-section-title">Après</p>
+    <img class="b-shot" src="../../png/apres/04-atelier.png" alt="" />
+    
+  </div>
+</div>
+</body></html>

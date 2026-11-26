@@ -11,6 +11,11 @@ test('every screen explains itself, and F1 keeps what is being typed', async () 
       const list = await window.shakery.recipes.list()
       return list.ok ? (list.data.find((recipe) => recipe.name === 'Negroni')?.id ?? '') : ''
     })
+    // The revision is a tab of each collection (D-057): its help is the one of the collections.
+    const collection = await page.evaluate(async () => {
+      const created = await window.shakery.collections.create({ name: 'Carte test', kind: 'menu' })
+      return created.ok ? created.data.id : ''
+    })
     const screens = [
       ['home', '/'],
       ['recipes', '/recipes'],
@@ -22,7 +27,7 @@ test('every screen explains itself, and F1 keeps what is being typed', async () 
       ['bar', '/bar'],
       ['preps', '/preps'],
       ['collections', '/collections'],
-      ['practice', '/practice'],
+      ['collections', `/collections/${collection}?tab=practice`],
       ['calculators', '/calculators'],
       ['settings', '/settings'],
       ['guide', '/guide'],

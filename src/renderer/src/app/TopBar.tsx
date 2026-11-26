@@ -1,9 +1,8 @@
-import { CircleHelp, PanelLeftOpen, Plus, Search, Settings } from 'lucide-react'
-import { Link, useLocation } from 'react-router'
+import { CircleHelp, PanelLeftOpen, Plus, Search } from 'lucide-react'
+import { useLocation } from 'react-router'
 import { helpPlaceOf, useHelpStore } from '@renderer/app/help'
 import { focusNextFrame, SIDEBAR_CLOSE_ID, SIDEBAR_OPEN_ID } from '@renderer/app/Sidebar'
 import { useOverlayStore, useSidebarStore } from '@renderer/app/stores'
-import { ThemeToggle } from '@renderer/app/ThemeToggle'
 import logoUrl from '@renderer/assets/logo-160.png'
 import { Button } from '@renderer/components/Button'
 import { Kbd } from '@renderer/components/Kbd'
@@ -34,8 +33,9 @@ function OpenSidebarButton() {
 }
 
 /**
- * Top bar of every screen: search (opens the palette), quick idea, theme, settings. It is
- * also the title bar: its empty parts move the window, the window buttons sit on its right.
+ * Top bar of every screen (D-057): search (opens the palette), quick idea as a discreet button,
+ * help. The theme and the settings live in Paramètres only. It is also the title bar: its empty
+ * parts move the window, the window buttons sit on its right.
  */
 export function TopBar({ className }: { className?: string }) {
   const openOverlay = useOverlayStore((state) => state.open)
@@ -63,7 +63,8 @@ export function TopBar({ className }: { className?: string }) {
         </span>
       </button>
       <Button
-        icon={<Plus size={14} strokeWidth={2} aria-hidden="true" />}
+        variant="outline"
+        icon={<Plus size={15} strokeWidth={2} aria-hidden="true" />}
         aria-haspopup="dialog"
         aria-keyshortcuts={ariaKeyShortcut('quickIdea')}
         onClick={() => {
@@ -73,7 +74,7 @@ export function TopBar({ className }: { className?: string }) {
       >
         {t.quickIdea}
         <span aria-hidden="true">
-          <Kbd tone="onAccent">{shortcutText('quickIdea')}</Kbd>
+          <Kbd>{shortcutText('quickIdea')}</Kbd>
         </span>
       </Button>
       <Button
@@ -88,15 +89,6 @@ export function TopBar({ className }: { className?: string }) {
       >
         {t.help}
       </Button>
-      <ThemeToggle />
-      <Link
-        to="/settings"
-        aria-label={t.settings}
-        title={t.settings}
-        className="inline-flex size-8 shrink-0 items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
-      >
-        <Settings size={16} strokeWidth={1.75} aria-hidden="true" />
-      </Link>
     </header>
   )
 }

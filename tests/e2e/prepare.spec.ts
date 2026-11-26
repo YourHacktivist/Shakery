@@ -28,7 +28,12 @@ test('a collection is prepared recipe after recipe, each with its own ticks', as
       location.hash = '#/collections'
     })
     await expect(page.locator('main[data-scene="collections"]')).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Service du soir' })).toBeVisible()
+    // The collection opens on its own page (D-057), where Préparer sits in the bar of the tabs.
+    await page
+      .getByRole('link', { name: /^Service du soir/ })
+      .first()
+      .click()
+    await expect(page.getByRole('heading', { name: 'Service du soir', level: 1 })).toBeVisible()
     expect(await auditPage(page)).toMatchObject({ overflow: [], unnamed: [] })
 
     await page.getByRole('button', { name: 'Préparer', exact: true }).click()

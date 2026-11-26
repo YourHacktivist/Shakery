@@ -72,7 +72,12 @@ test('bottle labels on a roll and on a sheet, never cropped, and a batch on pape
       location.hash = '#/preps'
     })
     await page.reload()
-    await page.getByRole('button', { name: 'Imprimer une étiquette' }).first().click()
+    await page
+      .getByRole('list', { name: /^Lots en cours de / })
+      .first()
+      .getByRole('button', { name: 'Imprimer une étiquette' })
+      .first()
+      .click()
     const dialog = page.getByRole('dialog', { name: 'Étiquette de bouteille' })
     await expect(dialog).toContainText('Fruits à coque')
     await page.waitForTimeout(700)
@@ -110,7 +115,7 @@ test('bottle labels on a roll and on a sheet, never cropped, and a batch on pape
     })
     await page.getByRole('combobox', { name: 'À partir d’une fiche' }).fill('daiquiri')
     await page.getByRole('option', { name: 'Daiquiri', exact: true }).click()
-    await expect(page.getByText('jamais dans une bouteille que tu gardes')).toBeVisible()
+    await expect(page.getByText('jamais dans une bouteille conservée')).toBeVisible()
     await app.evaluate(({ BrowserWindow }) => {
       BrowserWindow.getAllWindows()[0]?.setContentSize(1100, 700)
     })

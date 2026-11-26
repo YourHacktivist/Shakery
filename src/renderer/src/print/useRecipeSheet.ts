@@ -7,6 +7,7 @@ import {
   useIngredients,
   useRecipe,
   useRecipeComputation,
+  useRecipeFamilyLabel,
   useSettings,
 } from '@renderer/lib/queries'
 import type { RecipeSheetProps } from '@renderer/print/RecipeSheet'
@@ -19,6 +20,7 @@ export function useRecipeSheet(
   const ingredients = useIngredients()
   const glasses = useGlasses()
   const iceTypes = useIceTypes()
+  const familyLabel = useRecipeFamilyLabel(id)
   const settings = useSettings()
   const display = useDisplayUnit()
   const [printedAt] = useState(() => Date.now())
@@ -33,12 +35,14 @@ export function useRecipeSheet(
   )
 
   const loaded = recipe.data && ingredients.isSuccess && glasses.isSuccess && iceTypes.isSuccess
-  if (!loaded || settings.isPending || (input !== null && computation.isPending)) return null
+  if (!loaded || settings.isPending || familyLabel.isPending || (input !== null && computation.isPending))
+    return null
   return {
     recipe: recipe.data,
     names,
     glass: glasses.data.find((glass) => glass.id === recipe.data.glassId)?.name ?? null,
     ice: iceTypes.data.find((ice) => ice.id === recipe.data.iceId)?.name ?? null,
+    familyLabel: familyLabel.data ?? null,
     computation: input === null ? null : (computation.data ?? null),
     display,
     printedAt,

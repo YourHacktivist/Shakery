@@ -35,7 +35,8 @@ export type HelpTopicId = keyof typeof topics
 
 export const help = {
   title: 'Aide',
-  description: 'L’aide explique chaque champ, bouton, calcul et raccourci. Échap revient où tu en étais.',
+  description:
+    'L’aide explique chaque champ, bouton, calcul et raccourci. Échap revient à l’écran en cours, sans rien perdre.',
   topic: 'Écran expliqué',
   search: 'Chercher dans toute l’aide',
   searchPlaceholder: 'Par exemple, dilution, allergène, corbeille',

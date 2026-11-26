@@ -5,7 +5,7 @@ import { useToastStore } from '@renderer/components/Toast'
 import { fr } from '@renderer/i18n/fr'
 import { installShakery, renderRoutes, type FakeShakery } from '@renderer/test/shakery'
 import { fail, ok } from '@shared/ipc/result'
-import { ImportCard } from './ImportCard'
+import { ImportRow } from './ImportCard'
 
 const t = fr.settings.import
 
@@ -34,10 +34,10 @@ afterEach(() => {
 })
 
 function renderCard() {
-  return renderRoutes([{ path: '/', element: <ImportCard /> }], '/')
+  return renderRoutes([{ path: '/', element: <ImportRow /> }], '/')
 }
 
-describe('ImportCard', () => {
+describe('ImportRow', () => {
   it('previews the file, hides known referentials and imports with the chosen strategy', async () => {
     const user = userEvent.setup()
     api.import.choose.mockResolvedValue(ok(PREVIEW))

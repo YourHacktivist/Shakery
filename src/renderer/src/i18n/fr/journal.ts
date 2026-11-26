@@ -20,7 +20,8 @@ export const journal = {
   },
   empty: {
     title: 'Aucune dégustation notée',
-    description: 'Goûte une version, note ce qui fonctionne, ce qui manque et la prochaine chose à essayer.',
+    description:
+      'Une dégustation note ce qui fonctionne dans une version, ce qui lui manque et la prochaine chose à essayer.',
   },
   noMatch: 'Aucune note ne correspond aux filtres.',
   version: (version: number) => `v${version}`,
@@ -47,7 +48,7 @@ export const journal = {
   dialog: {
     title: 'Noter une dégustation',
     recipe: 'Fiche goûtée',
-    recipePlaceholder: 'Cherche une fiche',
+    recipePlaceholder: 'Rechercher une fiche',
     version: 'Version goûtée',
     overall: 'Note globale',
     overallOption: (value: number) => `${value} sur 5`,
@@ -63,7 +64,7 @@ export const journal = {
     save: 'Enregistrer la note',
     cancel: 'Annuler',
     saved: (name: string) => `Dégustation de ${quote(name)} notée.`,
-    recipeRequired: 'Choisis la fiche goûtée.',
+    recipeRequired: 'La fiche goûtée doit être choisie.',
   },
   recipe: {
     title: 'Dégustations',
@@ -72,25 +73,22 @@ export const journal = {
     notes: (count: number) => (count === 1 ? '1 note' : `${count} notes`),
     mean: (value: string) => `${value}/5`,
   },
-  side: {
-    open: 'Ouvrir le journal',
-  },
   notebook: {
-    title: 'Carnet',
+    title: 'Notes',
     count: (count: number) => (count === 0 ? 'Aucune note' : count === 1 ? '1 note' : `${count} notes`),
     add: 'Nouvelle note',
     filter: 'Filtrer les notes',
     filterPlaceholder: 'Titre, texte ou tag',
     empty: {
-      title: 'Ton carnet est vide',
+      title: 'Aucune note pour l’instant',
       description:
-        'Note ici ce qui n’est pas encore une fiche, comme une association de saveurs, une technique ou une bouteille à goûter.',
+        'Une note garde ce qui n’est pas encore une fiche, comme une association de saveurs, une technique ou une bouteille à goûter.',
     },
-    pick: 'Choisis une note ou crée-en une.',
+    pick: 'Aucune note ouverte. Une note se choisit dans la liste, ou se crée avec Nouvelle note.',
     untitled: 'Nouvelle note',
     titleField: 'Titre',
     body: 'Texte',
-    bodyHint: 'Tape @ pour lier une fiche, un ingrédient ou une bouteille.',
+    bodyHint: 'Le signe @ lie une fiche, un ingrédient ou une bouteille.',
     tags: 'Tags',
     tagsHint: 'Séparés par des virgules.',
     pin: 'Épingler',

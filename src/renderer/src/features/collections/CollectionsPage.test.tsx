@@ -5,6 +5,7 @@ import { fr } from '@renderer/i18n/fr'
 import { installShakery, renderRoutes, type FakeShakery } from '@renderer/test/shakery'
 import type { CollectionDetail, CollectionSummary } from '@shared/domain/workshop'
 import { ok } from '@shared/ipc/result'
+import { CollectionPage } from './CollectionPage'
 import { CollectionsPage } from './CollectionsPage'
 
 const t = fr.workshop.collections
@@ -66,10 +67,19 @@ beforeEach(() => {
 describe('CollectionsPage', () => {
   it('shows the items in order, moves one down and exports the PDF', async () => {
     const user = userEvent.setup()
-    renderRoutes([{ path: '/collections', element: <CollectionsPage /> }], '/collections')
+    renderRoutes(
+      [
+        { path: '/collections', element: <CollectionsPage /> },
+        { path: '/collections/:id', element: <CollectionPage /> },
+      ],
+      '/collections/c1',
+    )
 
-    expect(await screen.findByRole('heading', { name: 'Carte d’hiver', level: 2 })).toBeDefined()
-    const links = screen.getAllByRole('link').map((link) => link.textContent)
+    expect(await screen.findByRole('heading', { name: 'Carte d’hiver', level: 1 })).toBeDefined()
+    const links = screen
+      .getAllByRole('link')
+      .map((link) => link.textContent)
+      .filter((text) => text === 'Negroni' || text === 'Whiskey Sour')
     expect(links).toEqual(['Negroni', 'Whiskey Sour'])
 
     await user.click(screen.getByRole('button', { name: /^Descendre.*Negroni/ }))

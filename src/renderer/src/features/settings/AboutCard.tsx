@@ -6,13 +6,14 @@ import { useAppVersion } from '@renderer/app/useAppVersion'
 import licences from '@renderer/assets/licenses.json'
 import logoUrl from '@renderer/assets/logo-512.png'
 import { Button } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
+import { ControlRow } from '@renderer/components/ControlRow'
 import { Dialog } from '@renderer/components/Dialog'
+import { SettingsBlock, SettingsGroup } from '@renderer/features/settings/SettingsBlock'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { unwrap } from '@renderer/lib/ipc'
 
-/** Version, guide, logs, attributions and licences (sections 9, 10.14 and 13.3). */
+/** Version, guide, logs, credits of the data and licences (sections 9, 10.14 and 13.3), last of the page. */
 export function AboutCard() {
   const t = fr.settings.about
   const navigate = useNavigate()
@@ -21,66 +22,74 @@ export function AboutCard() {
   const [showLicences, setShowLicences] = useState(false)
 
   return (
-    <Card aria-label={t.title} className="flex flex-col gap-4">
-      <div className="flex items-center gap-4">
-        <span className="logo-halo logo-shake flex size-24 shrink-0 items-center justify-center rounded-full">
-          <img src={logoUrl} alt="" className="size-20" />
-        </span>
-        <div className="flex min-w-0 flex-col gap-1">
-          <h2 className="m-0 text-title font-semibold tracking-tight text-fg">{fr.app.name}</h2>
-          <p className="m-0 text-small text-fg-secondary">{t.tagline}</p>
-          {version.status === 'ready' ? (
-            <p className="nums m-0 text-caption text-fg-muted">{fr.shell.version(version.version)}</p>
-          ) : null}
+    <SettingsBlock block="about" title={t.title}>
+      <div className="flex items-center gap-4 pt-4 pb-1.5">
+        <img src={logoUrl} alt="" className="size-12 shrink-0" />
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <span className="text-heading font-semibold text-fg">{fr.app.name}</span>
+          <span className="text-small text-fg-secondary">{t.tagline}</span>
         </div>
+        {version.status === 'ready' ? (
+          <span className="nums ml-auto shrink-0 text-small text-fg-muted">
+            {fr.shell.version(version.version)}
+          </span>
+        ) : null}
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Button
-          size="sm"
-          icon={<BookOpenText size={14} aria-hidden="true" />}
-          onClick={() => void navigate('/guide')}
-        >
-          {t.guide}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<Keyboard size={14} aria-hidden="true" />}
-          onClick={() => {
-            openOverlay('shortcuts')
-          }}
-        >
-          {t.shortcuts}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<FolderOpen size={14} aria-hidden="true" />}
-          onClick={() => {
-            unwrap(window.shakery.app.openLogs()).catch(notifyError)
-          }}
-        >
-          {t.logs}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<FileText size={14} aria-hidden="true" />}
-          onClick={() => {
-            setShowLicences(true)
-          }}
-        >
-          {t.licences}
-        </Button>
-      </div>
-      <dl className="m-0 flex flex-col gap-2 border-t border-border pt-3">
-        {t.sources.map((source) => (
-          <div key={source.name} className="flex flex-col">
-            <dt className="text-small font-semibold text-fg">{source.name}</dt>
-            <dd className="m-0 text-small text-fg-secondary">{source.text}</dd>
-          </div>
-        ))}
-      </dl>
+      <SettingsGroup title={fr.settings.groups.help}>
+        <ControlRow stacked label={t.tools} hint={t.toolsHint}>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<BookOpenText size={14} aria-hidden="true" />}
+            onClick={() => void navigate('/guide')}
+          >
+            {t.guide}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<Keyboard size={14} aria-hidden="true" />}
+            onClick={() => {
+              openOverlay('shortcuts')
+            }}
+          >
+            {t.shortcuts}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<FolderOpen size={14} aria-hidden="true" />}
+            onClick={() => {
+              unwrap(window.shakery.app.openLogs()).catch(notifyError)
+            }}
+          >
+            {t.logs}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<FileText size={14} aria-hidden="true" />}
+            onClick={() => {
+              setShowLicences(true)
+            }}
+          >
+            {t.licences}
+          </Button>
+        </ControlRow>
+      </SettingsGroup>
+      <SettingsGroup title={fr.settings.groups.credits}>
+        <dl className="m-0 pb-1.5">
+          {t.sources.map((source) => (
+            <div
+              key={source.name}
+              className="grid grid-cols-1 gap-x-6 gap-y-0.5 border-t border-border py-2.5 first:border-t-0 @min-[36rem]:grid-cols-[240px_minmax(0,1fr)]"
+            >
+              <dt className="text-small font-semibold text-fg">{source.name}</dt>
+              <dd className="m-0 text-small text-fg-secondary">{source.text}</dd>
+            </div>
+          ))}
+        </dl>
+      </SettingsGroup>
 
       <Dialog
         open={showLicences}
@@ -108,6 +117,6 @@ export function AboutCard() {
           ))}
         </ul>
       </Dialog>
-    </Card>
+    </SettingsBlock>
   )
 }

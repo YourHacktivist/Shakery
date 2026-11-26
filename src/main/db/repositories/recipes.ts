@@ -19,7 +19,7 @@ import {
 import { TYPICAL_STEPS_CREDIT } from '../../../shared/classics'
 import { DomainError } from '../../errors'
 import type { Db, Ids } from '../client'
-import { ingredients, recipeHistory, recipeLines, recipes } from '../schema'
+import { ingredients, recipeHistory, recipeLines, recipes, referenceSpecs } from '../schema'
 import type { IngredientRepository } from './ingredients'
 import { indexEntity, type IndexedFields, removeFromIndex } from './search-index'
 
@@ -110,6 +110,22 @@ export class RecipeRepository {
         ),
       )
       .all()
+  }
+
+  /** Exact family of the published socle version (« Fizz au champagne »), or null: finer than `family`. */
+  familyLabel(id: string): string | null {
+    const spec = this.db
+      .select({ short: referenceSpecs.familyShortLabel, full: referenceSpecs.familyLabel })
+      .from(referenceSpecs)
+      .where(
+        and(
+          eq(referenceSpecs.recipeId, id),
+          eq(referenceSpecs.kind, 'socle'),
+          isNull(referenceSpecs.deletedAt),
+        ),
+      )
+      .get()
+    return spec?.short ?? spec?.full ?? null
   }
 
   get(id: string): RecipeDetail {

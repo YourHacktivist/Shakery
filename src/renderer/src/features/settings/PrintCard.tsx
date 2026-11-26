@@ -1,7 +1,8 @@
+import { ControlRow } from '@renderer/components/ControlRow'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Select } from '@renderer/components/Select'
 import { Toggle } from '@renderer/components/Toggle'
-import { SettingCard, SettingRow } from '@renderer/features/settings/SettingCard'
+import { SettingsBlock, SettingsGroup } from '@renderer/features/settings/SettingsBlock'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
 import { useSetSetting, useSetting } from '@renderer/lib/queries'
@@ -20,43 +21,49 @@ export function PrintCard() {
   }
 
   return (
-    <SettingCard eyebrow={t.eyebrow} title={t.title} description={t.description}>
-      <SettingRow label={t.paper}>
-        <SegmentedControl<RecipePaper>
-          label={t.paper}
-          value={paper}
-          onChange={(value) => {
-            save({ key: 'print.paper', value })
-          }}
-          options={[
-            { value: 'a4', label: fr.recipes.sheet.papers.a4 },
-            { value: 'a5', label: fr.recipes.sheet.papers.a5 },
-          ]}
-        />
-      </SettingRow>
-      <SettingRow label={t.indicators}>
-        <Toggle
-          label={t.indicators}
-          hideLabel
-          showState
-          checked={indicators}
-          onCheckedChange={(value) => {
-            save({ key: 'print.indicators', value })
-          }}
-        />
-      </SettingRow>
-      <Select
-        label={t.label}
-        value={format}
-        options={LABEL_FORMAT_VALUES.map((value) => ({
-          value,
-          label: fr.workshop.preps.label.formats[value],
-        }))}
-        onChange={(event) => {
-          const next = LABEL_FORMAT_VALUES.find((value) => value === event.target.value)
-          if (next) save({ key: 'print.labelFormat', value: next })
-        }}
-      />
-    </SettingCard>
+    <SettingsBlock block="print" title={t.title} description={t.description}>
+      <SettingsGroup>
+        <ControlRow label={t.paper}>
+          <SegmentedControl<RecipePaper>
+            label={t.paper}
+            value={paper}
+            onChange={(value) => {
+              save({ key: 'print.paper', value })
+            }}
+            options={[
+              { value: 'a4', label: fr.recipes.sheet.papers.a4 },
+              { value: 'a5', label: fr.recipes.sheet.papers.a5 },
+            ]}
+          />
+        </ControlRow>
+        <ControlRow label={t.indicators}>
+          <Toggle
+            label={t.indicators}
+            hideLabel
+            showState
+            checked={indicators}
+            onCheckedChange={(value) => {
+              save({ key: 'print.indicators', value })
+            }}
+          />
+        </ControlRow>
+        <ControlRow label={t.label}>
+          <Select
+            label={t.label}
+            hideLabel
+            className="w-56"
+            value={format}
+            options={LABEL_FORMAT_VALUES.map((value) => ({
+              value,
+              label: fr.workshop.preps.label.formats[value],
+            }))}
+            onChange={(event) => {
+              const next = LABEL_FORMAT_VALUES.find((value) => value === event.target.value)
+              if (next) save({ key: 'print.labelFormat', value: next })
+            }}
+          />
+        </ControlRow>
+      </SettingsGroup>
+    </SettingsBlock>
   )
 }

@@ -14,7 +14,6 @@ const SCREENS = [
   '/bar',
   '/preps',
   '/collections',
-  '/practice',
   '/calculators',
   '/settings',
   '/guide',
@@ -95,15 +94,26 @@ test('every screen fits in 1100 x 700, is readable in both themes and names its 
   }
 })
 
-test('the theme switch repaints the page and the window, and is kept', async () => {
+test('the theme switch of Paramètres repaints the page and the window, and is kept', async () => {
   const launched = await launchApp()
   const { page, app } = launched
   try {
     await expect(page.getByTestId('app-version')).toBeVisible()
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-    await page.getByRole('button', { name: 'Passer au thème clair' }).click()
+    // The theme lives in Paramètres only (D-057): the top bar has no switch any more.
+    const bar = page.getByRole('banner', { name: 'Barre d’outils' })
+    await expect(bar.getByRole('button', { name: /thème/ })).toHaveCount(0)
+    await page
+      .getByRole('complementary', { name: 'Barre latérale' })
+      .getByRole('link', { name: 'Paramètres', exact: true })
+      .click()
+    const theme = page.getByRole('radiogroup', { name: 'Thème' })
+    await theme.getByRole('radio', { name: 'Clair', exact: true }).click()
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-    await expect(page.getByRole('button', { name: 'Passer au thème sombre' })).toBeEnabled()
+    await expect(theme.getByRole('radio', { name: 'Clair', exact: true })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
     await expect
       .poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor))
       .toBe('rgb(243, 232, 220)')

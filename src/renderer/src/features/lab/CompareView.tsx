@@ -6,7 +6,7 @@ import { Checkbox } from '@renderer/components/Checkbox'
 import { VersionDiff, type VersionChange } from '@renderer/components/VersionDiff'
 import { computationInput, detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
-import { formatDelta, formatNumber } from '@renderer/lib/format'
+import { formatDelta, formatNumber, roundServedVolume } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
 import { queryKeys, useDisplayUnit, useGlasses, useRecipes } from '@renderer/lib/queries'
 import type { RecipeComputation, RecipeDetail, RecipeInputParsed } from '@shared/domain/catalog'
@@ -193,7 +193,7 @@ export function CompareView({
       label: tp.volume,
       unit: tp.units.ml,
       decimals: 0,
-      pick: (r: RecipeComputation) => r.finalVolumeMl,
+      pick: (r: RecipeComputation) => roundServedVolume(r.finalVolumeMl),
     },
   ] as const
 

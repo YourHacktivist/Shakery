@@ -5,7 +5,8 @@ import { Button } from '@renderer/components/Button'
 import { Dialog } from '@renderer/components/Dialog'
 import { Input } from '@renderer/components/Input'
 import { toast } from '@renderer/components/Toast'
-import { SettingCard } from '@renderer/features/settings/SettingCard'
+import { ControlRow } from '@renderer/components/ControlRow'
+import { SettingsGroup } from '@renderer/features/settings/SettingsBlock'
 import { BACKUPS_KEY } from '@renderer/features/settings/useBackupDirectory'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
@@ -17,8 +18,11 @@ import type { TrashItem } from '@shared/domain/trash'
 const t = fr.settings.maintenance
 const TRASH_KEY = ['trash'] as const
 
-/** Search index, trash and reset: the « zone sensible » of section 10.14. */
-export function MaintenanceCard() {
+/**
+ * Trash, search index and reset (section 10.14): a group of the backups block, since a backup
+ * comes before any erasing (D-057).
+ */
+export function MaintenanceGroup() {
   const [open, setOpen] = useState<'trash' | 'reset' | null>(null)
   const close = () => {
     setOpen(null)
@@ -32,12 +36,22 @@ export function MaintenanceCard() {
   })
 
   return (
-    <SettingCard eyebrow={t.eyebrow} title={t.title} description={t.description}>
-      <div className="grid grid-cols-2 gap-2">
+    <SettingsGroup title={t.title} note={t.description}>
+      <ControlRow label={t.trashTitle} hint={t.trashHint}>
         <Button
           variant="outline"
-          size="sm"
-          icon={<SearchCheck size={14} aria-hidden="true" />}
+          icon={<Trash2 size={16} aria-hidden="true" />}
+          onClick={() => {
+            setOpen('trash')
+          }}
+        >
+          {t.trash}
+        </Button>
+      </ControlRow>
+      <ControlRow label={t.search} hint={t.rebuildHint}>
+        <Button
+          variant="outline"
+          icon={<SearchCheck size={16} aria-hidden="true" />}
           disabled={rebuild.isPending}
           onClick={() => {
             rebuild.mutate()
@@ -45,28 +59,18 @@ export function MaintenanceCard() {
         >
           {t.rebuild}
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={<Trash2 size={14} aria-hidden="true" />}
-          onClick={() => {
-            setOpen('trash')
-          }}
-        >
-          {t.trash}
-        </Button>
+      </ControlRow>
+      <ControlRow label={t.resetTitle} hint={t.resetHint}>
         <Button
           variant="danger"
-          size="sm"
-          className="col-span-2"
-          icon={<RotateCcw size={14} aria-hidden="true" />}
+          icon={<RotateCcw size={16} aria-hidden="true" />}
           onClick={() => {
             setOpen('reset')
           }}
         >
           {t.reset}
         </Button>
-      </div>
+      </ControlRow>
       <Dialog
         open={open === 'trash'}
         onClose={close}
@@ -85,7 +89,7 @@ export function MaintenanceCard() {
       >
         {open === 'reset' ? <ResetForm onCancel={close} /> : null}
       </Dialog>
-    </SettingCard>
+    </SettingsGroup>
   )
 }
 

@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useToastStore } from '@renderer/components/Toast'
@@ -114,6 +114,46 @@ describe('RecipeDetailPage', () => {
     expect(await screen.findByText(plain(fr.recipes.panel.initialVolume('31')))).toBeDefined()
   })
 
+  it('keeps four actions in sight and the others in « Plus »', async () => {
+    const user = userEvent.setup()
+    renderDetail()
+    await screen.findByRole('heading', { name: 'Negroni', level: 1 })
+    for (const name of [td.edit, td.lab, fr.recipes.prepare.open, td.taste]) {
+      expect(screen.getByRole('button', { name })).toBeDefined()
+    }
+    expect(screen.queryByRole('button', { name: fr.recipes.share.open })).toBeNull()
+
+    await user.click(screen.getByRole('button', { name: td.more }))
+    const menu = await screen.findByRole('menu', { name: td.more })
+    const items = within(menu)
+      .getAllByRole('menuitem')
+      .map((item) => item.textContent)
+    expect(items[0]).toBe(td.variant)
+    expect(items.at(-1)).toBe(td.delete)
+    expect(
+      within(menu).getByRole('menuitem', { name: new RegExp(`^${fr.recipes.sheet.open}`) }),
+    ).toBeDefined()
+    expect(within(menu).getByRole('menuitem', { name: fr.recipes.share.open })).toBeDefined()
+    expect(within(menu).getByRole('separator')).toBeDefined()
+  })
+
+  it('gathers the unknown values of the calculations in one sentence', async () => {
+    const user = userEvent.setup()
+    renderDetail()
+    await screen.findByRole('heading', { name: 'Negroni', level: 1 })
+    const tp = fr.recipes.panel
+    const sentence = plain(
+      tp.toComplete([tp.unknown.abv, tp.unknown.sugar, tp.unknown.acid, tp.unknown.cost]),
+    )
+    expect(await screen.findByText(sentence, { exact: false })).toBeDefined()
+    const toggle = screen.getByRole('button', { name: tp.showMissing })
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    await user.click(toggle)
+    expect(screen.getByRole('button', { name: tp.hideMissing }).getAttribute('aria-expanded')).toBe('true')
+    expect(screen.getByText(tp.costMissing)).toBeDefined()
+    expect(screen.getByText(tp.noAllergen)).toBeDefined()
+  })
+
   it('says when the recipe does not exist', async () => {
     api.recipes.get.mockResolvedValue(fail('NOT_FOUND', 'missing'))
     renderDetail('ghost')
@@ -148,7 +188,10 @@ describe('RecipeDetailPage', () => {
     renderDetail()
     await screen.findByRole('heading', { name: 'Negroni', level: 1 })
 
-    await user.click(screen.getByRole('button', { name: td.delete }))
+    // Nothing destructive in sight: the deletion waits at the end of « Plus » (D-057).
+    expect(screen.queryByRole('button', { name: td.delete })).toBeNull()
+    await user.click(screen.getByRole('button', { name: td.more }))
+    await user.click(await screen.findByRole('menuitem', { name: td.delete }))
     expect(await screen.findByText('liste')).toBeDefined()
     expect(screen.getByText(plain(td.deleted('Negroni')))).toBeDefined()
 
@@ -165,7 +208,8 @@ describe('RecipeDetailPage', () => {
     renderDetail()
     await screen.findByRole('heading', { name: 'Negroni', level: 1 })
 
-    await user.click(screen.getByRole('button', { name: td.variant }))
+    await user.click(screen.getByRole('button', { name: td.more }))
+    await user.click(await screen.findByRole('menuitem', { name: td.variant }))
     const field = await screen.findByLabelText(td.variantDialog.name)
     expect((field as HTMLInputElement).value).toBe(td.variantDialog.defaultName('Negroni'))
     await user.clear(field)

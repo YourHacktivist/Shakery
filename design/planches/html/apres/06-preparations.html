@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" data-platform="other" data-blur="full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shakery</title>
+
+    <link rel="stylesheet" crossorigin="" href="../assets/index-DthCMq1t.css" />
+    <link rel="stylesheet" href="../assets/planches.css" />
+    <style id="planche-fenetre">
+      /* Place des boutons de la fenêtre Windows */
+      .window-controls-space {
+        padding-right: 148px !important;
+      }
+    </style>
+      <style id="planche-ecran">
+/* 06 Préparations : une liste à colonnes au lieu de dix cartes */
+      .p06-intro { max-width: 700px; margin-top: -10px; }
+      .p06-table { --p06-cols: minmax(0, 1fr) 200px 200px 200px 172px; margin-top: 6px; }
+      .p06-head, .p06-row { display: grid; grid-template-columns: var(--p06-cols); column-gap: 24px; align-items: center; }
+      .p06-head { height: 20px; margin-bottom: 14px; font-size: var(--text-caption); color: var(--color-fg-muted); }
+      .p06-group { margin-bottom: 0; }
+      .p06-table section + section { margin-top: 26px; }
+      .p06-rows { margin: 0; padding: 0; list-style: none; }
+      /* Toutes les cellules partagent la ligne de base de leur première ligne */
+      .p06-row { align-items: start; padding: 10px 0; }
+      .p06-row + .p06-row { border-top: 1px solid var(--color-border); }
+      .p06-name { display: flex; min-width: 0; flex-direction: column; }
+      .p06-title { font-size: var(--text-body); line-height: 20px; font-weight: 500; color: var(--color-fg); text-decoration: none; white-space: nowrap; }
+      .p06-name > .text-caption, .p06-stack > :last-child { line-height: 16px; }
+      .p06-cell { min-width: 0; font-size: var(--text-body); line-height: 20px; color: var(--color-fg-secondary); white-space: nowrap; }
+      .p06-stack { display: flex; flex-direction: column; }
+      .p06-date { color: var(--color-fg); font-weight: 500; }
+      .p06-left { font-size: var(--text-caption); color: var(--color-fg-muted); }
+      .p06-row.is-urgent .p06-left { color: var(--color-accent-soft); font-weight: 600; }
+      .p06-action { justify-self: end; margin-top: -4px; color: var(--color-fg-muted); }
+      .p06-row:hover .p06-action { color: var(--color-fg); }
+      /* Sans cartes, le motif du fond passe derrière le texte : on le rend plus discret sur cet écran */
+      .scene-backdrop[data-scene=preps] .scene-motif { opacity: 0.09; }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-shell flex h-full overflow-clip">
+        <aside aria-label="Barre latérale" data-collapsed="false" class="flex h-full shrink-0 flex-col overflow-hidden bg-sidebar border-r border-border w-[220px]">
+<div class="window-drag sidebar-brand group/brand flex h-12 shrink-0 items-center gap-2.5 px-3 whitespace-nowrap">
+            <span class="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full"
+              ><img alt="" width="28" height="28" class="size-7" src="../assets/logo-160-BWVCxwO_.png" /></span
+            ><span class="flex min-w-0 flex-col gap-0.5 transition-opacity duration-200 ease-out-soft"
+              ><span class="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">Shakery</span
+              ><span class="text-caption text-fg-muted">Carnet de création</span></span
+            ><span class="ml-auto"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                aria-label="Fermer la barre latérale"
+                title="Fermer la barre latérale"
+                id="sidebar-close"
+                aria-keyshortcuts="Control+B"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-panel-left-close lucide-sidebar-close"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M9 3v18"></path>
+                  <path d="m16 15-3-3 3-3"></path>
+                </svg></button
+            ></span>
+          </div>
+<div class="pl-scroll"><nav aria-label="Navigation principale" class="pl-nav">
+<ul class="pl-list"><li><a class="pl-item" href="#/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" ></path></svg><span>Accueil</span></a></li></ul>
+<div><p class="pl-group-title">Création</p><ul class="pl-list"><li><a class="pl-item" href="#/recipes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M12 5v16"></path> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" ></path></svg><span>Fiches</span></a></li><li><a class="pl-item" href="#/lab"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" ></path> <path d="M6.453 15h11.094"></path> <path d="M8.5 2h7"></path></svg><span>Atelier</span></a></li><li><a class="pl-item" href="#/journal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M2 6h4"></path> <path d="M2 10h4"></path> <path d="M2 14h4"></path> <path d="M2 18h4"></path> <rect width="16" height="20" x="4" y="2" rx="2"></rect> <path d="M9.5 8h5"></path> <path d="M9.5 12H16"></path> <path d="M9.5 16H14"></path></svg><span>Journal</span></a></li><li><a class="pl-item" href="#/notebook"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z" ></path> <path d="M15 3v5a1 1 0 0 0 1 1h5"></path></svg><span>Notes</span></a></li></ul></div>
+<div><p class="pl-group-title">Bar</p><ul class="pl-list"><li><a class="pl-item" href="#/bar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M8 22h8"></path> <path d="M7 10h10"></path> <path d="M12 15v7"></path> <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg><span>Mon bar</span></a></li><li><a class="pl-item is-active" aria-current="page" href="#/preps"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M8 2h8"></path> <path d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2" ></path> <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg><span>Préparations</span></a></li></ul></div>
+<div><p class="pl-group-title">Outils</p><ul class="pl-list"><li><a class="pl-item" href="#/collections"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" ></path> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg><span>Collections</span></a></li><li><a class="pl-item" href="#/calculators"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <rect width="16" height="20" x="4" y="2" rx="2"></rect> <line x1="8" x2="16" y1="6" y2="6"></line> <line x1="16" x2="16" y1="14" y2="18"></line> <path d="M16 10h.01"></path> <path d="M12 10h.01"></path> <path d="M8 10h.01"></path> <path d="M12 14h.01"></path> <path d="M8 14h.01"></path> <path d="M12 18h.01"></path> <path d="M8 18h.01"></path></svg><span>Calculateurs</span></a></li></ul></div>
+</nav></div>
+<div class="pl-foot"><ul class="pl-list"><li><a class="pl-item" href="#/settings"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" ></path> <circle cx="12" cy="12" r="3"></circle></svg><span>Paramètres</span></a></li></ul>
+<div class="pl-footbar"><span>Version 0.2.3</span><span style="display:flex;gap:2px"><button type="button" class="pl-iconbtn" aria-label="Raccourcis clavier"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M10 8h.01"></path> <path d="M12 12h.01"></path> <path d="M14 8h.01"></path> <path d="M16 12h.01"></path> <path d="M18 8h.01"></path> <path d="M6 8h.01"></path> <path d="M7 16h10"></path> <path d="M8 12h.01"></path> <rect width="20" height="16" x="2" y="4" rx="2"></rect> </svg></button><button type="button" class="pl-iconbtn" aria-label="Réduire aux icônes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="m11 17-5-5 5-5"></path> <path d="m18 17-5-5 5-5"></path> </svg></button></span></div></div>
+</aside>
+        <div class="relative isolate flex min-w-0 flex-1 flex-col">
+          <div aria-hidden="true" data-scene="preps" class="scene-backdrop">
+            <span class="scene-light"></span
+            ><svg class="scene-motif" viewBox="0 0 600 600" fill="none" focusable="false">
+              <path
+                class="engraving-solid"
+                d="M154 186H296A34 34 0 0 1 330 220V482A34 34 0 0 1 296 516H154A34 34 0 0 1 120 482V220A34 34 0 0 1 154 186Z"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M157 197H293A28 28 0 0 1 321 225V479A28 28 0 0 1 293 507H157A28 28 0 0 1 129 479V225A28 28 0 0 1 157 197ZM152.2 314A37.8 37.8 0 1 1 227.8 314A37.8 37.8 0 1 1 152.2 314ZM230.5 314L233.1 314M230.3 317.6L232.9 317.9M229.8 321.2L232.4 321.7M229 324.8L231.6 325.5M227.9 328.2L230.4 329.2M226.5 331.6L228.8 332.7M224.8 334.8L227 336.1M222.7 337.8L224.9 339.3M220.5 340.6L222.5 342.4M218 343.3L219.8 345.2M215.2 345.6L216.9 347.7M212.3 347.8L213.8 350M209.2 349.6L210.4 352M205.9 351.2L206.9 353.7M202.5 352.5L203.3 355M199 353.5L199.6 356M195.4 354.1L195.8 356.7M191.8 354.4L191.9 357.1M188.2 354.4L188.1 357.1M184.6 354.1L184.2 356.7M181 353.5L180.4 356M177.5 352.5L176.7 355M174.1 351.2L173.1 353.7M170.8 349.6L169.6 352M167.7 347.8L166.2 350M164.8 345.6L163.1 347.7M162 343.3L160.2 345.2M159.5 340.6L157.5 342.4M157.3 337.8L155.1 339.3M155.2 334.8L153 336.1M153.5 331.6L151.2 332.7M152.1 328.2L149.6 329.2M151 324.8L148.4 325.5M150.2 321.2L147.6 321.7M149.7 317.6L147.1 317.9M149.5 314L146.9 314M149.7 310.4L147.1 310.1M150.2 306.8L147.6 306.3M151 303.2L148.4 302.5M152.1 299.8L149.6 298.8M153.5 296.4L151.2 295.3M155.2 293.2L153 291.9M157.3 290.2L155.1 288.7M159.5 287.4L157.5 285.6M162 284.7L160.2 282.8M164.8 282.4L163.1 280.3M167.7 280.2L166.2 278M170.8 278.4L169.6 276M174.1 276.8L173.1 274.3M177.5 275.5L176.7 273M181 274.5L180.4 272M184.6 273.9L184.2 271.3M188.2 273.6L188.1 270.9M191.8 273.6L191.9 270.9M195.4 273.9L195.8 271.3M199 274.5L199.6 272M202.5 275.5L203.3 273M205.9 276.8L206.9 274.3M209.2 278.4L210.4 276M212.3 280.2L213.8 278M215.2 282.4L216.9 280.3M218 284.7L219.8 282.8M220.5 287.4L222.5 285.6M222.7 290.2L224.9 288.7M224.8 293.2L227 291.9M226.5 296.4L228.8 295.3M227.9 299.8L230.4 298.8M229 303.2L231.6 302.5M229.8 306.8L232.4 306.3M230.3 310.4L232.9 310.1M202.9 316.7L205.8 317.8M204.8 319.7L207.4 321.4M207.9 318.7L210.7 320.1M209.2 322.7L211.7 324.6M212.6 321.3L215.3 323.1M215.9 319.3L218.7 320.8M217.1 324.5L219.6 326.5M198.9 323.8L200.6 326.4M198.6 327.3L199.8 330.2M201.7 328.3L203.1 331.1M200.5 332.4L201.3 335.4M204 333.2L205.1 336.2M207.8 333.5L209.2 336.4M205.7 338.4L206.6 341.5M191.5 327.1L191.3 330.2M189.1 329.8L188.4 332.9M191 332.5L190.5 335.6M187.7 335L186.6 338M190 337.8L189.2 340.8M192.9 340.2L192.4 343.4M188.4 343L187.3 346M183.5 325.5L181.5 327.9M180 326.3L177.6 328.3M180 329.5L177.8 331.8M175.8 329.6L173.2 331.4M176 333.2L173.6 335.2M176.9 336.9L174.6 339.2M171.7 336.5L169 338.3M178 319.4L175 320.3M174.7 318.1L171.6 318.3M172.8 320.7L169.7 321.2M169.3 318.3L166.2 318.2M167.4 321.3L164.2 321.5M165.9 324.9L162.8 325.3M161.9 321.4L158.7 321.3M177.1 311.3L174.2 310.2M175.2 308.3L172.6 306.6M172.1 309.3L169.3 307.9M170.8 305.3L168.3 303.4M167.4 306.7L164.7 304.9M164.1 308.7L161.3 307.2M162.9 303.5L160.4 301.5M181.1 304.2L179.4 301.6M181.4 300.7L180.2 297.8M178.3 299.7L176.9 296.9M179.5 295.6L178.7 292.6M176 294.8L174.9 291.8M172.2 294.5L170.8 291.6M174.3 289.6L173.4 286.5M188.5 300.9L188.7 297.8M190.9 298.2L191.6 295.1M189 295.5L189.5 292.4M192.3 293L193.4 290M190 290.2L190.8 287.2M187.1 287.8L187.6 284.6M191.6 285L192.7 282M196.5 302.5L198.5 300.1M200 301.7L202.4 299.7M200 298.5L202.2 296.2M204.2 298.4L206.8 296.6M204 294.8L206.4 292.8M203.1 291.1L205.4 288.8M208.3 291.5L211 289.7M202 308.6L205 307.7M205.3 309.9L208.4 309.7M207.2 307.3L210.3 306.8M210.7 309.7L213.8 309.8M212.6 306.7L215.8 306.5M214.1 303.1L217.2 302.7M218.1 306.6L221.3 306.7M227.6 350A34.4 34.4 0 1 1 296.4 350A34.4 34.4 0 1 1 227.6 350ZM298.8 350L301.2 350M298.6 353.7L301 353.9M298.1 357.3L300.4 357.8M297.2 360.8L299.5 361.6M295.9 364.3L298.1 365.2M294.3 367.6L296.4 368.7M292.4 370.7L294.4 372.1M290.2 373.7L292 375.2M287.7 376.3L289.4 378.1M284.9 378.8L286.4 380.6M282 380.9L283.3 382.9M278.8 382.7L279.9 384.9M275.4 384.3L276.3 386.5M272 385.4L272.6 387.7M268.4 386.2L268.8 388.6M264.8 386.7L264.9 389.1M261.1 386.8L261 389.2M257.4 386.5L257.1 388.9M253.8 385.9L253.3 388.2M250.3 384.9L249.5 387.2M246.9 383.5L245.9 385.7M243.6 381.9L242.4 383.9M240.5 379.9L239.1 381.8M237.6 377.6L236.1 379.4M235 375L233.3 376.7M232.7 372.2L230.8 373.7M230.6 369.2L228.6 370.4M228.8 366L226.7 367M227.4 362.6L225.2 363.4M226.3 359.1L224 359.7M225.6 355.5L223.2 355.8M225.2 351.8L222.8 352M225.2 348.2L222.8 348M225.6 344.5L223.2 344.2M226.3 340.9L224 340.3M227.4 337.4L225.2 336.6M228.8 334L226.7 333M230.6 330.8L228.6 329.6M232.7 327.8L230.8 326.3M235 325L233.3 323.3M237.6 322.4L236.1 320.6M240.5 320.1L239.1 318.2M243.6 318.1L242.4 316.1M246.9 316.5L245.9 314.3M250.3 315.1L249.5 312.8M253.8 314.1L253.3 311.8M257.4 313.5L257.1 311.1M261.1 313.2L261 310.8M264.8 313.3L264.9 310.9M268.4 313.8L268.8 311.4M272 314.6L272.6 312.3M275.4 315.7L276.3 313.5M278.8 317.3L279.9 315.1M282 319.1L283.3 317.1M284.9 321.2L286.4 319.4M287.7 323.7L289.4 321.9M290.2 326.3L292 324.8M292.4 329.3L294.4 327.9M294.3 332.4L296.4 331.3M295.9 335.7L298.1 334.8M297.2 339.2L299.5 338.4M298.1 342.7L300.4 342.2M298.6 346.3L301 346.1M271.7 357L273.7 359M271.9 360.4L273.5 362.8M275 360.7L276.8 362.9M274.4 364.7L275.6 367.3M277.8 364.7L279.4 367.1M281.4 364.1L283.2 366.4M280.2 369.1L281.5 371.8M264.9 361.6L265.2 364.5M262.9 364.4L262.6 367.2M265.1 366.5L265 369.4M262 369.2L261.4 372M264.7 371.4L264.3 374.3M267.9 373.3L267.8 376.2M263.6 376.3L262.9 379.2M256.8 360.8L255.1 363.1M253.4 361.6L251.4 363.5M253.8 364.6L251.9 366.8M249.7 364.7L247.4 366.4M250.3 368.1L248.1 370.1M251.5 371.6L249.6 373.8M246.3 371.2L244 373M251 354.9L248.3 355.6M248 353.4L245.2 353.5M246.3 355.9L243.5 356.3M243.1 353.3L240.2 353.2M241.4 356.3L238.5 356.5M240.1 359.8L237.2 360.2M236.3 356.2L233.4 356M250.5 346.7L247.9 345.5M249.1 343.6L246.8 341.9M246.2 344.4L243.7 342.9M245.4 340.4L243.3 338.4M242.1 341.6L239.8 339.8M238.9 343.4L236.5 341.9M238.4 338.2L236.3 336.2M255.3 340.1L254.1 337.5M256.2 336.8L255.6 334M253.4 335.5L252.5 332.8M255.4 332L255.1 329.1M252.2 330.8L251.5 328M248.5 330.1L247.6 327.4M251.4 325.8L251.1 322.9M263.2 338.1L264 335.3M266.1 336.2L267.4 333.7M264.7 333.4L265.8 330.8M268.6 332L270.1 329.6M266.8 328.9L268.2 326.4M264.5 326.1L265.5 323.4M269.5 324.7L271.1 322.3M270.6 341.6L272.9 340M274 342L276.6 340.9M274.8 339.1L277.3 337.7M278.6 340.4L281.4 339.6M279.2 337L281.9 335.9M279.2 333.3L281.8 331.9M284 335.4L286.8 334.6M274 349.1L276.8 349.4M276.3 351.6L279 352.4M278.8 349.8L281.6 350.4M280.9 353.3L283.5 354.5M283.6 351.1L286.3 352M285.9 348.3L288.8 348.9M288.2 353L290.9 354.1M165.3 408A32.7 32.7 0 1 1 230.7 408A32.7 32.7 0 1 1 165.3 408ZM233 408L235.2 408M232.8 411.1L235.1 411.3M232.4 414.2L234.6 414.6M231.7 417.3L233.9 417.9M230.7 420.3L232.9 421.1M229.5 423.2L231.6 424.2M228 425.9L230 427.1M226.3 428.5L228.1 429.9M224.3 431L226 432.5M222.2 433.3L223.7 434.9M219.8 435.3L221.2 437.1M217.3 437.2L218.5 439.1M214.6 438.8L215.6 440.8M211.7 440.1L212.6 442.2M208.8 441.2L209.5 443.4M205.8 442.1L206.3 444.3M202.7 442.6L203 444.9M199.6 442.9L199.7 445.2M196.4 442.9L196.3 445.2M193.3 442.6L193 444.9M190.2 442.1L189.7 444.3M187.2 441.2L186.5 443.4M184.3 440.1L183.4 442.2M181.4 438.8L180.4 440.8M178.7 437.2L177.5 439.1M176.2 435.3L174.8 437.1M173.8 433.3L172.3 434.9M171.7 431L170 432.5M169.7 428.5L167.9 429.9M168 425.9L166 427.1M166.5 423.2L164.4 424.2M165.3 420.3L163.1 421.1M164.3 417.3L162.1 417.9M163.6 414.2L161.4 414.6M163.2 411.1L160.9 411.3M163 408L160.8 408M163.2 404.9L160.9 404.7M163.6 401.8L161.4 401.4M164.3 398.7L162.1 398.1M165.3 395.7L163.1 394.9M166.5 392.8L164.4 391.8M168 390.1L166 388.9M169.7 387.5L167.9 386.1M171.7 385L170 383.5M173.8 382.7L172.3 381.1M176.2 380.7L174.8 378.9M178.7 378.8L177.5 376.9M181.4 377.2L180.4 375.2M184.3 375.9L183.4 373.8M187.2 374.8L186.5 372.6M190.2 373.9L189.7 371.7M193.3 373.4L193 371.1M196.4 373.1L196.3 370.8M199.6 373.1L199.7 370.8M202.7 373.4L203 371.1M205.8 373.9L206.3 371.7M208.8 374.8L209.5 372.6M211.7 375.9L212.6 373.8M214.6 377.2L215.6 375.2M217.3 378.8L218.5 376.9M219.8 380.7L221.2 378.9M222.2 382.7L223.7 381.1M224.3 385L226 383.5M226.3 387.5L228.1 386.1M228 390.1L230 388.9M229.5 392.8L231.6 391.8M230.7 395.7L232.9 394.9M231.7 398.7L233.9 398.1M232.4 401.8L234.6 401.4M232.8 404.9L235.1 404.7M208.5 412.5L210.8 413.9M209.5 415.4L211.5 417.2M212.3 415.1L214.4 416.7M212.8 418.7L214.6 420.7M215.9 418.1L217.8 420M219 417L221.1 418.7M219.1 421.5L220.9 423.7M203.9 417.8L204.9 420.3M203 420.7L203.5 423.4M205.4 422.1L206.2 424.7M203.7 425.3L203.9 428M206.5 426.7L207 429.4M209.7 427.6L210.4 430.2M207.1 431.4L207.3 434.1M197 419.4L196.3 422M194.5 421.2L193.4 423.7M195.7 423.8L194.8 426.3M192.4 425.4L191 427.7M193.9 428.1L192.7 430.6M196 430.7L195 433.3M191.7 432.3L190.2 434.6M190.5 416.6L188.4 418.3M187.4 416.7L185.1 418M186.9 419.4L184.6 420.9M183.3 418.8L180.8 419.8M182.9 421.9L180.5 423.2M183 425.2L180.7 426.7M178.6 423.9L176 424.9M186.9 410.5L184.2 410.7M184.3 408.8L181.7 408.5M182.3 410.7L179.6 410.6M179.8 408.1L177.1 407.4M177.6 410.3L174.9 409.9M175.8 413.1L173 412.9M173 409.5L170.3 408.8M187.5 403.5L185.2 402.1M186.5 400.6L184.5 398.8M183.7 400.9L181.6 399.3M183.2 397.3L181.4 395.3M180.1 397.9L178.2 396M177 399L174.9 397.3M176.9 394.5L175.1 392.3M192.1 398.2L191.1 395.7M193 395.3L192.5 392.6M190.6 393.9L189.8 391.3M192.3 390.7L192.1 388M189.5 389.3L189 386.6M186.3 388.4L185.6 385.8M188.9 384.6L188.7 381.9M199 396.6L199.7 394M201.5 394.8L202.6 392.3M200.3 392.2L201.2 389.7M203.6 390.6L205 388.3M202.1 387.9L203.3 385.4M200 385.3L201 382.7M204.3 383.7L205.8 381.4M205.5 399.4L207.6 397.7M208.6 399.3L210.9 398M209.1 396.6L211.4 395.1M212.7 397.2L215.2 396.2M213.1 394.1L215.5 392.8M213 390.8L215.3 389.3M217.4 392.1L220 391.1M209.1 405.5L211.8 405.3M211.7 407.2L214.3 407.5M213.7 405.3L216.4 405.4M216.2 407.9L218.9 408.6M218.4 405.7L221.1 406.1M220.2 402.9L223 403.1M223 406.5L225.7 407.2M240.2 446A25.8 25.8 0 1 1 291.8 446A25.8 25.8 0 1 1 240.2 446ZM293.6 446L295.4 446M293.4 449.1L295.2 449.3M292.9 452.1L294.7 452.5M292.1 455.1L293.8 455.7M290.9 458L292.5 458.8M289.4 460.7L290.9 461.6M287.6 463.2L289 464.3M285.5 465.5L286.8 466.8M283.2 467.6L284.3 469M280.7 469.4L281.6 470.9M278 470.9L278.8 472.5M275.1 472.1L275.7 473.8M272.1 472.9L272.5 474.7M269.1 473.4L269.3 475.2M266 473.6L266 475.4M262.9 473.4L262.7 475.2M259.9 472.9L259.5 474.7M256.9 472.1L256.3 473.8M254 470.9L253.2 472.5M251.3 469.4L250.4 470.9M248.8 467.6L247.7 469M246.5 465.5L245.2 466.8M244.4 463.2L243 464.3M242.6 460.7L241.1 461.6M241.1 458L239.5 458.8M239.9 455.1L238.2 455.7M239.1 452.1L237.3 452.5M238.6 449.1L236.8 449.3M238.4 446L236.6 446M238.6 442.9L236.8 442.7M239.1 439.9L237.3 439.5M239.9 436.9L238.2 436.3M241.1 434L239.5 433.2M242.6 431.3L241.1 430.4M244.4 428.8L243 427.7M246.5 426.5L245.2 425.2M248.8 424.4L247.7 423M251.3 422.6L250.4 421.1M254 421.1L253.2 419.5M256.9 419.9L256.3 418.2M259.9 419.1L259.5 417.3M262.9 418.6L262.7 416.8M266 418.4L266 416.6M269.1 418.6L269.3 416.8M272.1 419.1L272.5 417.3M275.1 419.9L275.7 418.2M278 421.1L278.8 419.5M280.7 422.6L281.6 421.1M283.2 424.4L284.3 423M285.5 426.5L286.8 425.2M287.6 428.8L289 427.7M289.4 431.3L290.9 430.4M290.9 434L292.5 433.2M292.1 436.9L293.8 436.3M292.9 439.9L294.7 439.5M293.4 442.9L295.2 442.7M274.7 448.3L276.7 449.1M275.7 450.8L277.4 452.1M277.9 450L279.8 451.1M278.4 453.3L280 454.8M281 452.2L282.7 453.5M283.4 450.5L285.3 451.6M283.7 454.8L285.3 456.3M270.6 453.8L271.3 455.7M269.4 456.2L269.7 458.3M271.6 457.3L272.2 459.4M269.6 459.9L269.7 462.1M272.2 461L272.5 463.1M275.1 461.5L275.7 463.6M272.3 464.8L272.3 467M263.7 454.7L262.9 456.7M261.2 455.7L259.9 457.4M262 457.9L260.9 459.8M258.7 458.4L257.2 460M259.8 461L258.5 462.7M261.5 463.4L260.4 465.3M257.2 463.7L255.7 465.3M258.2 450.6L256.3 451.3M255.8 449.4L253.7 449.7M254.7 451.6L252.6 452.2M252.1 449.6L249.9 449.7M251 452.2L248.9 452.5M250.5 455.1L248.4 455.7M247.2 452.3L245 452.3M257.3 443.7L255.3 442.9M256.3 441.2L254.6 439.9M254.1 442L252.2 440.9M253.6 438.7L252 437.2M251 439.8L249.3 438.5M248.6 441.5L246.7 440.4M248.3 437.2L246.7 435.7M261.4 438.2L260.7 436.3M262.6 435.8L262.3 433.7M260.4 434.7L259.8 432.6M262.4 432.1L262.3 429.9M259.8 431L259.5 428.9M256.9 430.5L256.3 428.4M259.7 427.2L259.7 425M268.3 437.3L269.1 435.3M270.8 436.3L272.1 434.6M270 434.1L271.1 432.2M273.3 433.6L274.8 432M272.2 431L273.5 429.3M270.5 428.6L271.6 426.7M274.8 428.3L276.3 426.7M273.8 441.4L275.7 440.7M276.2 442.6L278.3 442.3M277.3 440.4L279.4 439.8M279.9 442.4L282.1 442.3M281 439.8L283.1 439.5M281.5 436.9L283.6 436.3M284.8 439.7L287 439.7M234.1 370A1.1 1.1 0 1 1 236.3 370A1.1 1.1 0 1 1 234.1 370ZM210.1 385.6A1.8 1.8 0 1 1 213.8 385.6A1.8 1.8 0 1 1 210.1 385.6ZM224.4 340.3A2.6 2.6 0 1 1 229.6 340.3A2.6 2.6 0 1 1 224.4 340.3ZM239.9 398A1.5 1.5 0 1 1 242.9 398A1.5 1.5 0 1 1 239.9 398ZM192.7 363A2.2 2.2 0 1 1 197.1 363A2.2 2.2 0 1 1 192.7 363ZM252.4 346.3A1.1 1.1 0 1 1 254.6 346.3A1.1 1.1 0 1 1 252.4 346.3ZM213.6 416.4A1.8 1.8 0 1 1 217.3 416.4A1.8 1.8 0 1 1 213.6 416.4ZM204.2 324.2A2.6 2.6 0 1 1 209.4 324.2A2.6 2.6 0 1 1 204.2 324.2ZM263 388.9A1.5 1.5 0 1 1 265.9 388.9A1.5 1.5 0 1 1 263 388.9ZM181.7 392.2A2.2 2.2 0 1 1 186.2 392.2A2.2 2.2 0 1 1 181.7 392.2ZM243.7 314.6A1.1 1.1 0 1 1 245.9 314.6A1.1 1.1 0 1 1 243.7 314.6ZM237.8 431A1.8 1.8 0 1 1 241.5 431A1.8 1.8 0 1 1 237.8 431ZM178.3 336.6A2.6 2.6 0 1 1 183.5 336.6A2.6 2.6 0 1 1 178.3 336.6ZM275.2 355.1A1.5 1.5 0 1 1 278.2 355.1A1.5 1.5 0 1 1 275.2 355.1ZM191.2 428.8A2.2 2.2 0 1 1 195.7 428.8A2.2 2.2 0 1 1 191.2 428.8ZM216.6 296.3A1.1 1.1 0 1 1 218.8 296.3A1.1 1.1 0 1 1 216.6 296.3ZM267.9 419.4A1.8 1.8 0 1 1 271.6 419.4A1.8 1.8 0 1 1 267.9 419.4ZM162.2 373.3A2.6 2.6 0 1 1 167.4 373.3A2.6 2.6 0 1 1 162.2 373.3ZM267.5 312.8A1.5 1.5 0 1 1 270.4 312.8A1.5 1.5 0 1 1 267.5 312.8ZM219.8 453.2A2.2 2.2 0 1 1 224.3 453.2A2.2 2.2 0 1 1 219.8 453.2ZM182.1 304.4A1.1 1.1 0 1 1 184.3 304.4A1.1 1.1 0 1 1 182.1 304.4ZM289.4 381.7A1.8 1.8 0 1 1 293 381.7A1.8 1.8 0 1 1 289.4 381.7ZM166.3 421.1A2.6 2.6 0 1 1 171.5 421.1A2.6 2.6 0 1 1 166.3 421.1ZM238.9 280.8A1.5 1.5 0 1 1 241.8 280.8A1.5 1.5 0 1 1 238.9 280.8ZM258.2 451A2.2 2.2 0 1 1 262.7 451A2.2 2.2 0 1 1 258.2 451ZM154.6 341A1.1 1.1 0 1 1 156.8 341A1.1 1.1 0 1 1 154.6 341ZM290.5 329.3A1.8 1.8 0 1 1 294.2 329.3A1.8 1.8 0 1 1 290.5 329.3ZM193.2 461.3A2.6 2.6 0 1 1 198.5 461.3A2.6 2.6 0 1 1 193.2 461.3ZM197.5 275.2A1.5 1.5 0 1 1 200.4 275.2A1.5 1.5 0 1 1 197.5 275.2ZM292 417.7A2.2 2.2 0 1 1 296.5 417.7A2.2 2.2 0 1 1 292 417.7ZM147 396.6A1.1 1.1 0 1 1 149.1 396.6A1.1 1.1 0 1 1 147 396.6ZM266.9 280.9A1.8 1.8 0 1 1 270.6 280.9A1.8 1.8 0 1 1 266.9 280.9ZM236.3 476A2.6 2.6 0 1 1 241.5 476A2.6 2.6 0 1 1 236.3 476ZM157.6 303.1A1.5 1.5 0 1 1 160.5 303.1A1.5 1.5 0 1 1 157.6 303.1ZM306 270L318 266M306 280L318 276M306 290L318 286M306 300L318 296M306 310L318 306M306 320L318 316M306 330L318 326M306 340L318 336M306 350L318 346M306 360L318 356M306 370L318 366M306 380L318 376M306 390L318 386M306 400L318 396M306 410L318 406M306 420L318 416M306 430L318 426M306 440L318 436M306 450L318 446M306 460L318 456M306 470L318 466M306 480L318 476M306 490L318 486M377 505V376C377 348.4 411 348.4 411 330V270H429V330C429 348.4 463 348.4 463 376V505Q463 512 456 512H384Q377 512 377 505ZM407.5 264L407.5 273M410.5 264L410.5 273M413.5 264L413.5 273M416.5 264L416.5 273M419.5 264L419.5 273M422.5 264L422.5 273M425.5 264L425.5 273M428.5 264L428.5 273M431.5 264L431.5 273M442.6 390L442.6 504M446.1 390L446.1 504M449.6 390L449.6 504M453.1 390L453.1 504M456.6 390L456.6 504M460.1 390L460.1 504M383 426.8H457V470.8H383V426.8ZM433 282c30 8 46 30 40 52M60 530L590 530"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M142 148H308A8 8 0 0 1 316 156V166A8 8 0 0 1 308 174H142A8 8 0 0 1 134 166V156A8 8 0 0 1 142 148ZM134 162h-18v52h18M316 162h18v52h-18M150 148c10 -44 140 -44 150 0M146 314A44 44 0 1 1 234 314A44 44 0 1 1 146 314ZM222 350A40 40 0 1 1 302 350A40 40 0 1 1 222 350ZM160 408A38 38 0 1 1 236 408A38 38 0 1 1 160 408ZM236 446A30 30 0 1 1 296 446A30 30 0 1 1 236 446ZM373 509V376C373 348.4 407 348.4 407 330V266H433V330C433 348.4 467 348.4 467 376V509Q467 516 460 516H380Q373 516 373 509ZM406.5 262H433.5A2 2 0 0 1 435.5 264V273A2 2 0 0 1 433.5 275H406.5A2 2 0 0 1 404.5 273V264A2 2 0 0 1 406.5 262ZM379 422.8H461V474.8H379V422.8ZM60 524L590 524"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M142 174H308V186H142V174ZM156 148c14 -32 124 -32 138 0M321 250L320.7 251L319.7 252L318.1 252.9L315.8 253.9L312.9 254.8L309.4 255.7L305.4 256.6L300.8 257.4L295.6 258.1L290 258.8L284 259.5L277.5 260L270.7 260.6L263.6 261L256.2 261.3L248.6 261.6L240.8 261.8L232.9 262L225 262L217.1 262L209.2 261.8L201.4 261.6L193.8 261.3L186.4 261L179.3 260.6L172.5 260L166 259.5L160 258.8L154.4 258.1L149.2 257.4L144.6 256.6L140.6 255.7L137.1 254.8L134.2 253.9L131.9 252.9L130.3 252L129.3 251L129 250L129.3 249L130.3 248L131.9 247.1L134.2 246.1L137.1 245.2L140.6 244.3L144.6 243.4L149.2 242.6L154.4 241.9L160 241.2L166 240.5L172.5 240L179.3 239.4L186.4 239L193.8 238.7L201.4 238.4L209.2 238.2L217.1 238L225 238L232.9 238L240.8 238.2L248.6 238.4L256.2 238.7L263.6 239L270.7 239.4L277.5 240L284 240.5L290 241.2L295.6 241.9L300.8 242.6L305.4 243.4L309.4 244.3L312.9 245.2L315.8 246.1L318.1 247.1L319.7 248L320.7 249L321 250M150.4 314A39.6 39.6 0 1 1 229.6 314A39.6 39.6 0 1 1 150.4 314ZM195 315.6L221.6 316L225.3 321.6L223 328.5L216.7 331ZM193.1 318.3L214.4 334.2L214 340.9L208.2 345.2L201.7 343.5ZM190 319.3L197.9 344.7L193.6 349.9L186.4 349.9L182.1 344.7ZM186.9 318.3L178.3 343.5L171.8 345.2L166 340.9L165.6 334.2ZM185 315.6L163.3 331L157 328.5L154.7 321.6L158.4 316ZM185 312.4L158.4 312L154.7 306.4L157 299.5L163.3 297ZM186.9 309.7L165.6 293.8L166 287.1L171.8 282.8L178.3 284.5ZM190 308.7L182.1 283.3L186.4 278.1L193.6 278.1L197.9 283.3ZM193.1 309.7L201.7 284.5L208.2 282.8L214 287.1L214.4 293.8ZM195 312.4L216.7 297L223 299.5L225.3 306.4L221.6 312ZM186.9 314A3.1 3.1 0 1 1 193.1 314A3.1 3.1 0 1 1 186.9 314ZM226 350A36 36 0 1 1 298 350A36 36 0 1 1 226 350ZM265.5 353.3L287.7 363L288.4 369.5L283.4 374.9L276.9 374.7ZM262.6 354.8L273.3 376.5L269.6 381.9L262.4 382.8L257.5 378.5ZM259.4 354L253.6 377.6L247.4 379.3L241.2 375.4L240.3 368.9ZM257.4 351.4L237.9 365.7L231.9 363.1L229.8 356.1L233.2 350.5ZM257.6 348.1L233.4 346.5L230.6 340.7L233.4 333.9L239.6 331.9ZM259.8 345.7L242.3 329L243.9 322.6L250.4 319.3L256.5 321.7ZM263.1 345.3L260.5 321.2L265.7 317.4L272.9 319L275.9 324.8ZM265.8 347.1L279.3 327L285.8 327.4L290.2 333.3L288.9 339.6ZM266.8 350.2L290.1 343.5L294.7 348L294.4 355.3L289.2 359.3ZM259.2 350A2.8 2.8 0 1 1 264.8 350A2.8 2.8 0 1 1 259.2 350ZM163.8 408A34.2 34.2 0 1 1 232.2 408A34.2 34.2 0 1 1 163.8 408ZM202 410.2L224.4 415.1L226.5 420.5L223.5 426L217.7 427ZM199.9 412.1L215.2 429.3L213.7 434.9L208 437.5L202.8 434.9ZM197.1 412.5L199.4 435.3L194.9 439L188.8 437.8L186.1 432.6ZM194.6 411.1L183.1 430.9L177.3 431.3L173 426.7L173.9 420.9ZM193.5 408.5L172.4 417.8L167.6 414.6L166.8 408.4L170.9 404.3ZM194 405.8L171.6 400.9L169.5 395.5L172.5 390L178.3 389ZM196.1 403.9L180.8 386.7L182.3 381.1L188 378.5L193.2 381.1ZM198.9 403.5L196.6 380.7L201.1 377L207.2 378.2L209.9 383.4ZM201.4 404.9L212.9 385.1L218.7 384.7L223 389.3L222.1 395.1ZM202.5 407.5L223.6 398.2L228.4 401.4L229.2 407.6L225.1 411.7ZM195.3 408A2.7 2.7 0 1 1 200.7 408A2.7 2.7 0 1 1 195.3 408ZM239 446A27 27 0 1 1 293 446A27 27 0 1 1 239 446ZM269.3 447.4L287.5 447.7L289.7 452.5L287.4 458.2L282.4 460ZM267.4 449.3L280 462.4L278.2 467.4L272.5 469.7L267.7 467.5ZM264.6 449.3L264.3 467.5L259.5 469.7L253.8 467.4L252 462.4ZM262.7 447.4L249.6 460L244.6 458.2L242.3 452.5L244.5 447.7ZM262.7 444.6L244.5 444.3L242.3 439.5L244.6 433.8L249.6 432ZM264.6 442.7L252 429.6L253.8 424.6L259.5 422.3L264.3 424.5ZM267.4 442.7L267.7 424.5L272.5 422.3L278.2 424.6L280 429.6ZM269.3 444.6L282.4 432L287.4 433.8L289.7 439.5L287.5 444.3ZM263.9 446A2.1 2.1 0 1 1 268.1 446A2.1 2.1 0 1 1 263.9 446ZM463 382L462.9 382.4L462.4 382.8L461.7 383.2L460.7 383.6L459.4 384L457.8 384.4L456 384.7L453.9 385.1L451.6 385.4L449.1 385.7L446.4 385.9L443.5 386.2L440.5 386.4L437.3 386.6L434 386.7L430.6 386.8L427.1 386.9L423.6 387L420 387L416.4 387L412.9 386.9L409.4 386.8L406 386.7L402.7 386.6L399.5 386.4L396.5 386.2L393.6 385.9L390.9 385.7L388.4 385.4L386.1 385.1L384 384.7L382.2 384.4L380.6 384L379.3 383.6L378.3 383.2L377.6 382.8L377.1 382.4L377 382M387 438.8L453 438.8M387 447.8L447.7 447.8M387 456.8L426.6 456.8M407 300c-20 10 -26 30 -14 40c16 -4 20 -24 14 -40z"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-22 0L-10 -16L10 -16L22 0L22 58L-22 58Z"
+                transform="translate(486 356) rotate(14)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-4 -6A4 4 0 1 1 4 -6A4 4 0 1 1 -4 -6Z"
+                transform="translate(486 356) rotate(14)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-14 16L14 16M-14 26L11.8 26M-14 36L9.5 36M-14 46L2.8 46"
+                transform="translate(486 356) rotate(14)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0Q65 -7.8 130 0"
+                transform="translate(470 520) rotate(-28)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7.9 -11.4 22.1 -9.1 31.6 0C22.1 9.1 7.9 11.4 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L29 0"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.7 0Q6.9 -2 9.2 -5M4.7 0Q6.9 2 9.2 5M8.8 0Q11 -2.6 13.3 -6.6M8.8 0Q11 2.6 13.3 6.6M12.9 0Q15.2 -2.8 17.4 -7M12.9 0Q15.2 2.8 17.4 7M17 0Q19.3 -2.5 21.5 -6.4M17 0Q19.3 2.5 21.5 6.4M21.1 0Q23.4 -1.9 25.6 -4.7M21.1 0Q23.4 1.9 25.6 4.7"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7.9 -11.4 22.1 -9.1 31.6 0C22.1 9.1 7.9 11.4 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L29 0"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.7 0Q6.9 -2 9.2 -5M4.7 0Q6.9 2 9.2 5M8.8 0Q11 -2.6 13.3 -6.6M8.8 0Q11 2.6 13.3 6.6M12.9 0Q15.2 -2.8 17.4 -7M12.9 0Q15.2 2.8 17.4 7M17 0Q19.3 -2.5 21.5 -6.4M17 0Q19.3 2.5 21.5 6.4M21.1 0Q23.4 -1.9 25.6 -4.7M21.1 0Q23.4 1.9 25.6 4.7"
+                transform="translate(470 520) rotate(-28) translate(20.7 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7 -10.1 19.7 -8.1 28.1 0C19.7 8.1 7 10.1 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L25.8 0"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.2 0Q6.2 -1.8 8.1 -4.4M4.2 0Q6.2 1.8 8.1 4.4M7.9 0Q9.8 -2.3 11.8 -5.8M7.9 0Q9.8 2.3 11.8 5.8M11.5 0Q13.5 -2.5 15.4 -6.3M11.5 0Q13.5 2.5 15.4 6.3M15.2 0Q17.1 -2.3 19.1 -5.7M15.2 0Q17.1 2.3 19.1 5.7M18.8 0Q20.8 -1.7 22.8 -4.1M18.8 0Q20.8 1.7 22.8 4.1"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7 -10.1 19.7 -8.1 28.1 0C19.7 8.1 7 10.1 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L25.8 0"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.2 0Q6.2 -1.8 8.1 -4.4M4.2 0Q6.2 1.8 8.1 4.4M7.9 0Q9.8 -2.3 11.8 -5.8M7.9 0Q9.8 2.3 11.8 5.8M11.5 0Q13.5 -2.5 15.4 -6.3M11.5 0Q13.5 2.5 15.4 6.3M15.2 0Q17.1 -2.3 19.1 -5.7M15.2 0Q17.1 2.3 19.1 5.7M18.8 0Q20.8 -1.7 22.8 -4.1M18.8 0Q20.8 1.7 22.8 4.1"
+                transform="translate(470 520) rotate(-28) translate(50.2 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C6.2 -8.9 17.2 -7.1 24.6 0C17.2 7.1 6.2 8.9 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L22.6 0"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.7 0Q5.4 -1.6 7.1 -3.9M3.7 0Q5.4 1.6 7.1 3.9M6.9 0Q8.6 -2 10.3 -5.1M6.9 0Q8.6 2 10.3 5.1M10.1 0Q11.8 -2.2 13.5 -5.5M10.1 0Q11.8 2.2 13.5 5.5M13.3 0Q15 -2 16.7 -5M13.3 0Q15 2 16.7 5M16.5 0Q18.2 -1.5 19.9 -3.6M16.5 0Q18.2 1.5 19.9 3.6"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C6.2 -8.9 17.2 -7.1 24.6 0C17.2 7.1 6.2 8.9 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L22.6 0"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.7 0Q5.4 -1.6 7.1 -3.9M3.7 0Q5.4 1.6 7.1 3.9M6.9 0Q8.6 -2 10.3 -5.1M6.9 0Q8.6 2 10.3 5.1M10.1 0Q11.8 -2.2 13.5 -5.5M10.1 0Q11.8 2.2 13.5 5.5M13.3 0Q15 -2 16.7 -5M13.3 0Q15 2 16.7 5M16.5 0Q18.2 -1.5 19.9 -3.6M16.5 0Q18.2 1.5 19.9 3.6"
+                transform="translate(470 520) rotate(-28) translate(79.8 -3.7) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5.3 -7.6 14.8 -6.1 21.1 0C14.8 6.1 5.3 7.6 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L19.4 0"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.2 0Q4.6 -1.3 6.1 -3.3M3.2 0Q4.6 1.3 6.1 3.3M5.9 0Q7.4 -1.8 8.9 -4.4M5.9 0Q7.4 1.8 8.9 4.4M8.7 0Q10.1 -1.9 11.6 -4.7M8.7 0Q10.1 1.9 11.6 4.7M11.4 0Q12.9 -1.7 14.4 -4.3M11.4 0Q12.9 1.7 14.4 4.3M14.2 0Q15.6 -1.2 17.1 -3.1M14.2 0Q15.6 1.2 17.1 3.1"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5.3 -7.6 14.8 -6.1 21.1 0C14.8 6.1 5.3 7.6 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L19.4 0"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.2 0Q4.6 -1.3 6.1 -3.3M3.2 0Q4.6 1.3 6.1 3.3M5.9 0Q7.4 -1.8 8.9 -4.4M5.9 0Q7.4 1.8 8.9 4.4M8.7 0Q10.1 -1.9 11.6 -4.7M8.7 0Q10.1 1.9 11.6 4.7M11.4 0Q12.9 -1.7 14.4 -4.3M11.4 0Q12.9 1.7 14.4 4.3M14.2 0Q15.6 -1.2 17.1 -3.1M14.2 0Q15.6 1.2 17.1 3.1"
+                transform="translate(470 520) rotate(-28) translate(109.3 -2.1) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C4.7 -6.8 13.1 -5.4 18.7 0C13.1 5.4 4.7 6.8 0 0Z"
+                transform="translate(470 520) rotate(-28) translate(130 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L17.2 0"
+                transform="translate(470 520) rotate(-28) translate(130 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M2.8 0Q4.1 -1.2 5.4 -3M2.8 0Q4.1 1.2 5.4 3M5.2 0Q6.5 -1.6 7.9 -3.9M5.2 0Q6.5 1.6 7.9 3.9M7.7 0Q9 -1.7 10.3 -4.2M7.7 0Q9 1.7 10.3 4.2M10.1 0Q11.4 -1.5 12.7 -3.8M10.1 0Q11.4 1.5 12.7 3.8M12.5 0Q13.8 -1.1 15.1 -2.8M12.5 0Q13.8 1.1 15.1 2.8"
+                transform="translate(470 520) rotate(-28) translate(130 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0Q75 -9 150 0"
+                transform="translate(96 520) rotate(-108)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7.4 -10.7 20.8 -8.6 29.7 0C20.8 8.6 7.4 10.7 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L27.3 0"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.5 0Q6.5 -1.9 8.6 -4.7M4.5 0Q6.5 1.9 8.6 4.7M8.3 0Q10.4 -2.5 12.5 -6.2M8.3 0Q10.4 2.5 12.5 6.2M12.2 0Q14.3 -2.7 16.3 -6.6M12.2 0Q14.3 2.7 16.3 6.6M16 0Q18.1 -2.4 20.2 -6M16 0Q18.1 2.4 20.2 6M19.9 0Q22 -1.8 24.1 -4.4M19.9 0Q22 1.8 24.1 4.4"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C7.4 -10.7 20.8 -8.6 29.7 0C20.8 8.6 7.4 10.7 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L27.3 0"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4.5 0Q6.5 -1.9 8.6 -4.7M4.5 0Q6.5 1.9 8.6 4.7M8.3 0Q10.4 -2.5 12.5 -6.2M8.3 0Q10.4 2.5 12.5 6.2M12.2 0Q14.3 -2.7 16.3 -6.6M12.2 0Q14.3 2.7 16.3 6.6M16 0Q18.1 -2.4 20.2 -6M16 0Q18.1 2.4 20.2 6M19.9 0Q22 -1.8 24.1 -4.4M19.9 0Q22 1.8 24.1 4.4"
+                transform="translate(96 520) rotate(-108) translate(23.9 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C6.6 -9.5 18.5 -7.6 26.4 0C18.5 7.6 6.6 9.5 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L24.3 0"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4 0Q5.8 -1.7 7.7 -4.2M4 0Q5.8 1.7 7.7 4.2M7.4 0Q9.3 -2.2 11.1 -5.5M7.4 0Q9.3 2.2 11.1 5.5M10.8 0Q12.7 -2.4 14.5 -5.9M10.8 0Q12.7 2.4 14.5 5.9M14.3 0Q16.1 -2.1 18 -5.3M14.3 0Q16.1 2.1 18 5.3M17.7 0Q19.6 -1.6 21.4 -3.9M17.7 0Q19.6 1.6 21.4 3.9"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C6.6 -9.5 18.5 -7.6 26.4 0C18.5 7.6 6.6 9.5 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L24.3 0"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M4 0Q5.8 -1.7 7.7 -4.2M4 0Q5.8 1.7 7.7 4.2M7.4 0Q9.3 -2.2 11.1 -5.5M7.4 0Q9.3 2.2 11.1 5.5M10.8 0Q12.7 -2.4 14.5 -5.9M10.8 0Q12.7 2.4 14.5 5.9M14.3 0Q16.1 -2.1 18 -5.3M14.3 0Q16.1 2.1 18 5.3M17.7 0Q19.6 -1.6 21.4 -3.9M17.7 0Q19.6 1.6 21.4 3.9"
+                transform="translate(96 520) rotate(-108) translate(58 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5.8 -8.3 16.2 -6.7 23.2 0C16.2 6.7 5.8 8.3 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L21.3 0"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.5 0Q5.1 -1.5 6.7 -3.7M3.5 0Q5.1 1.5 6.7 3.7M6.5 0Q8.1 -1.9 9.7 -4.8M6.5 0Q8.1 1.9 9.7 4.8M9.5 0Q11.1 -2.1 12.7 -5.2M9.5 0Q11.1 2.1 12.7 5.2M12.5 0Q14.1 -1.9 15.8 -4.7M12.5 0Q14.1 1.9 15.8 4.7M15.5 0Q17.1 -1.4 18.8 -3.4M15.5 0Q17.1 1.4 18.8 3.4"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5.8 -8.3 16.2 -6.7 23.2 0C16.2 6.7 5.8 8.3 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L21.3 0"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3.5 0Q5.1 -1.5 6.7 -3.7M3.5 0Q5.1 1.5 6.7 3.7M6.5 0Q8.1 -1.9 9.7 -4.8M6.5 0Q8.1 1.9 9.7 4.8M9.5 0Q11.1 -2.1 12.7 -5.2M9.5 0Q11.1 2.1 12.7 5.2M12.5 0Q14.1 -1.9 15.8 -4.7M12.5 0Q14.1 1.9 15.8 4.7M15.5 0Q17.1 -1.4 18.8 -3.4M15.5 0Q17.1 1.4 18.8 3.4"
+                transform="translate(96 520) rotate(-108) translate(92 -4.3) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5 -7.2 13.9 -5.7 19.9 0C13.9 5.7 5 7.2 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L18.3 0"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3 0Q4.4 -1.3 5.8 -3.1M3 0Q4.4 1.3 5.8 3.1M5.6 0Q7 -1.7 8.4 -4.1M5.6 0Q7 1.7 8.4 4.1M8.2 0Q9.5 -1.8 10.9 -4.4M8.2 0Q9.5 1.8 10.9 4.4M10.7 0Q12.1 -1.6 13.5 -4M10.7 0Q12.1 1.6 13.5 4M13.3 0Q14.7 -1.2 16.1 -2.9M13.3 0Q14.7 1.2 16.1 2.9"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(-42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C5 -7.2 13.9 -5.7 19.9 0C13.9 5.7 5 7.2 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L18.3 0"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M3 0Q4.4 -1.3 5.8 -3.1M3 0Q4.4 1.3 5.8 3.1M5.6 0Q7 -1.7 8.4 -4.1M5.6 0Q7 1.7 8.4 4.1M8.2 0Q9.5 -1.8 10.9 -4.4M8.2 0Q9.5 1.8 10.9 4.4M10.7 0Q12.1 -1.6 13.5 -4M10.7 0Q12.1 1.6 13.5 4M13.3 0Q14.7 -1.2 16.1 -2.9M13.3 0Q14.7 1.2 16.1 2.9"
+                transform="translate(96 520) rotate(-108) translate(126.1 -2.4) rotate(42)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M0 0C4.4 -6.4 12.3 -5.1 17.6 0C12.3 5.1 4.4 6.4 0 0Z"
+                transform="translate(96 520) rotate(-108) translate(150 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M0 0L16.2 0"
+                transform="translate(96 520) rotate(-108) translate(150 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M2.6 0Q3.9 -1.1 5.1 -2.8M2.6 0Q3.9 1.1 5.1 2.8M4.9 0Q6.2 -1.5 7.4 -3.7M4.9 0Q6.2 1.5 7.4 3.7M7.2 0Q8.4 -1.6 9.7 -4M7.2 0Q8.4 1.6 9.7 4M9.5 0Q10.7 -1.4 12 -3.6M9.5 0Q10.7 1.4 12 3.6M11.8 0Q13 -1 14.3 -2.6M11.8 0Q13 1 14.3 2.6"
+                transform="translate(96 520) rotate(-108) translate(150 0) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-44 -6H44A6 6 0 0 1 50 0V0A6 6 0 0 1 44 6H-44A6 6 0 0 1 -50 0V0A6 6 0 0 1 -44 -6Z"
+                transform="translate(520 160) rotate(64)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M46 0L46 0.3L45.9 0.7L45.9 1L45.8 1.3L45.7 1.6L45.5 1.9L45.3 2.2L45.2 2.5L44.9 2.7L44.7 2.9L44.5 3.2L44.2 3.3L43.9 3.5L43.6 3.7L43.3 3.8L43 3.9L42.7 3.9L42.3 4L42 4L41.7 4L41.3 3.9L41 3.9L40.7 3.8L40.4 3.7L40.1 3.5L39.8 3.3L39.5 3.2L39.3 2.9L39.1 2.7L38.8 2.5L38.7 2.2L38.5 1.9L38.3 1.6L38.2 1.3L38.1 1L38.1 0.7L38 0.3L38 0L38 -0.3L38.1 -0.7L38.1 -1L38.2 -1.3L38.3 -1.6L38.5 -1.9L38.7 -2.2L38.8 -2.5L39.1 -2.7L39.3 -2.9L39.5 -3.2L39.8 -3.3L40.1 -3.5L40.4 -3.7L40.7 -3.8L41 -3.9L41.3 -3.9L41.7 -4L42 -4L42.3 -4L42.7 -3.9L43 -3.9L43.3 -3.8L43.6 -3.7L43.9 -3.5L44.2 -3.3L44.5 -3.2L44.7 -2.9L44.9 -2.7L45.2 -2.5L45.3 -2.2L45.5 -1.9L45.7 -1.6L45.8 -1.3L45.9 -1L45.9 -0.7L46 -0.3L46 0M-44 0L36 0"
+                transform="translate(520 160) rotate(64)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-44 -6H44A6 6 0 0 1 50 0V0A6 6 0 0 1 44 6H-44A6 6 0 0 1 -50 0V0A6 6 0 0 1 -44 -6Z"
+                transform="translate(538 182) rotate(73)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M46 0L46 0.3L45.9 0.7L45.9 1L45.8 1.3L45.7 1.6L45.5 1.9L45.3 2.2L45.2 2.5L44.9 2.7L44.7 2.9L44.5 3.2L44.2 3.3L43.9 3.5L43.6 3.7L43.3 3.8L43 3.9L42.7 3.9L42.3 4L42 4L41.7 4L41.3 3.9L41 3.9L40.7 3.8L40.4 3.7L40.1 3.5L39.8 3.3L39.5 3.2L39.3 2.9L39.1 2.7L38.8 2.5L38.7 2.2L38.5 1.9L38.3 1.6L38.2 1.3L38.1 1L38.1 0.7L38 0.3L38 0L38 -0.3L38.1 -0.7L38.1 -1L38.2 -1.3L38.3 -1.6L38.5 -1.9L38.7 -2.2L38.8 -2.5L39.1 -2.7L39.3 -2.9L39.5 -3.2L39.8 -3.3L40.1 -3.5L40.4 -3.7L40.7 -3.8L41 -3.9L41.3 -3.9L41.7 -4L42 -4L42.3 -4L42.7 -3.9L43 -3.9L43.3 -3.8L43.6 -3.7L43.9 -3.5L44.2 -3.3L44.5 -3.2L44.7 -2.9L44.9 -2.7L45.2 -2.5L45.3 -2.2L45.5 -1.9L45.7 -1.6L45.8 -1.3L45.9 -1L45.9 -0.7L46 -0.3L46 0M-44 0L36 0"
+                transform="translate(538 182) rotate(73)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-44 -6H44A6 6 0 0 1 50 0V0A6 6 0 0 1 44 6H-44A6 6 0 0 1 -50 0V0A6 6 0 0 1 -44 -6Z"
+                transform="translate(520 204) rotate(82)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M46 0L46 0.3L45.9 0.7L45.9 1L45.8 1.3L45.7 1.6L45.5 1.9L45.3 2.2L45.2 2.5L44.9 2.7L44.7 2.9L44.5 3.2L44.2 3.3L43.9 3.5L43.6 3.7L43.3 3.8L43 3.9L42.7 3.9L42.3 4L42 4L41.7 4L41.3 3.9L41 3.9L40.7 3.8L40.4 3.7L40.1 3.5L39.8 3.3L39.5 3.2L39.3 2.9L39.1 2.7L38.8 2.5L38.7 2.2L38.5 1.9L38.3 1.6L38.2 1.3L38.1 1L38.1 0.7L38 0.3L38 0L38 -0.3L38.1 -0.7L38.1 -1L38.2 -1.3L38.3 -1.6L38.5 -1.9L38.7 -2.2L38.8 -2.5L39.1 -2.7L39.3 -2.9L39.5 -3.2L39.8 -3.3L40.1 -3.5L40.4 -3.7L40.7 -3.8L41 -3.9L41.3 -3.9L41.7 -4L42 -4L42.3 -4L42.7 -3.9L43 -3.9L43.3 -3.8L43.6 -3.7L43.9 -3.5L44.2 -3.3L44.5 -3.2L44.7 -2.9L44.9 -2.7L45.2 -2.5L45.3 -2.2L45.5 -1.9L45.7 -1.6L45.8 -1.3L45.9 -1L45.9 -0.7L46 -0.3L46 0M-44 0L36 0"
+                transform="translate(520 204) rotate(82)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-44 -6H44A6 6 0 0 1 50 0V0A6 6 0 0 1 44 6H-44A6 6 0 0 1 -50 0V0A6 6 0 0 1 -44 -6Z"
+                transform="translate(538 226) rotate(91)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M46 0L46 0.3L45.9 0.7L45.9 1L45.8 1.3L45.7 1.6L45.5 1.9L45.3 2.2L45.2 2.5L44.9 2.7L44.7 2.9L44.5 3.2L44.2 3.3L43.9 3.5L43.6 3.7L43.3 3.8L43 3.9L42.7 3.9L42.3 4L42 4L41.7 4L41.3 3.9L41 3.9L40.7 3.8L40.4 3.7L40.1 3.5L39.8 3.3L39.5 3.2L39.3 2.9L39.1 2.7L38.8 2.5L38.7 2.2L38.5 1.9L38.3 1.6L38.2 1.3L38.1 1L38.1 0.7L38 0.3L38 0L38 -0.3L38.1 -0.7L38.1 -1L38.2 -1.3L38.3 -1.6L38.5 -1.9L38.7 -2.2L38.8 -2.5L39.1 -2.7L39.3 -2.9L39.5 -3.2L39.8 -3.3L40.1 -3.5L40.4 -3.7L40.7 -3.8L41 -3.9L41.3 -3.9L41.7 -4L42 -4L42.3 -4L42.7 -3.9L43 -3.9L43.3 -3.8L43.6 -3.7L43.9 -3.5L44.2 -3.3L44.5 -3.2L44.7 -2.9L44.9 -2.7L45.2 -2.5L45.3 -2.2L45.5 -1.9L45.7 -1.6L45.8 -1.3L45.9 -1L45.9 -0.7L46 -0.3L46 0M-44 0L36 0"
+                transform="translate(538 226) rotate(91)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+            </svg>
+          </div>
+          <header aria-label="Barre d’outils" class="window-drag flex items-center gap-2 window-controls-space h-12 shrink-0 pl-4"><button
+              type="button"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+K"
+              class="flex h-8 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2 rounded-field border border-border-strong bg-surface-1 px-2.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-search shrink-0"
+                aria-hidden="true"
+              >
+                <path d="m21 21-4.34-4.34"></path>
+                <circle cx="11" cy="11" r="8"></circle></svg
+              ><span class="min-w-0 flex-1 truncate">Rechercher une fiche, un ingrédient, une note</span
+              ><span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary"
+                  >Ctrl K</kbd
+                ></span
+              ></button><button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body gap-2" aria-haspopup="dialog" aria-keyshortcuts="Control+N"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true" > <path d="M5 12h14"></path> <path d="M12 5v14"></path></svg>Idée rapide<span aria-hidden="true"><kbd class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary">Ctrl N</kbd></span></button><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="F1"
+              title="Aide de l’écran affiché (F1)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                <path d="M12 17h.01"></path></svg
+              >Aide</button></header>
+          <main data-scene="preps" class="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8">
+            <div class="mx-auto flex max-w-page flex-col gap-4">
+              <header class="flex items-end justify-between gap-4">
+                <div class="flex flex-col gap-1">
+                  <span class="text-caption text-fg-muted nums">10 préparations, 2 lots en cours</span>
+                  <h1 class="m-0 text-title font-semibold tracking-tight text-fg">Préparations maison</h1>
+                </div>
+                <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Nouvelle préparation</button>
+              </header>
+              <p class="p06-intro m-0 text-body text-fg-secondary">Une préparation est une base que tu fais à l’avance, comme un sirop, un cordial ou un oleo saccharum. Chaque fabrication enregistre un lot daté, et Shakery te dit jusqu’à quand l’utiliser.</p>
+              <div class="p06-table">
+                <div class="p06-head" aria-hidden="true"><span>Préparation</span><span>Conservation</span><span>Dernier lot</span><span>À utiliser avant</span><span></span></div>
+                <section aria-label="Lots en cours">
+                  <h2 class="pl-section-title p06-group">Lots en cours</h2>
+                  <ul class="p06-rows">
+                  <li class="p06-row is-urgent">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Cordial citron vert</a><span class="text-caption text-fg-muted truncate">Citron vert, sucre et acide citrique</span></span>
+                    <span class="p06-cell">3 jours au froid</span>
+                    <span class="p06-cell p06-stack"><span class="text-fg">Lot du 23 nov.</span><span class="text-caption text-fg-muted nums">50 cl</span></span>
+                    <span class="p06-cell p06-stack"><span class="p06-date nums">26 nov.</span><span class="p06-left">encore 2 jours</span></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop simple</a><span class="text-caption text-fg-muted truncate">Sucre et eau, 1 pour 1</span></span>
+                    <span class="p06-cell">2 semaines au froid</span>
+                    <span class="p06-cell p06-stack"><span class="text-fg">Lot du 22 nov.</span><span class="text-caption text-fg-muted nums">75 cl</span></span>
+                    <span class="p06-cell p06-stack"><span class="p06-date nums">6 déc.</span><span class="p06-left">encore 12 jours</span></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  </ul>
+                </section>
+                <section aria-label="Sans lot en cours">
+                  <h2 class="pl-section-title is-muted p06-group">Sans lot en cours</h2>
+                  <ul class="p06-rows">
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Donn’s mix</a><span class="text-caption text-fg-muted truncate">Pamplemousse et sirop de cannelle</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Jamais</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Grenadine maison</a><span class="text-caption text-fg-muted truncate">Jus de grenade et sucre</span></span>
+                    <span class="p06-cell">2 semaines au froid</span>
+                    <span class="p06-cell text-fg-muted nums">Le 28 oct.</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Oleo saccharum citron</a><span class="text-caption text-fg-muted truncate">Zestes de citron et sucre</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Jamais</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop d’orgeat maison</a><span class="text-caption text-fg-muted truncate">Amandes et eau de fleur d’oranger</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Le 9 nov.</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop de cannelle</a><span class="text-caption text-fg-muted truncate">Cannelle en bâton, sucre et eau</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Jamais</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop de gingembre</a><span class="text-caption text-fg-muted truncate">Gingembre frais, sucre et eau</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Le 14 oct.</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop de miel</a><span class="text-caption text-fg-muted truncate">Miel et eau, 3 pour 1</span></span>
+                    <span class="p06-cell"><span class="inline-flex items-center align-middle self-center"><span aria-hidden="true" class="block h-0.5 w-5 rounded-full bg-fg-muted"></span><span class="sr-only">Pas encore précisée</span></span></span>
+                    <span class="p06-cell text-fg-muted nums">Jamais</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  <li class="p06-row">
+                    <span class="p06-name"><a class="p06-title" href="#/recipes">Sirop riche</a><span class="text-caption text-fg-muted truncate">Sucre et eau, 2 pour 1</span></span>
+                    <span class="p06-cell">1 mois au froid</span>
+                    <span class="p06-cell text-fg-muted nums">Le 3 oct.</span>
+                    <span class="p06-cell"></span>
+                    <button type="button" class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 h-7 gap-1 px-2.5 text-small p06-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-round" aria-hidden="true"><path d="M10 2v6.292a7 7 0 1 0 4 0V2"></path><path d="M5 15h14"></path><path d="M8.5 2h7"></path></svg>Nouvelle fabrication</button>
+                  </li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+          </main>
+        </div>
+        <dialog
+          aria-labelledby="_r_e_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in mx-auto mt-[12vh] mb-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_g_"
+          aria-describedby="_r_h_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_i_"
+          aria-describedby="_r_j_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_k_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_m_"
+          aria-describedby="_r_n_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_o_"
+          aria-describedby="_r_p_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <section aria-label="Notifications" class="pointer-events-none fixed right-4 bottom-4 z-50 w-[min(340px,calc(100vw-32px))]">
+          <div role="status" aria-live="polite" aria-atomic="false" class="flex flex-col gap-1.5"></div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

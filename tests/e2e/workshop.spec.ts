@@ -18,7 +18,7 @@ test('a collection exported to PDF, revised to the end, and a batch of syrup', a
     const form = page.getByRole('dialog', { name: 'Nouvelle collection' })
     await form.getByLabel('Nom').fill('Carte test')
     await form.getByRole('button', { name: 'Enregistrer' }).click()
-    await expect(page.getByRole('heading', { name: 'Carte test', level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Carte test', level: 1 })).toBeVisible()
     for (const name of ['Negroni', 'Daiquiri', 'Manhattan', 'Margarita']) {
       await page.getByRole('combobox', { name: 'Ajouter des fiches' }).fill(name)
       await page
@@ -41,17 +41,19 @@ test('a collection exported to PDF, revised to the end, and a batch of syrup', a
     expect(pdf.length).toBeGreaterThan(2000)
 
     // Revision of the collection: every question answered, then the result.
-    await page.getByRole('button', { name: 'Réviser' }).click()
-    await expect(page.getByRole('heading', { name: 'Révision', level: 1 })).toBeVisible()
-    await page.getByLabel('Nombre de questions').selectOption('10')
-    await page.getByRole('button', { name: 'Commencer' }).click()
+    await page.getByRole('tab', { name: 'Réviser' }).click()
+    await page
+      .getByRole('radiogroup', { name: 'Nombre de questions' })
+      .getByRole('radio', { name: '10' })
+      .click()
+    await page.getByRole('button', { name: 'Commencer la révision' }).click()
     for (let i = 0; i < 10; i += 1) {
       const reveal = page.getByRole('button', { name: 'Voir la réponse' })
       const choices = page.getByRole('group').getByRole('button')
       await expect(reveal.or(choices.first())).toBeVisible()
       if (await reveal.isVisible()) {
         await reveal.click()
-        await page.getByRole('button', { name: 'Je savais' }).click()
+        await page.getByRole('button', { name: 'Réponse trouvée' }).click()
       } else {
         await choices.first().click()
         await page.getByRole('button', { name: /^(Suivante|Terminer)$/ }).click()
@@ -67,12 +69,12 @@ test('a collection exported to PDF, revised to the end, and a batch of syrup', a
 
     // A batch of simple syrup.
     await sidebar.getByRole('link', { name: 'Préparations', exact: true }).click()
-    const card = page.getByRole('article').filter({ hasText: 'Sirop simple' })
-    await card.getByRole('button', { name: 'Nouvelle fabrication' }).click()
+    await page.getByRole('button', { name: 'Nouvelle fabrication de Sirop simple' }).click()
     const batch = page.getByRole('dialog', { name: 'Nouvelle fabrication de Sirop simple' })
     await batch.getByLabel('Quantité').fill('750')
     await batch.getByRole('button', { name: 'Enregistrer la fabrication' }).click()
-    await expect(card.getByText(/750 ml/)).toBeVisible()
+    const lots = page.getByRole('list', { name: 'Lots en cours de Sirop simple' })
+    await expect(lots.getByText(/750 ml/)).toBeVisible()
   } finally {
     await closeApp(launched)
   }

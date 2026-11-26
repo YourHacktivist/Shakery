@@ -21,10 +21,12 @@ import { useOverlayStore } from '@renderer/app/stores'
 import { PaletteHost } from '@renderer/app/PaletteHost'
 import { TopBar } from '@renderer/app/TopBar'
 import { useGlobalShortcuts } from '@renderer/app/useGlobalShortcuts'
+import { useScrollTopOnNewPage } from '@renderer/app/useScrollTopOnNewPage'
 import { Toaster } from '@renderer/components/Toast'
 import { KitPage } from '@renderer/dev/KitPage'
 import { BarPage } from '@renderer/features/bar/BarPage'
 import { CalculatorsPage } from '@renderer/features/calculators/CalculatorsPage'
+import { CollectionPage } from '@renderer/features/collections/CollectionPage'
 import { CollectionsPage } from '@renderer/features/collections/CollectionsPage'
 import { GuidePage } from '@renderer/features/guide/GuidePage'
 import { HelpDialog } from '@renderer/features/help/HelpDialog'
@@ -33,7 +35,7 @@ import { JournalPage } from '@renderer/features/journal/JournalPage'
 import { LabPage } from '@renderer/features/lab/LabPage'
 import { NotebookPage } from '@renderer/features/notebook/NotebookPage'
 import { Onboarding } from '@renderer/features/onboarding/OnboardingDialog'
-import { PracticePage } from '@renderer/features/practice/PracticePage'
+import { PracticeRedirect } from '@renderer/features/practice/PracticeRedirect'
 import { PrepsPage } from '@renderer/features/preps/PrepsPage'
 import { PrepModePage } from '@renderer/features/prepare/PrepModePage'
 import { RecipeDetailPage } from '@renderer/features/recipes/RecipeDetailPage'
@@ -64,7 +66,9 @@ const SCREENS: RouteObject[] = [
   { path: '/bar', element: <BarPage /> },
   { path: '/preps', element: <PrepsPage /> },
   { path: '/collections', element: <CollectionsPage /> },
-  { path: '/practice', element: <PracticePage /> },
+  { path: '/collections/:id', element: <CollectionPage /> },
+  // The revision is a tab of each collection (D-057): the old address leads there.
+  { path: '/practice', element: <PracticeRedirect /> },
   { path: '/calculators', element: <CalculatorsPage /> },
   { path: '/settings', element: <SettingsPage /> },
   { path: '/guide', element: <GuidePage /> },
@@ -125,6 +129,7 @@ function useScene() {
 
 function Shell() {
   useGlobalShortcuts()
+  const main = useScrollTopOnNewPage<HTMLElement>()
   const { scene, entering } = useScene()
   const shownRecipe = useMatch('/recipes/:id')?.params.id ?? null
   const overlay = useOverlayStore((state) => state.current)
@@ -140,6 +145,7 @@ function Shell() {
         <SceneBackdrop scene={scene} />
         <TopBar className="window-controls-space h-12 shrink-0 pl-4" />
         <main
+          ref={main}
           data-scene={scene}
           data-entering={entering ? '' : undefined}
           className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8"

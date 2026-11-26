@@ -1,0 +1,2279 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" data-platform="other" data-blur="full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shakery</title>
+
+    <link rel="stylesheet" crossorigin="" href="../assets/index-DthCMq1t.css" />
+    <style id="planche-fenetre">
+      /* Place des boutons de la fenêtre Windows */
+      .window-controls-space {
+        padding-right: 148px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-shell flex h-full overflow-clip">
+        <aside
+          aria-label="Barre latérale"
+          data-collapsed="false"
+          class="flex h-full shrink-0 flex-col overflow-hidden bg-sidebar duration-250 ease-out-soft border-r border-border transition-[width] w-[220px]"
+        >
+          <div class="window-drag sidebar-brand group/brand flex h-12 shrink-0 items-center gap-2.5 px-3 whitespace-nowrap">
+            <span class="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full"
+              ><img alt="" width="28" height="28" class="size-7" src="../assets/logo-160-BWVCxwO_.png" /></span
+            ><span class="flex min-w-0 flex-col gap-0.5 transition-opacity duration-200 ease-out-soft"
+              ><span class="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">Shakery</span
+              ><span class="text-caption text-fg-muted">Carnet de création</span></span
+            ><span class="ml-auto"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                aria-label="Fermer la barre latérale"
+                title="Fermer la barre latérale"
+                id="sidebar-close"
+                aria-keyshortcuts="Control+B"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-panel-left-close lucide-sidebar-close"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M9 3v18"></path>
+                  <path d="m16 15-3-3 3-3"></path>
+                </svg></button
+            ></span>
+          </div>
+          <div
+            class="flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto px-3 pt-2 pb-4 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]"
+          >
+            <nav aria-label="Navigation principale">
+              <ul class="relative m-0 flex list-none flex-col gap-0.5 p-0">
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute top-0 left-0 h-8 w-full rounded-field border border-accent/20 bg-[linear-gradient(90deg,rgb(239_120_43/0.16),rgb(239_120_43/0.03))] transition-[transform,opacity] duration-250 ease-out-soft before:absolute before:top-2 before:-left-px before:h-4 before:w-[3px] before:rounded-full before:bg-accent before:shadow-[0_0_10px_rgb(239_120_43/0.8)] before:content-['']"
+                  style="transform: translateY(34px)"
+                ></span>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-house lucide-home shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                      <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Accueil</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`) active"
+                    href="#/recipes"
+                    data-discover="true"
+                    aria-current="page"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-book-open shrink-0 transition-[color,transform] duration-200 ease-out-soft text-accent"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 5v16"></path>
+                      <path
+                        d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"
+                      ></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Fiches</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/lab"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-flask-conical shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
+                      ></path>
+                      <path d="M6.453 15h11.094"></path>
+                      <path d="M8.5 2h7"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Atelier</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/journal"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-notebook-text shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 6h4"></path>
+                      <path d="M2 10h4"></path>
+                      <path d="M2 14h4"></path>
+                      <path d="M2 18h4"></path>
+                      <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                      <path d="M9.5 8h5"></path>
+                      <path d="M9.5 12H16"></path>
+                      <path d="M9.5 16H14"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Journal</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/notebook"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-sticky-note shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"
+                      ></path>
+                      <path d="M15 3v5a1 1 0 0 0 1 1h5"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Carnet</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/bar"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-wine shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 22h8"></path>
+                      <path d="M7 10h10"></path>
+                      <path d="M12 15v7"></path>
+                      <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Mon bar</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/preps"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-milk shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 2h8"></path>
+                      <path
+                        d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2"
+                      ></path>
+                      <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Préparations</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/collections"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-layers lucide-layers-3 shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
+                      ></path>
+                      <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path>
+                      <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Collections</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/practice"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-graduation-cap shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+                      ></path>
+                      <path d="M22 10v6"></path>
+                      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Révision</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/calculators"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-calculator shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                      <line x1="8" x2="16" y1="6" y2="6"></line>
+                      <line x1="16" x2="16" y1="14" y2="18"></line>
+                      <path d="M16 10h.01"></path>
+                      <path d="M12 10h.01"></path>
+                      <path d="M8 10h.01"></path>
+                      <path d="M12 14h.01"></path>
+                      <path d="M8 14h.01"></path>
+                      <path d="M12 18h.01"></path>
+                      <path d="M8 18h.01"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Calculateurs</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/settings"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-settings shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Paramètres</span></a
+                  >
+                </li>
+              </ul>
+            </nav>
+            <div class="flex w-[184px] flex-col gap-4 transition-opacity duration-200 ease-out-soft">
+              <div class="flex flex-col gap-3 px-1">
+                <section aria-labelledby="_r_b_" class="flex flex-col gap-1.5">
+                  <h2 id="_r_b_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-rotate-ccw"
+                      aria-hidden="true"
+                    >
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path></svg
+                    ><span>À retester</span>
+                  </h2>
+                  <ul class="m-0 flex list-none flex-col gap-1 p-0">
+                    <li>
+                      <a
+                        class="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
+                        href="#/recipes/01a20cce-f837-7241-926f-e51bf2b16bef"
+                        data-discover="true"
+                        ><span class="truncate text-small font-medium text-fg">Negroni fumé</span
+                        ><span class="line-clamp-2 text-caption leading-snug text-fg-secondary">Baisser le mezcal à 10 ml.</span></a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
+                        href="#/recipes/01a20cce-f91c-7503-a160-5cc541df8ca1"
+                        data-discover="true"
+                        ><span class="truncate text-small font-medium text-fg">Dernier mot d’hiver</span
+                        ><span class="line-clamp-2 text-caption leading-snug text-fg-secondary"
+                          >Tester avec 5 ml de citron en plus.</span
+                        ></a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="inline-flex items-center gap-1.5 rounded-sm px-1.5 text-caption font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
+                        href="#/journal"
+                        data-discover="true"
+                        ><span>Ouvrir le journal</span
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-arrow-right"
+                          aria-hidden="true"
+                        >
+                          <path d="M5 12h14"></path>
+                          <path d="m12 5 7 7-7 7"></path></svg
+                      ></a>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="_r_c_" class="flex flex-col gap-1.5">
+                  <h2 id="_r_c_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-milk"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 2h8"></path>
+                      <path
+                        d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2"
+                      ></path>
+                      <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg
+                    ><span>Préparations</span>
+                  </h2>
+                  <p class="m-0 text-small leading-normal text-fg-secondary">Aucune préparation en cours.</p>
+                </section>
+              </div>
+              <section aria-labelledby="_r_d_" class="flex flex-col gap-1.5 rounded-nested border border-border bg-tonight p-3">
+                <h2 id="_r_d_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-wine text-accent"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 22h8"></path>
+                    <path d="M7 10h10"></path>
+                    <path d="M12 15v7"></path>
+                    <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg
+                  ><span>Ce soir</span>
+                </h2>
+                <p class="m-0 text-small leading-normal text-fg">
+                  <span class="nums text-heading font-semibold text-copper">1</span>
+                  <span class="text-fg-secondary">fiche réalisable ce soir</span>
+                </p>
+                <p class="m-0 text-caption leading-snug text-fg-muted">Whisky écossais en débloquerait 3</p>
+                <a
+                  class="group/link inline-flex items-center gap-1.5 self-start rounded-sm text-small font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
+                  href="#/bar"
+                  data-discover="true"
+                  ><span>Ouvrir Mon bar</span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-arrow-right transition-transform duration-200 ease-out-soft group-hover/link:translate-x-0.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path></svg
+                ></a>
+              </section>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-1 px-3.5 py-2 border-t border-border">
+            <p
+              data-testid="app-version"
+              class="m-0 mr-auto min-w-0 truncate nums text-caption text-fg-muted transition-opacity duration-200 ease-out-soft"
+            >
+              Version 0.2.3
+            </p>
+            <span class="flex shrink-0 transition-opacity duration-200 ease-out-soft"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                aria-label="Guide d’utilisation"
+                title="Guide d’utilisation"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                  <path d="M12 17h.01"></path>
+                </svg></button
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                aria-label="Raccourcis clavier"
+                title="Raccourcis clavier"
+                aria-haspopup="dialog"
+                aria-keyshortcuts="?"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-keyboard"
+                  aria-hidden="true"
+                >
+                  <path d="M10 8h.01"></path>
+                  <path d="M12 12h.01"></path>
+                  <path d="M14 8h.01"></path>
+                  <path d="M16 12h.01"></path>
+                  <path d="M18 8h.01"></path>
+                  <path d="M6 8h.01"></path>
+                  <path d="M7 16h10"></path>
+                  <path d="M8 12h.01"></path>
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                </svg></button></span
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+              aria-label="Réduire aux icônes"
+              title="Réduire aux icônes"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-left"
+                aria-hidden="true"
+              >
+                <path d="m11 17-5-5 5-5"></path>
+                <path d="m18 17-5-5 5-5"></path>
+              </svg>
+            </button>
+          </div>
+        </aside>
+        <div class="relative isolate flex min-w-0 flex-1 flex-col">
+          <div aria-hidden="true" data-scene="recipes" class="scene-backdrop">
+            <span class="scene-light"></span
+            ><svg class="scene-motif" viewBox="0 0 600 600" fill="none" focusable="false">
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(330 300) rotate(-18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(330 300) rotate(-18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-107 -204H-65A3 3 0 0 1 -62 -201V-193A3 3 0 0 1 -65 -190H-107A3 3 0 0 1 -110 -193V-201A3 3 0 0 1 -107 -204Z"
+                transform="translate(330 300) rotate(-18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(335 296) rotate(-13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(335 296) rotate(-13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-85 -204H-43A3 3 0 0 1 -40 -201V-193A3 3 0 0 1 -43 -190H-85A3 3 0 0 1 -88 -193V-201A3 3 0 0 1 -85 -204Z"
+                transform="translate(335 296) rotate(-13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(340 292) rotate(-9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(340 292) rotate(-9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-63 -204H-21A3 3 0 0 1 -18 -201V-193A3 3 0 0 1 -21 -190H-63A3 3 0 0 1 -66 -193V-201A3 3 0 0 1 -63 -204Z"
+                transform="translate(340 292) rotate(-9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(345 288) rotate(-4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(345 288) rotate(-4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-41 -204H1A3 3 0 0 1 4 -201V-193A3 3 0 0 1 1 -190H-41A3 3 0 0 1 -44 -193V-201A3 3 0 0 1 -41 -204Z"
+                transform="translate(345 288) rotate(-4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(350 284) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(350 284) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-19 -204H23A3 3 0 0 1 26 -201V-193A3 3 0 0 1 23 -190H-19A3 3 0 0 1 -22 -193V-201A3 3 0 0 1 -19 -204Z"
+                transform="translate(350 284) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(355 280) rotate(4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(355 280) rotate(4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M3 -204H45A3 3 0 0 1 48 -201V-193A3 3 0 0 1 45 -190H3A3 3 0 0 1 0 -193V-201A3 3 0 0 1 3 -204Z"
+                transform="translate(355 280) rotate(4.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(360 276) rotate(9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(360 276) rotate(9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M25 -204H67A3 3 0 0 1 70 -201V-193A3 3 0 0 1 67 -190H25A3 3 0 0 1 22 -193V-201A3 3 0 0 1 25 -204Z"
+                transform="translate(360 276) rotate(9)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(365 272) rotate(13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130"
+                transform="translate(365 272) rotate(13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M47 -204H89A3 3 0 0 1 92 -201V-193A3 3 0 0 1 89 -190H47A3 3 0 0 1 44 -193V-201A3 3 0 0 1 47 -204Z"
+                transform="translate(365 272) rotate(13.5)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-124 -190H124A6 6 0 0 1 130 -184V-6A6 6 0 0 1 124 0H-124A6 6 0 0 1 -130 -6V-184A6 6 0 0 1 -124 -190Z"
+                transform="translate(370 268) rotate(18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-130 -160H130M-119 -183H119A4 4 0 0 1 123 -179V-11A4 4 0 0 1 119 -7H-119A4 4 0 0 1 -123 -11V-179A4 4 0 0 1 -119 -183ZM3.2 -144A0.8 0.8 0 1 1 4.8 -144A0.8 0.8 0 1 1 3.2 -144ZM11.2 -144A0.8 0.8 0 1 1 12.8 -144A0.8 0.8 0 1 1 11.2 -144ZM19.2 -144A0.8 0.8 0 1 1 20.8 -144A0.8 0.8 0 1 1 19.2 -144ZM27.2 -144A0.8 0.8 0 1 1 28.8 -144A0.8 0.8 0 1 1 27.2 -144ZM35.2 -144A0.8 0.8 0 1 1 36.8 -144A0.8 0.8 0 1 1 35.2 -144ZM43.2 -144A0.8 0.8 0 1 1 44.8 -144A0.8 0.8 0 1 1 43.2 -144ZM51.2 -144A0.8 0.8 0 1 1 52.8 -144A0.8 0.8 0 1 1 51.2 -144ZM59.2 -144A0.8 0.8 0 1 1 60.8 -144A0.8 0.8 0 1 1 59.2 -144ZM67.2 -144A0.8 0.8 0 1 1 68.8 -144A0.8 0.8 0 1 1 67.2 -144ZM3.2 -126A0.8 0.8 0 1 1 4.8 -126A0.8 0.8 0 1 1 3.2 -126ZM11.2 -126A0.8 0.8 0 1 1 12.8 -126A0.8 0.8 0 1 1 11.2 -126ZM19.2 -126A0.8 0.8 0 1 1 20.8 -126A0.8 0.8 0 1 1 19.2 -126ZM27.2 -126A0.8 0.8 0 1 1 28.8 -126A0.8 0.8 0 1 1 27.2 -126ZM35.2 -126A0.8 0.8 0 1 1 36.8 -126A0.8 0.8 0 1 1 35.2 -126ZM43.2 -126A0.8 0.8 0 1 1 44.8 -126A0.8 0.8 0 1 1 43.2 -126ZM51.2 -126A0.8 0.8 0 1 1 52.8 -126A0.8 0.8 0 1 1 51.2 -126ZM59.2 -126A0.8 0.8 0 1 1 60.8 -126A0.8 0.8 0 1 1 59.2 -126ZM67.2 -126A0.8 0.8 0 1 1 68.8 -126A0.8 0.8 0 1 1 67.2 -126ZM3.2 -108A0.8 0.8 0 1 1 4.8 -108A0.8 0.8 0 1 1 3.2 -108ZM11.2 -108A0.8 0.8 0 1 1 12.8 -108A0.8 0.8 0 1 1 11.2 -108ZM19.2 -108A0.8 0.8 0 1 1 20.8 -108A0.8 0.8 0 1 1 19.2 -108ZM27.2 -108A0.8 0.8 0 1 1 28.8 -108A0.8 0.8 0 1 1 27.2 -108ZM35.2 -108A0.8 0.8 0 1 1 36.8 -108A0.8 0.8 0 1 1 35.2 -108ZM43.2 -108A0.8 0.8 0 1 1 44.8 -108A0.8 0.8 0 1 1 43.2 -108ZM51.2 -108A0.8 0.8 0 1 1 52.8 -108A0.8 0.8 0 1 1 51.2 -108ZM59.2 -108A0.8 0.8 0 1 1 60.8 -108A0.8 0.8 0 1 1 59.2 -108ZM67.2 -108A0.8 0.8 0 1 1 68.8 -108A0.8 0.8 0 1 1 67.2 -108ZM3.2 -90A0.8 0.8 0 1 1 4.8 -90A0.8 0.8 0 1 1 3.2 -90ZM11.2 -90A0.8 0.8 0 1 1 12.8 -90A0.8 0.8 0 1 1 11.2 -90ZM19.2 -90A0.8 0.8 0 1 1 20.8 -90A0.8 0.8 0 1 1 19.2 -90ZM27.2 -90A0.8 0.8 0 1 1 28.8 -90A0.8 0.8 0 1 1 27.2 -90ZM35.2 -90A0.8 0.8 0 1 1 36.8 -90A0.8 0.8 0 1 1 35.2 -90ZM43.2 -90A0.8 0.8 0 1 1 44.8 -90A0.8 0.8 0 1 1 43.2 -90ZM51.2 -90A0.8 0.8 0 1 1 52.8 -90A0.8 0.8 0 1 1 51.2 -90ZM59.2 -90A0.8 0.8 0 1 1 60.8 -90A0.8 0.8 0 1 1 59.2 -90ZM67.2 -90A0.8 0.8 0 1 1 68.8 -90A0.8 0.8 0 1 1 67.2 -90ZM3.2 -72A0.8 0.8 0 1 1 4.8 -72A0.8 0.8 0 1 1 3.2 -72ZM11.2 -72A0.8 0.8 0 1 1 12.8 -72A0.8 0.8 0 1 1 11.2 -72ZM19.2 -72A0.8 0.8 0 1 1 20.8 -72A0.8 0.8 0 1 1 19.2 -72ZM27.2 -72A0.8 0.8 0 1 1 28.8 -72A0.8 0.8 0 1 1 27.2 -72ZM35.2 -72A0.8 0.8 0 1 1 36.8 -72A0.8 0.8 0 1 1 35.2 -72ZM43.2 -72A0.8 0.8 0 1 1 44.8 -72A0.8 0.8 0 1 1 43.2 -72ZM51.2 -72A0.8 0.8 0 1 1 52.8 -72A0.8 0.8 0 1 1 51.2 -72ZM59.2 -72A0.8 0.8 0 1 1 60.8 -72A0.8 0.8 0 1 1 59.2 -72ZM67.2 -72A0.8 0.8 0 1 1 68.8 -72A0.8 0.8 0 1 1 67.2 -72ZM3.2 -54A0.8 0.8 0 1 1 4.8 -54A0.8 0.8 0 1 1 3.2 -54ZM11.2 -54A0.8 0.8 0 1 1 12.8 -54A0.8 0.8 0 1 1 11.2 -54ZM19.2 -54A0.8 0.8 0 1 1 20.8 -54A0.8 0.8 0 1 1 19.2 -54ZM27.2 -54A0.8 0.8 0 1 1 28.8 -54A0.8 0.8 0 1 1 27.2 -54ZM35.2 -54A0.8 0.8 0 1 1 36.8 -54A0.8 0.8 0 1 1 35.2 -54ZM43.2 -54A0.8 0.8 0 1 1 44.8 -54A0.8 0.8 0 1 1 43.2 -54ZM51.2 -54A0.8 0.8 0 1 1 52.8 -54A0.8 0.8 0 1 1 51.2 -54ZM59.2 -54A0.8 0.8 0 1 1 60.8 -54A0.8 0.8 0 1 1 59.2 -54ZM67.2 -54A0.8 0.8 0 1 1 68.8 -54A0.8 0.8 0 1 1 67.2 -54ZM3.2 -36A0.8 0.8 0 1 1 4.8 -36A0.8 0.8 0 1 1 3.2 -36ZM11.2 -36A0.8 0.8 0 1 1 12.8 -36A0.8 0.8 0 1 1 11.2 -36ZM19.2 -36A0.8 0.8 0 1 1 20.8 -36A0.8 0.8 0 1 1 19.2 -36ZM27.2 -36A0.8 0.8 0 1 1 28.8 -36A0.8 0.8 0 1 1 27.2 -36ZM35.2 -36A0.8 0.8 0 1 1 36.8 -36A0.8 0.8 0 1 1 35.2 -36ZM43.2 -36A0.8 0.8 0 1 1 44.8 -36A0.8 0.8 0 1 1 43.2 -36ZM51.2 -36A0.8 0.8 0 1 1 52.8 -36A0.8 0.8 0 1 1 51.2 -36ZM59.2 -36A0.8 0.8 0 1 1 60.8 -36A0.8 0.8 0 1 1 59.2 -36ZM67.2 -36A0.8 0.8 0 1 1 68.8 -36A0.8 0.8 0 1 1 67.2 -36Z"
+                transform="translate(370 268) rotate(18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M69 -204H111A3 3 0 0 1 114 -201V-193A3 3 0 0 1 111 -190H69A3 3 0 0 1 66 -193V-201A3 3 0 0 1 69 -204ZM-110 -144L-38 -144M80 -144L112 -144M-110 -126L-38 -126M80 -126L112 -126M-110 -108L-38 -108M80 -108L112 -108M-110 -90L-38 -90M80 -90L112 -90M-110 -72L-38 -72M80 -72L112 -72M-110 -54L-38 -54M80 -54L112 -54M-110 -36L-38 -36M80 -36L112 -36"
+                transform="translate(370 268) rotate(18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-110 -172L-38 -172"
+                transform="translate(370 268) rotate(18)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path class="engraving-solid" d="M140 340L500 340L480 540L160 540Z" vector-effect="non-scaling-stroke"></path>
+              <path
+                class="engraving-fine"
+                d="M150 350L490 350L472 530L168 530ZM140 340L192 300L550 300M281 406H359A3 3 0 0 1 362 409V439A3 3 0 0 1 359 442H281A3 3 0 0 1 278 439V409A3 3 0 0 1 281 406ZM341.8 475.8L341.4 476.7L340.9 477.7L340.3 478.6L339.6 479.5L338.7 480.3L337.7 481.1L336.6 481.9L335.3 482.6L334 483.3L332.6 483.8L331.1 484.4L329.5 484.8L327.9 485.2L326.2 485.5L324.4 485.8L322.7 485.9L320.9 486L319.1 486L317.3 485.9L315.6 485.8L313.8 485.5L312.1 485.2L310.5 484.8L308.9 484.4L307.4 483.8L306 483.3L304.7 482.6L303.4 481.9L302.3 481.1L301.3 480.3L300.4 479.5L299.7 478.6L299.1 477.7L298.6 476.7L298.2 475.8M167 362A5 5 0 1 1 177 362A5 5 0 1 1 167 362ZM463 362A5 5 0 1 1 473 362A5 5 0 1 1 463 362ZM181 518A5 5 0 1 1 191 518A5 5 0 1 1 181 518ZM449 518A5 5 0 1 1 459 518A5 5 0 1 1 449 518Z"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M500 340L550 300L530 494L480 540M275 398H365A5 5 0 0 1 370 403V445A5 5 0 0 1 365 450H275A5 5 0 0 1 270 445V403A5 5 0 0 1 275 398ZM349.7 477L349.2 478.6L348.5 480.1L347.7 481.7L346.7 483.1L345.5 484.6L344.1 485.9L342.6 487.2L340.9 488.3L339.1 489.4L337.2 490.4L335.1 491.3L333 492L330.7 492.7L328.4 493.2L326 493.6L323.6 493.9L321.2 494L318.8 494L316.4 493.9L314 493.6L311.6 493.2L309.3 492.7L307 492L304.9 491.3L302.8 490.4L300.9 489.4L299.1 488.3L297.4 487.2L295.9 485.9L294.5 484.6L293.3 483.1L292.3 481.7L291.5 480.1L290.8 478.6L290.3 477"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M189 356q-5 40 0 80t-2 84M208 356q-5 40 0 80t-2 84M227 356q-5 40 0 80t-2 84M246 356q-5 40 0 80t-2 84M265 356q-5 40 0 80t-2 84M284 356q-5 40 0 80t-2 84M303 356q-5 40 0 80t-2 84M322 356q-5 40 0 80t-2 84M341 356q-5 40 0 80t-2 84M360 356q-5 40 0 80t-2 84M379 356q-5 40 0 80t-2 84M398 356q-5 40 0 80t-2 84M417 356q-5 40 0 80t-2 84M436 356q-5 40 0 80t-2 84M455 356q-5 40 0 80t-2 84M288 418L352 418M288 425L346.9 425M288 432L326.4 432M169 360L175 364M465 360L471 364M183 516L189 520M451 516L457 520"
+                vector-effect="non-scaling-stroke"
+              ></path>
+            </svg>
+          </div>
+          <header aria-label="Barre d’outils" class="window-drag flex items-center gap-2 window-controls-space h-12 shrink-0 pl-4">
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+K"
+              class="flex h-8 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2 rounded-field border border-border-strong bg-surface-1 px-2.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-search shrink-0"
+                aria-hidden="true"
+              >
+                <path d="m21 21-4.34-4.34"></path>
+                <circle cx="11" cy="11" r="8"></circle></svg
+              ><span class="min-w-0 flex-1 truncate">Rechercher une fiche, un ingrédient, une note</span
+              ><span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary"
+                  >Ctrl K</kbd
+                ></span
+              ></button
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body gap-2"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+N"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-plus"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path></svg
+              >Idée rapide<span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-accent-ink/35 text-accent-ink"
+                  >Ctrl N</kbd
+                ></span
+              ></button
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="F1"
+              title="Aide de l’écran affiché (F1)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                <path d="M12 17h.01"></path></svg
+              >Aide</button
+            ><button
+              type="button"
+              aria-label="Passer au thème clair"
+              title="Passer au thème clair"
+              class="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-sun animate-turn-in"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+              </svg></button
+            ><a
+              aria-label="Paramètres"
+              title="Paramètres"
+              class="inline-flex size-8 shrink-0 items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
+              href="#/settings"
+              data-discover="true"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-settings"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                ></path>
+                <circle cx="12" cy="12" r="3"></circle></svg
+            ></a>
+          </header>
+          <main data-scene="recipes" class="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8">
+            <div class="mx-auto flex h-full max-w-page flex-col gap-4">
+              <header class="flex items-end justify-between gap-4">
+                <div class="flex flex-col gap-1">
+                  <span class="text-caption text-fg-muted">7182 fiches</span>
+                  <h1 class="m-0 text-title font-semibold tracking-tight text-fg">Fiches</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-lightbulb"
+                      aria-hidden="true"
+                    >
+                      <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+                      <path d="M9 18h6"></path>
+                      <path d="M10 22h4"></path></svg
+                    >Idée rapide</button
+                  ><button
+                    type="button"
+                    class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-plus"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="M12 5v14"></path></svg
+                    >Nouvelle fiche<kbd
+                      class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-accent-ink/35 text-accent-ink"
+                      >Ctrl Maj N</kbd
+                    >
+                  </button>
+                </div>
+              </header>
+              <div role="group" aria-label="Filtres des fiches" class="@container flex flex-col gap-2">
+                <div class="flex items-center justify-between gap-2">
+                  <div
+                    role="radiogroup"
+                    aria-label="Affichage"
+                    class="relative inline-flex h-8 w-fit shrink-0 items-stretch gap-0.5 rounded-field border border-border-strong bg-surface-1 p-[3px]"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="pointer-events-none absolute top-[3px] bottom-[3px] left-0 rounded-[5px] border border-border-strong bg-surface-3 opacity-0 shadow-thumb transition-[transform,width,opacity] duration-200 ease-out-soft"
+                      style="opacity: 1; width: 63px; transform: translateX(3px)"
+                    ></span
+                    ><button
+                      type="button"
+                      role="radio"
+                      aria-checked="true"
+                      tabindex="0"
+                      class="relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed text-fg"
+                    >
+                      Toutes</button
+                    ><button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      tabindex="-1"
+                      class="relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed text-fg-muted hover:text-fg-secondary"
+                    >
+                      Favoris</button
+                    ><button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      tabindex="-1"
+                      class="relative inline-flex cursor-pointer items-center gap-1.5 rounded-[5px] px-3 text-small font-semibold whitespace-nowrap transition-colors duration-150 ease-out-soft select-none disabled:cursor-not-allowed text-fg-muted hover:text-fg-secondary"
+                    >
+                      Réalisables
+                    </button>
+                  </div>
+                </div>
+                <div class="grid grid-cols-4 gap-2 @min-[62rem]:grid-cols-6 @min-[105rem]:grid-cols-12">
+                  <button
+                    type="button"
+                    id="radix-_r_t_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Statut&nbsp;: Tous statuts"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous statuts</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_v_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Famille&nbsp;: Toutes familles"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Toutes familles</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_11_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Origine&nbsp;: Toutes origines"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Toutes origines</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_13_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Méthode&nbsp;: Toutes méthodes"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Toutes méthodes</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_15_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Spiritueux de base&nbsp;: Tous spiritueux"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous spiritueux</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_17_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Verre&nbsp;: Tous verres"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous verres</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_19_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Profil aromatique&nbsp;: Tous profils"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous profils</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_1b_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Collection&nbsp;: Toutes collections"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Toutes collections</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_1d_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    data-disabled=""
+                    disabled=""
+                    aria-label="Tags&nbsp;: Tous tags"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous tags</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_1f_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Allergènes à exclure&nbsp;: Tous allergènes"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"><span class="nums min-w-0 truncate">Tous allergènes</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg></button
+                  ><button
+                    type="button"
+                    id="radix-_r_1h_"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-state="closed"
+                    aria-label="Tri&nbsp;: Dernière activité"
+                    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 border border-border-strong px-3 whitespace-nowrap transition-colors duration-150 ease-out-soft select-none hover:text-fg disabled:cursor-not-allowed disabled:opacity-55 data-[state=open]:text-fg rounded-full bg-surface-2 text-caption font-medium text-fg-secondary min-w-0 justify-between col-span-2"
+                  >
+                    <span class="flex min-w-0 items-center gap-1.5"
+                      ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-arrow-up-down shrink-0"
+                        aria-hidden="true"
+                      >
+                        <path d="m21 16-4 4-4-4"></path>
+                        <path d="M17 20V4"></path>
+                        <path d="m3 8 4-4 4 4"></path>
+                        <path d="M7 4v16"></path></svg
+                      ><span class="nums min-w-0 truncate">Dernière activité</span></span
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-chevron-down shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="flex min-h-0 flex-col overflow-hidden rounded-card border border-border bg-surface-1 min-h-[320px] flex-1">
+                <div
+                  aria-hidden="true"
+                  class="grid h-8 shrink-0 items-center gap-4 border-b border-border px-4 text-caption font-medium tracking-[0.01em] text-fg-muted"
+                  style="grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px"
+                >
+                  <span class="truncate">Statut</span><span class="truncate">Nom</span><span class="truncate">Famille</span
+                  ><span class="truncate">Version</span><span class="truncate text-right">Dernière activité</span>
+                </div>
+                <div
+                  role="listbox"
+                  aria-label="Liste des fiches"
+                  tabindex="0"
+                  class="relative min-h-0 flex-1 overflow-y-auto outline-offset-[-2px] select-none"
+                >
+                  <div class="relative w-full" style="height: 287280px">
+                    <div
+                      id="_r_1j_-row-0"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="1"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(0px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="idea"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-warning/12 text-status-warning"
+                          >Idée</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Highball sureau et poivre</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:01.085Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-1"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="2"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(40px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="testing"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-accent/14 text-accent-soft"
+                          >En test</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Negroni fumé</span
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-star shrink-0 fill-accent text-accent"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+                            ></path></svg
+                          ><span class="sr-only">Favori</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:00.873Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-2"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="3"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(80px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="idea"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-warning/12 text-status-warning"
+                          >Idée</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Margarita yuzu</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Sour</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:00.765Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-3"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="4"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(120px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Old Fashioned miel et sarrasin</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:00.640Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-4"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="5"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(160px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="testing"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-accent/14 text-accent-soft"
+                          >En test</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Dernier mot d’hiver</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Sour</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:00.517Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-5"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="6"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(200px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="draft"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-tint/6 text-fg-secondary"
+                          >Brouillon</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Daiquiri au poivre long</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Sour</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:07:00.405Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-6"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="7"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(240px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Donn's mix</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:55.042Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-7"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="8"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(280px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop de cannelle</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:55.018Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-8"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="9"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(320px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop de gingembre</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.991Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-9"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="10"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(360px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Cordial citron vert</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.967Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-10"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="11"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(400px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Oleo saccharum citron</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.929Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-11"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="12"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(440px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop d'orgeat maison</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.887Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-12"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="13"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(480px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Grenadine maison</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.850Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-13"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="14"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(520px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop de miel</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.813Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-14"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="15"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(560px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop riche</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.774Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-15"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="16"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(600px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">Sirop simple</span
+                          ><span class="shrink-0 rounded-full border border-border-strong px-2 text-caption text-fg-muted"
+                            >Préparation</span
+                          ></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.720Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-16"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="17"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(640px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">'A Clockwork Orange' Negroni</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-17"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="18"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(680px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">'Authentic' Vesper Martini</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-18"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="19"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(720px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">'Martini' Thyme</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-19"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="20"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(760px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">'Two Guns' Miller</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Spirit-forward</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-20"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="21"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(800px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"
+                          ><span class="truncate font-medium text-fg">[The Spirit of the] Algonquin</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate"><span class="sr-only">, Famille&nbsp;: </span>Sour</div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                    <div
+                      id="_r_1j_-row-21"
+                      role="option"
+                      aria-selected="false"
+                      aria-posinset="22"
+                      aria-setsize="7182"
+                      class="absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body text-fg-secondary hover:bg-surface-2/60"
+                      style="
+                        height: 40px;
+                        transform: translateY(840px);
+                        grid-template-columns: 112px minmax(0px, 2.4fr) minmax(0px, 1fr) 80px 160px;
+                      "
+                    >
+                      <div class="min-w-0 truncate">
+                        <span
+                          data-status="final"
+                          class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-status-ok/12 text-status-ok"
+                          >Finale</span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Nom&nbsp;: </span
+                        ><span class="flex min-w-0 items-center gap-2"><span class="truncate font-medium text-fg">3 Wise Men</span></span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Famille&nbsp;: </span><span class="text-fg-muted">Sans famille</span>
+                      </div>
+                      <div class="min-w-0 truncate">
+                        <span class="sr-only">, Version&nbsp;: </span
+                        ><span
+                          class="nums inline-flex h-6 shrink-0 items-center rounded-md border border-border-strong bg-surface-2 px-2 text-caption font-semibold text-fg-secondary"
+                          ><span aria-hidden="true">v1</span><span class="sr-only">Version 1</span></span
+                        >
+                      </div>
+                      <div class="min-w-0 truncate nums text-right">
+                        <span class="sr-only">, Dernière activité&nbsp;: </span><time datetime="2026-11-24T09:06:54.717Z">maintenant</time>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="m-0 text-caption text-fg-muted">Appuie sur Entrée ou double-clique pour ouvrir la fiche sélectionnée.</p>
+            </div>
+          </main>
+        </div>
+        <dialog
+          aria-labelledby="_r_e_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in mx-auto mt-[12vh] mb-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_g_"
+          aria-describedby="_r_h_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_i_"
+          aria-describedby="_r_j_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_k_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_m_"
+          aria-describedby="_r_n_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_o_"
+          aria-describedby="_r_p_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <section aria-label="Notifications" class="pointer-events-none fixed right-4 bottom-4 z-50 w-[min(340px,calc(100vw-32px))]">
+          <div role="status" aria-live="polite" aria-atomic="false" class="flex flex-col gap-1.5"></div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

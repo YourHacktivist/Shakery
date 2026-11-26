@@ -48,6 +48,7 @@ export function createQueryClient(): QueryClient {
 export const queryKeys = {
   recipes: ['recipes'] as const,
   recipe: (id: string) => ['recipes', 'detail', id] as const,
+  recipeFamilyLabel: (id: string) => ['recipes', 'family-label', id] as const,
   computation: (data: RecipeInput) => ['computation', data] as const,
   ingredients: ['ingredients'] as const,
   ingredient: (id: string) => ['ingredients', 'detail', id] as const,
@@ -195,6 +196,15 @@ export function useRecipe(id: string | undefined) {
     queryKey: queryKeys.recipe(id ?? ''),
     queryFn: () => unwrap(api().recipes.get({ id: id ?? '' })),
     enabled: id !== undefined && id !== '',
+  })
+}
+
+/** Exact family of the socle version (« Fizz au champagne »), finer than the family of the recipe. */
+export function useRecipeFamilyLabel(id: string) {
+  return useQuery({
+    queryKey: queryKeys.recipeFamilyLabel(id),
+    queryFn: () => unwrap(api().recipes.familyLabel({ id })),
+    enabled: id !== '',
   })
 }
 

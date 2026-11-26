@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8" /><title>Collections en liste à lignes</title>
+<link rel="stylesheet" href="../assets/index-DthCMq1t.css" />
+<link rel="stylesheet" href="../assets/planches.css" />
+<style>
+  html, body { height: auto; background: var(--color-bg-base); color: var(--color-fg); font-family: var(--font-sans); }
+  body { margin: 0; padding: 56px 64px 72px; }
+  .b-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .b-kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-fg-muted); }
+  .b-title { margin: 0 0 36px; font-size: 34px; font-weight: 600; letter-spacing: -0.01em; }
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .b-shot { display: block; width: 100%; border: 1px solid var(--color-border-strong); border-radius: 10px; }
+  .b-col > * + * { margin-top: 28px; }
+  .b-list { margin: 0; padding: 0; list-style: none; }
+  .b-list li { position: relative; padding: 10px 0; border-bottom: 1px solid var(--color-border); font-size: 15px; line-height: 1.55; color: var(--color-fg-secondary); }
+  .b-empty { font-size: 15px; color: var(--color-fg-muted); }
+  .b-index a { color: var(--color-fg); text-decoration: none; }
+  .b-index li { display: grid; grid-template-columns: 60px 1fr; padding: 14px 0; border-bottom: 1px solid var(--color-border); font-size: 17px; }
+  .b-index li span { color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+</style></head><body>
+<div class="b-top"><span class="b-kicker">Shakery · refonte ergonomique · planche 07 sur 10</span><span class="b-kicker">24 novembre 2026</span></div>
+<h1 class="b-title">Collections en liste à lignes</h1>
+<div class="b-grid">
+  <div class="b-col">
+    <p class="pl-section-title is-muted">Avant</p>
+    <img class="b-shot" src="../../png/avant/07-collections.png" alt="" />
+    <p class="pl-section-title">Ce qui change</p>
+    <ul class="b-list "><li>La colonne de sélection et le panneau de détail laissent la place à une liste à lignes séparées par des filets, pour voir toutes les collections d’un coup d’œil sans carte par élément.</li><li>Chaque ligne montre le nom, une description courte, le type, le nombre de fiches en cuivre et en chiffres tabulaires, puis la date de modification, alignés en colonnes sous des intitulés en petites capitales.</li><li>Réviser et Exporter en PDF deviennent des boutons fantômes sur chaque ligne, et Partager, Modifier et Supprimer passent dans un menu « Autres actions », pour que les actions répétées restent discrètes.</li><li>Nouvelle collection reste le seul bouton plein cuivre de l’écran.</li><li>Une colonne calme à droite, sans bord, montre les dernières révisions avec la collection, le mode, la date et le score, puisque l’onglet Révision a quitté la barre latérale.</li><li>L’ajout de fiches et la note ou le prix de vente par fiche passent sur la page de la collection ouverte, ce qui allège la liste.</li><li>Le dessin de fond est atténué à la même opacité que sur les autres planches, car aucune carte ne le masque plus derrière le texte.</li></ul>
+    <p class="pl-section-title is-muted">À trancher</p>
+    <ul class="b-list is-q"><li>Un clic sur le nom ouvre la collection sur son onglet Fiches. Préfères-tu garder la liste et le détail côte à côte comme aujourd’hui ?</li><li>La colonne « Dernières révisions » te sert-elle sur cette page, ou veux-tu garder l’historique seulement dans chaque collection ?</li><li>Faut-il ajouter une colonne de prix ou de coût moyen pour les collections de type Carte ?</li></ul>
+  </div>
+  <div class="b-col">
+    <p class="pl-section-title">Après</p>
+    <img class="b-shot" src="../../png/apres/07-collections.png" alt="" />
+    
+  </div>
+</div>
+</body></html>

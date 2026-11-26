@@ -1,21 +1,20 @@
-import { ArrowRight, ArrowUpRight, FlaskConical, Info, NotebookPen, Plus } from 'lucide-react'
-import { useMemo, useState, type CSSProperties } from 'react'
+import { ChevronRight, FlaskConical, NotebookPen, Plus } from 'lucide-react'
+import { Fragment, useId, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
+import { ArrowLink } from '@renderer/components/ArrowLink'
 import { Button } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
-import { FilterPill } from '@renderer/components/FilterPill'
-import { HeroCard, heroSecondaryActionClass } from '@renderer/components/HeroCard'
+import { HeroCard } from '@renderer/components/HeroCard'
 import { Kbd } from '@renderer/components/Kbd'
+import { NoValue } from '@renderer/components/NoValue'
 import { RangeGauge } from '@renderer/components/RangeGauge'
-import { SegmentedControl } from '@renderer/components/SegmentedControl'
-import { Sparkline } from '@renderer/components/Sparkline'
-import { StatTile } from '@renderer/components/StatTile'
-import { StatusBadge, VersionBadge } from '@renderer/components/StatusBadge'
+import { SectionTitle } from '@renderer/components/SectionTitle'
+import { StatusBadge, type RecipeStatus } from '@renderer/components/StatusBadge'
+import { PrepsSection, RetestSection, TonightSection } from '@renderer/features/home/HomeSections'
 import { detailToInput } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
-import { formatNumber, formatRelative } from '@renderer/lib/format'
+import { formatDate, formatNumber, formatRelative } from '@renderer/lib/format'
 import {
   useRecipe,
   useRecipeComputation,
@@ -24,40 +23,80 @@ import {
   useReferenceZones,
   useTastings,
 } from '@renderer/lib/queries'
-import { FAMILY_VALUES, type RecipeSummary } from '@shared/domain/catalog'
+import { ariaKeyShortcut, shortcutText } from '@renderer/lib/shortcuts'
+import type { RecipeComputation, RecipeSummary } from '@shared/domain/catalog'
 import type { TastingNote } from '@shared/domain/journal'
-
-type View = 'current' | 'favorites'
-type FamilyFilter = 'all' | (typeof FAMILY_VALUES)[number]
 
 const t = fr.home
 const IN_PROGRESS = new Set(['idea', 'draft', 'testing'])
-const METRICS = ['abv', 'sugar', 'acid', 'ratio'] as const
+/** The home shows a few creations; the page Fiches lists the others. */
+const SHOWN = 5
+/** The tab of the classics on the page Fiches. */
+const CLASSICS_PATH = '/recipes?vue=classiques'
+const WEEK = 7 * 24 * 60 * 60 * 1000
 
-/** Mean overall rating of each tasted version, oldest first. */
-function ratingsByVersion(notes: readonly TastingNote[]): Array<{ version: number; mean: number }> {
-  const byVersion = new Map<number, number[]>()
+const METRICS = ['abv', 'sugar', 'acid', 'ratio'] as const
+type Metric = (typeof METRICS)[number]
+const DECIMALS: Record<Metric, number> = { abv: 1, sugar: 1, acid: 1, ratio: 0 }
+/** The indicators named when unknown; the ratio follows from the sugar and the acidity. */
+const NAMED = ['abv', 'sugar', 'acid'] as const
+
+/** Small capitals of a label, as in the preparation mode (D-057). */
+const CAPS = 'text-[10.5px] font-semibold tracking-[0.09em] text-fg-muted uppercase'
+
+/** The status in words, in its colour, without the pill of the lists. */
+const STATUS_TONE: Record<RecipeStatus, string> = {
+  idea: 'text-status-warning',
+  draft: 'text-fg-secondary',
+  testing: 'text-accent-soft',
+  final: 'text-status-ok',
+  archived: 'text-fg-muted',
+}
+
+/** Mean overall rating of the last tasted version, or null before any rating. */
+function lastRating(notes: readonly TastingNote[]): number | null {
+  let version = -1
+  let values: number[] = []
   for (const note of notes) {
     if (note.overall === null) continue
-    byVersion.set(note.recipeVersion, [...(byVersion.get(note.recipeVersion) ?? []), note.overall])
+    if (note.recipeVersion > version) {
+      version = note.recipeVersion
+      values = [note.overall]
+    } else if (note.recipeVersion === version) values.push(note.overall)
   }
-  return [...byVersion.entries()]
-    .sort(([a], [b]) => a - b)
-    .map(([version, values]) => ({ version, mean: values.reduce((sum, v) => sum + v, 0) / values.length }))
+  return values.length === 0 ? null : values.reduce((sum, value) => sum + value, 0) / values.length
+}
+
+function metricValue(data: RecipeComputation | undefined, metric: Metric): number | null {
+  if (!data) return null
+  if (metric === 'abv') return data.abv.value
+  if (metric === 'sugar') return data.sugarPer100Ml.value
+  if (metric === 'acid') return data.acidPer100Ml.value
+  return data.ratio.value
+}
+
+/** « 4,0 /5 », or the drawn line before any rating. */
+function Rating({ value }: { value: number | null }) {
+  if (value === null) return <NoValue />
+  return (
+    <span className="nums whitespace-nowrap">
+      {formatNumber(value, 1)}
+      <span className="ml-[3px] text-small font-normal text-fg-muted">{t.focus.outOf}</span>
+    </span>
+  )
 }
 
 /**
- * Home screen (section 10.3): « où en sont mes créations ? ». Three creations by last
- * activity with their rating curve, the hero card, and the creation in focus with its
- * indicators against the reference zone of its family. Every block has its empty state.
+ * Home screen (section 10.3, D-057): the creation in focus, the next steps to test and the
+ * creations in progress in the main column; the lab, tonight and the preparations in the calmer
+ * side column. No card but the hero, which holds the only solid button of the screen.
  */
 export function HomePage() {
   const navigate = useNavigate()
-  const openOverlay = useOverlayStore((state) => state.open)
   const recipes = useRecipes()
   const tastings = useTastings()
-  const [view, setView] = useState<View>('current')
-  const [family, setFamily] = useState<FamilyFilter>('all')
+  // Relative times are computed once per visit of the home screen: no timer while idle.
+  const [now] = useState(() => Date.now())
 
   const notesByRecipe = useMemo(() => {
     const map = new Map<string, TastingNote[]>()
@@ -68,379 +107,343 @@ export function HomePage() {
   const activity = (recipe: RecipeSummary) =>
     Math.max(recipe.updatedAt, ...(notesByRecipe.get(recipe.id) ?? []).map((note) => note.tastedAt))
 
-  const cocktails = (recipes.data ?? []).filter((recipe) => recipe.kind === 'cocktail')
-  const inProgress = cocktails.filter((recipe) => IN_PROGRESS.has(recipe.status))
-  const pool = view === 'current' ? inProgress : cocktails.filter((recipe) => recipe.isFavorite)
-  const shown = pool
-    .filter((recipe) => family === 'all' || recipe.family === family)
+  const inProgress = (recipes.data ?? [])
+    .filter((recipe) => recipe.kind === 'cocktail' && IN_PROGRESS.has(recipe.status))
     .sort((a, b) => activity(b) - activity(a))
-    .slice(0, 3)
-  const focus =
-    [...inProgress].sort((a, b) => activity(b) - activity(a)).find((recipe) => recipe.status === 'testing') ??
-    [...inProgress].sort((a, b) => activity(b) - activity(a))[0]
-
-  const hero = (
-    <HeroCard
-      title={t.hero.title}
-      description={t.hero.description}
-      actions={
-        <>
-          <Button
-            className="w-full"
-            icon={<FlaskConical size={16} aria-hidden="true" />}
-            onClick={() => void navigate('/lab')}
-          >
-            {t.hero.openLab}
-          </Button>
-          <Button
-            variant="outline"
-            className={cn('w-full', heroSecondaryActionClass)}
-            onClick={() => {
-              openOverlay('quickIdea')
-            }}
-          >
-            {t.hero.noteIdea}
-          </Button>
-        </>
-      }
-    />
-  )
+  const focus = inProgress.find((recipe) => recipe.status === 'testing') ?? inProgress[0]
 
   if (recipes.isPending) return null
-  const empty = inProgress.length === 0 && view === 'current'
 
   return (
     <div className="mx-auto flex max-w-page flex-col gap-4">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-caption text-fg-muted">
-            {view === 'current' ? t.count(inProgress.length) : t.favoritesCount(pool.length)}
-          </span>
+          <span className="text-caption text-fg-muted">{t.count(inProgress.length)}</span>
           <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <SegmentedControl<View>
-            label={t.viewsLabel}
-            value={view}
-            onChange={setView}
-            options={[
-              { value: 'current', label: t.views.current },
-              { value: 'favorites', label: t.views.favorites },
-            ]}
-          />
-          <FilterPill<FamilyFilter>
-            label={t.families}
-            align="end"
-            value={family}
-            onChange={setFamily}
-            options={[
-              { value: 'all', label: t.allFamilies },
-              ...FAMILY_VALUES.map((value) => ({ value, label: fr.recipes.families[value] })),
-            ]}
-          />
         </div>
       </header>
 
-      {empty ? (
-        <div className="grid grid-cols-[minmax(0,1fr)_356px] gap-4">
-          <div className="flex flex-col items-center justify-center gap-3 rounded-card border border-dashed border-border-strong bg-bg-base/90 px-5 py-14 text-center">
-            <h2 className="m-0 text-heading font-normal text-fg">{t.empty.title}</h2>
-            <p className="m-0 max-w-md text-body leading-relaxed text-fg-secondary">{t.empty.description}</p>
-            <div className="mt-3 flex flex-col items-center gap-3">
-              <Button
-                icon={<Plus size={16} aria-hidden="true" />}
-                onClick={() => {
-                  openOverlay('quickIdea')
-                }}
-              >
-                {t.empty.firstIdea}
-                <Kbd tone="onAccent">Ctrl N</Kbd>
-              </Button>
-              <button
-                type="button"
-                className="inline-flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-body font-semibold text-accent-soft hover:text-accent"
-                onClick={() => void navigate('/recipes')}
-              >
-                {t.empty.classics}
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-          {hero}
-        </div>
-      ) : (
-        <div className="grid grid-cols-[repeat(3,minmax(0,1fr))_300px] gap-4">
-          {shown.map((recipe, index) => (
-            <div key={recipe.id} className="animate-rise" style={{ '--rise-index': index } as CSSProperties}>
-              <CreationCard recipe={recipe} notes={notesByRecipe.get(recipe.id) ?? []} />
-            </div>
-          ))}
-          {shown.length === 0 ? (
-            <div className="col-span-3 flex flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong bg-bg-base/90 p-8 text-center">
-              <span className="text-body font-semibold text-fg">
-                {view === 'favorites' && pool.length === 0 ? t.noFavorite.title : t.noMatch}
-              </span>
-              {view === 'favorites' && pool.length === 0 ? (
-                <span className="text-small text-fg-secondary">{t.noFavorite.description}</span>
-              ) : null}
-            </div>
+      <div className="grid grid-cols-[minmax(0,1fr)_280px] items-start gap-8 xl:grid-cols-[minmax(0,1fr)_300px] xl:gap-10">
+        <div className="flex min-w-0 flex-col gap-9">
+          {focus ? (
+            <FocusSection recipe={focus} notes={notesByRecipe.get(focus.id) ?? []} now={now} />
           ) : (
-            Array.from({ length: 3 - shown.length }, (_, index) => (
-              <button
-                key={`slot-${String(index)}`}
-                type="button"
-                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-card border border-dashed border-border-strong bg-bg-base/90 text-small font-semibold text-fg-muted transition-colors duration-150 hover:border-accent/50 hover:text-accent-soft"
-                onClick={() => {
-                  openOverlay('quickIdea')
-                }}
-              >
-                <Plus size={18} aria-hidden="true" />
-                {t.hero.noteIdea}
-              </button>
-            ))
+            <EmptyFocus />
           )}
-          {hero}
+          <RetestSection />
+          {inProgress.length > 0 ? (
+            <InProgressSection
+              recipes={inProgress.slice(0, SHOWN)}
+              rating={(recipe) => lastRating(notesByRecipe.get(recipe.id) ?? [])}
+              activity={activity}
+              now={now}
+            />
+          ) : null}
         </div>
-      )}
 
-      {focus ? (
-        <FocusPanel recipeId={focus.id} notes={notesByRecipe.get(focus.id) ?? []} />
-      ) : (
-        <Card className="gap-5">
-          <div className="flex flex-col gap-1.5">
-            <span className="text-small text-fg-muted">{t.focus.eyebrow}</span>
-            <p className="m-0 text-body text-fg">{t.focus.empty}</p>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {METRICS.map((metric) => (
-              <StatTile
-                key={metric}
-                label={t.focus[metric]}
-                value={null}
-                unit={t.focus.units[metric]}
-                gauge={<RangeGauge label={t.focus[metric]} value={null} />}
-              />
-            ))}
-          </div>
-          <p className="m-0 flex items-center gap-2 text-small text-fg-muted">
-            <Info size={14} aria-hidden="true" />
-            {t.focus.zoneNote}
-          </p>
-        </Card>
-      )}
+        <div className="flex min-w-0 flex-col gap-8">
+          <HeroCard
+            title={t.hero.title}
+            description={t.hero.description}
+            actions={
+              <>
+                <Button
+                  icon={<FlaskConical size={15} strokeWidth={1.75} aria-hidden="true" />}
+                  onClick={() => void navigate('/lab')}
+                >
+                  {t.hero.openLab}
+                </Button>
+                <ArrowLink to={CLASSICS_PATH} className="justify-center">
+                  {t.hero.fromClassic}
+                </ArrowLink>
+              </>
+            }
+          />
+          <TonightSection />
+          <PrepsSection />
+        </div>
+      </div>
     </div>
   )
 }
 
-/** One creation: status, name, last rating in large figures, change and curve over versions. */
-function CreationCard({ recipe, notes }: { recipe: RecipeSummary; notes: readonly TastingNote[] }) {
-  const ratings = ratingsByVersion(notes)
-  const last = ratings.at(-1)
-  const previous = ratings.at(-2)
+/** Without any creation in progress: the same section, with the way to a first idea. */
+function EmptyFocus() {
+  const id = useId()
+  const openOverlay = useOverlayStore((state) => state.open)
   return (
-    <Card
-      as="article"
-      className="group/card h-full gap-3 transition-[border-color,transform] duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-border-strong"
-    >
-      <div className="flex items-center gap-2">
-        <StatusBadge status={recipe.status} />
-        <VersionBadge version={recipe.version} />
-        <Link
-          to={`/recipes/${recipe.id}`}
-          aria-label={t.card.open(recipe.name)}
-          className="ml-auto flex size-8 items-center justify-center rounded-field border border-border-strong text-fg-secondary transition-colors duration-150 group-hover/card:border-accent/50 group-hover/card:text-accent"
+    <section aria-labelledby={id} className="flex flex-col">
+      <SectionTitle id={id}>{t.focus.title}</SectionTitle>
+      <h3 className="m-0 mt-5 text-title leading-tight font-light tracking-tight text-fg">{t.empty.title}</h3>
+      <p className="m-0 mt-2 max-w-xl text-body leading-relaxed text-fg-secondary">{t.empty.description}</p>
+      <div className="mt-5 flex">
+        <Button
+          variant="outline"
+          icon={<Plus size={15} strokeWidth={1.75} aria-hidden="true" />}
+          aria-keyshortcuts={ariaKeyShortcut('quickIdea')}
+          onClick={() => {
+            openOverlay('quickIdea')
+          }}
         >
-          <ArrowUpRight size={15} aria-hidden="true" />
-        </Link>
+          {t.empty.firstIdea}
+          <Kbd>{shortcutText('quickIdea')}</Kbd>
+        </Button>
       </div>
-      <div className="flex min-w-0 flex-col gap-0.5">
-        <h2 className="m-0 line-clamp-2 text-lead font-semibold break-words text-fg">{recipe.name}</h2>
-        <span className="text-caption text-fg-muted">
-          {recipe.family ? fr.recipes.families[recipe.family] : ' '}
-        </span>
-      </div>
-      <div className="flex flex-col gap-1">
-        <span className="text-caption text-fg-muted">{t.card.lastRating}</span>
-        {last ? (
-          <>
-            <span className="nums flex items-baseline gap-1">
-              <span className="text-display leading-none font-light text-fg">
-                {formatNumber(last.mean, 1)}
-              </span>
-              <span className="text-small text-fg-muted">{t.card.outOf}</span>
-            </span>
-            {previous ? (
-              <span
-                className={cn(
-                  'nums text-caption font-semibold',
-                  last.mean >= previous.mean ? 'text-status-ok' : 'text-status-danger',
-                )}
-              >
-                {`${last.mean >= previous.mean ? '▲' : '▼'} ${formatNumber(last.mean - previous.mean, 1)} vs v${String(previous.version)}`}
-              </span>
-            ) : null}
-          </>
-        ) : (
-          <span className="text-body text-fg-secondary">{t.card.noRating}</span>
-        )}
-      </div>
-      {ratings.length >= 2 ? (
-        <Sparkline
-          values={ratings.map((rating) => rating.mean)}
-          label={t.card.curve}
-          min={1}
-          max={5}
-          height={64}
-          className="mt-auto"
-          formatValue={(value) => formatNumber(value, 1)}
-        />
-      ) : null}
-    </Card>
+    </section>
   )
 }
 
-/** The creation in focus: its indicators against the family zone and its next step. */
-function FocusPanel({ recipeId, notes }: { recipeId: string; notes: readonly TastingNote[] }) {
+/**
+ * The creation in focus, in the typography of the preparation mode: family and last tasting,
+ * the name, its status, version and last rating, then a gauge for each indicator already known.
+ */
+function FocusSection({
+  recipe,
+  notes,
+  now,
+}: {
+  recipe: RecipeSummary
+  notes: readonly TastingNote[]
+  now: number
+}) {
+  const id = useId()
   const navigate = useNavigate()
   const openTasting = useOverlayStore((state) => state.openTasting)
-  const recipe = useRecipe(recipeId)
+  const detail = useRecipe(recipe.id).data
   const zones = useReferenceZones()
-  const detail = recipe.data
   const current = useRecipeComputation(detail ? detailToInput(detail) : null)
-  const previousVersion = detail && detail.version > 1 ? detail.version - 1 : null
-  const previousDetail = useRecipeVersion(recipeId, previousVersion)
+  const previousVersion = recipe.version > 1 ? recipe.version - 1 : null
+  const previousDetail = useRecipeVersion(recipe.id, previousVersion)
   const previous = useRecipeComputation(previousDetail.data ? detailToInput(previousDetail.data) : null)
-  if (!detail) return null
 
-  const familyZones = detail.family ? zones.data?.[detail.family] : undefined
-  const familyLabel = detail.family ? fr.recipes.families[detail.family] : null
-  const lastNote = [...notes].sort((a, b) => b.tastedAt - a.tastedAt)[0]
-  const step = [...notes]
-    .sort((a, b) => b.tastedAt - a.tastedAt)
-    .find((note) => note.nextStep !== null && !note.nextStepDone)
-  const values = {
-    abv: current.data?.abv.value ?? null,
-    sugar: current.data?.sugarPer100Ml.value ?? null,
-    acid: current.data?.acidPer100Ml.value ?? null,
-    ratio: current.data?.ratio.value ?? null,
-  }
-  const before = previousVersion
-    ? {
-        abv: previous.data?.abv.value ?? null,
-        sugar: previous.data?.sugarPer100Ml.value ?? null,
-        acid: previous.data?.acidPer100Ml.value ?? null,
-        ratio: previous.data?.ratio.value ?? null,
-      }
-    : null
-  const decimals = { abv: 1, sugar: 1, acid: 1, ratio: 0 }
+  const familyLabel = recipe.family ? fr.recipes.families[recipe.family] : null
+  const familyZones = recipe.family ? zones.data?.[recipe.family] : undefined
+  const lastTasted = notes.reduce<number | null>(
+    (latest, note) => (latest === null || note.tastedAt > latest ? note.tastedAt : latest),
+    null,
+  )
+  const known = METRICS.filter((metric) => metricValue(current.data, metric) !== null)
+  const unknown = current.data
+    ? NAMED.filter((metric) => metricValue(current.data, metric) === null).map(
+        (metric) => t.focus.unknown[metric],
+      )
+    : []
+  const note = [
+    unknown.length > 0 ? t.focus.missing(unknown) : null,
+    known.length > 0 && zones.isSuccess && !familyZones ? t.focus.noZone : null,
+  ].filter((sentence) => sentence !== null)
+
+  // Every item but the first opens with a hairline; side by side with the name, the first too.
+  const metaItem =
+    'ml-5 flex flex-col gap-1.5 border-l border-border-strong py-0.5 pl-5 first:ml-0 first:border-l-0 first:pl-0 @min-[42rem]:first:ml-5 @min-[42rem]:first:border-l @min-[42rem]:first:pl-5'
+  const metaValue = 'm-0 text-title leading-[1.15] font-light whitespace-nowrap text-fg'
 
   return (
-    <Card className="animate-rise gap-5 p-6" style={{ '--rise-index': 3 } as CSSProperties}>
-      <div className="grid grid-cols-[minmax(0,1fr)_320px] gap-6">
-        <div className="flex min-w-0 flex-col gap-3">
-          <span className="text-small text-fg-muted">
-            {`${t.focus.eyebrow} · ${lastNote ? t.focus.lastTasting(formatRelative(lastNote.tastedAt)) : t.focus.neverTasted}`}
-          </span>
-          <h2 className="m-0 line-clamp-2 text-[44px] leading-tight break-words font-light tracking-tight text-fg">
-            {detail.name}
-          </h2>
-          <div className="flex items-center gap-2">
-            <StatusBadge status={detail.status} />
-            <VersionBadge version={detail.version} />
-            {familyLabel ? <span className="text-small text-fg-secondary">{familyLabel}</span> : null}
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              icon={<FlaskConical size={16} aria-hidden="true" />}
-              onClick={() => void navigate(`/lab/${detail.id}`)}
-            >
-              {t.focus.lab}
-            </Button>
-            <Button
-              variant="outline"
-              icon={<NotebookPen size={16} aria-hidden="true" />}
-              onClick={() => {
-                openTasting(detail.id, detail.version)
-              }}
-            >
-              {t.focus.taste}
-            </Button>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 rounded-nested border border-border bg-surface-2 p-4">
-          <span className="flex items-center gap-1.5 text-caption font-medium text-fg-muted">
-            <ArrowRight size={13} aria-hidden="true" className="text-accent" />
-            {t.focus.nextStep}
-          </span>
-          {step?.nextStep ? (
-            <>
-              <p className="m-0 text-lead leading-snug text-fg">{step.nextStep}</p>
-              <span className="mt-auto text-caption text-fg-muted">
-                {t.focus.nextStepFrom(step.recipeVersion)}
+    <section aria-labelledby={id} className="@container flex flex-col">
+      <SectionTitle id={id}>{t.focus.title}</SectionTitle>
+      <div className="flex flex-col gap-4 pt-4 pb-5 @min-[42rem]:flex-row @min-[42rem]:items-end @min-[42rem]:justify-between @min-[42rem]:gap-6">
+        <div className="flex min-w-0 flex-col gap-1.5">
+          <p className="m-0 flex flex-wrap items-baseline gap-x-2.5">
+            {familyLabel ? (
+              <span className="text-[11px] font-semibold tracking-[0.1em] text-accent-soft uppercase">
+                {familyLabel}
               </span>
-            </>
-          ) : (
-            <p className="m-0 text-small text-fg-secondary">{t.focus.noNextStep}</p>
-          )}
+            ) : null}
+            <span className="text-small text-fg-muted">
+              {lastTasted === null
+                ? t.focus.neverTasted
+                : now - lastTasted < WEEK
+                  ? t.focus.lastTasting(formatRelative(lastTasted, now), false)
+                  : t.focus.lastTasting(formatDate(lastTasted), true)}
+            </span>
+          </p>
+          <h3 className="m-0 line-clamp-2 text-[44px] leading-tight font-light tracking-tight break-words text-fg">
+            <Link
+              to={`/recipes/${recipe.id}`}
+              className="rounded-sm transition-colors duration-150 hover:text-accent-soft"
+            >
+              {recipe.name}
+            </Link>
+          </h3>
+        </div>
+        <dl className="m-0 mb-1.5 flex shrink-0">
+          <div className={metaItem}>
+            <dt className={CAPS}>{t.focus.meta.status}</dt>
+            <dd className={cn(metaValue, STATUS_TONE[recipe.status])}>
+              {fr.components.display.status[recipe.status]}
+            </dd>
+          </div>
+          <div className={metaItem}>
+            <dt className={CAPS}>{t.focus.meta.version}</dt>
+            <dd className={cn(metaValue, 'nums')}>{fr.components.display.version(recipe.version)}</dd>
+          </div>
+          <div className={metaItem}>
+            <dt className={CAPS}>{t.focus.meta.rating}</dt>
+            <dd className={metaValue}>
+              <Rating value={lastRating(notes)} />
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className="flex min-h-15 flex-wrap items-center gap-x-6 gap-y-2 border-t border-border py-2.5">
+        {known.length > 0 ? (
+          <dl className="m-0 flex min-w-0 flex-1 flex-col">
+            {known.map((metric) => {
+              const value = metricValue(current.data, metric) ?? 0
+              const reference = previousVersion === null ? null : metricValue(previous.data, metric)
+              const zone = familyZones?.[metric]
+              return (
+                <div key={metric} className="flex min-h-10 flex-wrap items-center gap-x-4 gap-y-1">
+                  <dt className={CAPS}>{t.focus[metric]}</dt>
+                  <dd className="nums m-0 text-heading whitespace-nowrap text-fg">
+                    {formatNumber(value, DECIMALS[metric])}
+                    <span className="ml-[3px] text-small text-fg-muted">{t.focus.units[metric]}</span>
+                  </dd>
+                  <dd className="m-0 w-[168px] shrink-0">
+                    <RangeGauge
+                      label={t.focus[metric]}
+                      value={value}
+                      decimals={DECIMALS[metric]}
+                      zone={zone ? { from: zone.from, to: zone.to, count: zone.recipeIds.length } : undefined}
+                      saved={
+                        reference !== null && previousVersion !== null
+                          ? { value: reference, version: fr.components.display.version(previousVersion) }
+                          : undefined
+                      }
+                    />
+                  </dd>
+                  {zone && familyLabel ? (
+                    <dd className="m-0 text-caption text-fg-muted">
+                      {t.focus.zone(
+                        familyLabel,
+                        formatNumber(zone.from, DECIMALS[metric]),
+                        formatNumber(zone.to, DECIMALS[metric]),
+                      )}
+                    </dd>
+                  ) : null}
+                </div>
+              )
+            })}
+          </dl>
+        ) : null}
+        <div className={cn('flex items-center gap-2', known.length > 0 && 'ml-auto')}>
+          <Button
+            variant="outline"
+            icon={<FlaskConical size={15} strokeWidth={1.75} aria-hidden="true" />}
+            onClick={() => void navigate(`/lab/${recipe.id}`)}
+          >
+            {t.focus.lab}
+          </Button>
+          <Button
+            variant="outline"
+            icon={<NotebookPen size={15} strokeWidth={1.75} aria-hidden="true" />}
+            onClick={() => {
+              openTasting(recipe.id, recipe.version)
+            }}
+          >
+            {t.focus.taste}
+          </Button>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-4">
-        {METRICS.map((metric) => {
-          const value = values[metric]
-          const reference = before?.[metric] ?? null
-          const zone = familyZones?.[metric]
-          return (
-            <StatTile
-              key={metric}
-              label={t.focus[metric]}
-              value={value}
-              decimals={decimals[metric]}
-              unit={t.focus.units[metric]}
-              deltaPlacement="top"
-              deltaTone="neutral"
-              delta={
-                value !== null && reference !== null && previousVersion !== null
-                  ? {
-                      value: value - reference,
-                      reference: `v${String(previousVersion)}`,
-                      decimals: decimals[metric],
-                    }
-                  : undefined
-              }
-              gauge={
-                <RangeGauge
-                  label={t.focus[metric]}
-                  value={value}
-                  decimals={decimals[metric]}
-                  zone={zone ? { from: zone.from, to: zone.to, count: zone.recipeIds.length } : undefined}
-                  saved={
-                    reference !== null && previousVersion !== null
-                      ? { value: reference, version: `v${String(previousVersion)}` }
-                      : undefined
-                  }
-                />
-              }
-            >
-              {zone && familyLabel ? (
-                <span className="text-caption text-fg-muted">
-                  {t.focus.zone(
-                    familyLabel,
-                    formatNumber(zone.from, decimals[metric]),
-                    formatNumber(zone.to, decimals[metric]),
-                  )}
-                </span>
-              ) : null}
-            </StatTile>
-          )
-        })}
-      </div>
-      {familyZones ? null : (
-        <p className="m-0 flex items-center gap-2 text-small text-fg-muted">
-          <Info size={14} aria-hidden="true" />
-          {t.focus.zoneNote}
+      {note.length > 0 ? (
+        <p className="m-0 text-caption leading-normal text-fg-muted">
+          {note.map((sentence, index) => (
+            <Fragment key={sentence}>
+              {index > 0 ? ' ' : null}
+              <span>{sentence}</span>
+            </Fragment>
+          ))}
         </p>
-      )}
-    </Card>
+      ) : null}
+    </section>
+  )
+}
+
+/** Columns of the list; the family joins them once the column is wide enough. */
+const COLUMNS =
+  'grid grid-cols-[6.5rem_minmax(0,1fr)_5.5rem_6.5rem_1rem] items-center gap-x-3 @min-[46rem]:grid-cols-[6.5rem_minmax(0,1fr)_8.5rem_5.75rem_7.25rem_1.25rem] @min-[46rem]:gap-x-4'
+const FAMILY_CELL = 'hidden @min-[46rem]:block'
+
+/** The creations in progress, in rows split by hairlines, as on the page Fiches. */
+function InProgressSection({
+  recipes,
+  rating,
+  activity,
+  now,
+}: {
+  recipes: readonly RecipeSummary[]
+  rating: (recipe: RecipeSummary) => number | null
+  activity: (recipe: RecipeSummary) => number
+  now: number
+}) {
+  const id = useId()
+  const tc = t.inProgress.columns
+  return (
+    <section aria-labelledby={id} className="@container flex flex-col gap-1">
+      <SectionTitle id={id} action={<ArrowLink to="/recipes">{t.inProgress.all}</ArrowLink>}>
+        {t.inProgress.title}
+      </SectionTitle>
+      <div role="table" aria-label={t.inProgress.label}>
+        <div role="rowgroup">
+          <div role="row" className={cn(COLUMNS, 'h-7 border-b border-border text-caption text-fg-muted')}>
+            <span role="columnheader">{tc.status}</span>
+            <span role="columnheader">{tc.name}</span>
+            <span role="columnheader" className={FAMILY_CELL}>
+              {tc.family}
+            </span>
+            <span role="columnheader">{tc.rating}</span>
+            <span role="columnheader" className="text-right">
+              {tc.activity}
+            </span>
+            <span aria-hidden="true" />
+          </div>
+        </div>
+        <div role="rowgroup" className="divide-y divide-border">
+          {recipes.map((recipe) => {
+            const at = activity(recipe)
+            return (
+              <div
+                key={recipe.id}
+                role="row"
+                className={cn(
+                  COLUMNS,
+                  'relative min-h-11 py-1.5 transition-colors duration-150 hover:bg-tint/4',
+                )}
+              >
+                <span role="cell">
+                  <StatusBadge status={recipe.status} />
+                </span>
+                <span role="cell" className="flex min-w-0 items-baseline gap-2">
+                  {/* The link covers the whole row; its own outline stays on the name. */}
+                  <Link
+                    to={`/recipes/${recipe.id}`}
+                    className="truncate rounded-sm text-body font-medium text-fg after:absolute after:inset-0 after:content-['']"
+                  >
+                    {recipe.name}
+                  </Link>
+                  {recipe.version >= 2 ? (
+                    <span className="nums shrink-0 text-caption font-semibold text-fg-muted">
+                      <span aria-hidden="true">{fr.components.display.version(recipe.version)}</span>
+                      <span className="sr-only">{fr.components.display.versionLong(recipe.version)}</span>
+                    </span>
+                  ) : null}
+                </span>
+                <span role="cell" className={cn(FAMILY_CELL, 'truncate text-body text-fg-secondary')}>
+                  {recipe.family ? fr.recipes.families[recipe.family] : <NoValue />}
+                </span>
+                <span role="cell" className="text-body text-fg">
+                  <Rating value={rating(recipe)} />
+                </span>
+                <span role="cell" className="truncate text-right text-body text-fg-secondary">
+                  <time dateTime={new Date(at).toISOString()}>{formatRelative(at, now)}</time>
+                </span>
+                <ChevronRight size={16} aria-hidden="true" className="justify-self-end text-fg-muted" />
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
   )
 }

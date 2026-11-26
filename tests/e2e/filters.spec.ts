@@ -22,12 +22,17 @@ test('the filters of the recipes combine, and « without » never shows the alle
       location.hash = '#/recipes'
     })
     const group = page.getByRole('group', { name: 'Filtres des fiches' })
+    // The page opens on the creations (D-057): the classics have their own choice.
+    await group.getByRole('radio', { name: /^Classiques/ }).click()
     await expect(group.getByRole('button', { name: /^Spiritueux de base/ })).toBeVisible()
 
     await choose(page, /^Spiritueux de base/, 'Gin et genièvre')
     await choose(page, /^Famille/, 'Sour')
+    await page.getByRole('button', { name: /^Plus de filtres/ }).click()
     await choose(page, /^Allergènes à exclure/, 'Sans : Œufs')
-    await expect(page.getByRole('note').filter({ hasText: 'vérifie chaque étiquette' })).toBeVisible()
+    await expect(
+      page.getByRole('note').filter({ hasText: 'chaque étiquette reste à vérifier' }),
+    ).toBeVisible()
 
     // The count of the header is the one the main process gives for the same choices.
     const expected = await page.evaluate(async () => {
@@ -63,7 +68,9 @@ test('the filters of the recipes combine, and « without » never shows the alle
     }
 
     await page.getByRole('button', { name: 'Effacer les filtres' }).first().click()
-    await expect(page.getByRole('note').filter({ hasText: 'vérifie chaque étiquette' })).toHaveCount(0)
+    await expect(page.getByRole('note').filter({ hasText: 'chaque étiquette reste à vérifier' })).toHaveCount(
+      0,
+    )
   } finally {
     await closeApp(launched)
   }

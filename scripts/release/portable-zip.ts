@@ -17,14 +17,16 @@ const UNPACKED = path.join(ROOT, 'dist', 'win-unpacked')
 const FOLDER = 'Shakery'
 const DATA_FOLDER = 'Shakery Data'
 
+/** No text of the file addresses the reader (D-058). */
+const NBSP = String.fromCharCode(0xa0)
 const README = [
-  'Ce dossier contient ton carnet Shakery : fiches, dégustations, photos, sauvegardes et journal.',
+  `Ce dossier contient le carnet Shakery${NBSP}: fiches, dégustations, photos, sauvegardes et journal.`,
   '',
-  'Garde-le à côté de Shakery.exe. Tant qu’il est là, Shakery fonctionne en version portable et range tout ici,',
-  'sans rien écrire ailleurs sur le PC. Tu peux emporter le dossier Shakery entier sur une clé USB.',
+  'Il doit rester à côté de Shakery.exe. Tant qu’il est là, Shakery fonctionne en version portable et range tout ici,',
+  'sans rien écrire ailleurs sur le PC. Le dossier Shakery entier peut s’emporter sur une clé USB.',
   '',
-  'Pour passer à une nouvelle version, décompresse son archive portable au même endroit en remplaçant les fichiers :',
-  'ce dossier reste en place, et ton carnet avec lui.',
+  'Une nouvelle version s’installe en décompressant son archive portable au même endroit, en remplaçant les fichiers.',
+  'Ce dossier reste en place, et le carnet avec lui.',
   '',
 ].join('\r\n')
 

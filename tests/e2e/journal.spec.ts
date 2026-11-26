@@ -24,10 +24,12 @@ test('a tasting note with a next step, listed to retest, then checked as tested'
     await dialog.getByRole('button', { name: 'Enregistrer la note' }).click()
     await expect(dialog).toBeHidden()
 
-    // The recipe shows the note, the sidebar lists the step to retest.
+    // The recipe shows the note, the home screen lists the step to retest (D-057).
     await expect(page.getByText('Campari à 25 ml').first()).toBeVisible()
     const sidebar = page.getByRole('complementary', { name: 'Barre latérale' })
-    await expect(sidebar.getByText('Campari à 25 ml')).toBeVisible()
+    const retest = page.getByRole('region', { name: 'À retester' })
+    await sidebar.getByRole('link', { name: 'Accueil', exact: true }).click()
+    await expect(retest.getByText('Campari à 25 ml')).toBeVisible()
 
     await sidebar.getByRole('link', { name: 'Journal', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Journal de dégustation', level: 1 })).toBeVisible()
@@ -35,8 +37,10 @@ test('a tasting note with a next step, listed to retest, then checked as tested'
     const done = page.getByRole('checkbox', { name: /Campari à 25 ml/ })
     await done.check()
     await expect(done).toBeChecked()
-    // Tested: it leaves the « à retester » list and the sidebar.
-    await expect(sidebar.getByText('Campari à 25 ml')).toBeHidden()
+    // Tested: it leaves the « à retester » list and the home screen.
+    await sidebar.getByRole('link', { name: 'Accueil', exact: true }).click()
+    await expect(retest).toBeVisible()
+    await expect(retest.getByText('Campari à 25 ml')).toBeHidden()
 
     const stored = await page.evaluate(async () => {
       const list = await window.shakery.tastingNotes.list({})

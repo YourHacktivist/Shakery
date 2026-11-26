@@ -7,21 +7,50 @@ const plural = (count: number, one: string, many: string) =>
 export const workshop = {
   preps: {
     title: 'Préparations maison',
-    count: (count: number) =>
-      count === 0 ? 'Aucune préparation' : plural(count, 'préparation', 'préparations'),
+    /** « 10 préparations, 2 lots en cours », over the title. */
+    summary: (preps: number, active: number) =>
+      preps === 0
+        ? 'Aucune préparation'
+        : `${plural(preps, 'préparation', 'préparations')}, ${
+            active === 0 ? 'aucun lot en cours' : plural(active, 'lot en cours', 'lots en cours')
+          }`,
+    description:
+      'Une préparation est une base faite à l’avance, comme un sirop, un cordial ou un oleo saccharum. Chaque fabrication enregistre un lot daté, avec la date jusqu’à laquelle l’utiliser.',
     newPrep: 'Nouvelle préparation',
     empty: {
       title: 'Aucune préparation',
       description:
-        'Sirops, cordiaux, infusions : crée une fiche de type préparation pour suivre ses fabrications.',
+        'Une fiche de type préparation, comme un sirop, un cordial ou une infusion, permet de suivre ses fabrications.',
     },
-    shelfLife: (days: number | null) =>
-      days === null ? 'Durée de conservation non précisée' : `Se garde ${plural(days, 'jour', 'jours')}`,
+    columns: {
+      prep: 'Préparation',
+      shelfLife: 'Conservation',
+      lastBatch: 'Dernier lot',
+      useBy: 'À utiliser avant',
+    },
+    groups: { active: 'Lots en cours', idle: 'Sans lot en cours' },
+    /** « Citron vert, sucre et acide citrique », under the name of a preparation. */
+    composition: (names: readonly string[]) =>
+      names.length < 2 ? names.join('') : `${names.slice(0, -1).join(', ')} et ${names.at(-1) ?? ''}`,
+    /** « 3 jours », « 2 semaines », « 1 mois ». */
+    keeps: (days: number) =>
+      days > 0 && days % 30 === 0
+        ? `${days / 30} mois`
+        : days > 0 && days % 7 === 0
+          ? plural(days / 7, 'semaine', 'semaines')
+          : plural(days, 'jour', 'jours'),
+    lastBatch: {
+      active: (date: string) => `Lot du ${date}`,
+      past: (date: string) => `Le ${date}`,
+      none: 'Jamais',
+    },
+    listLabel: 'Liste des préparations',
+    /** Name of the list of the batches in use of one preparation. */
+    batchesOf: (name: string) => `Lots en cours de ${name}`,
+    /** Name of the button that starts a batch, the preparation being the one of its row. */
+    makeOf: (name: string) => `Nouvelle fabrication de ${name}`,
     shelfLifeMissing: 'Sans durée de conservation, aucune date limite n’est calculée.',
-    yield: (ml: number) => `Rendement ${ml}${NBSP}ml`,
-    noBatch: 'Aucune fabrication en cours.',
     newBatch: 'Nouvelle fabrication',
-    openRecipe: 'Voir la fiche',
     batch: {
       title: (name: string) => `Nouvelle fabrication de ${name}`,
       madeAt: 'Fabriquée le',
@@ -57,11 +86,11 @@ export const workshop = {
       },
       count: 'Nombre d’étiquettes',
       first: 'Première case libre',
-      firstHint: 'Pour finir une planche entamée.',
+      firstHint: 'Elle sert à finir une planche entamée.',
       allergens: 'Allergènes déclarés',
       allergensHint:
-        'Ils viennent des ingrédients de la préparation. Vérifie les étiquettes de tes produits.',
-      scaleHint: `Imprime à 100${NBSP}%, sans « ajuster à la page ».`,
+        'Ils viennent des ingrédients de la préparation. Les étiquettes des produits restent à vérifier.',
+      scaleHint: `L’impression se fait à 100${NBSP}%, sans « ajuster à la page ».`,
       madeOn: 'Fait le',
       bestBefore: 'À utiliser avant le',
       quantity: 'Volume',
@@ -83,17 +112,15 @@ export const workshop = {
     empty: {
       title: 'Aucune collection',
       description:
-        'Regroupe des fiches : la carte du bar, un concours, un thème. Puis révise-les ou exporte-les en PDF.',
+        'Une collection regroupe des fiches pour une carte, un concours ou un thème. Elle se révise et s’exporte en PDF.',
     },
-    pick: 'Choisis une collection ou crée-en une.',
+    listLabel: 'Liste des collections',
+    listHint:
+      'Une collection ouverte range ses fiches dans l’ordre voulu, avec une note et un prix de vente pour chacune.',
+    columns: { name: 'Collection', kind: 'Type', count: 'Fiches', updated: 'Modifiée' },
     kinds: { menu: 'Carte', competition: 'Concours', theme: 'Thème', other: 'Autre' },
-    items: (recipes: number, sheets: number) =>
-      [
-        plural(recipes, 'fiche', 'fiches'),
-        sheets > 0 ? plural(sheets, 'fiche culture', 'fiches culture') : null,
-      ]
-        .filter(Boolean)
-        .join(' · '),
+    recent: 'Dernières révisions',
+    sessionMeta: (mode: string, date: string) => `${mode}, ${date}`,
     form: {
       createTitle: 'Nouvelle collection',
       editTitle: (name: string) => `Modifier ${quote(name)}`,
@@ -109,7 +136,10 @@ export const workshop = {
     delete: 'Supprimer',
     deleted: (name: string) => `Collection ${quote(name)} supprimée.`,
     exportPdf: 'Exporter en PDF',
+    exportPdfOf: (name: string) => `Exporter ${quote(name)} en PDF`,
     exported: 'PDF enregistré.',
+    more: 'Autres actions',
+    moreOf: (name: string) => `Autres actions pour ${quote(name)}`,
     shareOpen: 'Partager',
     share: {
       title: (name: string) => `Partager ${quote(name)}`,
@@ -120,9 +150,11 @@ export const workshop = {
       done: 'Collection exportée.',
     },
     practice: 'Réviser',
+    practiceOf: (name: string) => `Réviser ${quote(name)}`,
     prepare: 'Préparer',
+    tabs: { listLabel: 'Contenu de la collection', recipes: 'Fiches' },
     addRecipes: 'Ajouter des fiches',
-    addPlaceholder: 'Cherche une fiche à ajouter',
+    addPlaceholder: 'Chercher une fiche à ajouter',
     added: (name: string) => `${quote(name)} ajoutée à la collection.`,
     itemsEmpty: 'Aucune fiche dans cette collection.',
     moveUp: (name: string) => `Monter ${quote(name)}`,
@@ -136,7 +168,7 @@ export const workshop = {
     addToCollection: 'Ajouter à une collection',
     inCollection: (name: string) => `Dans ${quote(name)}`,
     addedTo: (recipe: string, collection: string) => `${quote(recipe)} ajoutée à ${quote(collection)}.`,
-    noCollection: 'Aucune collection : crée-en une depuis l’écran Collections.',
+    noCollection: 'Aucune collection pour l’instant. Une collection se crée depuis l’écran Collections.',
   },
   print: {
     collection: (count: number) => plural(count, 'fiche', 'fiches'),
@@ -145,24 +177,32 @@ export const workshop = {
   },
   practice: {
     title: 'Révision',
-    subtitle: 'Cartes mémoire et QCM sur une collection',
     collection: 'Collection',
-    collectionPlaceholder: 'Choisis une collection',
     mode: 'Mode',
     modes: { quiz: 'QCM', flashcards: 'Cartes mémoire' },
+    quizHint: 'Jusqu’à quatre réponses par question, dont une seule est juste.',
+    flashcardsHint: 'La question s’affiche, la réponse se cherche de tête, puis la carte se retourne.',
+    options: 'Réglages',
     length: 'Nombre de questions',
-    start: 'Commencer',
-    weakFirst: (count: number) =>
-      count === 0 ? 'Aucune erreur à revoir.' : `${plural(count, 'erreur', 'erreurs')} à revoir en priorité.`,
+    order: 'Ordre des questions',
+    orders: { random: 'Au hasard', collection: 'Ordre de la collection' },
+    weakFirst: 'Commencer par les questions à revoir',
+    weakFirstHint: (count: number) =>
+      count === 0
+        ? 'Aucune question de cette collection n’a été ratée au dernier passage.'
+        : count === 1
+          ? 'La question ratée au dernier passage arrive en tête de la série.'
+          : `Les ${count} questions ratées au dernier passage arrivent en tête de la série.`,
+    start: 'Commencer la révision',
+    summary: (questions: number, items: number) =>
+      `${plural(questions, 'question tirée', 'questions tirées')} ${
+        items === 1 ? 'de l’unique fiche' : `des ${items} fiches`
+      } de la collection.`,
     noQuestion:
-      'Cette collection ne donne aucune question : ajoute des fiches avec leurs doses, méthode et verre.',
-    emptyCollections: {
-      title: 'Rien à réviser',
-      description: 'Crée une collection de fiches pour générer des cartes mémoire et des QCM.',
-    },
+      'Cette collection ne donne aucune question. Il lui faut des fiches avec leurs doses, leur méthode et leur verre.',
     progress: (current: number, total: number) => `Question ${current} sur ${total}`,
     reveal: 'Voir la réponse',
-    knew: 'Je savais',
+    knew: 'Réponse trouvée',
     didNotKnow: 'À revoir',
     next: 'Suivante',
     finish: 'Terminer',
@@ -173,13 +213,15 @@ export const workshop = {
       title: 'Session terminée',
       score: (score: number, total: number) => `${score} sur ${total}`,
       mistakes: 'Erreurs à revoir',
-      none: 'Aucune erreur, bravo.',
+      none: 'Aucune erreur dans cette série.',
       again: 'Recommencer',
       back: 'Retour',
     },
-    history: 'Historique des sessions',
+    history: 'Dernières sessions',
     historyEmpty: 'Aucune session pour l’instant.',
-    session: (score: number, total: number) => `${score}/${total}`,
+    outOf: (total: number) => ` / ${total}`,
+    weakTitle: 'À revoir',
+    weakCount: (count: number) => plural(count, 'question à revoir', 'questions à revoir'),
     prompts: {
       dose: (ingredient: string) => `Quelle dose de ${ingredient}${NBSP}?`,
       intruder: `Quel ingrédient n’entre pas dans ce cocktail${NBSP}?`,
@@ -191,7 +233,7 @@ export const workshop = {
       moment: `À quel moment le servir${NBSP}?`,
       family: `Quelle famille${NBSP}?`,
       abv: `Quel TAV retenu par le socle${NBSP}?`,
-      recite: 'Récite la recette : doses, méthode, verre et décoration.',
+      recite: 'Quelle est la recette complète, avec doses, méthode, verre et décoration ?',
       className: `Quelle classe${NBSP}?`,
       minAbv: `Quel TAV minimum${NBSP}?`,
       origin: `Quelle origine${NBSP}?`,
@@ -202,14 +244,17 @@ export const workshop = {
   },
   calculators: {
     title: 'Calculateurs',
+    tabsLabel: 'Calculateur affiché',
     tabs: { batch: 'Batch', abv: 'Degré et dilution', convert: 'Conversion', cost: 'Coût' },
     fromRecipe: 'À partir d’une fiche',
-    recipePlaceholder: 'Cherche une fiche',
+    recipePlaceholder: 'Rechercher une fiche',
     batch: {
+      /** Line above the title while this calculator is shown (D-057). */
+      caption: 'Le batch multiplie une fiche pour préparer un service à l’avance.',
       servings: 'Nombre de verres',
       start: 'Départ du batch',
       starts: { recipe: 'Une fiche', manual: 'Sans fiche' },
-      manualHint: 'Écris chaque ingrédient et sa dose pour un verre, puis dis où il va.',
+      manualHint: 'Chaque ligne porte un ingrédient, sa dose pour un verre et l’endroit où il va.',
       manualTitle: 'Recette du batch',
       name: 'Nom du batch',
       defaultName: 'Batch',
@@ -221,16 +266,16 @@ export const workshop = {
       addLine: 'Ajouter un ingrédient',
       removeLine: (index: number) => `Retirer l’ingrédient ${index}`,
       dilution: 'Dilution',
-      manualEmpty: 'Ajoute un ingrédient avec sa dose pour voir le batch.',
+      manualEmpty: 'Le batch s’affiche dès qu’un ingrédient a sa dose.',
       includeWater: 'Ajouter l’eau de dilution dans la bouteille',
-      waterHint: 'Pour un cocktail remué ou construit servi sans passer sur la glace.',
-      empty: 'Choisis une fiche pour la multiplier.',
+      waterHint: 'Cette option convient à un cocktail remué ou construit, servi sans passer sur la glace.',
+      empty: 'Le batch s’affiche ici une fois la fiche choisie.',
       ingredient: 'Ingrédient',
       quantity: 'Quantité',
       volume: 'Volume',
       when: 'Quand',
       hints: { ok: 'Dans la bouteille', fresh: 'Frais, le jour même', add_at_service: 'Au service' },
-      freshWarning: 'À ajouter le jour même, jamais dans une bouteille que tu gardes.',
+      freshWarning: 'Ces ingrédients s’ajoutent le jour même, jamais dans une bouteille conservée.',
       target: 'Cible du batch',
       byServings: 'En verres',
       byVolume: 'En volume',
@@ -240,7 +285,8 @@ export const workshop = {
       includeGarnish: 'Compter les décorations',
       drinks: (count: string) => `${count} verres`,
       fresh: 'Frais, à part',
-      nothingKeeps: 'Rien de cette fiche ne se garde en bouteille. Vise un nombre de verres.',
+      nothingKeeps:
+        'Rien de cette fiche ne se garde en bouteille. Le calcul en nombre de verres reste possible.',
       sheetTitle: 'Batch',
       total: 'Total',
       savePdf: 'Enregistrer en PDF',
@@ -254,6 +300,7 @@ export const workshop = {
       optional: 'facultatif',
     },
     abv: {
+      caption: 'Ce calcul donne le degré d’un mélange avant et après la dilution.',
       lines: 'Lignes',
       volume: 'Volume',
       lineAbv: 'Degré',
@@ -263,14 +310,18 @@ export const workshop = {
       before: 'Avant dilution',
       after: 'Servi',
       served: 'Volume servi',
-      fromRecipeHint: 'Charge les volumes et degrés d’une fiche, puis ajuste.',
+      fromRecipeHint: 'Une fiche choisie remplit les volumes et les degrés, qui restent ajustables.',
     },
     convert: {
+      caption:
+        'La conversion passe une dose d’une unité de bar à une autre, selon les équivalences des paramètres.',
       value: 'Valeur',
       unit: 'Unité',
       approx: 'valeur d’usage',
     },
     cost: {
+      caption:
+        'Le coût d’une dose se calcule depuis le prix de la bouteille, et le prix de vente d’une fiche depuis son coût matière.',
       price: 'Prix de la bouteille',
       bottleVolume: 'Contenance',
       dose: 'Dose',
@@ -287,10 +338,11 @@ export const workshop = {
     shopping: {
       title: 'Liste d’achats',
       description: 'Ces ingrédients débloqueraient le plus de fiches. Chacun est le seul qui leur manque.',
-      empty: 'Il n’y a rien à suggérer. Renseigne d’abord les bouteilles que tu possèdes.',
+      empty:
+        'Aucun achat à suggérer pour l’instant. Les suggestions viennent des bouteilles cochées dans la liste des ingrédients.',
       unlocks: (count: number) => `débloque ${plural(count, 'fiche', 'fiches')}`,
     },
-    owned: (name: string) => `Je possède ${name}`,
+    owned: (name: string) => `${name} au bar`,
     makeable: (count: number) =>
       count === 0
         ? 'Aucune fiche réalisable ce soir'

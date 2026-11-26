@@ -17,7 +17,9 @@ test('the whole notebook exported then imported again, a recipe copied as Markdo
     await page.getByRole('dialog', { name: 'Palette de recherche' }).getByRole('combobox').fill('negroni')
     await page.keyboard.press('Enter')
     await expect(page.getByRole('heading', { name: 'Negroni', level: 1 })).toBeVisible()
-    await page.getByRole('button', { name: 'Partager', exact: true }).click()
+    // Sharing sits in the « Plus » menu of the recipe (D-057).
+    await page.getByRole('button', { name: 'Plus', exact: true }).click()
+    await page.getByRole('menuitem', { name: 'Partager', exact: true }).click()
     await page.getByRole('button', { name: 'Copier en Markdown' }).click()
     await expect(page.getByText('Fiche copiée en Markdown.')).toBeVisible()
     const copied = await app.evaluate(({ clipboard }) => clipboard.readText())

@@ -34,6 +34,11 @@ type VirtualTableProps<Row> = {
   /** Shown instead of the list when there is no row (an EmptyState by default). */
   empty?: ReactNode
   overscan?: number
+  /**
+   * Without its card: rows separated by hairlines, on the page itself (D-057). The hover and the
+   * active row stay inside the width of the page: nothing may stick out of it.
+   */
+  bare?: boolean
   /** The table needs a bounded height (a class such as h-96 or a flex parent). */
   className?: string
 }
@@ -54,6 +59,7 @@ export function VirtualTable<Row>({
   onOpen,
   empty,
   overscan = 8,
+  bare = false,
   className,
 }: VirtualTableProps<Row>) {
   const baseId = useId().replace(/[^a-zA-Z0-9_-]/g, '')
@@ -147,14 +153,18 @@ export function VirtualTable<Row>({
   return (
     <div
       className={cn(
-        'flex min-h-0 flex-col overflow-hidden rounded-card border border-border bg-surface-1',
+        'flex min-h-0 flex-col',
+        bare ? '' : 'overflow-hidden rounded-card border border-border bg-surface-1',
         className,
       )}
     >
       {/* Visual header; screen readers get the column names inside each row. */}
       <div
         aria-hidden="true"
-        className="grid h-8 shrink-0 items-center gap-4 border-b border-border px-4 text-caption font-medium tracking-[0.01em] text-fg-muted"
+        className={cn(
+          'grid h-8 shrink-0 items-center gap-4 border-b border-border text-caption font-medium tracking-[0.01em] text-fg-muted',
+          bare ? 'px-3' : 'px-4',
+        )}
         style={{ gridTemplateColumns: template }}
       >
         {columns.map((column) => (
@@ -201,7 +211,10 @@ export function VirtualTable<Row>({
                 }}
                 onDoubleClick={() => onOpen?.(row)}
                 className={cn(
-                  'absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 border-b border-border px-4 text-body',
+                  'absolute top-0 left-0 grid w-full cursor-pointer items-center gap-4 text-body',
+                  bare
+                    ? "rounded-field px-3 after:pointer-events-none after:absolute after:inset-x-3 after:bottom-0 after:h-px after:bg-border after:content-['']"
+                    : 'border-b border-border px-4',
                   active
                     ? 'bg-surface-2 text-fg shadow-[inset_2px_0_0_var(--color-accent)]'
                     : 'text-fg-secondary hover:bg-surface-2/60',

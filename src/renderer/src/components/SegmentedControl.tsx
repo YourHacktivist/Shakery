@@ -5,6 +5,8 @@ export type SegmentedOption<T extends string> = {
   value: T
   label: string
   icon?: ReactNode
+  /** A number after the label, quieter than it (« Classiques 7 176 »). */
+  count?: string
 }
 
 type SegmentedControlProps<T extends string> = {
@@ -127,6 +129,11 @@ export function SegmentedControl<T extends string>({
           >
             {option.icon}
             {option.label}
+            {option.count === undefined ? null : (
+              <span className={cn('nums font-medium', checked ? 'text-fg-secondary' : 'text-fg-muted')}>
+                {option.count}
+              </span>
+            )}
           </button>
         )
       })}

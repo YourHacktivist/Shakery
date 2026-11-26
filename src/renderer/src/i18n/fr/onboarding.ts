@@ -5,19 +5,19 @@ export const onboarding = {
   skip: 'Passer',
   back: 'Retour',
   next: 'Continuer',
-  finish: 'Ouvrir mon carnet',
-  done: 'Ton carnet est prêt. Note ta première idée avec Ctrl N.',
+  finish: 'Ouvrir le carnet',
+  done: 'Le carnet est prêt. Une première idée se note avec Ctrl N.',
   steps: {
     display: {
-      title: 'Comment veux-tu lire tes fiches ?',
-      text: 'Choisis l’unité des doses et le thème. Les doses enregistrées ne changent pas.',
+      title: 'Unité des doses et thème',
+      text: 'Ces deux choix se changent ensuite dans les paramètres. Les doses déjà enregistrées restent telles quelles.',
     },
     base: {
       title: 'Tout est déjà dans l’application',
-      text: 'Les classiques sont là, hors ligne. Tape un nom avec Ctrl K et la fiche s’ouvre.',
+      text: 'Les classiques sont là, hors ligne. Ctrl K ouvre la recherche, et un nom suffit pour trouver sa fiche.',
     },
     backups: {
-      title: 'Où garder tes sauvegardes ?',
+      title: 'Dossier des sauvegardes',
       text: 'Shakery sauvegarde le carnet chaque jour et à la fermeture. Un dossier sur un autre disque le protège mieux.',
     },
   },

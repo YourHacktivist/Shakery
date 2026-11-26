@@ -39,7 +39,7 @@ test('settings: dilution reaches the figures, trash and reset always back up fir
     await page.evaluate(() => {
       location.hash = '#/settings'
     })
-    const build = page.getByRole('region', { name: 'Équivalences, dilution, atelier' }).getByLabel('Au verre')
+    const build = page.getByRole('region', { name: 'Calculs' }).getByLabel('Au verre')
     await build.fill('40')
     await build.press('Tab')
     await expect
@@ -61,7 +61,7 @@ test('settings: dilution reaches the figures, trash and reset always back up fir
       return (await window.shakery.recipes.delete({ id: recipe.data.id })).ok
     })
     expect(made).toBe(true)
-    await page.getByRole('button', { name: 'Corbeille…' }).click()
+    await page.getByRole('button', { name: 'Ouvrir la corbeille' }).click()
     const trash = page.getByRole('dialog', { name: 'Corbeille' })
     await trash.getByRole('button', { name: 'Restaurer Zinzolin d’essai' }).click()
     await expect(trash.getByText('La corbeille est vide.')).toBeVisible()
@@ -70,7 +70,7 @@ test('settings: dilution reaches the figures, trash and reset always back up fir
 
     await page.evaluate((id) => window.shakery.recipes.delete({ id }), restored ?? '')
     await page.keyboard.press('Escape')
-    await page.getByRole('button', { name: 'Corbeille…' }).click()
+    await page.getByRole('button', { name: 'Ouvrir la corbeille' }).click()
     await trash.getByRole('button', { name: 'Vider la corbeille' }).click()
     await expect(trash.getByRole('alert')).toContainText('pour de bon')
     await trash.getByRole('button', { name: 'Effacer pour de bon' }).click()
@@ -86,11 +86,11 @@ test('settings: dilution reaches the figures, trash and reset always back up fir
     await page.evaluate(() =>
       window.shakery.recipes.create({ data: { name: 'Perdue à la réinitialisation' } }),
     )
-    await page.getByRole('button', { name: 'Réinitialiser Shakery…' }).click()
+    await page.getByRole('button', { name: 'Réinitialiser…' }).click()
     const reset = page.getByRole('dialog', { name: 'Réinitialiser Shakery' })
     const go = reset.getByRole('button', { name: 'Sauvegarder puis réinitialiser' })
     await expect(go).toBeDisabled()
-    await reset.getByLabel('Tape RÉINITIALISER pour confirmer').fill('RÉINITIALISER')
+    await reset.getByLabel('Saisir RÉINITIALISER pour confirmer').fill('RÉINITIALISER')
     const reloaded = page.waitForEvent('load', { timeout: 60_000 })
     await go.click()
     await reloaded

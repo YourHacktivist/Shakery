@@ -313,18 +313,12 @@ html.print-light body {
   color-scheme: light;
 }
 
-/* Intensity of the glass and performance mode (section 10.14, D-043). */
-:root[data-blur='light'] {
-  --glass-blur: blur(8px);
-}
-
-:root[data-blur='none'],
+/* Performance mode takes the blur off the glass (section 10.14, D-043, D-060). */
 :root.performance {
   --glass-blur: none;
 }
 
 /* Without blur the glass is opaque: what is behind would mix with the text. */
-:root[data-blur='none'] .glass,
 :root.performance .glass {
   background-color: var(--color-surface-2);
 }

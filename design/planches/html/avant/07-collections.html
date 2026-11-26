@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" data-platform="other" data-blur="full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shakery</title>
+
+    <link rel="stylesheet" crossorigin="" href="../assets/index-DthCMq1t.css" />
+    <style id="planche-fenetre">
+      /* Place des boutons de la fenêtre Windows */
+      .window-controls-space {
+        padding-right: 148px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-shell flex h-full overflow-clip">
+        <aside
+          aria-label="Barre latérale"
+          data-collapsed="false"
+          class="flex h-full shrink-0 flex-col overflow-hidden bg-sidebar duration-250 ease-out-soft border-r border-border transition-[width] w-[220px]"
+        >
+          <div class="window-drag sidebar-brand group/brand flex h-12 shrink-0 items-center gap-2.5 px-3 whitespace-nowrap">
+            <span class="logo-halo logo-shake flex size-8 shrink-0 items-center justify-center rounded-full"
+              ><img alt="" width="28" height="28" class="size-7" src="../assets/logo-160-BWVCxwO_.png" /></span
+            ><span class="flex min-w-0 flex-col gap-0.5 transition-opacity duration-200 ease-out-soft"
+              ><span class="text-[15px] leading-tight font-semibold tracking-[-0.01em] text-fg">Shakery</span
+              ><span class="text-caption text-fg-muted">Carnet de création</span></span
+            ><span class="ml-auto"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-8 p-0"
+                aria-label="Fermer la barre latérale"
+                title="Fermer la barre latérale"
+                id="sidebar-close"
+                aria-keyshortcuts="Control+B"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-panel-left-close lucide-sidebar-close"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M9 3v18"></path>
+                  <path d="m16 15-3-3 3-3"></path>
+                </svg></button
+            ></span>
+          </div>
+          <div
+            class="flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto px-3 pt-2 pb-4 [scrollbar-color:var(--color-border-strong)_transparent] [scrollbar-width:thin]"
+          >
+            <nav aria-label="Navigation principale">
+              <ul class="relative m-0 flex list-none flex-col gap-0.5 p-0">
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute top-0 left-0 h-8 w-full rounded-field border border-accent/20 bg-[linear-gradient(90deg,rgb(239_120_43/0.16),rgb(239_120_43/0.03))] transition-[transform,opacity] duration-250 ease-out-soft before:absolute before:top-2 before:-left-px before:h-4 before:w-[3px] before:rounded-full before:bg-accent before:shadow-[0_0_10px_rgb(239_120_43/0.8)] before:content-['']"
+                  style="transform: translateY(238px)"
+                ></span>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-house lucide-home shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                      <path
+                        d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Accueil</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/recipes"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-book-open shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 5v16"></path>
+                      <path
+                        d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"
+                      ></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Fiches</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/lab"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-flask-conical shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
+                      ></path>
+                      <path d="M6.453 15h11.094"></path>
+                      <path d="M8.5 2h7"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Atelier</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/journal"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-notebook-text shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 6h4"></path>
+                      <path d="M2 10h4"></path>
+                      <path d="M2 14h4"></path>
+                      <path d="M2 18h4"></path>
+                      <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                      <path d="M9.5 8h5"></path>
+                      <path d="M9.5 12H16"></path>
+                      <path d="M9.5 16H14"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Journal</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/notebook"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-sticky-note shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z"
+                      ></path>
+                      <path d="M15 3v5a1 1 0 0 0 1 1h5"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Carnet</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/bar"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-wine shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 22h8"></path>
+                      <path d="M7 10h10"></path>
+                      <path d="M12 15v7"></path>
+                      <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Mon bar</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/preps"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-milk shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 2h8"></path>
+                      <path
+                        d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2"
+                      ></path>
+                      <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Préparations</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`) active"
+                    href="#/collections"
+                    data-discover="true"
+                    aria-current="page"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-layers lucide-layers-3 shrink-0 transition-[color,transform] duration-200 ease-out-soft text-accent"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
+                      ></path>
+                      <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path>
+                      <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Collections</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/practice"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-graduation-cap shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+                      ></path>
+                      <path d="M22 10v6"></path>
+                      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Révision</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/calculators"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-calculator shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <rect width="16" height="20" x="4" y="2" rx="2"></rect>
+                      <line x1="8" x2="16" y1="6" y2="6"></line>
+                      <line x1="16" x2="16" y1="14" y2="18"></line>
+                      <path d="M16 10h.01"></path>
+                      <path d="M12 10h.01"></path>
+                      <path d="M8 10h.01"></path>
+                      <path d="M12 14h.01"></path>
+                      <path d="M8 14h.01"></path>
+                      <path d="M12 18h.01"></path>
+                      <path d="M8 18h.01"></path></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Calculateurs</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-state="closed"
+                    class="({isActive:e})=&gt;q(`group/nav relative z-10 flex h-8 items-center gap-2.5 overflow-hidden rounded-field px-2 text-body font-medium whitespace-nowrap transition-colors duration-150 ease-out-soft`,e?`text-fg`:`text-fg-secondary hover:bg-tint/4 hover:text-fg`)"
+                    href="#/settings"
+                    data-discover="true"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-settings shrink-0 transition-[color,transform] duration-200 ease-out-soft group-hover/nav:translate-x-px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle></svg
+                    ><span class="truncate transition-opacity duration-200 ease-out-soft">Paramètres</span></a
+                  >
+                </li>
+              </ul>
+            </nav>
+            <div class="flex w-[184px] flex-col gap-4 transition-opacity duration-200 ease-out-soft">
+              <div class="flex flex-col gap-3 px-1">
+                <section aria-labelledby="_r_b_" class="flex flex-col gap-1.5">
+                  <h2 id="_r_b_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-rotate-ccw"
+                      aria-hidden="true"
+                    >
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path></svg
+                    ><span>À retester</span>
+                  </h2>
+                  <ul class="m-0 flex list-none flex-col gap-1 p-0">
+                    <li>
+                      <a
+                        class="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
+                        href="#/recipes/01a20cce-f837-7241-926f-e51bf2b16bef"
+                        data-discover="true"
+                        ><span class="truncate text-small font-medium text-fg">Negroni fumé</span
+                        ><span class="line-clamp-2 text-caption leading-snug text-fg-secondary">Baisser le mezcal à 10 ml.</span></a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="flex flex-col rounded-md px-1.5 py-1 transition-colors duration-150 hover:bg-tint/4"
+                        href="#/recipes/01a20cce-f91c-7503-a160-5cc541df8ca1"
+                        data-discover="true"
+                        ><span class="truncate text-small font-medium text-fg">Dernier mot d’hiver</span
+                        ><span class="line-clamp-2 text-caption leading-snug text-fg-secondary"
+                          >Tester avec 5 ml de citron en plus.</span
+                        ></a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="inline-flex items-center gap-1.5 rounded-sm px-1.5 text-caption font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
+                        href="#/journal"
+                        data-discover="true"
+                        ><span>Ouvrir le journal</span
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-arrow-right"
+                          aria-hidden="true"
+                        >
+                          <path d="M5 12h14"></path>
+                          <path d="m12 5 7 7-7 7"></path></svg
+                      ></a>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="_r_c_" class="flex flex-col gap-1.5">
+                  <h2 id="_r_c_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-milk"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 2h8"></path>
+                      <path
+                        d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2"
+                      ></path>
+                      <path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"></path></svg
+                    ><span>Préparations</span>
+                  </h2>
+                  <p class="m-0 text-small leading-normal text-fg-secondary">Aucune préparation en cours.</p>
+                </section>
+              </div>
+              <section aria-labelledby="_r_d_" class="flex flex-col gap-1.5 rounded-nested border border-border bg-tonight p-3">
+                <h2 id="_r_d_" class="m-0 flex items-center gap-2 text-caption font-medium tracking-[0.01em] text-fg-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-wine text-accent"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 22h8"></path>
+                    <path d="M7 10h10"></path>
+                    <path d="M12 15v7"></path>
+                    <path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg
+                  ><span>Ce soir</span>
+                </h2>
+                <p class="m-0 text-small leading-normal text-fg">
+                  <span class="nums text-heading font-semibold text-copper">1</span>
+                  <span class="text-fg-secondary">fiche réalisable ce soir</span>
+                </p>
+                <p class="m-0 text-caption leading-snug text-fg-muted">Whisky écossais en débloquerait 3</p>
+                <a
+                  class="group/link inline-flex items-center gap-1.5 self-start rounded-sm text-small font-semibold text-accent-soft transition-colors duration-150 hover:text-accent"
+                  href="#/bar"
+                  data-discover="true"
+                  ><span>Ouvrir Mon bar</span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-arrow-right transition-transform duration-200 ease-out-soft group-hover/link:translate-x-0.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path></svg
+                ></a>
+              </section>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-1 px-3.5 py-2 border-t border-border">
+            <p
+              data-testid="app-version"
+              class="m-0 mr-auto min-w-0 truncate nums text-caption text-fg-muted transition-opacity duration-200 ease-out-soft"
+            >
+              Version 0.2.3
+            </p>
+            <span class="flex shrink-0 transition-opacity duration-200 ease-out-soft"
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                aria-label="Guide d’utilisation"
+                title="Guide d’utilisation"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                  <path d="M12 17h.01"></path>
+                </svg></button
+              ><button
+                type="button"
+                class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                aria-label="Raccourcis clavier"
+                title="Raccourcis clavier"
+                aria-haspopup="dialog"
+                aria-keyshortcuts="?"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-keyboard"
+                  aria-hidden="true"
+                >
+                  <path d="M10 8h.01"></path>
+                  <path d="M12 12h.01"></path>
+                  <path d="M14 8h.01"></path>
+                  <path d="M16 12h.01"></path>
+                  <path d="M18 8h.01"></path>
+                  <path d="M6 8h.01"></path>
+                  <path d="M7 16h10"></path>
+                  <path d="M8 12h.01"></path>
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                </svg></button></span
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+              aria-label="Réduire aux icônes"
+              title="Réduire aux icônes"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-left"
+                aria-hidden="true"
+              >
+                <path d="m11 17-5-5 5-5"></path>
+                <path d="m18 17-5-5 5-5"></path>
+              </svg>
+            </button>
+          </div>
+        </aside>
+        <div class="relative isolate flex min-w-0 flex-1 flex-col">
+          <div aria-hidden="true" data-scene="collections" class="scene-backdrop">
+            <span class="scene-light"></span
+            ><svg class="scene-motif" viewBox="0 0 600 600" fill="none" focusable="false">
+              <path
+                class="engraving-solid"
+                d="M-70 -470H70A8 8 0 0 1 78 -462V-178A8 8 0 0 1 70 -170H-70A8 8 0 0 1 -78 -178V-462A8 8 0 0 1 -70 -470Z"
+                transform="translate(330 590) rotate(-34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-65 -462H65A5 5 0 0 1 70 -457V-183A5 5 0 0 1 65 -178H-65A5 5 0 0 1 -70 -183V-457A5 5 0 0 1 -65 -462ZM-20.8 -416.3A20.8 4.1 0 1 1 20.8 -416.3A20.8 4.1 0 1 1 -20.8 -416.3ZM-54 -318L20 -318M40 -318L54 -318M-54 -284L20 -284M40 -284L54 -284M-54 -250L20 -250M40 -250L54 -250M-54 -216L20 -216M40 -216L54 -216"
+                transform="translate(330 590) rotate(-34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-62 -457H62A3 3 0 0 1 65 -454V-186A3 3 0 0 1 62 -183H-62A3 3 0 0 1 -65 -186V-454A3 3 0 0 1 -62 -457ZM-74 -457A9 9 0 1 1 -56 -457A9 9 0 1 1 -74 -457ZM56 -457A9 9 0 1 1 74 -457A9 9 0 1 1 56 -457ZM-74 -183A9 9 0 1 1 -56 -183A9 9 0 1 1 -74 -183ZM56 -183A9 9 0 1 1 74 -183A9 9 0 1 1 56 -183ZM-26 -424A26 3.3 0 1 1 26 -424A26 3.3 0 1 1 -26 -424ZM-15.8 -418.6L-15.8 -414M-10.8 -419.3L-10.8 -413.3M-5.8 -419.6L-5.8 -413M-0.8 -419.8L-0.8 -412.8M4.2 -419.7L4.2 -412.9M9.2 -419.4L9.2 -413.2M14.2 -418.8L14.2 -413.8M19.2 -417.6L19.2 -415M16.7 -410.6L16.4 -410.4L15.9 -410.2L15.4 -410L14.7 -409.8L13.9 -409.7L13.1 -409.5L12.1 -409.3L11.1 -409.2L10 -409.1L8.8 -409L7.5 -408.9L6.2 -408.8L4.9 -408.7L3.5 -408.7L2.1 -408.7L0.7 -408.6L-0.7 -408.6L-2.1 -408.7L-3.5 -408.7L-4.9 -408.7L-6.2 -408.8L-7.5 -408.9L-8.8 -409L-10 -409.1L-11.1 -409.2L-12.1 -409.3L-13.1 -409.5L-13.9 -409.7L-14.7 -409.8L-15.4 -410L-15.9 -410.2L-16.4 -410.4L-16.7 -410.6M13.1 -408.7L12.8 -408.5L12.5 -408.3L12 -408.1L11.5 -407.9L10.9 -407.8L10.2 -407.6L9.5 -407.4L8.7 -407.3L7.8 -407.2L6.9 -407.1L5.9 -407L4.9 -406.9L3.8 -406.8L2.8 -406.8L1.7 -406.8L0.6 -406.7L-0.6 -406.7L-1.7 -406.8L-2.8 -406.8L-3.8 -406.8L-4.9 -406.9L-5.9 -407L-6.9 -407.1L-7.8 -407.2L-8.7 -407.3L-9.5 -407.4L-10.2 -407.6L-10.9 -407.8L-11.5 -407.9L-12 -408.1L-12.5 -408.3L-12.8 -408.5L-13.1 -408.7M9.4 -406.8L9.3 -406.6L9 -406.4L8.7 -406.2L8.3 -406L7.9 -405.9L7.4 -405.7L6.8 -405.5L6.3 -405.4L5.6 -405.3L5 -405.2L4.3 -405.1L3.5 -405L2.8 -404.9L2 -404.9L1.2 -404.9L0.4 -404.8L-0.4 -404.8L-1.2 -404.9L-2 -404.9L-2.8 -404.9L-3.5 -405L-4.3 -405.1L-5 -405.2L-5.6 -405.3L-6.3 -405.4L-6.8 -405.5L-7.4 -405.7L-7.9 -405.9L-8.3 -406L-8.7 -406.2L-9 -406.4L-9.3 -406.6L-9.4 -406.8M5.8 -404.9L5.7 -404.7L5.5 -404.5L5.3 -404.3L5.1 -404.1L4.8 -404L4.5 -403.8L4.2 -403.6L3.8 -403.5L3.5 -403.4L3.1 -403.3L2.6 -403.2L2.2 -403.1L1.7 -403L1.2 -403L0.7 -403L0.2 -402.9L-0.2 -402.9L-0.7 -403L-1.2 -403L-1.7 -403L-2.2 -403.1L-2.6 -403.2L-3.1 -403.3L-3.5 -403.4L-3.8 -403.5L-4.2 -403.6L-4.5 -403.8L-4.8 -404L-5.1 -404.1L-5.3 -404.3L-5.5 -404.5L-5.7 -404.7L-5.8 -404.9M0 -396L0 -376M10.8 -371L10.8 -370.8L10.7 -370.7L10.5 -370.5L10.2 -370.4L9.9 -370.2L9.5 -370.1L9 -369.9L8.5 -369.8L7.9 -369.7L7.3 -369.6L6.6 -369.5L5.9 -369.4L5.1 -369.3L4.3 -369.2L3.5 -369.2L2.7 -369.1L1.8 -369.1L0.9 -369.1L0 -369.1L-0.9 -369.1L-1.8 -369.1L-2.7 -369.1L-3.5 -369.2L-4.3 -369.2L-5.1 -369.3L-5.9 -369.4L-6.6 -369.5L-7.3 -369.6L-7.9 -369.7L-8.5 -369.8L-9 -369.9L-9.5 -370.1L-9.9 -370.2L-10.2 -370.4L-10.5 -370.5L-10.7 -370.7L-10.8 -370.8L-10.8 -371M-54 -309L42 -309M-54 -302L3.6 -302M-54 -275L42 -275M-54 -268L3.6 -268M-54 -241L42 -241M-54 -234L3.6 -234M-54 -207L42 -207M-54 -200L3.6 -200M48 -445L55 -452M48 -438L62 -452M48 -431L62 -445M48 -424L62 -438M48 -417L62 -431M48 -410L62 -424M48 -403L62 -417M48 -396L62 -410M48 -389L62 -403M48 -382L62 -396M48 -375L62 -389M48 -368L62 -382M48 -361L62 -375M48 -354L62 -368M48 -347L62 -361M48 -340L62 -354M48 -333L62 -347M48 -326L62 -340M48 -319L62 -333M48 -312L62 -326M48 -305L62 -319M48 -298L62 -312M48 -291L62 -305M48 -284L62 -298M48 -277L62 -291M48 -270L62 -284M48 -263L62 -277M48 -256L62 -270M48 -249L62 -263M48 -242L62 -256M48 -235L62 -249M48 -228L62 -242M48 -221L62 -235M48 -214L62 -228M48 -207L62 -221M48 -200L62 -214M48 -193L62 -207M54 -192L62 -200M61 -192L62 -193"
+                transform="translate(330 590) rotate(-34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-30 -424A30 4.8 0 1 1 30 -424A30 4.8 0 1 1 -30 -424ZM-30 -424C-30 -408.6 -10.5 -402 -7 -402H7C10.5 -402 30 -408.6 30 -424M-5 -402Q-3 -374.8 -13.8 -368M5 -402Q3 -374.8 13.8 -368M13.8 -368L13.8 -367.8L13.6 -367.5L13.4 -367.3L13.1 -367.1L12.6 -366.8L12.1 -366.6L11.6 -366.4L10.9 -366.2L10.2 -366L9.3 -365.9L8.5 -365.7L7.5 -365.6L6.6 -365.5L5.5 -365.4L4.5 -365.3L3.4 -365.2L2.3 -365.2L1.1 -365.1L0 -365.1L-1.1 -365.1L-2.3 -365.2L-3.4 -365.2L-4.5 -365.3L-5.5 -365.4L-6.6 -365.5L-7.5 -365.6L-8.5 -365.7L-9.3 -365.9L-10.2 -366L-10.9 -366.2L-11.6 -366.4L-12.1 -366.6L-12.6 -366.8L-13.1 -367.1L-13.4 -367.3L-13.6 -367.5L-13.8 -367.8L-13.8 -368M-34 -346L6.8 -346"
+                transform="translate(330 590) rotate(-34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-70 -470H70A8 8 0 0 1 78 -462V-178A8 8 0 0 1 70 -170H-70A8 8 0 0 1 -78 -178V-462A8 8 0 0 1 -70 -470Z"
+                transform="translate(330 590) rotate(34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-65 -462H65A5 5 0 0 1 70 -457V-183A5 5 0 0 1 65 -178H-65A5 5 0 0 1 -70 -183V-457A5 5 0 0 1 -65 -462ZM-20.8 -416.3A20.8 4.1 0 1 1 20.8 -416.3A20.8 4.1 0 1 1 -20.8 -416.3ZM-54 -318L20 -318M40 -318L54 -318M-54 -284L20 -284M40 -284L54 -284M-54 -250L20 -250M40 -250L54 -250M-54 -216L20 -216M40 -216L54 -216"
+                transform="translate(330 590) rotate(34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-62 -457H62A3 3 0 0 1 65 -454V-186A3 3 0 0 1 62 -183H-62A3 3 0 0 1 -65 -186V-454A3 3 0 0 1 -62 -457ZM-74 -457A9 9 0 1 1 -56 -457A9 9 0 1 1 -74 -457ZM56 -457A9 9 0 1 1 74 -457A9 9 0 1 1 56 -457ZM-74 -183A9 9 0 1 1 -56 -183A9 9 0 1 1 -74 -183ZM56 -183A9 9 0 1 1 74 -183A9 9 0 1 1 56 -183ZM-26 -424A26 3.3 0 1 1 26 -424A26 3.3 0 1 1 -26 -424ZM-15.8 -418.6L-15.8 -414M-10.8 -419.3L-10.8 -413.3M-5.8 -419.6L-5.8 -413M-0.8 -419.8L-0.8 -412.8M4.2 -419.7L4.2 -412.9M9.2 -419.4L9.2 -413.2M14.2 -418.8L14.2 -413.8M19.2 -417.6L19.2 -415M16.7 -410.6L16.4 -410.4L15.9 -410.2L15.4 -410L14.7 -409.8L13.9 -409.7L13.1 -409.5L12.1 -409.3L11.1 -409.2L10 -409.1L8.8 -409L7.5 -408.9L6.2 -408.8L4.9 -408.7L3.5 -408.7L2.1 -408.7L0.7 -408.6L-0.7 -408.6L-2.1 -408.7L-3.5 -408.7L-4.9 -408.7L-6.2 -408.8L-7.5 -408.9L-8.8 -409L-10 -409.1L-11.1 -409.2L-12.1 -409.3L-13.1 -409.5L-13.9 -409.7L-14.7 -409.8L-15.4 -410L-15.9 -410.2L-16.4 -410.4L-16.7 -410.6M13.1 -408.7L12.8 -408.5L12.5 -408.3L12 -408.1L11.5 -407.9L10.9 -407.8L10.2 -407.6L9.5 -407.4L8.7 -407.3L7.8 -407.2L6.9 -407.1L5.9 -407L4.9 -406.9L3.8 -406.8L2.8 -406.8L1.7 -406.8L0.6 -406.7L-0.6 -406.7L-1.7 -406.8L-2.8 -406.8L-3.8 -406.8L-4.9 -406.9L-5.9 -407L-6.9 -407.1L-7.8 -407.2L-8.7 -407.3L-9.5 -407.4L-10.2 -407.6L-10.9 -407.8L-11.5 -407.9L-12 -408.1L-12.5 -408.3L-12.8 -408.5L-13.1 -408.7M9.4 -406.8L9.3 -406.6L9 -406.4L8.7 -406.2L8.3 -406L7.9 -405.9L7.4 -405.7L6.8 -405.5L6.3 -405.4L5.6 -405.3L5 -405.2L4.3 -405.1L3.5 -405L2.8 -404.9L2 -404.9L1.2 -404.9L0.4 -404.8L-0.4 -404.8L-1.2 -404.9L-2 -404.9L-2.8 -404.9L-3.5 -405L-4.3 -405.1L-5 -405.2L-5.6 -405.3L-6.3 -405.4L-6.8 -405.5L-7.4 -405.7L-7.9 -405.9L-8.3 -406L-8.7 -406.2L-9 -406.4L-9.3 -406.6L-9.4 -406.8M5.8 -404.9L5.7 -404.7L5.5 -404.5L5.3 -404.3L5.1 -404.1L4.8 -404L4.5 -403.8L4.2 -403.6L3.8 -403.5L3.5 -403.4L3.1 -403.3L2.6 -403.2L2.2 -403.1L1.7 -403L1.2 -403L0.7 -403L0.2 -402.9L-0.2 -402.9L-0.7 -403L-1.2 -403L-1.7 -403L-2.2 -403.1L-2.6 -403.2L-3.1 -403.3L-3.5 -403.4L-3.8 -403.5L-4.2 -403.6L-4.5 -403.8L-4.8 -404L-5.1 -404.1L-5.3 -404.3L-5.5 -404.5L-5.7 -404.7L-5.8 -404.9M0 -396L0 -376M10.8 -371L10.8 -370.8L10.7 -370.7L10.5 -370.5L10.2 -370.4L9.9 -370.2L9.5 -370.1L9 -369.9L8.5 -369.8L7.9 -369.7L7.3 -369.6L6.6 -369.5L5.9 -369.4L5.1 -369.3L4.3 -369.2L3.5 -369.2L2.7 -369.1L1.8 -369.1L0.9 -369.1L0 -369.1L-0.9 -369.1L-1.8 -369.1L-2.7 -369.1L-3.5 -369.2L-4.3 -369.2L-5.1 -369.3L-5.9 -369.4L-6.6 -369.5L-7.3 -369.6L-7.9 -369.7L-8.5 -369.8L-9 -369.9L-9.5 -370.1L-9.9 -370.2L-10.2 -370.4L-10.5 -370.5L-10.7 -370.7L-10.8 -370.8L-10.8 -371M-54 -309L42 -309M-54 -302L3.6 -302M-54 -275L42 -275M-54 -268L3.6 -268M-54 -241L42 -241M-54 -234L3.6 -234M-54 -207L42 -207M-54 -200L3.6 -200M48 -445L55 -452M48 -438L62 -452M48 -431L62 -445M48 -424L62 -438M48 -417L62 -431M48 -410L62 -424M48 -403L62 -417M48 -396L62 -410M48 -389L62 -403M48 -382L62 -396M48 -375L62 -389M48 -368L62 -382M48 -361L62 -375M48 -354L62 -368M48 -347L62 -361M48 -340L62 -354M48 -333L62 -347M48 -326L62 -340M48 -319L62 -333M48 -312L62 -326M48 -305L62 -319M48 -298L62 -312M48 -291L62 -305M48 -284L62 -298M48 -277L62 -291M48 -270L62 -284M48 -263L62 -277M48 -256L62 -270M48 -249L62 -263M48 -242L62 -256M48 -235L62 -249M48 -228L62 -242M48 -221L62 -235M48 -214L62 -228M48 -207L62 -221M48 -200L62 -214M48 -193L62 -207M54 -192L62 -200M61 -192L62 -193"
+                transform="translate(330 590) rotate(34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-30 -424A30 4.8 0 1 1 30 -424A30 4.8 0 1 1 -30 -424ZM-30 -424C-30 -408.6 -10.5 -402 -7 -402H7C10.5 -402 30 -408.6 30 -424M-5 -402Q-3 -374.8 -13.8 -368M5 -402Q3 -374.8 13.8 -368M13.8 -368L13.8 -367.8L13.6 -367.5L13.4 -367.3L13.1 -367.1L12.6 -366.8L12.1 -366.6L11.6 -366.4L10.9 -366.2L10.2 -366L9.3 -365.9L8.5 -365.7L7.5 -365.6L6.6 -365.5L5.5 -365.4L4.5 -365.3L3.4 -365.2L2.3 -365.2L1.1 -365.1L0 -365.1L-1.1 -365.1L-2.3 -365.2L-3.4 -365.2L-4.5 -365.3L-5.5 -365.4L-6.6 -365.5L-7.5 -365.6L-8.5 -365.7L-9.3 -365.9L-10.2 -366L-10.9 -366.2L-11.6 -366.4L-12.1 -366.6L-12.6 -366.8L-13.1 -367.1L-13.4 -367.3L-13.6 -367.5L-13.8 -367.8L-13.8 -368M-34 -346L6.8 -346"
+                transform="translate(330 590) rotate(34)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-70 -470H70A8 8 0 0 1 78 -462V-178A8 8 0 0 1 70 -170H-70A8 8 0 0 1 -78 -178V-462A8 8 0 0 1 -70 -470Z"
+                transform="translate(330 590) rotate(-17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-65 -462H65A5 5 0 0 1 70 -457V-183A5 5 0 0 1 65 -178H-65A5 5 0 0 1 -70 -183V-457A5 5 0 0 1 -65 -462ZM22 -398L23.4 -397.2L24.5 -396.3L25.3 -395.3L25.7 -394.4L25.5 -393.5L24.9 -392.7L23.8 -392.1L22.5 -391.6L20.9 -391.2L19.4 -390.9L18 -390.7L16.9 -390.5L16.2 -390.1L15.9 -389.5L16.1 -388.7L16.5 -387.7L17.1 -386.5L17.8 -385.1L18.4 -383.6L18.8 -382.2L18.9 -381L18.7 -380L18 -379.3L17 -379.1L15.8 -379.2L14.4 -379.6L12.9 -380.2L11.5 -380.9L10.3 -381.5L9.3 -381.9L8.5 -382.1L7.9 -381.8L7.5 -381.1L7.3 -380L7.1 -378.6L6.8 -377.1L6.4 -375.5L5.9 -374.2L5.3 -373.1L4.5 -372.5L3.6 -372.3L2.7 -372.7L1.7 -373.5L0.8 -374.6L0 -376L-0.7 -377.4L-1.4 -378.6L-1.9 -379.6L-2.5 -380.1L-3.1 -380.2L-3.9 -379.9L-4.7 -379.1L-5.7 -378.2L-6.8 -377.1L-8 -376L-9.2 -375.2L-10.4 -374.7L-11.4 -374.7L-12.2 -375.1L-12.7 -375.9L-13 -377.2L-13.1 -378.6L-12.9 -380.2L-12.7 -381.7L-12.5 -383.1L-12.4 -384.2L-12.5 -385L-13 -385.5L-13.8 -385.6L-14.9 -385.5L-16.3 -385.3L-17.8 -385.1L-19.4 -384.9L-20.8 -385L-22.1 -385.3L-22.9 -385.8L-23.3 -386.6L-23.3 -387.6L-22.8 -388.8L-22 -390L-20.9 -391.2L-19.8 -392.3L-18.9 -393.3L-18.1 -394.1L-17.8 -394.9L-17.9 -395.5L-18.4 -396.1L-19.4 -396.6L-20.6 -397.3L-22 -398L-23.4 -398.8L-24.5 -399.7L-25.3 -400.7L-25.7 -401.6L-25.5 -402.5L-24.9 -403.3L-23.8 -403.9L-22.5 -404.4L-20.9 -404.8L-19.4 -405.1L-18 -405.3L-16.9 -405.5L-16.2 -405.9L-15.9 -406.5L-16.1 -407.3L-16.5 -408.3L-17.1 -409.5L-17.8 -410.9L-18.4 -412.4L-18.8 -413.8L-18.9 -415L-18.7 -416L-18 -416.7L-17 -416.9L-15.8 -416.8L-14.4 -416.4L-12.9 -415.8L-11.5 -415.1L-10.3 -414.5L-9.3 -414.1L-8.5 -413.9L-7.9 -414.2L-7.5 -414.9L-7.3 -416L-7.1 -417.4L-6.8 -418.9L-6.4 -420.5L-5.9 -421.8L-5.3 -422.9L-4.5 -423.5L-3.6 -423.7L-2.7 -423.3L-1.7 -422.5L-0.8 -421.4L0 -420L0.7 -418.6L1.4 -417.4L1.9 -416.4L2.5 -415.9L3.1 -415.8L3.9 -416.1L4.7 -416.9L5.7 -417.8L6.8 -418.9L8 -420L9.2 -420.8L10.4 -421.3L11.4 -421.3L12.2 -420.9L12.7 -420.1L13 -418.8L13.1 -417.4L12.9 -415.8L12.7 -414.3L12.5 -412.9L12.4 -411.8L12.5 -411L13 -410.5L13.8 -410.4L14.9 -410.5L16.3 -410.7L17.8 -410.9L19.4 -411.1L20.8 -411L22.1 -410.7L22.9 -410.2L23.3 -409.4L23.3 -408.4L22.8 -407.2L22 -406L20.9 -404.8L19.8 -403.7L18.9 -402.7L18.1 -401.9L17.8 -401.1L17.9 -400.5L18.4 -399.9L19.4 -399.4L20.6 -398.7ZM-54 -318L20 -318M40 -318L54 -318M-54 -284L20 -284M40 -284L54 -284M-54 -250L20 -250M40 -250L54 -250M-54 -216L20 -216M40 -216L54 -216"
+                transform="translate(330 590) rotate(-17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-62 -457H62A3 3 0 0 1 65 -454V-186A3 3 0 0 1 62 -183H-62A3 3 0 0 1 -65 -186V-454A3 3 0 0 1 -62 -457ZM-74 -457A9 9 0 1 1 -56 -457A9 9 0 1 1 -74 -457ZM56 -457A9 9 0 1 1 74 -457A9 9 0 1 1 56 -457ZM-74 -183A9 9 0 1 1 -56 -183A9 9 0 1 1 -74 -183ZM56 -183A9 9 0 1 1 74 -183A9 9 0 1 1 56 -183ZM30 -398L31 -397.3L31.9 -396.6L32.5 -395.9L32.8 -395.1L32.8 -394.4L32.3 -393.7L31.6 -393.1L30.6 -392.6L29.4 -392.1L28.3 -391.7L27.3 -391.3L26.5 -390.9L26 -390.4L25.8 -389.9L25.9 -389.2L26.4 -388.4L27 -387.5L27.7 -386.5L28.4 -385.5L28.9 -384.5L29.2 -383.6L29.2 -382.8L28.9 -382.1L28.2 -381.7L27.3 -381.4L26.2 -381.3L24.9 -381.3L23.7 -381.4L22.6 -381.4L21.7 -381.3L21.1 -381.1L20.7 -380.6L20.6 -379.9L20.7 -379L20.9 -378L21.2 -376.8L21.5 -375.6L21.6 -374.5L21.5 -373.5L21.2 -372.8L20.6 -372.3L19.8 -372.1L18.9 -372.3L17.8 -372.6L16.7 -373.1L15.6 -373.6L14.6 -374L13.7 -374.3L13 -374.3L12.5 -374L12.1 -373.4L11.9 -372.6L11.7 -371.5L11.5 -370.3L11.2 -369.1L10.9 -368L10.5 -367.1L9.9 -366.6L9.2 -366.4L8.4 -366.5L7.6 -367L6.7 -367.7L5.9 -368.6L5 -369.5L4.3 -370.3L3.6 -370.8L2.9 -371.1L2.4 -371.1L1.8 -370.7L1.2 -370L0.6 -369L0 -368L-0.7 -367L-1.4 -366.1L-2.1 -365.5L-2.9 -365.2L-3.6 -365.2L-4.3 -365.7L-4.9 -366.4L-5.4 -367.4L-5.9 -368.6L-6.3 -369.7L-6.7 -370.7L-7.1 -371.5L-7.6 -372L-8.1 -372.2L-8.8 -372.1L-9.6 -371.6L-10.5 -371L-11.5 -370.3L-12.5 -369.6L-13.5 -369.1L-14.4 -368.8L-15.2 -368.8L-15.9 -369.1L-16.3 -369.8L-16.6 -370.7L-16.7 -371.8L-16.7 -373.1L-16.6 -374.3L-16.6 -375.4L-16.7 -376.3L-16.9 -376.9L-17.4 -377.3L-18.1 -377.4L-19 -377.3L-20 -377.1L-21.2 -376.8L-22.4 -376.5L-23.5 -376.4L-24.5 -376.5L-25.2 -376.8L-25.7 -377.4L-25.9 -378.2L-25.7 -379.1L-25.4 -380.2L-24.9 -381.3L-24.4 -382.4L-24 -383.4L-23.7 -384.3L-23.7 -385L-24 -385.5L-24.6 -385.9L-25.4 -386.1L-26.5 -386.3L-27.7 -386.5L-28.9 -386.8L-30 -387.1L-30.9 -387.5L-31.4 -388.1L-31.6 -388.8L-31.5 -389.6L-31 -390.4L-30.3 -391.3L-29.4 -392.1L-28.5 -393L-27.7 -393.7L-27.2 -394.4L-26.9 -395.1L-26.9 -395.6L-27.3 -396.2L-28 -396.8L-29 -397.4L-30 -398L-31 -398.7L-31.9 -399.4L-32.5 -400.1L-32.8 -400.9L-32.8 -401.6L-32.3 -402.3L-31.6 -402.9L-30.6 -403.4L-29.4 -403.9L-28.3 -404.3L-27.3 -404.7L-26.5 -405.1L-26 -405.6L-25.8 -406.1L-25.9 -406.8L-26.4 -407.6L-27 -408.5L-27.7 -409.5L-28.4 -410.5L-28.9 -411.5L-29.2 -412.4L-29.2 -413.2L-28.9 -413.9L-28.2 -414.3L-27.3 -414.6L-26.2 -414.7L-24.9 -414.7L-23.7 -414.6L-22.6 -414.6L-21.7 -414.7L-21.1 -414.9L-20.7 -415.4L-20.6 -416.1L-20.7 -417L-20.9 -418L-21.2 -419.2L-21.5 -420.4L-21.6 -421.5L-21.5 -422.5L-21.2 -423.2L-20.6 -423.7L-19.8 -423.9L-18.9 -423.7L-17.8 -423.4L-16.7 -422.9L-15.6 -422.4L-14.6 -422L-13.7 -421.7L-13 -421.7L-12.5 -422L-12.1 -422.6L-11.9 -423.4L-11.7 -424.5L-11.5 -425.7L-11.2 -426.9L-10.9 -428L-10.5 -428.9L-9.9 -429.4L-9.2 -429.6L-8.4 -429.5L-7.6 -429L-6.7 -428.3L-5.9 -427.4L-5 -426.5L-4.3 -425.7L-3.6 -425.2L-2.9 -424.9L-2.4 -424.9L-1.8 -425.3L-1.2 -426L-0.6 -427L0 -428L0.7 -429L1.4 -429.9L2.1 -430.5L2.9 -430.8L3.6 -430.8L4.3 -430.3L4.9 -429.6L5.4 -428.6L5.9 -427.4L6.3 -426.3L6.7 -425.3L7.1 -424.5L7.6 -424L8.1 -423.8L8.8 -423.9L9.6 -424.4L10.5 -425L11.5 -425.7L12.5 -426.4L13.5 -426.9L14.4 -427.2L15.2 -427.2L15.9 -426.9L16.3 -426.2L16.6 -425.3L16.7 -424.2L16.7 -422.9L16.6 -421.7L16.6 -420.6L16.7 -419.7L16.9 -419.1L17.4 -418.7L18.1 -418.6L19 -418.7L20 -418.9L21.2 -419.2L22.4 -419.5L23.5 -419.6L24.5 -419.5L25.2 -419.2L25.7 -418.6L25.9 -417.8L25.7 -416.9L25.4 -415.8L24.9 -414.7L24.4 -413.6L24 -412.6L23.7 -411.7L23.7 -411L24 -410.5L24.6 -410.1L25.4 -409.9L26.5 -409.7L27.7 -409.5L28.9 -409.2L30 -408.9L30.9 -408.5L31.4 -407.9L31.6 -407.2L31.5 -406.4L31 -405.6L30.3 -404.7L29.4 -403.9L28.5 -403L27.7 -402.3L27.2 -401.6L26.9 -400.9L26.9 -400.4L27.3 -399.8L28 -399.2L29 -398.6ZM-54 -309L42 -309M-54 -302L3.6 -302M-54 -275L42 -275M-54 -268L3.6 -268M-54 -241L42 -241M-54 -234L3.6 -234M-54 -207L42 -207M-54 -200L3.6 -200M48 -445L55 -452M48 -438L62 -452M48 -431L62 -445M48 -424L62 -438M48 -417L62 -431M48 -410L62 -424M48 -403L62 -417M48 -396L62 -410M48 -389L62 -403M48 -382L62 -396M48 -375L62 -389M48 -368L62 -382M48 -361L62 -375M48 -354L62 -368M48 -347L62 -361M48 -340L62 -354M48 -333L62 -347M48 -326L62 -340M48 -319L62 -333M48 -312L62 -326M48 -305L62 -319M48 -298L62 -312M48 -291L62 -305M48 -284L62 -298M48 -277L62 -291M48 -270L62 -284M48 -263L62 -277M48 -256L62 -270M48 -249L62 -263M48 -242L62 -256M48 -235L62 -249M48 -228L62 -242M48 -221L62 -235M48 -214L62 -228M48 -207L62 -221M48 -200L62 -214M48 -193L62 -207M54 -192L62 -200M61 -192L62 -193"
+                transform="translate(330 590) rotate(-17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-34 -346L6.8 -346"
+                transform="translate(330 590) rotate(-17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-70 -470H70A8 8 0 0 1 78 -462V-178A8 8 0 0 1 70 -170H-70A8 8 0 0 1 -78 -178V-462A8 8 0 0 1 -70 -470Z"
+                transform="translate(330 590) rotate(17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-65 -462H65A5 5 0 0 1 70 -457V-183A5 5 0 0 1 65 -178H-65A5 5 0 0 1 -70 -183V-457A5 5 0 0 1 -65 -462ZM22 -398L23.4 -397.2L24.5 -396.3L25.3 -395.3L25.7 -394.4L25.5 -393.5L24.9 -392.7L23.8 -392.1L22.5 -391.6L20.9 -391.2L19.4 -390.9L18 -390.7L16.9 -390.5L16.2 -390.1L15.9 -389.5L16.1 -388.7L16.5 -387.7L17.1 -386.5L17.8 -385.1L18.4 -383.6L18.8 -382.2L18.9 -381L18.7 -380L18 -379.3L17 -379.1L15.8 -379.2L14.4 -379.6L12.9 -380.2L11.5 -380.9L10.3 -381.5L9.3 -381.9L8.5 -382.1L7.9 -381.8L7.5 -381.1L7.3 -380L7.1 -378.6L6.8 -377.1L6.4 -375.5L5.9 -374.2L5.3 -373.1L4.5 -372.5L3.6 -372.3L2.7 -372.7L1.7 -373.5L0.8 -374.6L0 -376L-0.7 -377.4L-1.4 -378.6L-1.9 -379.6L-2.5 -380.1L-3.1 -380.2L-3.9 -379.9L-4.7 -379.1L-5.7 -378.2L-6.8 -377.1L-8 -376L-9.2 -375.2L-10.4 -374.7L-11.4 -374.7L-12.2 -375.1L-12.7 -375.9L-13 -377.2L-13.1 -378.6L-12.9 -380.2L-12.7 -381.7L-12.5 -383.1L-12.4 -384.2L-12.5 -385L-13 -385.5L-13.8 -385.6L-14.9 -385.5L-16.3 -385.3L-17.8 -385.1L-19.4 -384.9L-20.8 -385L-22.1 -385.3L-22.9 -385.8L-23.3 -386.6L-23.3 -387.6L-22.8 -388.8L-22 -390L-20.9 -391.2L-19.8 -392.3L-18.9 -393.3L-18.1 -394.1L-17.8 -394.9L-17.9 -395.5L-18.4 -396.1L-19.4 -396.6L-20.6 -397.3L-22 -398L-23.4 -398.8L-24.5 -399.7L-25.3 -400.7L-25.7 -401.6L-25.5 -402.5L-24.9 -403.3L-23.8 -403.9L-22.5 -404.4L-20.9 -404.8L-19.4 -405.1L-18 -405.3L-16.9 -405.5L-16.2 -405.9L-15.9 -406.5L-16.1 -407.3L-16.5 -408.3L-17.1 -409.5L-17.8 -410.9L-18.4 -412.4L-18.8 -413.8L-18.9 -415L-18.7 -416L-18 -416.7L-17 -416.9L-15.8 -416.8L-14.4 -416.4L-12.9 -415.8L-11.5 -415.1L-10.3 -414.5L-9.3 -414.1L-8.5 -413.9L-7.9 -414.2L-7.5 -414.9L-7.3 -416L-7.1 -417.4L-6.8 -418.9L-6.4 -420.5L-5.9 -421.8L-5.3 -422.9L-4.5 -423.5L-3.6 -423.7L-2.7 -423.3L-1.7 -422.5L-0.8 -421.4L0 -420L0.7 -418.6L1.4 -417.4L1.9 -416.4L2.5 -415.9L3.1 -415.8L3.9 -416.1L4.7 -416.9L5.7 -417.8L6.8 -418.9L8 -420L9.2 -420.8L10.4 -421.3L11.4 -421.3L12.2 -420.9L12.7 -420.1L13 -418.8L13.1 -417.4L12.9 -415.8L12.7 -414.3L12.5 -412.9L12.4 -411.8L12.5 -411L13 -410.5L13.8 -410.4L14.9 -410.5L16.3 -410.7L17.8 -410.9L19.4 -411.1L20.8 -411L22.1 -410.7L22.9 -410.2L23.3 -409.4L23.3 -408.4L22.8 -407.2L22 -406L20.9 -404.8L19.8 -403.7L18.9 -402.7L18.1 -401.9L17.8 -401.1L17.9 -400.5L18.4 -399.9L19.4 -399.4L20.6 -398.7ZM-54 -318L20 -318M40 -318L54 -318M-54 -284L20 -284M40 -284L54 -284M-54 -250L20 -250M40 -250L54 -250M-54 -216L20 -216M40 -216L54 -216"
+                transform="translate(330 590) rotate(17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-62 -457H62A3 3 0 0 1 65 -454V-186A3 3 0 0 1 62 -183H-62A3 3 0 0 1 -65 -186V-454A3 3 0 0 1 -62 -457ZM-74 -457A9 9 0 1 1 -56 -457A9 9 0 1 1 -74 -457ZM56 -457A9 9 0 1 1 74 -457A9 9 0 1 1 56 -457ZM-74 -183A9 9 0 1 1 -56 -183A9 9 0 1 1 -74 -183ZM56 -183A9 9 0 1 1 74 -183A9 9 0 1 1 56 -183ZM30 -398L31 -397.3L31.9 -396.6L32.5 -395.9L32.8 -395.1L32.8 -394.4L32.3 -393.7L31.6 -393.1L30.6 -392.6L29.4 -392.1L28.3 -391.7L27.3 -391.3L26.5 -390.9L26 -390.4L25.8 -389.9L25.9 -389.2L26.4 -388.4L27 -387.5L27.7 -386.5L28.4 -385.5L28.9 -384.5L29.2 -383.6L29.2 -382.8L28.9 -382.1L28.2 -381.7L27.3 -381.4L26.2 -381.3L24.9 -381.3L23.7 -381.4L22.6 -381.4L21.7 -381.3L21.1 -381.1L20.7 -380.6L20.6 -379.9L20.7 -379L20.9 -378L21.2 -376.8L21.5 -375.6L21.6 -374.5L21.5 -373.5L21.2 -372.8L20.6 -372.3L19.8 -372.1L18.9 -372.3L17.8 -372.6L16.7 -373.1L15.6 -373.6L14.6 -374L13.7 -374.3L13 -374.3L12.5 -374L12.1 -373.4L11.9 -372.6L11.7 -371.5L11.5 -370.3L11.2 -369.1L10.9 -368L10.5 -367.1L9.9 -366.6L9.2 -366.4L8.4 -366.5L7.6 -367L6.7 -367.7L5.9 -368.6L5 -369.5L4.3 -370.3L3.6 -370.8L2.9 -371.1L2.4 -371.1L1.8 -370.7L1.2 -370L0.6 -369L0 -368L-0.7 -367L-1.4 -366.1L-2.1 -365.5L-2.9 -365.2L-3.6 -365.2L-4.3 -365.7L-4.9 -366.4L-5.4 -367.4L-5.9 -368.6L-6.3 -369.7L-6.7 -370.7L-7.1 -371.5L-7.6 -372L-8.1 -372.2L-8.8 -372.1L-9.6 -371.6L-10.5 -371L-11.5 -370.3L-12.5 -369.6L-13.5 -369.1L-14.4 -368.8L-15.2 -368.8L-15.9 -369.1L-16.3 -369.8L-16.6 -370.7L-16.7 -371.8L-16.7 -373.1L-16.6 -374.3L-16.6 -375.4L-16.7 -376.3L-16.9 -376.9L-17.4 -377.3L-18.1 -377.4L-19 -377.3L-20 -377.1L-21.2 -376.8L-22.4 -376.5L-23.5 -376.4L-24.5 -376.5L-25.2 -376.8L-25.7 -377.4L-25.9 -378.2L-25.7 -379.1L-25.4 -380.2L-24.9 -381.3L-24.4 -382.4L-24 -383.4L-23.7 -384.3L-23.7 -385L-24 -385.5L-24.6 -385.9L-25.4 -386.1L-26.5 -386.3L-27.7 -386.5L-28.9 -386.8L-30 -387.1L-30.9 -387.5L-31.4 -388.1L-31.6 -388.8L-31.5 -389.6L-31 -390.4L-30.3 -391.3L-29.4 -392.1L-28.5 -393L-27.7 -393.7L-27.2 -394.4L-26.9 -395.1L-26.9 -395.6L-27.3 -396.2L-28 -396.8L-29 -397.4L-30 -398L-31 -398.7L-31.9 -399.4L-32.5 -400.1L-32.8 -400.9L-32.8 -401.6L-32.3 -402.3L-31.6 -402.9L-30.6 -403.4L-29.4 -403.9L-28.3 -404.3L-27.3 -404.7L-26.5 -405.1L-26 -405.6L-25.8 -406.1L-25.9 -406.8L-26.4 -407.6L-27 -408.5L-27.7 -409.5L-28.4 -410.5L-28.9 -411.5L-29.2 -412.4L-29.2 -413.2L-28.9 -413.9L-28.2 -414.3L-27.3 -414.6L-26.2 -414.7L-24.9 -414.7L-23.7 -414.6L-22.6 -414.6L-21.7 -414.7L-21.1 -414.9L-20.7 -415.4L-20.6 -416.1L-20.7 -417L-20.9 -418L-21.2 -419.2L-21.5 -420.4L-21.6 -421.5L-21.5 -422.5L-21.2 -423.2L-20.6 -423.7L-19.8 -423.9L-18.9 -423.7L-17.8 -423.4L-16.7 -422.9L-15.6 -422.4L-14.6 -422L-13.7 -421.7L-13 -421.7L-12.5 -422L-12.1 -422.6L-11.9 -423.4L-11.7 -424.5L-11.5 -425.7L-11.2 -426.9L-10.9 -428L-10.5 -428.9L-9.9 -429.4L-9.2 -429.6L-8.4 -429.5L-7.6 -429L-6.7 -428.3L-5.9 -427.4L-5 -426.5L-4.3 -425.7L-3.6 -425.2L-2.9 -424.9L-2.4 -424.9L-1.8 -425.3L-1.2 -426L-0.6 -427L0 -428L0.7 -429L1.4 -429.9L2.1 -430.5L2.9 -430.8L3.6 -430.8L4.3 -430.3L4.9 -429.6L5.4 -428.6L5.9 -427.4L6.3 -426.3L6.7 -425.3L7.1 -424.5L7.6 -424L8.1 -423.8L8.8 -423.9L9.6 -424.4L10.5 -425L11.5 -425.7L12.5 -426.4L13.5 -426.9L14.4 -427.2L15.2 -427.2L15.9 -426.9L16.3 -426.2L16.6 -425.3L16.7 -424.2L16.7 -422.9L16.6 -421.7L16.6 -420.6L16.7 -419.7L16.9 -419.1L17.4 -418.7L18.1 -418.6L19 -418.7L20 -418.9L21.2 -419.2L22.4 -419.5L23.5 -419.6L24.5 -419.5L25.2 -419.2L25.7 -418.6L25.9 -417.8L25.7 -416.9L25.4 -415.8L24.9 -414.7L24.4 -413.6L24 -412.6L23.7 -411.7L23.7 -411L24 -410.5L24.6 -410.1L25.4 -409.9L26.5 -409.7L27.7 -409.5L28.9 -409.2L30 -408.9L30.9 -408.5L31.4 -407.9L31.6 -407.2L31.5 -406.4L31 -405.6L30.3 -404.7L29.4 -403.9L28.5 -403L27.7 -402.3L27.2 -401.6L26.9 -400.9L26.9 -400.4L27.3 -399.8L28 -399.2L29 -398.6ZM-54 -309L42 -309M-54 -302L3.6 -302M-54 -275L42 -275M-54 -268L3.6 -268M-54 -241L42 -241M-54 -234L3.6 -234M-54 -207L42 -207M-54 -200L3.6 -200M48 -445L55 -452M48 -438L62 -452M48 -431L62 -445M48 -424L62 -438M48 -417L62 -431M48 -410L62 -424M48 -403L62 -417M48 -396L62 -410M48 -389L62 -403M48 -382L62 -396M48 -375L62 -389M48 -368L62 -382M48 -361L62 -375M48 -354L62 -368M48 -347L62 -361M48 -340L62 -354M48 -333L62 -347M48 -326L62 -340M48 -319L62 -333M48 -312L62 -326M48 -305L62 -319M48 -298L62 -312M48 -291L62 -305M48 -284L62 -298M48 -277L62 -291M48 -270L62 -284M48 -263L62 -277M48 -256L62 -270M48 -249L62 -263M48 -242L62 -256M48 -235L62 -249M48 -228L62 -242M48 -221L62 -235M48 -214L62 -228M48 -207L62 -221M48 -200L62 -214M48 -193L62 -207M54 -192L62 -200M61 -192L62 -193"
+                transform="translate(330 590) rotate(17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-34 -346L6.8 -346"
+                transform="translate(330 590) rotate(17)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-solid"
+                d="M-70 -470H70A8 8 0 0 1 78 -462V-178A8 8 0 0 1 70 -170H-70A8 8 0 0 1 -78 -178V-462A8 8 0 0 1 -70 -470Z"
+                transform="translate(330 590) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-fine"
+                d="M-65 -462H65A5 5 0 0 1 70 -457V-183A5 5 0 0 1 65 -178H-65A5 5 0 0 1 -70 -183V-457A5 5 0 0 1 -65 -462ZM-20.8 -416.3A20.8 4.1 0 1 1 20.8 -416.3A20.8 4.1 0 1 1 -20.8 -416.3ZM-54 -318L20 -318M40 -318L54 -318M-54 -284L20 -284M40 -284L54 -284M-54 -250L20 -250M40 -250L54 -250M-54 -216L20 -216M40 -216L54 -216"
+                transform="translate(330 590) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-faint"
+                d="M-62 -457H62A3 3 0 0 1 65 -454V-186A3 3 0 0 1 62 -183H-62A3 3 0 0 1 -65 -186V-454A3 3 0 0 1 -62 -457ZM-74 -457A9 9 0 1 1 -56 -457A9 9 0 1 1 -74 -457ZM56 -457A9 9 0 1 1 74 -457A9 9 0 1 1 56 -457ZM-74 -183A9 9 0 1 1 -56 -183A9 9 0 1 1 -74 -183ZM56 -183A9 9 0 1 1 74 -183A9 9 0 1 1 56 -183ZM-26 -424A26 3.3 0 1 1 26 -424A26 3.3 0 1 1 -26 -424ZM-15.8 -418.6L-15.8 -414M-10.8 -419.3L-10.8 -413.3M-5.8 -419.6L-5.8 -413M-0.8 -419.8L-0.8 -412.8M4.2 -419.7L4.2 -412.9M9.2 -419.4L9.2 -413.2M14.2 -418.8L14.2 -413.8M19.2 -417.6L19.2 -415M16.7 -410.6L16.4 -410.4L15.9 -410.2L15.4 -410L14.7 -409.8L13.9 -409.7L13.1 -409.5L12.1 -409.3L11.1 -409.2L10 -409.1L8.8 -409L7.5 -408.9L6.2 -408.8L4.9 -408.7L3.5 -408.7L2.1 -408.7L0.7 -408.6L-0.7 -408.6L-2.1 -408.7L-3.5 -408.7L-4.9 -408.7L-6.2 -408.8L-7.5 -408.9L-8.8 -409L-10 -409.1L-11.1 -409.2L-12.1 -409.3L-13.1 -409.5L-13.9 -409.7L-14.7 -409.8L-15.4 -410L-15.9 -410.2L-16.4 -410.4L-16.7 -410.6M13.1 -408.7L12.8 -408.5L12.5 -408.3L12 -408.1L11.5 -407.9L10.9 -407.8L10.2 -407.6L9.5 -407.4L8.7 -407.3L7.8 -407.2L6.9 -407.1L5.9 -407L4.9 -406.9L3.8 -406.8L2.8 -406.8L1.7 -406.8L0.6 -406.7L-0.6 -406.7L-1.7 -406.8L-2.8 -406.8L-3.8 -406.8L-4.9 -406.9L-5.9 -407L-6.9 -407.1L-7.8 -407.2L-8.7 -407.3L-9.5 -407.4L-10.2 -407.6L-10.9 -407.8L-11.5 -407.9L-12 -408.1L-12.5 -408.3L-12.8 -408.5L-13.1 -408.7M9.4 -406.8L9.3 -406.6L9 -406.4L8.7 -406.2L8.3 -406L7.9 -405.9L7.4 -405.7L6.8 -405.5L6.3 -405.4L5.6 -405.3L5 -405.2L4.3 -405.1L3.5 -405L2.8 -404.9L2 -404.9L1.2 -404.9L0.4 -404.8L-0.4 -404.8L-1.2 -404.9L-2 -404.9L-2.8 -404.9L-3.5 -405L-4.3 -405.1L-5 -405.2L-5.6 -405.3L-6.3 -405.4L-6.8 -405.5L-7.4 -405.7L-7.9 -405.9L-8.3 -406L-8.7 -406.2L-9 -406.4L-9.3 -406.6L-9.4 -406.8M5.8 -404.9L5.7 -404.7L5.5 -404.5L5.3 -404.3L5.1 -404.1L4.8 -404L4.5 -403.8L4.2 -403.6L3.8 -403.5L3.5 -403.4L3.1 -403.3L2.6 -403.2L2.2 -403.1L1.7 -403L1.2 -403L0.7 -403L0.2 -402.9L-0.2 -402.9L-0.7 -403L-1.2 -403L-1.7 -403L-2.2 -403.1L-2.6 -403.2L-3.1 -403.3L-3.5 -403.4L-3.8 -403.5L-4.2 -403.6L-4.5 -403.8L-4.8 -404L-5.1 -404.1L-5.3 -404.3L-5.5 -404.5L-5.7 -404.7L-5.8 -404.9M0 -396L0 -376M10.8 -371L10.8 -370.8L10.7 -370.7L10.5 -370.5L10.2 -370.4L9.9 -370.2L9.5 -370.1L9 -369.9L8.5 -369.8L7.9 -369.7L7.3 -369.6L6.6 -369.5L5.9 -369.4L5.1 -369.3L4.3 -369.2L3.5 -369.2L2.7 -369.1L1.8 -369.1L0.9 -369.1L0 -369.1L-0.9 -369.1L-1.8 -369.1L-2.7 -369.1L-3.5 -369.2L-4.3 -369.2L-5.1 -369.3L-5.9 -369.4L-6.6 -369.5L-7.3 -369.6L-7.9 -369.7L-8.5 -369.8L-9 -369.9L-9.5 -370.1L-9.9 -370.2L-10.2 -370.4L-10.5 -370.5L-10.7 -370.7L-10.8 -370.8L-10.8 -371M-54 -309L42 -309M-54 -302L3.6 -302M-54 -275L42 -275M-54 -268L3.6 -268M-54 -241L42 -241M-54 -234L3.6 -234M-54 -207L42 -207M-54 -200L3.6 -200"
+                transform="translate(330 590) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                class="engraving-line"
+                d="M-30 -424A30 4.8 0 1 1 30 -424A30 4.8 0 1 1 -30 -424ZM-30 -424C-30 -408.6 -10.5 -402 -7 -402H7C10.5 -402 30 -408.6 30 -424M-5 -402Q-3 -374.8 -13.8 -368M5 -402Q3 -374.8 13.8 -368M13.8 -368L13.8 -367.8L13.6 -367.5L13.4 -367.3L13.1 -367.1L12.6 -366.8L12.1 -366.6L11.6 -366.4L10.9 -366.2L10.2 -366L9.3 -365.9L8.5 -365.7L7.5 -365.6L6.6 -365.5L5.5 -365.4L4.5 -365.3L3.4 -365.2L2.3 -365.2L1.1 -365.1L0 -365.1L-1.1 -365.1L-2.3 -365.2L-3.4 -365.2L-4.5 -365.3L-5.5 -365.4L-6.6 -365.5L-7.5 -365.6L-8.5 -365.7L-9.3 -365.9L-10.2 -366L-10.9 -366.2L-11.6 -366.4L-12.1 -366.6L-12.6 -366.8L-13.1 -367.1L-13.4 -367.3L-13.6 -367.5L-13.8 -367.8L-13.8 -368M-34 -346L6.8 -346"
+                transform="translate(330 590) rotate(0)"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path class="engraving-line" d="M304 548A26 26 0 1 1 356 548A26 26 0 1 1 304 548Z" vector-effect="non-scaling-stroke"></path>
+              <path
+                class="engraving-fine"
+                d="M347 548L348.4 548.5L349.5 549.1L350.4 549.8L350.8 550.4L350.7 551L350.2 551.6L349.2 552L347.9 552.2L346.4 552.4L345 552.5L343.7 552.5L342.7 552.6L342.1 552.8L342 553.2L342.3 553.7L342.9 554.5L343.8 555.4L344.7 556.5L345.6 557.6L346.4 558.8L346.8 559.7L346.8 560.5L346.4 561L345.7 561.2L344.6 561L343.4 560.6L342 560L340.7 559.4L339.6 558.8L338.7 558.4L338.1 558.2L337.8 558.5L337.8 559.1L337.9 560.1L338.2 561.3L338.5 562.7L338.7 564.2L338.8 565.5L338.6 566.5L338.3 567.2L337.7 567.5L337 567.2L336.2 566.6L335.3 565.6L334.4 564.4L333.6 563.2L332.9 562.1L332.4 561.3L331.9 560.9L331.5 561L331.2 561.5L330.8 562.4L330.5 563.6L330 565L329.5 566.4L328.9 567.5L328.2 568.4L327.6 568.8L327 568.7L326.4 568.2L326 567.2L325.8 565.9L325.6 564.4L325.5 563L325.5 561.7L325.4 560.7L325.2 560.1L324.8 560L324.3 560.3L323.5 560.9L322.6 561.8L321.5 562.7L320.4 563.6L319.2 564.4L318.3 564.8L317.5 564.8L317 564.4L316.8 563.7L317 562.6L317.4 561.4L318 560L318.6 558.7L319.2 557.6L319.6 556.7L319.8 556.1L319.5 555.8L318.9 555.8L317.9 555.9L316.7 556.2L315.3 556.5L313.8 556.7L312.5 556.8L311.5 556.6L310.8 556.3L310.5 555.7L310.8 555L311.4 554.2L312.4 553.3L313.6 552.4L314.8 551.6L315.9 550.9L316.7 550.4L317.1 549.9L317 549.5L316.5 549.2L315.6 548.8L314.4 548.5L313 548L311.6 547.5L310.5 546.9L309.6 546.2L309.2 545.6L309.3 545L309.8 544.4L310.8 544L312.1 543.8L313.6 543.6L315 543.5L316.3 543.5L317.3 543.4L317.9 543.2L318 542.8L317.7 542.3L317.1 541.5L316.2 540.6L315.3 539.5L314.4 538.4L313.6 537.2L313.2 536.3L313.2 535.5L313.6 535L314.3 534.8L315.4 535L316.6 535.4L318 536L319.3 536.6L320.4 537.2L321.3 537.6L321.9 537.8L322.2 537.5L322.2 536.9L322.1 535.9L321.8 534.7L321.5 533.3L321.3 531.8L321.2 530.5L321.4 529.5L321.7 528.8L322.3 528.5L323 528.8L323.8 529.4L324.7 530.4L325.6 531.6L326.4 532.8L327.1 533.9L327.6 534.7L328.1 535.1L328.5 535L328.8 534.5L329.2 533.6L329.5 532.4L330 531L330.5 529.6L331.1 528.5L331.8 527.6L332.4 527.2L333 527.3L333.6 527.8L334 528.8L334.2 530.1L334.4 531.6L334.5 533L334.5 534.3L334.6 535.3L334.8 535.9L335.2 536L335.7 535.7L336.5 535.1L337.4 534.2L338.5 533.3L339.6 532.4L340.8 531.6L341.7 531.2L342.5 531.2L343 531.6L343.2 532.3L343 533.4L342.6 534.6L342 536L341.4 537.3L340.8 538.4L340.4 539.3L340.2 539.9L340.5 540.2L341.1 540.2L342.1 540.1L343.3 539.8L344.7 539.5L346.2 539.3L347.5 539.2L348.5 539.4L349.2 539.7L349.5 540.3L349.2 541L348.6 541.8L347.6 542.7L346.4 543.6L345.2 544.4L344.1 545.1L343.3 545.6L342.9 546.1L343 546.5L343.5 546.8L344.4 547.2L345.6 547.5Z"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path class="engraving-faint" d="M299 548A31 31 0 1 1 361 548A31 31 0 1 1 299 548Z" vector-effect="non-scaling-stroke"></path>
+            </svg>
+          </div>
+          <header aria-label="Barre d’outils" class="window-drag flex items-center gap-2 window-controls-space h-12 shrink-0 pl-4">
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+K"
+              class="flex h-8 min-w-0 flex-[1_1_320px] cursor-pointer items-center gap-2 rounded-field border border-border-strong bg-surface-1 px-2.5 text-left font-sans text-body text-fg-muted transition-colors duration-150 ease-out-soft hover:bg-surface-2 hover:text-fg-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-search shrink-0"
+                aria-hidden="true"
+              >
+                <path d="m21 21-4.34-4.34"></path>
+                <circle cx="11" cy="11" r="8"></circle></svg
+              ><span class="min-w-0 flex-1 truncate">Rechercher une fiche, un ingrédient, une note</span
+              ><span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-border-strong text-fg-secondary"
+                  >Ctrl K</kbd
+                ></span
+              ></button
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body gap-2"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+N"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-plus"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path></svg
+              >Idée rapide<span aria-hidden="true"
+                ><kbd
+                  class="inline-flex h-5 items-center rounded-md border px-1.5 font-sans text-[11px] font-semibold border-accent-ink/35 text-accent-ink"
+                  >Ctrl N</kbd
+                ></span
+              ></button
+            ><button
+              type="button"
+              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-8 gap-1.5 px-3 text-body"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="F1"
+              title="Aide de l’écran affiché (F1)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-question-mark lucide-help-circle lucide-circle-help"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path>
+                <path d="M12 17h.01"></path></svg
+              >Aide</button
+            ><button
+              type="button"
+              aria-label="Passer au thème clair"
+              title="Passer au thème clair"
+              class="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-sun animate-turn-in"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+              </svg></button
+            ><a
+              aria-label="Paramètres"
+              title="Paramètres"
+              class="inline-flex size-8 shrink-0 items-center justify-center rounded-field border border-border-strong text-fg transition-colors duration-150 ease-out-soft hover:bg-surface-2"
+              href="#/settings"
+              data-discover="true"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-settings"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                ></path>
+                <circle cx="12" cy="12" r="3"></circle></svg
+            ></a>
+          </header>
+          <main data-scene="collections" class="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pt-2 pb-8">
+            <div class="mx-auto flex max-w-page flex-col gap-4">
+              <header class="flex items-end justify-between gap-4">
+                <div class="flex flex-col gap-1">
+                  <span class="text-caption text-fg-muted">2 collections</span>
+                  <h1 class="m-0 text-title font-semibold tracking-tight text-fg">Collections</h1>
+                </div>
+                <button
+                  type="button"
+                  class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-8 gap-1.5 px-3 text-body"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-plus"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path></svg
+                  >Nouvelle collection
+                </button>
+              </header>
+              <div class="grid grid-cols-[280px_minmax(0,1fr)] items-start gap-4">
+                <section class="flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card sticky top-0 gap-1 p-2">
+                  <ul class="m-0 flex list-none flex-col gap-1 p-0">
+                    <li class="animate-rise" style="--rise-index: 0">
+                      <button
+                        type="button"
+                        aria-current="true"
+                        class="flex w-full cursor-pointer flex-col gap-0.5 rounded-nested border px-3 py-2 text-left transition-[background-color,border-color] duration-150 border-accent/30 bg-[linear-gradient(90deg,rgb(239_120_43/0.13),rgb(239_120_43/0.03))]"
+                      >
+                        <span class="truncate text-body font-semibold text-fg">Concours Amari</span
+                        ><span class="text-caption text-fg-muted">Concours · 2 fiches</span>
+                      </button>
+                    </li>
+                    <li class="animate-rise" style="--rise-index: 1">
+                      <button
+                        type="button"
+                        class="flex w-full cursor-pointer flex-col gap-0.5 rounded-nested border px-3 py-2 text-left transition-[background-color,border-color] duration-150 border-transparent hover:bg-tint/4"
+                      >
+                        <span class="truncate text-body font-semibold text-fg">Carte d’hiver</span
+                        ><span class="text-caption text-fg-muted">Carte · 5 fiches</span>
+                      </button>
+                    </li>
+                  </ul>
+                </section>
+                <div class="flex animate-fade-in flex-col gap-4">
+                  <dialog
+                    aria-labelledby="_r_2r_"
+                    aria-describedby="_r_2s_"
+                    class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+                  ></dialog>
+                  <section class="flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card gap-3">
+                    <div class="flex flex-col gap-3">
+                      <div class="flex min-w-0 flex-col gap-1">
+                        <span class="text-caption font-medium text-accent-soft">Concours</span>
+                        <h2 class="m-0 truncate text-title font-semibold tracking-tight text-fg">Concours Amari</h2>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-7 gap-1 px-2.5 text-small"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-chef-hat"
+                            aria-hidden="true"
+                          >
+                            <path d="M10 11v5"></path>
+                            <path d="M14 11v5"></path>
+                            <path
+                              d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z"
+                            ></path>
+                            <path d="M6 16h12"></path></svg
+                          >Préparer</button
+                        ><button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-accent-gradient text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.35)] hover:brightness-105 hover:shadow-glow disabled:bg-none disabled:bg-accent-disabled disabled:text-accent-ink/70 disabled:shadow-none disabled:brightness-100 h-7 gap-1 px-2.5 text-small"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-graduation-cap"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+                            ></path>
+                            <path d="M22 10v6"></path>
+                            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg
+                          >Réviser</button
+                        ><button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-7 gap-1 px-2.5 text-small"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-file-down"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                            ></path>
+                            <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+                            <path d="M12 18v-6"></path>
+                            <path d="m9 15 3 3 3-3"></path></svg
+                          >Exporter en PDF</button
+                        ><button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-border-strong bg-surface-1 text-fg hover:border-tint/22 hover:bg-surface-2 disabled:border-border disabled:text-fg-muted/60 h-7 gap-1 px-2.5 text-small"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-share-2"
+                            aria-hidden="true"
+                          >
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+                            <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg
+                          >Partager</button
+                        ><button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0 ml-auto"
+                          aria-label="Modifier"
+                          title="Modifier"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-pencil"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                            ></path>
+                            <path d="m15 5 4 4"></path>
+                          </svg></button
+                        ><button
+                          type="button"
+                          class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-status-danger/40 bg-surface-1 text-status-danger hover:bg-status-danger/10 disabled:opacity-50 size-7 p-0"
+                          aria-label="Supprimer"
+                          title="Supprimer"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash lucide-trash-2"
+                            aria-hidden="true"
+                          >
+                            <path d="M10 11v6"></path>
+                            <path d="M14 11v6"></path>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                            <path d="M3 6h18"></path>
+                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="flex min-w-0 flex-col gap-1.5">
+                      <label for="_r_2t_" class="text-small font-medium text-fg-secondary sr-only">Ajouter des fiches</label>
+                      <div tabindex="-1" class="min-w-0" cmdk-root="">
+                        <label
+                          cmdk-label=""
+                          for="radix-_r_33_"
+                          id="radix-_r_32_"
+                          style="
+                            position: absolute;
+                            width: 1px;
+                            height: 1px;
+                            padding: 0px;
+                            margin: -1px;
+                            overflow: hidden;
+                            clip: rect(0px, 0px, 0px, 0px);
+                            white-space: nowrap;
+                            border-width: 0px;
+                          "
+                        ></label>
+                        <div
+                          class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-2 pr-3 pl-3.5"
+                        >
+                          <input
+                            id="_r_2t_"
+                            role="combobox"
+                            autocomplete="off"
+                            spellcheck="false"
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            placeholder="Cherche une fiche à ajouter"
+                            class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed"
+                            type="text"
+                            value=""
+                            style=""
+                          /><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-chevrons-up-down shrink-0 text-fg-muted"
+                            aria-hidden="true"
+                          >
+                            <path d="m7 15 5 5 5-5"></path>
+                            <path d="m7 9 5-5 5 5"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <ol class="m-0 flex list-none flex-col gap-2 p-0">
+                    <li class="animate-rise" style="--rise-index: 0">
+                      <section
+                        class="flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card flex-row items-start gap-3 py-3 transition-colors duration-150 hover:border-border-strong"
+                      >
+                        <span class="nums flex h-7 w-6 shrink-0 items-center justify-end text-body font-semibold text-fg-muted">1</span>
+                        <div class="flex min-w-0 flex-1 flex-col gap-2">
+                          <div class="flex h-7 items-center gap-1">
+                            <div class="flex min-w-0 flex-1 items-center gap-2">
+                              <a
+                                class="truncate text-body font-semibold text-fg transition-colors hover:text-accent-soft"
+                                href="#/recipes/01a20cce-f837-7241-926f-e51bf2b16bef"
+                                data-discover="true"
+                                >Negroni fumé</a
+                              ><span
+                                data-status="testing"
+                                class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-accent/14 text-accent-soft"
+                                >En test</span
+                              >
+                            </div>
+                            <button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Monter «&nbsp;Negroni fumé&nbsp;»"
+                              title="Monter «&nbsp;Negroni fumé&nbsp;»"
+                              disabled=""
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-up"
+                                aria-hidden="true"
+                              >
+                                <path d="m5 12 7-7 7 7"></path>
+                                <path d="M12 19V5"></path>
+                              </svg></button
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Descendre «&nbsp;Negroni fumé&nbsp;»"
+                              title="Descendre «&nbsp;Negroni fumé&nbsp;»"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-down"
+                                aria-hidden="true"
+                              >
+                                <path d="M12 5v14"></path>
+                                <path d="m19 12-7 7-7-7"></path>
+                              </svg></button
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Retirer «&nbsp;Negroni fumé&nbsp;» de la collection"
+                              title="Retirer «&nbsp;Negroni fumé&nbsp;» de la collection"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-trash lucide-trash-2"
+                                aria-hidden="true"
+                              >
+                                <path d="M10 11v6"></path>
+                                <path d="M14 11v6"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                <path d="M3 6h18"></path>
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div class="flex items-start gap-2">
+                            <div class="flex min-w-0 flex-col gap-1.5 min-w-0 flex-1">
+                              <label for="_r_34_" class="text-small font-medium text-fg-secondary sr-only">Note</label>
+                              <div
+                                class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-2 px-2.5"
+                              >
+                                <input
+                                  id="_r_34_"
+                                  class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed [&amp;::-webkit-search-cancel-button]:appearance-none"
+                                  placeholder="Note pour cette collection"
+                                  maxlength="1000"
+                                  autocomplete="off"
+                                  type="text"
+                                  value=""
+                                  style=""
+                                />
+                              </div>
+                            </div>
+                            <div class="flex min-w-0 flex-col gap-1.5 w-[130px] shrink-0">
+                              <label for="_r_35_" class="text-small font-medium text-fg-secondary sr-only">Prix de vente</label>
+                              <div
+                                class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-1.5 px-3.5"
+                              >
+                                <input
+                                  id="_r_35_"
+                                  class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed nums text-right"
+                                  placeholder="Prix de vente"
+                                  inputmode="decimal"
+                                  role="spinbutton"
+                                  autocomplete="off"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100000"
+                                  type="text"
+                                  value=""
+                                  style=""
+                                /><span aria-hidden="true" class="shrink-0 text-small text-fg-muted">€</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </li>
+                    <li class="animate-rise" style="--rise-index: 1">
+                      <section
+                        class="flex flex-col border border-border gap-3 rounded-card bg-card p-4 shadow-card flex-row items-start gap-3 py-3 transition-colors duration-150 hover:border-border-strong"
+                      >
+                        <span class="nums flex h-7 w-6 shrink-0 items-center justify-end text-body font-semibold text-fg-muted">2</span>
+                        <div class="flex min-w-0 flex-1 flex-col gap-2">
+                          <div class="flex h-7 items-center gap-1">
+                            <div class="flex min-w-0 flex-1 items-center gap-2">
+                              <a
+                                class="truncate text-body font-semibold text-fg transition-colors hover:text-accent-soft"
+                                href="#/recipes/01a20cce-f91c-7503-a160-5cc541df8ca1"
+                                data-discover="true"
+                                >Dernier mot d’hiver</a
+                              ><span
+                                data-status="testing"
+                                class="inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption font-semibold whitespace-nowrap before:size-1.5 before:rounded-full before:bg-current before:content-[&quot;&quot;] bg-accent/14 text-accent-soft"
+                                >En test</span
+                              >
+                            </div>
+                            <button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Monter «&nbsp;Dernier mot d’hiver&nbsp;»"
+                              title="Monter «&nbsp;Dernier mot d’hiver&nbsp;»"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-up"
+                                aria-hidden="true"
+                              >
+                                <path d="m5 12 7-7 7 7"></path>
+                                <path d="M12 19V5"></path>
+                              </svg></button
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Descendre «&nbsp;Dernier mot d’hiver&nbsp;»"
+                              title="Descendre «&nbsp;Dernier mot d’hiver&nbsp;»"
+                              disabled=""
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-down"
+                                aria-hidden="true"
+                              >
+                                <path d="M12 5v14"></path>
+                                <path d="m19 12-7 7-7-7"></path>
+                              </svg></button
+                            ><button
+                              type="button"
+                              class="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-field font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,filter,transform] duration-150 ease-out-soft select-none active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100 border border-transparent bg-transparent text-fg-secondary hover:bg-surface-2 hover:text-fg disabled:text-fg-muted/50 size-7 p-0"
+                              aria-label="Retirer «&nbsp;Dernier mot d’hiver&nbsp;» de la collection"
+                              title="Retirer «&nbsp;Dernier mot d’hiver&nbsp;» de la collection"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-trash lucide-trash-2"
+                                aria-hidden="true"
+                              >
+                                <path d="M10 11v6"></path>
+                                <path d="M14 11v6"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                <path d="M3 6h18"></path>
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div class="flex items-start gap-2">
+                            <div class="flex min-w-0 flex-col gap-1.5 min-w-0 flex-1">
+                              <label for="_r_36_" class="text-small font-medium text-fg-secondary sr-only">Note</label>
+                              <div
+                                class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-2 px-2.5"
+                              >
+                                <input
+                                  id="_r_36_"
+                                  class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed [&amp;::-webkit-search-cancel-button]:appearance-none"
+                                  placeholder="Note pour cette collection"
+                                  maxlength="1000"
+                                  autocomplete="off"
+                                  type="text"
+                                  value=""
+                                  style=""
+                                />
+                              </div>
+                            </div>
+                            <div class="flex min-w-0 flex-col gap-1.5 w-[130px] shrink-0">
+                              <label for="_r_37_" class="text-small font-medium text-fg-secondary sr-only">Prix de vente</label>
+                              <div
+                                class="flex h-8 min-w-0 items-center rounded-field border bg-surface-1 transition-colors duration-150 ease-out-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent border-border-strong hover:bg-surface-2 gap-1.5 px-3.5"
+                              >
+                                <input
+                                  id="_r_37_"
+                                  class="h-full min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-muted disabled:cursor-not-allowed nums text-right"
+                                  placeholder="Prix de vente"
+                                  inputmode="decimal"
+                                  role="spinbutton"
+                                  autocomplete="off"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100000"
+                                  type="text"
+                                  value=""
+                                  style=""
+                                /><span aria-hidden="true" class="shrink-0 text-small text-fg-muted">€</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+              <dialog
+                aria-labelledby="_r_2p_"
+                class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+              ></dialog>
+            </div>
+          </main>
+        </div>
+        <dialog
+          aria-labelledby="_r_e_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in mx-auto mt-[12vh] mb-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_g_"
+          aria-describedby="_r_h_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_i_"
+          aria-describedby="_r_j_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(520px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_k_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(640px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_m_"
+          aria-describedby="_r_n_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <dialog
+          aria-labelledby="_r_o_"
+          aria-describedby="_r_p_"
+          class="max-h-[calc(100vh-64px)] max-w-none overflow-visible border-0 bg-transparent p-0 text-fg backdrop:bg-veil backdrop:animate-fade-in m-auto w-[min(780px,calc(100vw-32px))]"
+        ></dialog>
+        <section aria-label="Notifications" class="pointer-events-none fixed right-4 bottom-4 z-50 w-[min(340px,calc(100vw-32px))]">
+          <div role="status" aria-live="polite" aria-atomic="false" class="flex flex-col gap-1.5"></div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

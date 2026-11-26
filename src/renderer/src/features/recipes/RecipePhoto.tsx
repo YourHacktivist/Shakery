@@ -1,5 +1,6 @@
-import { Card } from '@renderer/components/Card'
+import { useId } from 'react'
 import { PhotoField } from '@renderer/components/PhotoField'
+import { SectionTitle } from '@renderer/components/SectionTitle'
 import { toast } from '@renderer/components/Toast'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
@@ -8,11 +9,15 @@ import { photoUrl } from '@shared/domain/photos'
 
 const t = fr.components.forms.photo
 
-/** The photo of a recipe on its page (section 10.4): saved at once, « Annuler » puts the other back. */
-export function RecipePhotoCard({ id, name }: { id: string; name: string }) {
+/**
+ * The photo of a recipe, at the foot of its side column (section 10.4, D-057): saved at once,
+ * « Annuler » puts the other back.
+ */
+export function RecipePhoto({ id, name }: { id: string; name: string }) {
   const photo = useRecipePhoto(id)
   const set = useSetPhoto()
   const restore = useRestorePhoto()
+  const titleId = useId()
 
   function save(content: string | null) {
     set.mutate(
@@ -34,9 +39,12 @@ export function RecipePhotoCard({ id, name }: { id: string; name: string }) {
   }
 
   return (
-    <Card aria-label={t.title}>
-      <h2 className="m-0 text-body font-semibold text-fg">{t.title}</h2>
+    <section aria-labelledby={titleId} className="flex flex-col gap-2">
+      <SectionTitle id={titleId} tone="muted">
+        {t.title}
+      </SectionTitle>
       <PhotoField
+        compact
         src={photoUrl(photo.data?.path)}
         alt={t.of(name)}
         disabled={photo.isPending || set.isPending}
@@ -47,6 +55,6 @@ export function RecipePhotoCard({ id, name }: { id: string; name: string }) {
           save(null)
         }}
       />
-    </Card>
+    </section>
   )
 }

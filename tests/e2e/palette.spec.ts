@@ -30,6 +30,15 @@ test('the palette finds notes and tastings, acts on a recipe and compares two re
     await page.reload()
     await expect(page.getByTestId('app-version')).toBeVisible()
 
+    // The screens offered are those of the sidebar: Notes and Ingrédients, no Révision (D-057).
+    await page.keyboard.press('Control+K')
+    const palette = page.getByRole('dialog', { name: 'Palette de recherche' })
+    await expect(palette.getByRole('option', { name: 'Notes', exact: true })).toBeVisible()
+    await expect(palette.getByRole('option', { name: 'Ingrédients', exact: true })).toBeVisible()
+    await expect(palette.getByRole('option', { name: 'Révision', exact: true })).toHaveCount(0)
+    await page.keyboard.press('Escape')
+    await expect(palette).toBeHidden()
+
     await run(page, 'cardamome verte et', /^Accords/)
     await expect(page.getByRole('textbox', { name: 'Titre' })).toHaveValue('Accords')
 

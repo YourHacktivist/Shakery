@@ -1,8 +1,10 @@
 import { Download, RefreshCw } from 'lucide-react'
 import type { UpdateState } from '@shared/domain/updates'
 import { Button } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
+import { ControlRow } from '@renderer/components/ControlRow'
 import { Toggle } from '@renderer/components/Toggle'
+import { useAppVersion } from '@renderer/app/useAppVersion'
+import { SettingsBlock, SettingsGroup } from '@renderer/features/settings/SettingsBlock'
 import { useUpdateState, useUpdateStep, useUpdateWindow } from '@renderer/features/updates/useUpdates'
 import { notifyError } from '@renderer/features/shared/notify'
 import { fr } from '@renderer/i18n/fr'
@@ -39,6 +41,7 @@ export function UpdatesCard() {
   const state = useUpdateState().data
   const step = useUpdateStep()
   const show = useUpdateWindow((s) => s.show)
+  const version = useAppVersion()
   const autoCheck = useSetting('updates.autoCheck')
   const change = useSetSetting()
 
@@ -49,52 +52,47 @@ export function UpdatesCard() {
     (state.status === 'available' || state.status === 'downloading' || state.status === 'ready')
 
   return (
-    <Card aria-label={t.title} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
-        <span className="text-caption font-medium tracking-[0.01em] text-fg-muted">{t.eyebrow}</span>
-        <h2 className="m-0 text-body font-semibold text-fg">{t.title}</h2>
-        <p className="m-0 text-small text-fg-secondary">{t.description}</p>
-      </div>
-      <Toggle
-        checked={autoCheck}
-        label={t.toggle}
-        showState
-        disabled={change.isPending}
-        onCheckedChange={(value) => {
-          change.mutate({ key: 'updates.autoCheck', value }, { onError: notifyError })
-        }}
-      />
-      <div className="flex items-center gap-3 border-t border-border pt-3">
-        <div className="flex min-w-0 flex-1 flex-col" role="status">
-          <span className="text-small text-fg">{statusText(state)}</span>
-          {state?.checkedAt ? (
-            <span className="text-caption text-fg-muted">{t.checkedAt(formatRelative(state.checkedAt))}</span>
-          ) : null}
-        </div>
-        {hasRelease ? (
-          <Button
-            size="sm"
-            className="shrink-0"
-            icon={<Download size={14} aria-hidden="true" />}
-            onClick={show}
-          >
-            {t.show}
-          </Button>
-        ) : (
-          <Button
-            variant="outline"
-            size="sm"
-            className="shrink-0"
-            disabled={unsupported || busy}
-            icon={<RefreshCw size={14} aria-hidden="true" />}
-            onClick={() => {
-              step.mutate({ step: 'check' })
+    <SettingsBlock block="updates" title={t.title} description={t.description}>
+      <SettingsGroup>
+        <ControlRow label={t.toggle}>
+          <Toggle
+            checked={autoCheck}
+            label={t.toggle}
+            hideLabel
+            showState
+            disabled={change.isPending}
+            onCheckedChange={(value) => {
+              change.mutate({ key: 'updates.autoCheck', value }, { onError: notifyError })
             }}
-          >
-            {t.check}
-          </Button>
-        )}
-      </div>
-    </Card>
+          />
+        </ControlRow>
+        <ControlRow
+          label={version.status === 'ready' ? fr.shell.version(version.version) : t.installed}
+          hint={
+            <span role="status" className="flex flex-col">
+              <span>{statusText(state)}</span>
+              {state?.checkedAt ? <span>{t.checkedAt(formatRelative(state.checkedAt))}</span> : null}
+            </span>
+          }
+        >
+          {hasRelease ? (
+            <Button variant="outline" icon={<Download size={16} aria-hidden="true" />} onClick={show}>
+              {t.show}
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              disabled={unsupported || busy}
+              icon={<RefreshCw size={16} aria-hidden="true" />}
+              onClick={() => {
+                step.mutate({ step: 'check' })
+              }}
+            >
+              {t.check}
+            </Button>
+          )}
+        </ControlRow>
+      </SettingsGroup>
+    </SettingsBlock>
   )
 }

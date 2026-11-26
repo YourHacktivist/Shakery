@@ -1,0 +1,235 @@
+{
+ "date": "24 novembre 2026",
+ "principes": [
+  "La barre latérale passe de onze entrées à dix, rangées en trois groupes titrés (Création, Bar, Outils), et Paramètres descend en bas, près de la version.",
+  "Révision devient une action de chaque collection, et l’onglet Carnet s’appelle Notes pour ne plus se confondre avec le carnet de création.",
+  "Les trois encarts de la barre latérale (À retester, Préparations, Ce soir) passent sur l’accueil.",
+  "Chaque écran n’a plus qu’un seul bouton plein. Idée rapide reste dans la barre du haut, en bouton discret avec son raccourci.",
+  "L’aide n’a plus qu’une entrée, le bouton Aide en haut. Le thème et les paramètres ne vivent plus que dans Paramètres.",
+  "Le contenu principal se passe de carte et reprend la typographie du mode préparation, avec des petites capitales, des filets et des chiffres tabulaires. Les informations d’appoint vont dans une colonne plus calme, et les séries d’objets deviennent des listes à lignes.",
+  "Les cocktails, notes, lots et dates des planches sont fictifs."
+ ],
+ "ecrans": [
+  {
+   "fichier": "png/apres/01-accueil.png",
+   "complet": "",
+   "titre": "Accueil éditorial",
+   "changements": [
+    "Les créations en cours passent d’une grille de cartes à une liste à filets (statut, nom, famille, dernière note, dernière activité), pour qu’elles se lisent d’un coup d’œil comme sur la page Fiches.",
+    "Le bloc Création en focus perd sa carte et reprend la grammaire du mode préparation, avec la famille en petites capitales cuivre, le nom en grand et la méta en colonnes séparées par des filets verticaux.",
+    "Seul le degré, qui a une valeur, garde sa jauge, et une ligne courte explique que le sucre et l’acidité s’afficheront quand les ingrédients auront leurs teneurs, au lieu de trois jauges vides.",
+    "La section À retester reprend les deux prochaines étapes de l’ancienne barre latérale (Negroni fumé et Dernier mot d’hiver), une ligne chacune avec la version qui les a fait naître et un bouton texte Retester, et le lien Ouvrir le journal passe dans son titre.",
+    "Ce soir et Préparations en cours arrivent dans une colonne d’appoint à droite, sans bord, avec des titres en petites capitales grises pour les distinguer des sections principales titrées en cuivre.",
+    "Ce soir affiche le nombre de fiches réalisables en grand et en cuivre, puis l’ingrédient à acheter en premier sur une ligne à filet avec le nombre de fiches qu’il débloque.",
+    "La carte héros Atelier garde son dégradé et porte l’unique bouton plein de l’écran ; le doublon Noter une idée disparaît puisque Idée rapide est dans la barre du haut, et un lien texte Partir d’un classique le remplace.",
+    "Les filtres En cours, Favoris et familles sont retirés parce que l’accueil ne montre que cinq créations, et le lien Toutes mes fiches mène à la page Fiches pour le reste.",
+    "Les valeurs inconnues (famille absente, note pas encore donnée) s’affichent par un petit trait dessiné.",
+    "Le motif de fond de l’accueil passe de 36 % à 12 % d’opacité, parce que sans cartes il croisait le texte des listes."
+   ],
+   "questions": [
+    "Faut-il garder l’interrupteur En cours et Favoris sur l’accueil, ou le retirer comme sur la planche et laisser les favoris à la page Fiches ?",
+    "Le Negroni fumé apparaît en focus et en tête de À retester. Préfères-tu exclure la création en focus de la liste À retester ?",
+    "Quand aucune préparation n’est en cours, veux-tu garder la section avec sa phrase d’aide ou la masquer ?",
+    "Le motif de fond à 12 % sur les écrans sans cartes te convient-il, ou préfères-tu garder son intensité actuelle ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/02-fiches.png",
+   "complet": "",
+   "titre": "Fiches, mes créations d’abord",
+   "changements": [
+    "Le bouton Idée rapide de l’en-tête disparaît puisqu’il est déjà dans la barre du haut, et Nouvelle fiche reste le seul bouton plein de la page.",
+    "Le sélecteur devient Mes fiches (6, affiché par défaut), Classiques (7 176), Favoris et Réalisables, pour que tes créations ne soient plus noyées parmi les classiques.",
+    "Seuls Statut, Famille et Spiritueux restent visibles ; les autres filtres passent derrière un bouton Plus de filtres qui indique leur nombre (6), et le tri reste à droite sur la même ligne.",
+    "Le filtre Origine disparaît, car le sélecteur Mes fiches et Classiques fait déjà ce tri.",
+    "La colonne Version est repliée ; la version s’affiche en petit à côté du nom seulement à partir de la v2 (Dernier mot d’hiver v2, Old Fashioned miel et sarrasin v3).",
+    "La liste sort de sa carte bordée ; l’en-tête et les lignes sont séparés par des filets et alignés sur le bord gauche du titre.",
+    "La colonne Dernière activité montre des dates variées et crédibles (hier, il y a 3 jours, 18 nov.) à la place de « maintenant » sur toutes les lignes.",
+    "Une ligne en fin de liste rappelle que les classiques sont rangés à part, avec un lien Parcourir les classiques.",
+    "Une famille inconnue s’affiche par un petit trait dessiné au lieu du texte « Sans famille ».",
+    "Le motif de fond de la page passe à 12 % d’opacité, parce que sans carte il passait derrière les lignes."
+   ],
+   "questions": [
+    "Le filtre Origine peut-il disparaître au profit du sélecteur, ou sert-il encore à distinguer autre chose que tes créations et les classiques ?",
+    "Les trois filtres visibles (Statut, Famille, Spiritueux) sont-ils ceux que tu utilises le plus, ou faut-il en sortir un autre de Plus de filtres ?",
+    "Veux-tu aussi un nombre à côté de Favoris et de Réalisables dans le sélecteur ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/03-fiche.png",
+   "complet": "png/apres/03-fiche-complet.png",
+   "titre": "Fiche Negroni fumé sur la grammaire du mode préparation",
+   "changements": [
+    "L’en-tête reprend le mode préparation avec une ligne de contexte en petites capitales cuivre (Spirit-forward, Ma création), le titre, puis une ligne méta (v1, Variante de Negroni, crédit) coupée par de fins filets, pour lire l’identité de la fiche d’un coup d’œil.",
+    "Le statut « En test » et le favori restent à droite du titre, et Supprimer quitte l’en-tête pour le menu Plus, afin qu’aucune action destructrice ne soit à portée de clic direct.",
+    "Les huit boutons sur deux rangées deviennent une seule ligne avec Modifier en cuivre plein, Atelier, Mode préparation et Noter une dégustation en contour, puis un bouton fantôme Plus.",
+    "Le menu Plus regroupe Créer une variante, Ajouter à une collection (avec un sous-menu), Imprimer avec son raccourci Ctrl P et Partager, puis Supprimer la fiche en rouge sous un filet ; il est montré ouvert dans 03-fiche-complet.",
+    "La colonne principale n’a plus aucune carte et enchaîne Ingrédients, Étapes, Garniture et Service sous des titres en petites capitales cuivre avec filet.",
+    "Les doses passent en 16 px, en cuivre et en chiffres tabulaires, dans une colonne de largeur fixe, ce qui reprend le mode préparation à une taille adaptée à l’écran de travail.",
+    "Chaque étape garde un numéro simple en cuivre, sans rond, et les étapes sont séparées par un filet comme les ingrédients.",
+    "Le service tient sur une seule ligne de six valeurs (Méthode, Verre, Glace, Famille, Longueur, Moment) séparées par des filets verticaux, et Longueur et Moment, non précisés, affichent un trait dessiné.",
+    "Profil et Origine sortent du bloc Service, parce que l’origine figure déjà dans la ligne de contexte et que le profil n’est pas précisé sur cette fiche.",
+    "La colonne d’appoint perd ses cartes et ne garde qu’un filet à gauche et des titres gris, pour Calculs, Allergènes, Versions, Dégustations et Photo.",
+    "Dans Calculs, les quatre badges « incomplet » et le paragraphe « Manque » laissent place à une seule phrase discrète, « Le sucre, l’acidité et le coût sont encore à compléter. », suivie du lien « Voir ce qui manque ».",
+    "Les allergènes s’affichent en texte simple au lieu d’une pastille, avec une explication raccourcie à une ligne.",
+    "La dégustation n’est plus une carte dans la carte ; les étoiles, la date et la version tiennent sur une ligne, la note suit en texte courant, puis la prochaine étape apparaît sous un filet avec sa case « Testée », sans fond dégradé.",
+    "La photo descend en bas de la colonne d’appoint, dans une petite zone de dépôt en pointillé.",
+    "Le motif gravé de la scène est atténué sur cette planche (opacité 0,14 au lieu de 0,36), parce que sans cartes il passait sous le texte de la colonne d’appoint.",
+    "L’écran tient désormais en entier dans 900 px de haut, si bien que 03-fiche-complet garde la même hauteur et sert à montrer le menu Plus ouvert."
+   ],
+   "questions": [
+    "Maintenant que les cartes ont disparu, le motif gravé de fond passe sous le texte. Préfères-tu l’atténuer sur la fiche, comme dans la planche, ou le garder tel quel sur tous les écrans ?",
+    "Profil et Origine ne figurent plus dans la ligne Service. Veux-tu les afficher ailleurs quand ils sont précisés, par exemple le profil dans la ligne méta ?",
+    "Le lien « Voir ce qui manque » peut ouvrir un panneau qui détaille les valeurs manquantes ligne par ligne, ou mener directement aux fiches ingrédients. Lequel préfères-tu ?",
+    "Le crédit « IBA, The Unforgettables » vient de la fiche d’origine. Doit-il rester affiché sur une variante qui est ta propre création ?",
+    "Les boutons photo et suppression d’une dégustation restent visibles en permanence. Veux-tu qu’ils n’apparaissent qu’au survol de la note ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/04-atelier.png",
+   "complet": "",
+   "titre": "Atelier avec colonne « Dans le verre » et indicateurs regroupés",
+   "changements": [
+    "Une rangée d’en-têtes en petites capitales nomme les colonnes (Dans le verre, Ingrédient, Dose, Unité), pour que l’interrupteur se lise comme « cet ingrédient compte dans le verre ».",
+    "Une phrase sous la liste explique que décocher « Dans le verre » sort l’ingrédient du calcul sans l’enlever de la recette.",
+    "L’étiquette accessible de chaque interrupteur devient « Compter Gin dans le verre » au lieu de « Utiliser Gin », pour dire la même chose aux lecteurs d’écran.",
+    "Les lignes ne sont plus des boîtes bordées et deviennent des rangées séparées par des filets, alignées sur une grille commune avec les en-têtes.",
+    "Les trois jauges vides Sucre, Acidité et Rapport sucre / acide laissent place à un seul bloc sous un filet, avec un intitulé, la phrase « Il manque le sucre et l’acidité des trois ingrédients. Les jauges apparaîtront dès qu’ils seront renseignés. » et le lien « Compléter les ingrédients ».",
+    "Les titres « Lignes » et « Indicateurs en direct » passent en petites capitales cuivre avec filet, et les deux panneaux gardent leur carte, puisque l’atelier reste un espace de travail.",
+    "La barre du bas garde un seul bouton plein, Enregistrer comme nouvelle version, grisé tant que rien ne change, et ajoute la mention « Rien n’a changé depuis la v1. » pour expliquer cet état."
+   ],
+   "questions": [
+    "Faut-il garder les cartes autour des deux panneaux de l’atelier, ou les retirer comme sur la fiche ?",
+    "L’intitulé « Dans le verre » te convient-il, ou préfères-tu « Dans le calcul » ?",
+    "Le lien « Compléter les ingrédients » doit-il ouvrir la première fiche ingrédient incomplète, ou une liste de toutes celles à compléter ?",
+    "« Enregistrer comme variante » reste actif même sans changement, comme dans l’appli actuelle. Faut-il le griser lui aussi tant que rien n’a changé ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/05-mon-bar.png",
+   "complet": "",
+   "titre": "Mon bar, la possession en un clic",
+   "changements": [
+    "Une phrase d’aide sous le titre dit qu’il suffit de cocher les bouteilles que tu as chez toi, ce que Shakery en tire et qu’un clic sur un nom ouvre le détail, parce que l’écran actuel ne dit nulle part comment déclarer ce que tu possèdes.",
+    "Chaque ligne porte la case à cocher de l’appli sous une colonne « Je l’ai », ce qui permet de déclarer une bouteille sans ouvrir sa fiche ingrédient.",
+    "Un sélecteur Tout, Je l’ai, Il me manque, avec ses nombres (788, 18, 770), est posé au-dessus de la liste à côté du filtre, pour passer en un clic du catalogue à ton inventaire réel.",
+    "Le chemin « Spiritueux / Whiskies / Scotch whisky » est remplacé par la famille en petites capitales cuivre avec un filet, suivie d’un décompte « 6 chez toi sur 214 », et par un sous-groupe discret (Gins, Whiskies, Vermouths) placé dans une colonne grise à gauche.",
+    "La liste prend la largeur principale, en lignes séparées par des filets, et chaque ligne indique le nombre de fiches qui utilisent l’ingrédient en chiffres tabulaires.",
+    "Les bouteilles cochées ressortent par leur nom en blanc et leur case cuivre, les autres restent en gris, ce qui rend l’inventaire lisible sans couleur supplémentaire.",
+    "La colonne de droite perd ses cartes et n’est plus séparée que par un filet vertical, avec « Ce soir » (le nombre 23 en grand et en cuivre, cinq fiches et un lien vers les autres) puis la liste d’achats en lignes à filets.",
+    "Seul « Nouvel ingrédient » reste en bouton plein cuivre, et l’action « Voir les 23 fiches » est un simple lien texte.",
+    "Le motif de bouteilles du fond passe de 36 % à 9 % d’opacité sur cet écran, car sans cartes il traversait le texte de la liste."
+   ],
+   "questions": [
+    "Où doit s’ouvrir le détail d’un ingrédient (composition, bouteilles, fiches) maintenant que la colonne de droite sert à « Ce soir » et à la liste d’achats, à la place de cette colonne, dans un panneau qui glisse par-dessus ou sur une page à part ?",
+    "Faut-il compter les produits frais et courants (citron, sucre, eau gazeuse) comme toujours disponibles, ou les cocher comme les bouteilles ?",
+    "Le libellé « Il me manque » te convient-il pour 770 ingrédients, ou préfères-tu « Je ne l’ai pas » ?",
+    "Cocher une case doit-il rester un simple oui ou non par ingrédient, ou proposer aussi de choisir la bouteille précise que tu as ?",
+    "Veux-tu que le motif du fond soit atténué de la même façon sur tous les écrans qui perdent leurs cartes, ou seulement sur Mon bar et Préparations ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/06-preparations.png",
+   "complet": "",
+   "titre": "Préparations en liste à colonnes",
+   "changements": [
+    "Les dix cartes identiques deviennent une liste à colonnes alignées (préparation, conservation, dernier lot, à utiliser avant, action) séparées par des filets, pour lire l’état de toutes les préparations d’un coup d’œil.",
+    "Les préparations sont rangées sous deux titres en petites capitales avec filet, « Lots en cours » en cuivre puis « Sans lot en cours » en gris, pour que ce qui demande ton attention soit en haut.",
+    "Une durée de conservation inconnue s’affiche par un petit trait dessiné, à la place de la phrase « Durée de conservation non précisée » répétée sur chaque carte.",
+    "Les deux lots en cours montrent leur date, leur volume, leur date limite et le temps restant, par exemple le sirop simple du 22 nov., à utiliser avant le 6 déc.",
+    "Le cordial citron vert, lot du 23 nov., est signalé par « encore 2 jours » en cuivre doux et en gras, sans fond, sans pastille et sans orange vif.",
+    "« Nouvelle fabrication » devient un bouton texte gris et discret sur chaque ligne, et « Nouvelle préparation » devient le seul bouton plein cuivre de la page.",
+    "Une phrase sous le titre explique qu’une préparation est une base faite à l’avance (sirop, cordial, oleo saccharum) et qu’une fabrication enregistre un lot daté, et le sur-titre annonce « 10 préparations, 2 lots en cours ».",
+    "Sous chaque nom, une ligne grise rappelle la base de la préparation, par exemple « Sucre et eau, 2 pour 1 », pour distinguer les sirops entre eux.",
+    "Toutes les cellules d’une ligne, bouton compris, partagent la ligne de base du nom, et le motif du fond passe à 9 % d’opacité pour ne plus traverser le texte."
+   ],
+   "questions": [
+    "La ligne grise sous chaque nom doit-elle être tirée automatiquement des ingrédients de la recette, ou saisie à la main dans la préparation ?",
+    "Pour les préparations sans lot, la colonne « Dernier lot » affiche « Jamais » ou la date du dernier lot. Cette information t’est-elle utile, ou préfères-tu une cellule vide ?",
+    "Faut-il ajouter sur les lots en cours une action « Lot terminé » à côté de « Nouvelle fabrication » ?",
+    "À partir de combien de jours restants un lot doit-il passer en cuivre (ici à 2 jours) ?",
+    "Le bouton « Nouvelle fabrication » doit-il rester visible sur chaque ligne, ou n’apparaître qu’au survol de la ligne ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/07-collections.png",
+   "complet": "",
+   "titre": "Collections en liste à lignes",
+   "changements": [
+    "La colonne de sélection et le panneau de détail laissent la place à une liste à lignes séparées par des filets, pour voir toutes les collections d’un coup d’œil sans carte par élément.",
+    "Chaque ligne montre le nom, une description courte, le type, le nombre de fiches en cuivre et en chiffres tabulaires, puis la date de modification, alignés en colonnes sous des intitulés en petites capitales.",
+    "Réviser et Exporter en PDF deviennent des boutons fantômes sur chaque ligne, et Partager, Modifier et Supprimer passent dans un menu « Autres actions », pour que les actions répétées restent discrètes.",
+    "Nouvelle collection reste le seul bouton plein cuivre de l’écran.",
+    "Une colonne calme à droite, sans bord, montre les dernières révisions avec la collection, le mode, la date et le score, puisque l’onglet Révision a quitté la barre latérale.",
+    "L’ajout de fiches et la note ou le prix de vente par fiche passent sur la page de la collection ouverte, ce qui allège la liste.",
+    "Le dessin de fond est atténué à la même opacité que sur les autres planches, car aucune carte ne le masque plus derrière le texte."
+   ],
+   "questions": [
+    "Un clic sur le nom ouvre la collection sur son onglet Fiches. Préfères-tu garder la liste et le détail côte à côte comme aujourd’hui ?",
+    "La colonne « Dernières révisions » te sert-elle sur cette page, ou veux-tu garder l’historique seulement dans chaque collection ?",
+    "Faut-il ajouter une colonne de prix ou de coût moyen pour les collections de type Carte ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/08-revision.png",
+   "complet": "",
+   "titre": "Collection ouverte, onglet Réviser",
+   "changements": [
+    "La page Révision devient l’onglet Réviser de la collection ouverte Carte d’hiver, et l’entrée active de la barre latérale est Collections.",
+    "L’en-tête porte un lien retour vers Collections, le titre et la description, et à droite la méta sur une ligne (Type, Fiches, Modifiée) en petites capitales séparées par des filets verticaux, reprise du mode préparation.",
+    "Un sélecteur d’onglets Fiches et Réviser, souligné par le filet cuivre, remplace la rangée de boutons ; Préparer, Exporter en PDF, Partager et le menu des autres actions passent en boutons fantômes dans la même barre.",
+    "Le choix du mode devient deux lignes, Cartes mémoire et QCM, avec une phrase d’explication chacune ; la ligne choisie reprend la sélection de la barre latérale avec un fond dégradé léger et le filet cuivre à gauche.",
+    "Les réglages (nombre de questions, ordre, fiches à revoir d’abord) sont des rangées avec le libellé à gauche et le contrôle à droite, séparées par des filets et sans carte.",
+    "Commencer la révision est le seul bouton plein, suivi d’une phrase qui annonce la série (20 questions tirées des 5 fiches).",
+    "La colonne calme de droite regroupe les dernières sessions, avec le score en cuivre et en chiffres tabulaires, et les fiches à revoir, à la place de la carte Historique des sessions.",
+    "Le menu de choix de la collection disparaît puisque la révision se lance depuis la collection elle-même.",
+    "Le dessin de fond devient celui des Collections, atténué, puisque la page appartient désormais à cette rubrique."
+   ],
+   "questions": [
+    "Les réglages « Ordre des questions » et « Commencer par les fiches à revoir » sont des propositions. Les veux-tu dans l’appli, ou seulement le nombre de questions comme aujourd’hui ?",
+    "Préparer, Exporter en PDF et Partager doivent-ils rester visibles sur les deux onglets, ou seulement sur l’onglet Fiches ?",
+    "Une fois lancée, la révision s’ouvre-t-elle en plein écran comme le mode préparation, ou reste-t-elle dans la page ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/09-parametres.png",
+   "complet": "png/apres/09-parametres-complet.png",
+   "titre": "Paramètres avec sommaire",
+   "changements": [
+    "Un sommaire à gauche liste les huit blocs en liens texte ; l’entrée courante est marquée par le filet cuivre de la barre latérale, et le sommaire reste en place pendant le défilement.",
+    "Les deux colonnes deviennent une seule colonne rangée par fréquence d’usage : Apparence et unités, Sauvegarde, Exporter et importer, Calculs, Impression, Code-barres, Mises à jour, puis À propos.",
+    "Les crédits de données descendent tout en bas dans À propos, pour que la sauvegarde ne soit plus repoussée sous la ligne de flottaison.",
+    "Chaque bloc a un titre en petites capitales cuivre avec filet, une phrase d’explication et un fond léger sans bord ; à l’intérieur, les sous-sections sont séparées par des titres en petites capitales grises et des filets, sans cartes imbriquées.",
+    "Le choix du thème Sombre ou Clair vit désormais seulement ici, en tête du premier bloc, puisqu’il a quitté la barre du haut.",
+    "Chaque réglage est une rangée avec le libellé et une aide courte à gauche, le contrôle à droite, et tous les contrôles partagent le même bord droit et la hauteur des champs.",
+    "Sauvegarder maintenant est le seul bouton plein ; Guide, Exporter tout le carnet et les autres actions passent en contour, et Restaurer comme Valeurs d’origine restent en bouton fantôme.",
+    "Les champs de Calculs (équivalences, dilution, pas des doses, prix conseillé) suivent une grille commune de quatre colonnes, pour que les champs s’alignent d’une sous-section à l’autre.",
+    "Corbeille et entretien devient une sous-section de Sauvegarde, avec Réinitialiser en contour rouge, puisqu’une sauvegarde précède tout effacement.",
+    "Le chemin du dossier de sauvegarde s’affiche en texte d’aide sous son libellé au lieu d’un champ encadré, et les sauvegardes récentes forment une liste à filets avec un Restaurer discret par ligne.",
+    "Mises à jour affiche la version installée et l’heure de la dernière recherche, avec Rechercher maintenant en contour.",
+    "À propos montre le vrai logo sans halo ni pastille, et les crédits deviennent un tableau à deux colonnes séparé par des filets."
+   ],
+   "questions": [
+    "Corbeille et entretien doit-il rester sous Sauvegarde comme ici, ou former un bloc à part en fin de page, juste avant À propos ?",
+    "Pour l’entrée courante du sommaire, préfères-tu le filet vertical à gauche comme dans la barre latérale, ou un vrai soulignement sous le texte ?",
+    "La mention Open Food Facts (ODbL) n’apparaît plus que dans les crédits. Faut-il la garder aussi sous le réglage Code-barres ?",
+    "Faut-il garder le fond léger derrière chaque bloc, ou poser les rangées directement sur le fond de la page ?"
+   ]
+  },
+  {
+   "fichier": "png/apres/10-calculateurs.png",
+   "complet": "",
+   "titre": "Calculateurs alignés sur Fiches",
+   "changements": [
+    "L’en-tête reprend la structure des autres pages, avec une ligne de contexte au-dessus du titre, et le titre Calculateurs se trouve exactement à la hauteur du titre de la page Fiches.",
+    "Les onglets Batch, Degré et dilution, Conversion et Coût passent sous le titre, à gauche, à la place exacte du sélecteur de la page Fiches.",
+    "La ligne de contexte décrit le calculateur affiché (« Multiplie une fiche pour préparer un service à l’avance. » pour Batch) et changerait avec l’onglet.",
+    "Le reste de l’écran (panneau Départ du batch et zone de résultat) ne change pas."
+   ],
+   "questions": [
+    "La ligne de contexte doit-elle décrire l’onglet actif comme sur la planche, ou rester la même pour les quatre calculateurs ?",
+    "Faut-il, dans une prochaine passe, retirer aussi les cartes des deux panneaux pour suivre la règle appliquée à l’accueil et aux fiches ?"
+   ]
+  }
+ ]
+}

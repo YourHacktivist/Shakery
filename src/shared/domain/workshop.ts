@@ -40,6 +40,8 @@ export const prepOverviewSchema = z
     shelfLifeDays: z.number().int().nullable(),
     yieldMl: z.number().int().nullable(),
     storageNotes: z.string().nullable(),
+    /** Names of the ingredients, in the order of the recipe, garnish left out. */
+    composition: z.array(z.string()).max(100),
     /** Batches still in use, soonest best-before first, then the last ten finished ones. */
     batches: z.array(batchSchema).max(1000),
   })

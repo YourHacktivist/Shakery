@@ -7,7 +7,7 @@ test('Ctrl+K, three letters and Enter open a recipe in less than 3 seconds, then
   try {
     await expect(page.getByTestId('app-version')).toBeVisible()
     const sidebar = page.getByRole('complementary', { name: 'Barre latérale' })
-    await sidebar.getByRole('link', { name: 'Mon bar', exact: true }).click()
+    await sidebar.getByRole('link', { name: 'Ingrédients', exact: true }).click()
 
     const started = Date.now()
     await page.keyboard.press('Control+K')

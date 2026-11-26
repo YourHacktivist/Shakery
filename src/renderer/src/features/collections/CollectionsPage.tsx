@@ -1,68 +1,50 @@
-import {
-  ArrowDown,
-  ArrowUp,
-  FileDown,
-  ChefHat,
-  GraduationCap,
-  Pencil,
-  Plus,
-  ScrollText,
-  Share2,
-  Trash2,
-} from 'lucide-react'
-import { useMemo, useState, type CSSProperties } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router'
-import { Button, IconButton } from '@renderer/components/Button'
-import { Card } from '@renderer/components/Card'
-import { Combobox } from '@renderer/components/Combobox'
-import { Dialog } from '@renderer/components/Dialog'
+import { FileDown, GraduationCap, Pencil, Plus, Share2, Trash2 } from 'lucide-react'
+import { useState, type CSSProperties } from 'react'
+import { Link, useNavigate } from 'react-router'
+import { Button } from '@renderer/components/Button'
 import { EmptyState } from '@renderer/components/EmptyState'
-import { Input } from '@renderer/components/Input'
-import { NumberWithUnit } from '@renderer/components/NumberWithUnit'
-import { Select } from '@renderer/components/Select'
-import { StatusBadge } from '@renderer/components/StatusBadge'
-import { toast } from '@renderer/components/Toast'
+import { MoreMenu } from '@renderer/components/MoreMenu'
+import { InlineText } from '@renderer/components/RichText'
+import { SectionTitle } from '@renderer/components/SectionTitle'
+import { CollectionFormDialog, type CollectionFormState } from '@renderer/features/collections/CollectionForm'
+import { collectionPath } from '@renderer/features/collections/paths'
 import { ShareCollectionDialog } from '@renderer/features/collections/ShareCollectionDialog'
-import { errorMessage, notifyError } from '@renderer/features/shared/notify'
+import { useCollectionActions } from '@renderer/features/collections/useCollectionActions'
+import { SessionScore } from '@renderer/features/practice/SessionScore'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
-import {
-  exportCollectionPdf,
-  useAddToCollection,
-  useCollection,
-  useCollections,
-  useCreateCollection,
-  useDeleteCollection,
-  useRecipes,
-  useRemoveCollectionItem,
-  useRestoreCollectionItem,
-  useReorderCollection,
-  useRestoreCollection,
-  useUpdateCollection,
-  useUpdateCollectionItem,
-} from '@renderer/lib/queries'
-import {
-  COLLECTION_KIND_VALUES,
-  type CollectionDetail,
-  type CollectionItem,
-  type CollectionSummary,
-} from '@shared/domain/workshop'
-import { RichText } from '@renderer/components/RichText'
-import { FormattedTextarea } from '@renderer/components/FormattedTextarea'
+import { formatDate } from '@renderer/lib/format'
+import { useCollections, usePracticeHistory } from '@renderer/lib/queries'
+import type { CollectionSummary, PracticeSession } from '@shared/domain/workshop'
 
 const t = fr.workshop.collections
+/** Sessions shown in the calm column: the latest ones, the full history is in each collection. */
+const RECENT = 5
 
-/** Collections (section 10.10): free order, a note and a price per recipe, PDF and revision. */
+/** First line of a description, without its list mark: the row shows a short summary. */
+function firstLine(description: string | null): string | null {
+  const line = description
+    ?.split('\n')
+    .map((text) => text.replace(/^\s*(?:[-*•]|\d+[.)])\s+/, '').trim())
+    .find((text) => text !== '')
+  return line ?? null
+}
+
+/**
+ * Collections (section 10.10, D-057): one row per collection with its frequent actions, the rest
+ * behind « Autres actions ». The items, their note and their price are on the page of each one.
+ */
 export function CollectionsPage() {
+  const navigate = useNavigate()
   const collections = useCollections()
-  const [params, setParams] = useSearchParams()
-  const [form, setForm] = useState<{ collection: CollectionSummary | null } | null>(null)
+  const history = usePracticeHistory()
+  const actions = useCollectionActions()
+  const [form, setForm] = useState<CollectionFormState>(null)
+  const [sharing, setSharing] = useState<CollectionSummary | null>(null)
   const list = collections.data ?? []
-  const selectedId = params.get('collection') ?? list[0]?.id ?? null
-
-  function select(id: string | null) {
-    setParams(id === null ? {} : { collection: id }, { replace: true })
-  }
+  const sessions = (history.data ?? [])
+    .filter((session) => session.collectionId !== null && session.mode !== 'calc')
+    .slice(0, RECENT)
 
   const addButton = (
     <Button
@@ -76,13 +58,13 @@ export function CollectionsPage() {
   )
 
   return (
-    <div className="mx-auto flex max-w-page flex-col gap-4">
+    <div className="mx-auto flex max-w-page flex-col gap-6">
       <header className="flex items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-caption text-fg-muted">{t.count(list.length)}</span>
           <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
         </div>
-        {addButton}
+        {list.length > 0 ? addButton : null}
       </header>
 
       {collections.isPending ? null : list.length === 0 ? (
@@ -93,52 +75,65 @@ export function CollectionsPage() {
           action={addButton}
         />
       ) : (
-        <div className="grid grid-cols-[280px_minmax(0,1fr)] items-start gap-4">
-          <Card className="sticky top-0 gap-1 p-2">
-            <ul className="m-0 flex list-none flex-col gap-1 p-0">
-              {list.map((collection, index) => (
-                <li
-                  key={collection.id}
-                  className="animate-rise"
-                  style={{ '--rise-index': Math.min(index, 8) } as CSSProperties}
-                >
-                  <button
-                    type="button"
-                    aria-current={collection.id === selectedId ? 'true' : undefined}
-                    className={cn(
-                      'flex w-full cursor-pointer flex-col gap-0.5 rounded-nested border px-3 py-2 text-left transition-[background-color,border-color] duration-150',
-                      collection.id === selectedId
-                        ? 'border-accent/30 bg-[linear-gradient(90deg,rgb(239_120_43/0.13),rgb(239_120_43/0.03))]'
-                        : 'border-transparent hover:bg-tint/4',
-                    )}
-                    onClick={() => {
-                      select(collection.id)
-                    }}
-                  >
-                    <span className="truncate text-body font-semibold text-fg">{collection.name}</span>
-                    <span className="text-caption text-fg-muted">
-                      {`${t.kinds[collection.kind]} · ${t.items(collection.recipeIds.length, collection.sheetCount)}`}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </Card>
-          {selectedId ? (
-            <CollectionPanel
-              key={selectedId}
-              id={selectedId}
-              onEdit={(collection) => {
-                setForm({ collection })
-              }}
-              onDeleted={() => {
-                select(null)
-              }}
-              onRestored={select}
-            />
-          ) : (
-            <EmptyState title={t.pick} className="min-h-[320px] p-8" />
-          )}
+        <div className="@container">
+          <div
+            className={cn(
+              'grid items-start gap-x-14 gap-y-10',
+              sessions.length > 0 && '@min-[68rem]:grid-cols-[minmax(0,1fr)_272px]',
+            )}
+          >
+            <section aria-label={t.listLabel} className="flex min-w-0 flex-col gap-4">
+              <table className="w-full table-fixed border-collapse">
+                <colgroup>
+                  <col />
+                  <col className="w-[104px]" />
+                  <col className="w-[72px]" />
+                  <col className="w-[124px]" />
+                  <col className="w-[252px]" />
+                </colgroup>
+                <thead>
+                  <tr className="border-b border-border text-left text-caption font-semibold tracking-[0.1em] text-fg-muted uppercase">
+                    <th scope="col" className="pr-6 pb-3 font-semibold">
+                      {t.columns.name}
+                    </th>
+                    <th scope="col" className="pr-6 pb-3 font-semibold">
+                      {t.columns.kind}
+                    </th>
+                    <th scope="col" className="pr-6 pb-3 text-right font-semibold">
+                      {t.columns.count}
+                    </th>
+                    <th scope="col" className="pr-6 pb-3 font-semibold">
+                      {t.columns.updated}
+                    </th>
+                    <td className="pb-3" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.map((collection, index) => (
+                    <CollectionRow
+                      key={collection.id}
+                      collection={collection}
+                      index={index}
+                      exporting={actions.exporting === collection.id}
+                      onPractice={() => void navigate(collectionPath(collection.id, 'practice'))}
+                      onExport={() => void actions.exportPdf(collection.id)}
+                      onShare={() => {
+                        setSharing(collection)
+                      }}
+                      onEdit={() => {
+                        setForm({ collection })
+                      }}
+                      onDelete={() => {
+                        actions.removeCollection(collection)
+                      }}
+                    />
+                  ))}
+                </tbody>
+              </table>
+              <p className="m-0 text-small text-fg-muted">{t.listHint}</p>
+            </section>
+            {sessions.length > 0 ? <RecentSessions sessions={sessions} /> : null}
+          </div>
         </div>
       )}
 
@@ -147,461 +142,157 @@ export function CollectionsPage() {
         onClose={() => {
           setForm(null)
         }}
-        onSaved={(id) => {
+        onSaved={(saved) => {
+          const created = form?.collection === null
           setForm(null)
-          select(id)
+          if (created) void navigate(collectionPath(saved.id))
         }}
       />
-    </div>
-  )
-}
-
-function CollectionPanel({
-  id,
-  onEdit,
-  onDeleted,
-  onRestored,
-}: {
-  id: string
-  onEdit: (collection: CollectionSummary) => void
-  onDeleted: () => void
-  onRestored: (id: string) => void
-}) {
-  const navigate = useNavigate()
-  const detail = useCollection(id)
-  const collections = useCollections()
-  const recipes = useRecipes()
-  const add = useAddToCollection()
-  const remove = useDeleteCollection()
-  const restore = useRestoreCollection()
-  const reorder = useReorderCollection()
-  const [exporting, setExporting] = useState(false)
-  const [sharing, setSharing] = useState(false)
-  const summary = collections.data?.find((collection) => collection.id === id)
-
-  const candidates = useMemo(() => {
-    const present = new Set(summary?.recipeIds ?? [])
-    return (recipes.data ?? [])
-      .filter((recipe) => !present.has(recipe.id))
-      .map((recipe) => ({
-        id: recipe.id,
-        label: recipe.name,
-        hint: fr.components.display.status[recipe.status],
-      }))
-  }, [recipes.data, summary?.recipeIds])
-
-  if (detail.isPending || !summary) return null
-  if (detail.isError) return <EmptyState title={fr.errors.NOT_FOUND} className="min-h-[320px] p-8" />
-  const collection: CollectionDetail = detail.data
-  const items = collection.items
-  const toPrepare = items.flatMap((item) => (item.recipeId ? [item.recipeId] : []))
-  const firstToPrepare = toPrepare[0]
-
-  function move(index: number, step: -1 | 1) {
-    const order = items.map((item) => item.id)
-    const target = index + step
-    const a = order[index]
-    const b = order[target]
-    if (a === undefined || b === undefined) return
-    order[index] = b
-    order[target] = a
-    reorder.mutate({ id, itemIds: order }, { onError: notifyError })
-  }
-
-  async function exportPdf() {
-    setExporting(true)
-    try {
-      if (await exportCollectionPdf(id)) toast.show({ message: t.exported })
-    } catch (error) {
-      notifyError(error)
-    } finally {
-      setExporting(false)
-    }
-  }
-
-  return (
-    <div className="flex animate-fade-in flex-col gap-4">
       <ShareCollectionDialog
-        open={sharing}
+        open={sharing !== null}
         onClose={() => {
-          setSharing(false)
+          setSharing(null)
         }}
-        collectionId={id}
-        name={collection.name}
-        recipeIds={summary.recipeIds}
+        collectionId={sharing?.id ?? ''}
+        name={sharing?.name ?? ''}
+        recipeIds={sharing?.recipeIds ?? []}
       />
-      <Card className="gap-3">
-        <div className="flex flex-col gap-3">
-          <div className="flex min-w-0 flex-col gap-1">
-            <span className="text-caption font-medium text-accent-soft">{t.kinds[collection.kind]}</span>
-            <h2 className="m-0 truncate text-title font-semibold tracking-tight text-fg">
-              {collection.name}
-            </h2>
-            {collection.description ? (
-              <RichText text={collection.description} className="text-body text-fg-secondary" />
-            ) : null}
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Button
-              variant="outline"
-              icon={<ChefHat size={14} aria-hidden="true" />}
-              size="sm"
-              disabled={firstToPrepare === undefined}
-              onClick={() => {
-                // The whole collection in its order: the arrows of the preparation mode follow it.
-                if (firstToPrepare) void navigate(`/prepare/${firstToPrepare}?ids=${toPrepare.join(',')}`)
-              }}
-            >
-              {t.prepare}
-            </Button>
-            <Button
-              icon={<GraduationCap size={14} aria-hidden="true" />}
-              size="sm"
-              disabled={items.length === 0}
-              onClick={() => void navigate(`/practice?collection=${id}`)}
-            >
-              {t.practice}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={<FileDown size={14} aria-hidden="true" />}
-              disabled={items.length === 0 || exporting}
-              onClick={() => void exportPdf()}
-            >
-              {t.exportPdf}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={<Share2 size={14} aria-hidden="true" />}
-              disabled={summary.recipeIds.length === 0}
-              onClick={() => {
-                setSharing(true)
-              }}
-            >
-              {t.shareOpen}
-            </Button>
-            <IconButton
-              variant="ghost"
-              size="sm"
-              className="ml-auto"
-              label={t.edit}
-              icon={<Pencil size={14} aria-hidden="true" />}
-              onClick={() => {
-                onEdit(summary)
-              }}
-            />
-            <IconButton
-              variant="danger"
-              size="sm"
-              label={t.delete}
-              icon={<Trash2 size={14} aria-hidden="true" />}
-              onClick={() => {
-                remove.mutate(
-                  { id },
-                  {
-                    onSuccess: () => {
-                      onDeleted()
-                      toast.undo(t.deleted(collection.name), () => {
-                        restore.mutate(
-                          { id },
-                          {
-                            onSuccess: () => {
-                              onRestored(id)
-                            },
-                            onError: notifyError,
-                          },
-                        )
-                      })
-                    },
-                    onError: notifyError,
-                  },
-                )
-              }}
-            />
-          </div>
-        </div>
-        <Combobox
-          label={t.addRecipes}
-          hideLabel
-          options={candidates}
-          value={null}
-          placeholder={t.addPlaceholder}
-          onSelect={(recipeId) => {
-            const name = candidates.find((candidate) => candidate.id === recipeId)?.label ?? ''
-            add.mutate(
-              { id, recipeIds: [recipeId] },
-              { onSuccess: () => toast.show({ message: t.added(name) }), onError: notifyError },
-            )
-          }}
-        />
-      </Card>
-
-      {items.length === 0 ? (
-        <EmptyState title={t.itemsEmpty} className="min-h-[200px] p-8" />
-      ) : (
-        <ol className="m-0 flex list-none flex-col gap-2 p-0">
-          {items.map((item, index) => (
-            <li
-              key={item.id}
-              className="animate-rise"
-              style={{ '--rise-index': Math.min(index, 10) } as CSSProperties}
-            >
-              <ItemRow
-                item={item}
-                index={index}
-                last={index === items.length - 1}
-                onMove={(step) => {
-                  move(index, step)
-                }}
-              />
-            </li>
-          ))}
-        </ol>
-      )}
     </div>
   )
 }
 
-function ItemRow({
-  item,
+function CollectionRow({
+  collection,
   index,
-  last,
-  onMove,
+  exporting,
+  onPractice,
+  onExport,
+  onShare,
+  onEdit,
+  onDelete,
 }: {
-  item: CollectionItem
+  collection: CollectionSummary
   index: number
-  last: boolean
-  onMove: (step: -1 | 1) => void
+  exporting: boolean
+  onPractice: () => void
+  onExport: () => void
+  onShare: () => void
+  onEdit: () => void
+  onDelete: () => void
 }) {
-  const update = useUpdateCollectionItem()
-  const remove = useRemoveCollectionItem()
-  const restore = useRestoreCollectionItem()
-  const [note, setNote] = useState(item.note ?? '')
-  const [price, setPrice] = useState<number | null>(
-    item.salePriceCents === null ? null : item.salePriceCents / 100,
-  )
-
-  function save(next: { note?: string; price?: number | null }) {
-    const nextNote = next.note ?? note
-    const nextPrice = next.price === undefined ? price : next.price
-    const cents = nextPrice === null ? null : Math.round(nextPrice * 100)
-    if ((item.note ?? '') === nextNote.trim() && item.salePriceCents === cents) return
-    update.mutate({ id: item.id, note: nextNote, salePriceCents: cents }, { onError: notifyError })
-  }
-
+  const count = collection.recipeIds.length + collection.sheetCount
+  const summary = firstLine(collection.description)
   return (
-    <Card className="flex-row items-start gap-3 py-3 transition-colors duration-150 hover:border-border-strong">
-      <span className="nums flex h-7 w-6 shrink-0 items-center justify-end text-body font-semibold text-fg-muted">
-        {index + 1}
-      </span>
-      <div className="flex min-w-0 flex-1 flex-col gap-2">
-        <div className="flex h-7 items-center gap-1">
-          <div className="flex min-w-0 flex-1 items-center gap-2">
-            {item.recipeId ? (
-              <Link
-                to={`/recipes/${item.recipeId}`}
-                className="truncate text-body font-semibold text-fg transition-colors hover:text-accent-soft"
-              >
-                {item.title}
-              </Link>
-            ) : (
-              <span className="flex items-center gap-1.5 truncate text-body font-semibold text-fg">
-                <ScrollText size={14} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
-                {item.title}
-              </span>
-            )}
-            {item.status ? (
-              <StatusBadge status={item.status} />
-            ) : (
-              <span className="text-caption text-fg-muted">{t.sheet}</span>
-            )}
-          </div>
-          <IconButton
-            variant="ghost"
-            size="sm"
-            label={t.moveUp(item.title)}
-            disabled={index === 0}
-            icon={<ArrowUp size={14} aria-hidden="true" />}
-            onClick={() => {
-              onMove(-1)
-            }}
-          />
-          <IconButton
-            variant="ghost"
-            size="sm"
-            label={t.moveDown(item.title)}
-            disabled={last}
-            icon={<ArrowDown size={14} aria-hidden="true" />}
-            onClick={() => {
-              onMove(1)
-            }}
-          />
-          <IconButton
-            variant="ghost"
-            size="sm"
-            label={t.remove(item.title)}
-            icon={<Trash2 size={14} aria-hidden="true" />}
-            onClick={() => {
-              remove.mutate(
-                { id: item.id },
-                {
-                  onSuccess: () => {
-                    // Every deletion offers « Annuler » for 8 seconds (section 10.1).
-                    toast.undo(t.removed(item.title), () => {
-                      restore.mutate({ id: item.id }, { onError: notifyError })
-                    })
-                  },
-                  onError: notifyError,
-                },
-              )
-            }}
-          />
-        </div>
-        <div className="flex items-start gap-2">
-          <Input
-            label={t.note}
-            hideLabel
-            className="min-w-0 flex-1"
-            placeholder={t.notePlaceholder}
-            value={note}
-            maxLength={1000}
-            autoComplete="off"
-            onChange={(event) => {
-              setNote(event.target.value)
-            }}
-            onBlur={() => {
-              save({ note })
-            }}
-          />
-          {item.recipeId ? (
-            <NumberWithUnit
-              label={t.price}
-              hideLabel
-              placeholder={t.price}
-              className="w-[130px] shrink-0"
-              value={price}
-              unit="€"
-              min={0}
-              max={100_000}
-              step={0.5}
-              decimals={2}
-              onChange={(value) => {
-                setPrice(value)
-              }}
-              onBlur={() => {
-                save({ price })
-              }}
-            />
+    <tr
+      className="animate-rise border-b border-border"
+      style={{ '--rise-index': Math.min(index, 8) } as CSSProperties}
+    >
+      <td className="py-3 pr-6 align-middle">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <Link
+            to={collectionPath(collection.id)}
+            className="w-fit max-w-full truncate rounded-sm text-lead font-semibold text-fg transition-colors duration-150 hover:text-accent-soft"
+          >
+            {collection.name}
+          </Link>
+          {summary ? (
+            <span className="line-clamp-2 text-small break-words text-fg-secondary">
+              <InlineText text={summary} />
+            </span>
           ) : null}
         </div>
-      </div>
-    </Card>
+      </td>
+      <td className="py-3 pr-6 align-middle text-body text-fg-secondary">{t.kinds[collection.kind]}</td>
+      <td className="nums py-3 pr-6 text-right align-middle text-heading font-semibold text-accent-soft">
+        {count}
+      </td>
+      <td className="nums py-3 pr-6 align-middle text-small whitespace-nowrap text-fg-secondary">
+        {formatDate(collection.updatedAt)}
+      </td>
+      <td className="py-3 align-middle">
+        <div className="flex items-center justify-end gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label={t.practiceOf(collection.name)}
+            icon={<GraduationCap size={14} aria-hidden="true" />}
+            disabled={count === 0}
+            onClick={onPractice}
+          >
+            {t.practice}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label={t.exportPdfOf(collection.name)}
+            icon={<FileDown size={14} aria-hidden="true" />}
+            disabled={count === 0 || exporting}
+            onClick={onExport}
+          >
+            {t.exportPdf}
+          </Button>
+          <MoreMenu
+            label={t.moreOf(collection.name)}
+            items={[
+              {
+                id: 'share',
+                label: t.shareOpen,
+                icon: <Share2 size={14} aria-hidden="true" />,
+                disabled: collection.recipeIds.length === 0,
+                onSelect: onShare,
+              },
+              { id: 'edit', label: t.edit, icon: <Pencil size={14} aria-hidden="true" />, onSelect: onEdit },
+              {
+                id: 'delete',
+                label: t.delete,
+                icon: <Trash2 size={14} aria-hidden="true" />,
+                danger: true,
+                separated: true,
+                onSelect: onDelete,
+              },
+            ]}
+          />
+        </div>
+      </td>
+    </tr>
   )
 }
 
-function CollectionFormDialog({
-  form,
-  onClose,
-  onSaved,
-}: {
-  form: { collection: CollectionSummary | null } | null
-  onClose: () => void
-  onSaved: (id: string) => void
-}) {
-  const editing = form?.collection ?? null
+/** The calm column (D-057): the last sessions over every collection, with their score. */
+function RecentSessions({ sessions }: { sessions: readonly PracticeSession[] }) {
   return (
-    <Dialog
-      open={form !== null}
-      onClose={onClose}
-      title={editing ? t.form.editTitle(editing.name) : t.form.createTitle}
-      size="md"
-      footer={
-        <>
-          <Button variant="ghost" onClick={onClose}>
-            {t.form.cancel}
-          </Button>
-          <Button type="submit" form="collection-form">
-            {t.form.save}
-          </Button>
-        </>
-      }
-    >
-      {form ? <CollectionForm collection={editing} onSaved={onSaved} /> : null}
-    </Dialog>
-  )
-}
-
-function CollectionForm({
-  collection,
-  onSaved,
-}: {
-  collection: CollectionSummary | null
-  onSaved: (id: string) => void
-}) {
-  const create = useCreateCollection()
-  const update = useUpdateCollection()
-  const [name, setName] = useState(collection?.name ?? '')
-  const [description, setDescription] = useState(collection?.description ?? '')
-  const [kind, setKind] = useState<CollectionSummary['kind']>(collection?.kind ?? 'menu')
-  const [error, setError] = useState<string | null>(null)
-
-  return (
-    <form
-      id="collection-form"
-      noValidate
-      className="flex flex-col gap-4"
-      onSubmit={(event) => {
-        event.preventDefault()
-        if (name.trim() === '') {
-          setError(fr.recipes.form.required)
-          return
-        }
-        const data = { name, description, kind }
-        const handlers = {
-          onSuccess: (saved: CollectionSummary) => {
-            toast.show({ message: collection ? t.form.saved : t.form.created(saved.name) })
-            onSaved(saved.id)
-          },
-          onError: (failure: unknown) => {
-            setError(errorMessage(failure))
-          },
-        }
-        if (collection) update.mutate({ id: collection.id, data }, handlers)
-        else create.mutate(data, handlers)
-      }}
-    >
-      <div className="grid grid-cols-[1fr_180px] gap-4">
-        <Input
-          label={t.form.name}
-          value={name}
-          maxLength={120}
-          autoComplete="off"
-          data-autofocus=""
-          error={error ?? undefined}
-          onChange={(event) => {
-            setName(event.target.value)
-          }}
-        />
-        <Select
-          label={t.form.kind}
-          value={kind}
-          options={COLLECTION_KIND_VALUES.map((value) => ({ value, label: t.kinds[value] }))}
-          onChange={(event) => {
-            setKind(event.target.value as CollectionSummary['kind'])
-          }}
-        />
-      </div>
-      <FormattedTextarea
-        label={t.form.description}
-        rows={3}
-        maxLength={2000}
-        value={description}
-        onChange={(event) => {
-          setDescription(event.target.value)
-        }}
-      />
-    </form>
+    <section aria-labelledby="collections-recent-title" className="flex min-w-0 flex-col">
+      <SectionTitle id="collections-recent-title" tone="muted" className="pb-1">
+        {t.recent}
+      </SectionTitle>
+      <ol className="m-0 list-none p-0">
+        {sessions.map((session) => (
+          <li
+            key={session.id}
+            className="flex min-h-14 items-center justify-between gap-4 border-b border-border py-2.5"
+          >
+            <div className="flex min-w-0 flex-col gap-0.5">
+              {session.collectionId ? (
+                <Link
+                  to={collectionPath(session.collectionId, 'practice')}
+                  className="w-fit max-w-full truncate rounded-sm text-body font-semibold text-fg transition-colors duration-150 hover:text-accent-soft"
+                >
+                  {session.collectionName ?? t.title}
+                </Link>
+              ) : null}
+              <span className="nums text-small text-fg-muted">
+                {t.sessionMeta(
+                  session.mode === 'flashcards'
+                    ? fr.workshop.practice.modes.flashcards
+                    : fr.workshop.practice.modes.quiz,
+                  formatDate(session.finishedAt),
+                )}
+              </span>
+            </div>
+            <SessionScore score={session.score} total={session.total} />
+          </li>
+        ))}
+      </ol>
+    </section>
   )
 }

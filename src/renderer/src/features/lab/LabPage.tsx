@@ -1,7 +1,8 @@
 import { NotebookPen, Plus, Redo2, Trash2, Undo2 } from 'lucide-react'
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
 import { useBlocker, useLocation, useNavigate, useParams } from 'react-router'
 import { useOverlayStore } from '@renderer/app/stores'
+import { ArrowLink } from '@renderer/components/ArrowLink'
 import { Button, IconButton } from '@renderer/components/Button'
 import { Card } from '@renderer/components/Card'
 import { Combobox, type ComboboxOption } from '@renderer/components/Combobox'
@@ -9,7 +10,9 @@ import { Dialog } from '@renderer/components/Dialog'
 import { DoseStepper } from '@renderer/components/DoseStepper'
 import { EmptyState } from '@renderer/components/EmptyState'
 import { Input } from '@renderer/components/Input'
+import { NoValue } from '@renderer/components/NoValue'
 import { RangeGauge } from '@renderer/components/RangeGauge'
+import { SectionTitle } from '@renderer/components/SectionTitle'
 import { SegmentedControl } from '@renderer/components/SegmentedControl'
 import { Select } from '@renderer/components/Select'
 import { toast } from '@renderer/components/Toast'
@@ -34,7 +37,8 @@ import {
   emptyRecipe,
 } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
-import { formatNumber, formatEuros } from '@renderer/lib/format'
+import { cn } from '@renderer/lib/cn'
+import { formatEuros, formatNumber, roundServedVolume } from '@renderer/lib/format'
 import {
   useCreateRecipe,
   useIngredients,
@@ -45,14 +49,43 @@ import {
   useSetting,
   useUpdateRecipe,
 } from '@renderer/lib/queries'
-import { UNIT_VALUES, type RecipeDetail } from '@shared/domain/catalog'
-import { NoValue } from '@renderer/components/NoValue'
+import { UNIT_VALUES, type RecipeComputation, type RecipeDetail } from '@shared/domain/catalog'
 
 /** A family counts up to some 2 500 classics: the tooltip names the first ones. */
 const ZONE_MEMBERS_SHOWN = 30
 
 const t = fr.recipes.lab
 const tp = fr.recipes.panel
+
+/** Heads of the columns of the lines: small capitals, as the facts of a recipe (D-057). */
+const CAPS = 'text-[10.5px] font-semibold tracking-[0.09em] whitespace-nowrap text-fg-muted uppercase'
+/**
+ * Columns of a line: the switch « Dans le verre », the name, the dose and its unit, the bin. While
+ * the card is narrow, the dose and its unit go under the name, across the whole line.
+ */
+const LINE_GRID =
+  'grid grid-cols-[6.5rem_minmax(0,1fr)_2rem] items-center gap-x-2 @min-[36rem]:grid-cols-[6.5rem_minmax(0,1fr)_auto_2rem]'
+
+/** Unknown data of an ingredient that keeps a gauge empty, in the order they are named. */
+const DATA_REASONS = ['missing_sugar', 'missing_acid', 'missing_abv'] as const
+type DataReason = (typeof DATA_REASONS)[number]
+const isDataReason = (reason: string): reason is DataReason =>
+  (DATA_REASONS as readonly string[]).includes(reason)
+
+/**
+ * What keeps the empty gauges empty: the unknown values (« le sucre et l’acidité ») and the
+ * ingredients to complete, in the order of the lines.
+ */
+function missingData(issues: RecipeComputation['abv']['issues']) {
+  const found = issues.filter(
+    (issue): issue is typeof issue & { ingredientId: string } =>
+      isDataReason(issue.reason) && issue.ingredientId !== undefined,
+  )
+  return {
+    words: DATA_REASONS.filter((reason) => found.some((issue) => issue.reason === reason)).map(t.missingWord),
+    ingredientIds: [...new Set(found.map((issue) => issue.ingredientId))],
+  }
+}
 
 /** Lab (section 10.5): pick a recipe, or work on one at /lab/:id, or start from scratch at /lab/new. */
 export function LabPage() {
@@ -92,23 +125,21 @@ function LabPicker() {
           setFilter(event.target.value)
         }}
       />
-      <Card className="gap-0 p-1.5">
-        {rows.length === 0 ? <p className="m-0 p-3 text-small text-fg-muted">{t.noRecipe}</p> : null}
-        <ul className="m-0 flex list-none flex-col p-0">
-          {rows.map((recipe) => (
-            <li key={recipe.id}>
-              <button
-                type="button"
-                onClick={() => void navigate(`/lab/${recipe.id}`)}
-                className="flex h-8 w-full cursor-pointer items-center justify-between rounded-field px-2.5 text-left text-body text-fg-secondary hover:bg-surface-2 hover:text-fg"
-              >
-                <span className="truncate">{recipe.name}</span>
-                <span className="nums text-caption text-fg-muted">{`v${recipe.version}`}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </Card>
+      {rows.length === 0 ? <p className="m-0 py-3 text-small text-fg-muted">{t.noRecipe}</p> : null}
+      <ul className="m-0 flex list-none flex-col p-0">
+        {rows.map((recipe) => (
+          <li key={recipe.id} className="border-t border-border first:border-t-0">
+            <button
+              type="button"
+              onClick={() => void navigate(`/lab/${recipe.id}`)}
+              className="flex h-9 w-full cursor-pointer items-center justify-between gap-3 rounded-sm text-left text-body text-fg-secondary transition-colors duration-150 ease-out-soft hover:text-fg"
+            >
+              <span className="truncate">{recipe.name}</span>
+              <span className="nums shrink-0 text-caption text-fg-muted">{`v${recipe.version}`}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -147,6 +178,8 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
   }
   const [dialog, setDialog] = useState<'version' | 'variant' | null>(null)
   const [text, setText] = useState('')
+  const linesId = useId()
+  const indicatorsId = useId()
   const leaving = useRef(false)
   const draft = state.present
   const dirty = !sameRecipe(draft, initial)
@@ -283,6 +316,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       label: tp.abv,
       unit: tp.units.abv,
       value: result?.abv.value ?? null,
+      issues: result?.abv.issues ?? [],
       saved: before?.abv.value ?? null,
       zone: familyZones?.abv,
       decimals: 1,
@@ -292,6 +326,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       label: tp.sugar,
       unit: tp.units.per100,
       value: result?.sugarPer100Ml.value ?? null,
+      issues: result?.sugarPer100Ml.issues ?? [],
       saved: before?.sugarPer100Ml.value ?? null,
       zone: familyZones?.sugar,
       decimals: 1,
@@ -301,6 +336,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       label: tp.acid,
       unit: tp.units.per100,
       value: result?.acidPer100Ml.value ?? null,
+      issues: result?.acidPer100Ml.issues ?? [],
       saved: before?.acidPer100Ml.value ?? null,
       zone: familyZones?.acid,
       decimals: 2,
@@ -310,11 +346,16 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       label: tp.ratio,
       unit: tp.units.ratio,
       value: result?.ratio.value ?? null,
+      issues: result?.ratio.issues ?? [],
       saved: before?.ratio.value ?? null,
       zone: familyZones?.ratio,
       decimals: 0,
     },
   ] as const
+  const shownGauges = gauges.filter((gauge) => gauge.value !== null)
+  const emptyGauges = gauges.filter((gauge) => gauge.value === null)
+  const missing = missingData(emptyGauges.flatMap((gauge) => gauge.issues))
+  const firstMissing = missing.ingredientIds[0]
 
   return (
     <div className="mx-auto flex max-w-page flex-col gap-4 min-h-full">
@@ -379,16 +420,23 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
         />
       ) : (
         <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] items-start gap-4">
-          <Card aria-label={t.lines}>
-            <h2 className="m-0 text-body font-semibold text-fg">{t.lines}</h2>
-            <ul className="@container m-0 flex list-none flex-col gap-1 p-0">
+          <Card aria-labelledby={linesId}>
+            <SectionTitle id={linesId}>{t.lines}</SectionTitle>
+            <ul className="@container m-0 flex list-none flex-col p-0">
+              {draft.lines.length > 0 ? (
+                <li aria-hidden="true" className={cn(LINE_GRID, 'pb-2')}>
+                  <span className={CAPS}>{t.head.inGlass}</span>
+                  <span className={CAPS}>{t.head.ingredient}</span>
+                  <span className="hidden gap-2 @min-[36rem]:flex">
+                    <span className={cn(CAPS, 'w-44')}>{t.head.dose}</span>
+                    <span className={cn(CAPS, 'w-36')}>{t.head.unit}</span>
+                  </span>
+                </li>
+              ) : null}
               {draft.lines.map((line) => {
                 const name = names.get(line.ingredientId) ?? ''
                 return (
-                  <li
-                    key={line.key}
-                    className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-nested border border-border p-2 @min-[36rem]:grid-cols-[auto_minmax(0,1fr)_auto_auto] ${line.enabled ? 'bg-surface-2/50' : 'opacity-50'}`}
-                  >
+                  <li key={line.key} className={cn(LINE_GRID, 'gap-y-2 border-t border-border py-2')}>
                     <Toggle
                       label={t.lineOn(name)}
                       hideLabel
@@ -397,9 +445,21 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         changeLine(line.key, { enabled })
                       }}
                     />
-                    <span className="min-w-0 text-body break-words text-fg">{name}</span>
+                    <span
+                      className={cn(
+                        'min-w-0 text-body break-words transition-colors duration-150',
+                        line.enabled ? 'text-fg' : 'text-fg-muted',
+                      )}
+                    >
+                      {name}
+                    </span>
                     {/* Under the name while the card is narrow, beside it once it fits. */}
-                    <div className="col-span-2 col-start-2 row-start-2 flex min-w-0 items-center gap-2 @min-[36rem]:col-span-1 @min-[36rem]:col-start-3 @min-[36rem]:row-start-1">
+                    <div
+                      className={cn(
+                        'col-span-full row-start-2 flex min-w-0 items-center gap-2 transition-opacity duration-150 @min-[36rem]:col-span-1 @min-[36rem]:col-start-3 @min-[36rem]:row-start-1',
+                        !line.enabled && 'opacity-50',
+                      )}
+                    >
                       <DoseStepper
                         label={t.dose(name)}
                         hideLabel
@@ -425,7 +485,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                     </div>
                     <IconButton
                       variant="ghost"
-                      className="col-start-3 row-start-1 @min-[36rem]:col-start-4"
+                      className="col-start-3 row-start-1 justify-self-end @min-[36rem]:col-start-4"
                       label={t.remove(name)}
                       icon={<Trash2 size={14} aria-hidden="true" />}
                       onClick={() => {
@@ -436,6 +496,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                 )
               })}
             </ul>
+            {draft.lines.length > 0 ? <p className="m-0 text-caption text-fg-muted">{t.offNote}</p> : null}
             <Combobox
               label={t.add}
               hideLabel
@@ -448,24 +509,17 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                 change({ ...draft, lines: [...draft.lines, ...added] })
               }}
             />
-            {draft.lines.some((line) => !line.enabled) ? (
-              <p className="m-0 text-caption text-fg-muted">{t.offNote}</p>
-            ) : null}
           </Card>
 
-          <Card aria-label={t.indicators}>
-            <h2 className="m-0 text-body font-semibold text-fg">{t.indicators}</h2>
+          <Card aria-labelledby={indicatorsId}>
+            <SectionTitle id={indicatorsId}>{t.indicators}</SectionTitle>
             <div className="flex flex-col gap-4">
-              {gauges.map((gauge) => (
+              {shownGauges.map((gauge) => (
                 <div key={gauge.id} className="flex flex-col gap-1.5">
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="text-small text-fg-secondary">{gauge.label}</span>
                     <span className="nums text-lead font-medium text-fg">
-                      {gauge.value === null ? (
-                        <span className="text-small font-normal text-fg-muted">{tp.incomplete}</span>
-                      ) : (
-                        `${formatNumber(gauge.value, gauge.decimals)} ${gauge.unit}`
-                      )}
+                      {`${formatNumber(gauge.value ?? 0, gauge.decimals)} ${gauge.unit}`}
                     </span>
                   </div>
                   <RangeGauge
@@ -479,7 +533,7 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                         : undefined
                     }
                     saved={gauge.saved !== null && version ? { value: gauge.saved, version } : undefined}
-                    showLegend={gauge.value !== null}
+                    showLegend
                   />
                   {gauge.zone ? (
                     <p
@@ -497,11 +551,36 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
                   ) : null}
                 </div>
               ))}
+              {/* The gauges still waiting for data: one explanation, not one empty gauge each. */}
+              {emptyGauges.length > 0 ? (
+                <div
+                  className={cn(
+                    'flex flex-col gap-1.5',
+                    shownGauges.length > 0 && 'border-t border-border pt-3.5',
+                  )}
+                >
+                  <span className="text-small text-fg-secondary">
+                    {t.missingTitle(emptyGauges.map((gauge) => gauge.label))}
+                  </span>
+                  <p className="m-0 text-small text-fg-muted">
+                    {firstMissing === undefined
+                      ? t.missingDosesNote
+                      : t.missingData(missing.words, missing.ingredientIds.length)}
+                  </p>
+                  {firstMissing === undefined ? null : (
+                    <ArrowLink to={`/bar?ingredient=${firstMissing}`} className="w-fit">
+                      {t.complete(missing.ingredientIds.length)}
+                    </ArrowLink>
+                  )}
+                </div>
+              ) : null}
             </div>
             <dl className="m-0 grid grid-cols-3 gap-3 border-t border-border pt-3">
               <Figure
                 label={tp.volume}
-                value={result ? `${formatNumber(result.finalVolumeMl, 0)} ${tp.units.ml}` : null}
+                value={
+                  result ? `${formatNumber(roundServedVolume(result.finalVolumeMl), 0)} ${tp.units.ml}` : null
+                }
               />
               <Figure
                 label={tp.dilution}
@@ -522,58 +601,62 @@ function Workbench({ recipe }: { recipe: RecipeDetail | null }) {
       )}
 
       {/* Down to the edge of the window, over the bottom padding of the screen. */}
-      <footer className="sticky -bottom-8 mt-auto -mb-8 flex flex-wrap items-center gap-2 border-t border-border bg-bg-base py-1.5">
-        {recipe ? (
-          <>
+      <footer className="sticky -bottom-8 mt-auto -mb-8 flex flex-col gap-1 border-t border-border bg-bg-base py-1.5">
+        {/* Why « Enregistrer comme nouvelle version » waits (D-057). */}
+        {version && !dirty ? <p className="m-0 text-small text-fg-muted">{t.unchanged(version)}</p> : null}
+        <div className="flex items-center gap-2">
+          {recipe ? (
+            <>
+              <Button
+                disabled={!dirty || update.isPending}
+                onClick={() => {
+                  setText('')
+                  setDialog('version')
+                }}
+              >
+                {t.saveVersion}
+              </Button>
+              <Button
+                variant="outline"
+                disabled={create.isPending}
+                onClick={() => {
+                  setText(fr.recipes.detail.variantDialog.defaultName(recipe.name))
+                  setDialog('variant')
+                }}
+              >
+                {t.saveVariant}
+              </Button>
+            </>
+          ) : (
             <Button
-              disabled={!dirty || update.isPending}
+              disabled={draft.name.trim() === '' || create.isPending}
               onClick={() => {
-                setText('')
-                setDialog('version')
+                saveAsNew(draft.name, null)
               }}
             >
-              {t.saveVersion}
+              {t.saveNew}
             </Button>
-            <Button
-              variant="outline"
-              disabled={create.isPending}
-              onClick={() => {
-                setText(fr.recipes.detail.variantDialog.defaultName(recipe.name))
-                setDialog('variant')
-              }}
-            >
-              {t.saveVariant}
-            </Button>
-          </>
-        ) : (
+          )}
           <Button
-            disabled={draft.name.trim() === '' || create.isPending}
+            variant="ghost"
+            disabled={!dirty}
             onClick={() => {
-              saveAsNew(draft.name, null)
+              dispatch({ type: 'reset', draft: initial })
             }}
           >
-            {t.saveNew}
+            {t.discard}
           </Button>
-        )}
-        <Button
-          variant="ghost"
-          disabled={!dirty}
-          onClick={() => {
-            dispatch({ type: 'reset', draft: initial })
-          }}
-        >
-          {t.discard}
-        </Button>
-        <Button
-          variant="outline"
-          disabled={(!recipe && draft.name.trim() === '') || update.isPending || create.isPending}
-          icon={<NotebookPen size={14} aria-hidden="true" />}
-          aria-keyshortcuts="Control+J"
-          className="ml-auto"
-          onClick={tasteNow}
-        >
-          {t.taste}
-        </Button>
+          <Button
+            variant="outline"
+            disabled={(!recipe && draft.name.trim() === '') || update.isPending || create.isPending}
+            icon={<NotebookPen size={14} aria-hidden="true" />}
+            aria-keyshortcuts="Control+J"
+            className="ml-auto"
+            onClick={tasteNow}
+          >
+            {t.taste}
+          </Button>
+        </div>
       </footer>
 
       <Dialog

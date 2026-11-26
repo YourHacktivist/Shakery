@@ -55,9 +55,9 @@ test('screens', async () => {
       ['Fiches', 'recipes'],
       ['Préparations', 'preps'],
       ['Collections', 'collections'],
-      ['Révision', 'practice'],
+
       ['Calculateurs', 'calculators'],
-      ['Mon bar', 'bar'],
+      ['Ingrédients', 'bar'],
       ['Paramètres', 'settings'],
       ['Accueil', 'home'],
     ] as const) {

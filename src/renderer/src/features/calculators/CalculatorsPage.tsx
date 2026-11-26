@@ -18,7 +18,7 @@ import { notifyError } from '@renderer/features/shared/notify'
 import { detailToInput, formatDose } from '@renderer/features/recipes/model'
 import { fr } from '@renderer/i18n/fr'
 import { cn } from '@renderer/lib/cn'
-import { formatNumber } from '@renderer/lib/format'
+import { formatNumber, roundServedVolume } from '@renderer/lib/format'
 import { unwrap } from '@renderer/lib/ipc'
 import {
   useCalculation,
@@ -42,25 +42,32 @@ const t = fr.workshop.calculators
 
 type Tab = 'batch' | 'abv' | 'convert' | 'cost'
 
-/** Calculators (section 10.13): batch, ABV and dilution, unit conversion, cost. */
+/**
+ * Calculators (section 10.13): batch, ABV and dilution, unit conversion, cost. The header is
+ * the one of the other pages (D-057): a line on the calculator shown above the title, the tabs
+ * under it at the place of the selector of the page Fiches.
+ */
 export function CalculatorsPage() {
   const [tab, setTab] = useState<Tab>('batch')
   return (
     <div className="mx-auto flex max-w-page flex-col gap-4">
-      <header className="flex items-center justify-between gap-4">
-        <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
-        <SegmentedControl
-          label={t.title}
-          value={tab}
-          onChange={setTab}
-          options={[
-            { value: 'batch', label: t.tabs.batch, icon: <FlaskConical size={14} aria-hidden="true" /> },
-            { value: 'abv', label: t.tabs.abv, icon: <Droplets size={14} aria-hidden="true" /> },
-            { value: 'convert', label: t.tabs.convert, icon: <Repeat size={14} aria-hidden="true" /> },
-            { value: 'cost', label: t.tabs.cost, icon: <Euro size={14} aria-hidden="true" /> },
-          ]}
-        />
+      <header className="flex items-end justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <span className="text-caption text-fg-muted">{t[tab].caption}</span>
+          <h1 className="m-0 text-title font-semibold tracking-tight text-fg">{t.title}</h1>
+        </div>
       </header>
+      <SegmentedControl
+        label={t.tabsLabel}
+        value={tab}
+        onChange={setTab}
+        options={[
+          { value: 'batch', label: t.tabs.batch, icon: <FlaskConical size={14} aria-hidden="true" /> },
+          { value: 'abv', label: t.tabs.abv, icon: <Droplets size={14} aria-hidden="true" /> },
+          { value: 'convert', label: t.tabs.convert, icon: <Repeat size={14} aria-hidden="true" /> },
+          { value: 'cost', label: t.tabs.cost, icon: <Euro size={14} aria-hidden="true" /> },
+        ]}
+      />
       <div key={tab} className="animate-rise">
         {tab === 'batch' ? <BatchCalculator /> : null}
         {tab === 'abv' ? <AbvCalculator /> : null}
@@ -641,7 +648,7 @@ function AbvCalculator() {
           strong
         />
         <Result label={t.abv.before} value={before === null ? null : formatNumber(before, 1)} unit="% vol" />
-        <Result label={t.abv.served} value={formatNumber(Math.round(v0 * (1 + d)))} unit="ml" />
+        <Result label={t.abv.served} value={formatNumber(roundServedVolume(v0 * (1 + d)))} unit="ml" />
       </div>
     </div>
   )

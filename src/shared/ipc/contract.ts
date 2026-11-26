@@ -13,6 +13,7 @@ import { BACKUP_ID_PATTERN, backupSummarySchema, databaseHealthSchema } from '..
 import {
   ingredientDetailSchema,
   ingredientInputSchema,
+  ingredientInventorySchema,
   ingredientSummarySchema,
   productInputSchema,
   productSchema,
@@ -159,6 +160,7 @@ export const ipcContract = {
     input: z.object({ id: z.string().min(1).max(36), favorite: z.boolean() }).strict(),
     output: done,
   },
+  'ingredients.inventory': { input: noInput, output: ingredientInventorySchema },
   'products.listByIngredient': {
     input: z.object({ ingredientId: z.string().min(1).max(36) }).strict(),
     output: z.array(productSchema).max(5000),
@@ -362,6 +364,7 @@ export const ipcContract = {
   },
   /** Reference zones of each family (section 8), cached until a recipe or an ingredient changes. */
   'recipes.referenceZones': { input: noInput, output: referenceZonesSchema },
+  'recipes.familyLabel': { input: idInput, output: z.string().max(200).nullable() },
   'recipes.facets': { input: noInput, output: z.array(recipeFacetsSchema).max(50_000) },
   /** Tasting journal (section 10.6). */
   'tastingNotes.list': {

@@ -43,7 +43,7 @@ describe('UpdateHost', () => {
     show()
 
     const dialog = await screen.findByRole('dialog', { name: /Shakery 0\.2\.0 est disponible/ })
-    expect(dialog.textContent).toContain('Tu as la version 0.1.0.')
+    expect(dialog.textContent).toContain('La version installée est la 0.1.0.')
     // The notes are text: a tag in them stays visible as typed.
     expect(dialog.textContent).toContain('• Une <b>fenêtre</b>')
 

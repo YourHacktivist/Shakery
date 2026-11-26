@@ -1,0 +1,43 @@
+/*
+ * Styles propres aux planches de refonte (barre latérale regroupée, sections éditoriales).
+ * La feuille de l'appli (index-*.css) reste la base. Celle-ci n'ajoute que ce qui n'existe pas encore.
+ */
+.pl-scroll { display: flex; min-height: 0; flex: 1; flex-direction: column; overflow: hidden; padding: 8px 12px 16px; }
+.pl-nav { display: flex; flex-direction: column; gap: 18px; }
+.pl-group-title {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding: 0 8px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-fg-muted);
+}
+.pl-group-title::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+.pl-list { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.pl-item {
+  position: relative; display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 8px;
+  border: 1px solid transparent; border-radius: var(--radius-field);
+  font-size: var(--text-body); font-weight: 500; color: var(--color-fg-secondary); text-decoration: none; white-space: nowrap;
+}
+.pl-item svg { flex-shrink: 0; }
+.pl-item.is-active {
+  color: var(--color-fg); border-color: rgb(239 120 43 / 0.2);
+  background: linear-gradient(90deg, rgb(239 120 43 / 0.16), rgb(239 120 43 / 0.03));
+}
+.pl-item.is-active svg { color: var(--color-accent); }
+.pl-item.is-active::before {
+  content: ''; position: absolute; top: 7px; left: -1px; width: 3px; height: 16px; border-radius: 9999px;
+  background: var(--color-accent); box-shadow: 0 0 10px rgb(239 120 43 / 0.8);
+}
+.pl-foot { padding: 0 12px; }
+.pl-footbar {
+  display: flex; align-items: center; justify-content: space-between; height: 56px; margin: 8px -12px 0; padding: 0 12px 0 16px;
+  border-top: 1px solid var(--color-border); font-size: var(--text-small); color: var(--color-fg-muted);
+}
+.pl-iconbtn {
+  display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0;
+  border: 0; border-radius: var(--radius-field); background: transparent; color: var(--color-fg-secondary);
+}
+/* Titre de section éditorial : petites capitales et filet, comme le mode préparation */
+.pl-section-title {
+  display: flex; align-items: center; gap: 12px; margin: 0 0 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-soft);
+}
+.pl-section-title::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+.pl-section-title.is-muted { color: var(--color-fg-muted); }

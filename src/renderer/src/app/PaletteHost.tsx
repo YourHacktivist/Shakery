@@ -18,7 +18,7 @@ import {
 import { useMemo, useState } from 'react'
 import { useLocation, useMatch, useNavigate } from 'react-router'
 import { helpPlaceOf, useHelpStore } from '@renderer/app/help'
-import { NAV_ITEMS } from '@renderer/app/navigation'
+import { SIDEBAR_ITEMS } from '@renderer/app/navigation'
 import { useOverlayStore } from '@renderer/app/stores'
 import {
   CommandPalette,
@@ -260,7 +260,7 @@ export function PaletteHost() {
     result.push({
       id: 'screens',
       heading: t.groupScreens,
-      items: NAV_ITEMS.map((item) => {
+      items: SIDEBAR_ITEMS.map((item) => {
         const Icon = item.icon
         return {
           id: item.id,

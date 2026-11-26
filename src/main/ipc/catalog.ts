@@ -42,6 +42,7 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
       ingredientsRepo().setFavorite(id, favorite)
       return null
     },
+    'ingredients.inventory': () => ingredientsRepo().inventory(),
     'products.listByIngredient': ({ ingredientId }) => productsRepo().listByIngredient(ingredientId),
     'products.create': (data) => productsRepo().create(data),
     'products.update': ({ id, data }) => productsRepo().update(id, data),
@@ -69,5 +70,6 @@ export function createCatalogHandlers(manager: DatabaseManager): Pick<IpcHandler
     'recipes.getVersion': ({ id, version }) => recipesRepo().getVersion(id, version),
     'recipes.referenceZones': () => zonesCache.get(db(), recipesRepo()),
     'recipes.facets': () => recipeFacets(db()),
+    'recipes.familyLabel': ({ id }) => recipesRepo().familyLabel(id),
   }
 }

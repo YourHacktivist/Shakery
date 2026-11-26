@@ -526,6 +526,52 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Mesuré sur une copie décompressée : processus lancé en 0,7 à 1,2 s, carnet prêt en 5,8 s au premier lancement et en 1,9 s ensuite.
 - **Validation** : demande de l'utilisateur du 24 novembre 2026.
 
+### D-057 Refonte ergonomique sur planches
+
+- **Date** : 2026-11-24
+- **Contexte** : à la relecture des onglets, l'utilisateur trouve qu'il y a beaucoup de boutons et que les conteneurs se ressemblent tous. L'analyse relève onze entrées de même poids dans la barre latérale, des encarts qui imitent la navigation, plusieurs boutons pleins par écran, des commandes en double (aide, thème, paramètres) et des pages faites de cartes identiques. L'utilisateur demande des planches avant tout changement de design, puis les valide.
+- **Choix** :
+  - Les planches de `design/planches/` (avant et après pour dix écrans, avec leurs notes) sont la cible de la refonte. Pour les questions qu'elles laissent ouvertes, le choix dessiné sur la planche s'applique.
+  - Barre latérale en trois groupes titrés en petites capitales (Création, Bar, Outils), Paramètres en bas près de la version. L'onglet Révision disparaît et devient un onglet de chaque collection. Les encarts À retester, Préparations et Ce soir passent sur l'accueil.
+  - Barre du haut réduite à la recherche, à Idée rapide en bouton discret et à Aide. Le thème et les paramètres ne vivent plus que dans Paramètres.
+  - Un seul bouton plein par écran. Le contenu principal se passe de carte et reprend la typographie du mode préparation (petites capitales, filets, chiffres tabulaires) ; les informations d'appoint vont dans une colonne plus calme ; les séries d'objets deviennent des listes à lignes.
+  - La page Fiches s'ouvre sur les créations de l'utilisateur, les classiques ont leur onglet. La fiche garde quatre actions visibles et range les autres, suppression comprise, dans un menu « Plus ».
+  - Corrections relevées en chemin : les entrées inactives de la barre latérale recevaient le texte de leur fonction de classe au lieu de leurs classes (infobulle Radix en `asChild`), et la position de défilement passait d'une page à l'autre.
+- **Validation** : planches validées par l'utilisateur le 24 novembre 2026.
+
+### D-058 Une interface qui ne désigne personne
+
+- **Date** : 2026-11-24
+- **Contexte** : l'utilisateur ne veut plus de tutoiement dans l'application et demande de parler sans désignation.
+- **Choix** :
+  - Aucun texte de l'interface ne s'adresse à l'utilisateur ni ne parle à sa place : ni « tu », ni « vous », ni impératif, ni possessif de la première ou de la deuxième personne. Les actions s'écrivent à l'infinitif (« Noter une dégustation »), les états et explications en phrases impersonnelles, passives ou nominales (« Aucune dégustation notée pour l'instant. »).
+  - Libellés renommés en conséquence : « Mon bar » devient « Ingrédients », « Mes créations » et « Ma création » deviennent « Créations » et « Création », « Je l'ai » devient « Au bar ». L'onglet « Carnet » devient « Notes » (D-057).
+  - Le test de typographie échoue désormais sur un pronom de la première ou de la deuxième personne. Les impératifs ne se détectent pas par un motif et se relisent.
+  - S'applique aussi à l'aide, au guide, à l'écran de démarrage, aux fiches imprimées et au fichier `LISEZMOI.txt` de la version portable.
+- **Validation** : demande de l'utilisateur du 24 novembre 2026.
+
+### D-059 Volumes ronds et fiche imprimée lisible
+
+- **Date** : 2026-11-26
+- **Contexte** : l'utilisateur a lu « 126 ml » sur un classique et veut des volumes justes et ronds. Il veut aussi la famille, la catégorie et le type sur la fiche imprimée, sans mettre en avant le crédit (« IBA » et autres), et des dessins de fond qui ne gênent jamais la lecture d'un texte hors cadre.
+- **Choix** :
+  - Le volume servi affiché (fiche, atelier, comparaison, calculateur, fiche imprimée) s'arrondit à 5 ml près, au millilitre sous 20 ml (`roundServedVolume` de `lib/format.ts`). Les calculs gardent la valeur exacte. Le 126 ml venait de 105 ml d'ingrédients et de 20 % d'eau de fonte : le calcul était juste, son affichage ne l'était pas pour un barman.
+  - Fiche imprimée : une ligne compacte Famille, Catégorie (Création ou Classique), Type (longueur et moment) et Profil sous les repères ; le crédit quitte le titre pour le pied de page, en petit.
+  - Dessins de fond des écrans à 16 % d'opacité au lieu de 36 %, comme sur les planches.
+  - Dans l'éditeur, la phrase interne qui marque les étapes types d'un classique ne s'affiche plus dans le champ crédit ; elle est conservée à l'enregistrement si le champ reste vide.
+- **Validation** : demandes de l'utilisateur du 26 novembre 2026.
+
+### D-060 Fiche imprimée claire, familles inchangées, plus d'effet de verre réglable
+
+- **Date** : 2026-11-26
+- **Contexte** : l'utilisateur garde les familles de l'application (Highball, Tiki, Punch, Fizz au champagne et les autres de son fichier MAF), et veut la catégorie et la famille sur la fiche imprimée, dans une mise en page moderne et compacte. Le bandeau sombre aux coins arrondis du haut de la fiche lui déplaît. Il trouve que le réglage « Effet de verre » ne fait rien.
+- **Choix** :
+  - Pas de nouvelle classification : l'énumération des familles ne change pas. La fiche imprimée affiche la famille exacte de la version socle quand elle existe (« Fizz au champagne », « Highball (buck) »), lue par le nouveau canal `recipes.familyLabel`, sinon la famille de la fiche.
+  - Seconde rangée de repères sur la même grille de quatre colonnes que la méthode, le verre et la glace : Famille, Catégorie (Short drink ou Long drink), Moment, Origine, Profil. Sans longueur renseignée, la catégorie se déduit du verre (highball, collins, tiki et semblables) ou d'une ligne « à compléter ».
+  - En-tête clair : petit logo sur un léger halo cuivré, nom à l'encre, filet cuivré dessous. Le bandeau sombre, ses anneaux et ses coins arrondis disparaissent. La décoration et le degré perdent leurs encadrés au profit de filets.
+  - Le réglage « Effet de verre » quitte les paramètres : le flou ne concerne que les fenêtres flottantes depuis la refonte et son effet ne se voyait pas. Le mode performance retire toujours le flou. La clé `appearance.blur` reste dans le schéma des réglages pour relire les carnets existants, sans effet.
+- **Validation** : demandes de l'utilisateur du 26 novembre 2026.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

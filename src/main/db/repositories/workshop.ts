@@ -80,6 +80,16 @@ export class WorkshopRepository {
       if (batch.status === 'active' || list.filter((b) => b.status !== 'active').length < 10) list.push(batch)
       batches.set(batch.recipeId, list)
     }
+    const lines = new Map<string, string[]>()
+    for (const row of this.all(
+      `SELECT l.recipe_id AS recipeId, i.name AS name FROM recipe_lines l
+       JOIN ingredients i ON i.id = l.ingredient_id
+       JOIN recipes r ON r.id = l.recipe_id
+       WHERE r.kind = 'prep' AND l.deleted_at IS NULL AND l.is_garnish = 0 ORDER BY l.sort_order`,
+    )) {
+      const key = String(row['recipeId'])
+      lines.set(key, [...(lines.get(key) ?? []), String(row['name'])])
+    }
     return this.all(
       `SELECT id, name, status, shelf_life_days, yield_ml, storage_notes FROM recipes
        WHERE kind = 'prep' AND deleted_at IS NULL ORDER BY name_normalized`,
@@ -90,6 +100,7 @@ export class WorkshopRepository {
       shelfLifeDays: num(row['shelf_life_days']),
       yieldMl: num(row['yield_ml']),
       storageNotes: str(row['storage_notes']),
+      composition: lines.get(String(row['id'])) ?? [],
       batches: batches.get(String(row['id'])) ?? [],
     }))
   }

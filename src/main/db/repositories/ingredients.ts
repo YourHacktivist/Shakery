@@ -8,6 +8,7 @@ import {
   ingredientInputSchema,
   type IngredientDetail,
   type IngredientInput,
+  type IngredientInventory,
   type IngredientSummary,
 } from '../../../shared/domain/catalog'
 import { DomainError } from '../../errors'
@@ -50,6 +51,24 @@ export class IngredientRepository {
       .all()
     const aliases = this.aliasesByIngredient(rows.map((r) => r.id))
     return rows.map((row) => ({ ...row, aliases: aliases.get(row.id) ?? [] }))
+  }
+
+  /** Ingredients with an owned bottle, and the number of live recipes using each ingredient. */
+  inventory(): IngredientInventory {
+    const owned = this.db
+      .selectDistinct({ id: products.ingredientId })
+      .from(products)
+      .where(and(eq(products.owned, true), isNull(products.deletedAt)))
+      .all()
+      .map((row) => row.id)
+    const usage = this.db
+      .select({ id: recipeLines.ingredientId, count: sql<number>`count(distinct ${recipeLines.recipeId})` })
+      .from(recipeLines)
+      .innerJoin(recipes, eq(recipes.id, recipeLines.recipeId))
+      .where(and(isNull(recipeLines.deletedAt), isNull(recipes.deletedAt)))
+      .groupBy(recipeLines.ingredientId)
+      .all()
+    return { owned, usage }
   }
 
   get(id: string): IngredientDetail {

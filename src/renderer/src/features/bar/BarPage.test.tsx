@@ -80,7 +80,7 @@ describe('BarPage', () => {
   it('groups ingredients by category and filters by name or alias', async () => {
     const user = userEvent.setup()
     renderBar()
-    const list = await screen.findByRole('navigation', { name: t.listLabel })
+    const list = await screen.findByRole('region', { name: t.listLabel })
     expect(await within(list).findByRole('button', { name: 'Gin London Dry' })).toBeDefined()
     expect(within(list).getByRole('button', { name: 'Citron vert' })).toBeDefined()
 
