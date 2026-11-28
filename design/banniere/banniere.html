@@ -1,0 +1,75 @@
+<!doctype html>
+<!--
+  Bannière du README (docs/assets/banner.png), 1920 × 672 px CSS, rendue à l'échelle 1,25 :
+    npx playwright test -c playwright.screens.config.ts tests/screens/banner.spec.ts
+    (copier test-results/screens/banner-home-*.png en accueil-sombre.png et accueil-clair.png)
+    npx electron design/planches/rendu.cjs design/banniere/banniere.html docs/assets/banner.png 1920 672
+  La partie gauche vient de source.png, la bannière d'origine ; les fenêtres sont les captures.
+-->
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 672px;
+        overflow: hidden;
+        background: #0b0706;
+      }
+      .stage {
+        position: relative;
+        width: 1920px;
+        height: 672px;
+        background: url('source.png') 0 0 / 1920px 672px no-repeat;
+      }
+      /* Covers the former windows, in the colours of the banner's own right edge. */
+      .cover {
+        position: absolute;
+        left: 1120px;
+        top: 0;
+        width: 800px;
+        height: 662px;
+        background:
+          linear-gradient(90deg, rgba(11, 7, 6, 0) 0, #0b0706 60px),
+          radial-gradient(120% 90% at 100% 0%, #3a1a0e 0%, #1c0e09 45%, #0b0706 80%);
+        background-blend-mode: normal;
+      }
+      .window {
+        position: absolute;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 235, 220, 0.16);
+        box-shadow:
+          0 40px 90px rgba(0, 0, 0, 0.65),
+          0 0 0 1px rgba(0, 0, 0, 0.4);
+        transform-origin: left center;
+      }
+      .window img {
+        display: block;
+        width: 100%;
+      }
+      .light {
+        left: 1268px;
+        top: 34px;
+        width: 760px;
+        transform: perspective(1800px) rotateY(-16deg) rotateZ(-1.2deg);
+        opacity: 0.96;
+      }
+      .dark {
+        left: 1168px;
+        top: 226px;
+        width: 640px;
+        transform: perspective(1800px) rotateY(-16deg) rotateZ(-1.2deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="cover"></div>
+      <div class="window light"><img src="accueil-clair.png" alt="" /></div>
+      <div class="window dark"><img src="accueil-sombre.png" alt="" /></div>
+    </div>
+  </body>
+</html>
