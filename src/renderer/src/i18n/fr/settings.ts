@@ -187,6 +187,10 @@ export const settings = {
         text: 'Anses. 2020. Table de composition nutritionnelle des aliments Ciqual. Licence Ouverte.',
       },
       {
+        name: 'Sucre et acidité',
+        text: 'Table Ciqual, mesures de laboratoire publiées par Alko et Vinmonopolet pour chaque bouteille, étiquettes et fiches des producteurs.',
+      },
+      {
         name: 'International Bartenders Association',
         text: 'Doses des cocktails officiels, étapes réécrites.',
       },

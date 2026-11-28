@@ -117,7 +117,10 @@ export const bar = topic(
       `D’où viennent sucre et acidité : ${Object.values(b.sources).join(', ')}. C’est un simple repère.`,
     ),
     item(fi.confidence, '« Estimée » marque comme estimés les chiffres des fiches qui s’en servent.'),
-    item(b.confidenceOptions.sourced, 'La valeur vient d’une étiquette ou d’une table.'),
+    item(
+      b.confidenceOptions.sourced,
+      'La valeur vient d’une étiquette, d’une table ou d’une mesure publiée pour ce produit.',
+    ),
     item(fi.aliases, 'Séparés par des virgules.'),
     item(fi.flavors, 'Des mots comme agrume, herbacé, fumé, séparés par des virgules.'),
     item(fi.allergens, 'Ce sont les quatorze allergènes réglementaires, à recopier depuis l’étiquette.'),

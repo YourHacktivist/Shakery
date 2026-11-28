@@ -138,9 +138,9 @@ describe('DatabaseManager', () => {
     const m = manager()
     await m.open()
     m.close()
-    // Simulate a notebook created by an older version: forget the last migration.
+    // Simulate a notebook created by an older version: forget the last migration, which
+    // rebuilds the ingredients table and can run again on the current schema (0004).
     const raw = openDatabase(path.join(root, 'shakery.db'))
-    raw.exec('ALTER TABLE ingredients DROP COLUMN density_g_per_ml')
     // Drizzle's id column stays NULL in SQLite: the order is given by created_at.
     raw.exec(
       'DELETE FROM __drizzle_migrations WHERE created_at = (SELECT max(created_at) FROM __drizzle_migrations)',

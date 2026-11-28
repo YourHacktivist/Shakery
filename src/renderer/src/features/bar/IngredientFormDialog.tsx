@@ -32,7 +32,7 @@ const FORM_ID = 'ingredient-form'
 
 type IngredientValues = z.output<typeof ingredientInputSchema>
 
-const sourceOptions = (['ciqual', 'computed', 'label', 'user'] as const).map((value) => ({
+const sourceOptions = (['ciqual', 'computed', 'label', 'reference', 'user'] as const).map((value) => ({
   value,
   label: t.sources[value],
 }))

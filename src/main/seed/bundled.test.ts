@@ -141,6 +141,102 @@ describe('bundled seed data', () => {
     sqlite.close()
   })
 
+  it('completes the compositions of a notebook loaded earlier, never a value of the user (D-061)', () => {
+    const sqlite = openDatabase(':memory:')
+    runMigrations(sqlite, MIGRATIONS)
+    const db = createDb(sqlite)
+    const ids = {
+      now: () => 1,
+      newId: createUuidV7Generator(
+        () => 1,
+        (b) => b.fill(4),
+      ),
+    }
+    const pick = (name: string) => {
+      const item = BUNDLED_SEED.ingredients.find((candidate) => candidate.name === name)
+      if (!item) throw new Error(`fixture: ${name}`)
+      return item
+    }
+    type Composition = Pick<
+      (typeof BUNDLED_SEED.ingredients)[number],
+      'sugar_g_per_l' | 'acid_g_per_l' | 'composition_source' | 'composition_confidence'
+    >
+    const none: Composition = {
+      sugar_g_per_l: null,
+      acid_g_per_l: null,
+      composition_source: null,
+      composition_confidence: null,
+    }
+    const seed = (compositions: Record<string, Composition>) => ({
+      ...BUNDLED_SEED,
+      recipes: [],
+      ingredients: Object.entries(compositions).map(([name, composition]) => ({
+        ...pick(name),
+        ...composition,
+        density_g_per_ml: null,
+      })),
+    })
+    const ciqual = (sugar: number, acid: number | null): Composition => ({
+      sugar_g_per_l: sugar,
+      acid_g_per_l: acid,
+      composition_source: 'ciqual',
+      composition_confidence: 'sourced',
+    })
+    const reference = (sugar: number, acid: number): Composition => ({
+      sugar_g_per_l: sugar,
+      acid_g_per_l: acid,
+      composition_source: 'reference',
+      composition_confidence: 'estimated',
+    })
+    loadSeedData(
+      db,
+      ids,
+      seed({
+        Gin: none,
+        'Jus de citron': ciqual(20.6, 48),
+        Cola: ciqual(102, null),
+        'Vermouth rouge': none,
+        'Triple sec': none,
+      }),
+    )
+    // The user opens Cola without touching its composition, gives the vermouth a value of their
+    // own, and types a sugar for the triple sec without choosing a source.
+    sqlite.prepare("UPDATE ingredients SET updated_at = updated_at + 5 WHERE name = 'Cola'").run()
+    sqlite
+      .prepare(
+        "UPDATE ingredients SET sugar_g_per_l = 140, composition_source = 'user', updated_at = updated_at + 5 WHERE name = 'Vermouth rouge'",
+      )
+      .run()
+    sqlite.prepare("UPDATE ingredients SET sugar_g_per_l = 230 WHERE name = 'Triple sec'").run()
+
+    loadSeedData(
+      db,
+      ids,
+      seed({
+        Gin: ciqual(0, 0),
+        'Jus de citron': ciqual(21.2, 49.4),
+        Cola: reference(105, 0.5),
+        'Vermouth rouge': reference(150, 5),
+        'Triple sec': reference(250, 0),
+      }),
+    )
+    const rows = sqlite
+      .prepare(
+        `SELECT name, sugar_g_per_l AS sugar, acid_g_per_l AS acid, composition_source AS source,
+                composition_confidence AS confidence, updated_at - created_at AS touched
+           FROM ingredients ORDER BY name`,
+      )
+      .all()
+    expect(rows).toEqual([
+      { name: 'Cola', sugar: 102, acid: 0.5, source: 'ciqual', confidence: 'estimated', touched: 5 },
+      { name: 'Gin', sugar: 0, acid: 0, source: 'ciqual', confidence: 'sourced', touched: 0 },
+      { name: 'Jus de citron', sugar: 21.2, acid: 49.4, source: 'ciqual', confidence: 'sourced', touched: 0 },
+      { name: 'Triple sec', sugar: 230, acid: null, source: null, confidence: null, touched: 0 },
+      { name: 'Vermouth rouge', sugar: 140, acid: null, source: 'user', confidence: null, touched: 5 },
+    ])
+    sqlite.close()
+  })
+
   it('never recreates an ingredient the user deleted, nor duplicates one the user named alike', () => {
     const sqlite = openDatabase(':memory:')
     runMigrations(sqlite, MIGRATIONS)

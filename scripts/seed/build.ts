@@ -24,6 +24,13 @@ import type { Method } from '../../src/core/model'
 import { normalizeName } from '../../src/core/normalize'
 import { TYPICAL_STEPS_CREDIT } from '../../src/shared/classics'
 import type { CiqualValue } from './ciqual'
+import {
+  computeRecipe,
+  convert,
+  type CompositionEntry,
+  type CompositionTable,
+  type Facts,
+} from './compositions'
 import { familyOf, typicalSteps, type Classic } from './classics'
 import { buildExtraClassics, EXPORT_CACHE, type ClassicsMap, readExport, slugOf } from './extra-classics'
 import type { IbaCocktail } from './iba'
@@ -74,7 +81,7 @@ export type IngredientSeed = {
   default_abv: number | null
   sugar_g_per_l: number | null
   acid_g_per_l: number | null
-  composition_source: 'ciqual' | null
+  composition_source: CompositionEntry['source'] | null
   composition_confidence: 'sourced' | 'estimated' | null
   density_g_per_ml: number | null
   allergens: string[]
@@ -152,17 +159,6 @@ async function main(): Promise<void> {
     })
   }
 
-  for (const [name, value] of Object.entries(ciqual)) {
-    const target = out.find((ingredient) => ingredient.name === name)
-    if (!target) throw new Error(`Ciqual value for an unknown ingredient: ${name}`)
-    target.sugar_g_per_l = value.sugar_g_per_l
-    target.acid_g_per_l = value.acid_g_per_l
-    if (value.sugar_g_per_l !== null || value.acid_g_per_l !== null) {
-      target.composition_source = 'ciqual'
-      target.composition_confidence = 'sourced'
-    }
-  }
-
   const { values: compositions } = await readJson<{ values: Record<string, HandComposition> }>(
     path.join(SEED_DIR, 'hand-compositions.json'),
   )
@@ -179,6 +175,32 @@ async function main(): Promise<void> {
   }
 
   addReferenceDegrees(out, await readJson<AbvTable>(path.join(SEED_DIR, 'abv.json')))
+
+  // Ciqual gives grams per 100 g, kept ×10 in ciqual-values.json: the density of the drink,
+  // computed from its sugar, acid and degree, turns them into grams per litre (D-061).
+  for (const [name, value] of Object.entries(ciqual)) {
+    const target = out.find((ingredient) => ingredient.name === name)
+    if (!target) throw new Error(`Ciqual value for an unknown ingredient: ${name}`)
+    if (value.sugar_g_per_l === null && value.acid_g_per_l === null) continue
+    const converted = convert(
+      {
+        sugar: value.sugar_g_per_l === null ? null : { value: value.sugar_g_per_l / 10, unit: 'g/100g' },
+        acid:
+          value.acid_g_per_l === null
+            ? null
+            : { value: value.acid_g_per_l / 10, unit: 'g/100g', as: 'organic_acids_total' },
+        density_g_per_ml: null,
+      },
+      target.default_abv ?? 0,
+    )
+    target.sugar_g_per_l = converted.sugar
+    target.acid_g_per_l = converted.acid
+    target.composition_source = 'ciqual'
+    target.composition_confidence = 'sourced'
+  }
+
+  const { preps } = await readJson<{ preps: PrepEntry[] }>(path.join(SEED_DIR, 'preps.json'))
+  addCompositions(out, await readJson<CompositionTable>(path.join(SEED_DIR, 'compositions.json')), preps)
 
   addAllergens(out, await readJson<AllergenTable>(path.join(SEED_DIR, 'allergens.json')))
   for (const ingredient of out) {
@@ -224,12 +246,11 @@ async function main(): Promise<void> {
   out.sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name, 'fr'))
   await writeJson(path.join(DATA_DIR, 'ingredients.json'), out)
   console.log(
-    `${out.length} ingredients written, ${out.filter((i) => i.composition_source).length} with Ciqual values`,
+    `${out.length} ingredients written, ${out.filter((i) => i.sugar_g_per_l !== null && i.acid_g_per_l !== null).length} with sugar and acid`,
   )
 
   // Recipes: preparations first, each one becoming an ingredient the next ones can use.
   const byName = new Map(out.map((ingredient) => [normalizeName(ingredient.name), ingredient.seed_key]))
-  const { preps } = await readJson<{ preps: PrepEntry[] }>(path.join(SEED_DIR, 'preps.json'))
   const recipes: RecipeSeed[] = []
   for (const prep of preps) {
     if (!leaves.has(prep.category)) throw new Error(`${prep.name}: ${prep.category} is not a leaf`)
@@ -336,6 +357,80 @@ function addReferenceDegrees(ingredients: IngredientSeed[], table: AbvTable): vo
       if (!target) throw new Error(`${source.id}: degree of an unknown ingredient ${name}`)
       if (target.default_abv !== null) throw new Error(`${source.id}: ${name} already has a degree`)
       target.default_abv = abv
+    }
+  }
+}
+
+/**
+ * Sugar and acid of compositions.json (D-061), after the degrees: a value per 100 g needs the
+ * degree for its density. A homemade preparation is computed from its standard recipe once
+ * every ingredient of that recipe has its own values; a preparation of preps.json can serve.
+ */
+function addCompositions(
+  ingredients: IngredientSeed[],
+  table: CompositionTable,
+  preps: readonly PrepEntry[],
+): void {
+  const byName = new Map(ingredients.map((ingredient) => [ingredient.name, ingredient] as const))
+  const pending = new Map<string, CompositionEntry>()
+  for (const [name, entry] of Object.entries(table.values)) {
+    const target = byName.get(name)
+    if (!target) throw new Error(`compositions.json: unknown ingredient ${name}`)
+    if (entry.refs.length === 0) throw new Error(`compositions.json: ${name} has no source`)
+    if (entry.recipe !== null) {
+      if (entry.sugar !== null || entry.acid !== null || entry.source !== 'computed')
+        throw new Error(`compositions.json: ${name} has a recipe and values`)
+      pending.set(name, entry)
+      continue
+    }
+    if (entry.sugar === null && entry.acid === null)
+      throw new Error(`compositions.json: ${name} has no value`)
+    const converted = convert(entry, target.default_abv ?? 0)
+    target.sugar_g_per_l = converted.sugar
+    target.acid_g_per_l = converted.acid
+    target.composition_source = entry.source
+    target.composition_confidence = entry.confidence
+    if (entry.density_g_per_ml !== null) target.density_g_per_ml = entry.density_g_per_ml
+  }
+
+  const prepFacts = new Map<string, Facts>()
+  const facts = (name: string): Facts | undefined => {
+    const ingredient = byName.get(name)
+    if (ingredient) {
+      return {
+        sugar: ingredient.sugar_g_per_l,
+        acid: ingredient.acid_g_per_l,
+        density: ingredient.density_g_per_ml,
+      }
+    }
+    const prep = preps.find((candidate) => candidate.name === name)
+    if (!prep) return undefined
+    const known = prepFacts.get(name)
+    if (known) return known
+    const parts = prep.lines.flatMap((line) =>
+      !line.optional && line.quantity !== null && (line.unit === 'g' || line.unit === 'ml')
+        ? [{ ingredient: line.ingredient, quantity: line.quantity, unit: line.unit }]
+        : [],
+    )
+    const computed = computeRecipe(parts, facts)
+    prepFacts.set(name, computed)
+    return computed
+  }
+  while (pending.size > 0) {
+    const ready = [...pending].filter(([, entry]) =>
+      entry.recipe?.every((part) => !pending.has(part.ingredient)),
+    )
+    if (ready.length === 0)
+      throw new Error(`compositions.json: recipes that need each other: ${[...pending.keys()].join(', ')}`)
+    for (const [name, entry] of ready) {
+      const target = byName.get(name)
+      if (!target || !entry.recipe) continue
+      const computed = computeRecipe(entry.recipe, facts)
+      target.sugar_g_per_l = computed.sugar
+      target.acid_g_per_l = computed.acid
+      target.composition_source = 'computed'
+      target.composition_confidence = entry.confidence
+      pending.delete(name)
     }
   }
 }

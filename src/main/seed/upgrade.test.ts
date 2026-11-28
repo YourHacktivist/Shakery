@@ -16,6 +16,18 @@ const EXTRA = ALL.recipes.filter((recipe) => recipe.seed_key.startsWith(PREFIX))
 /** The seed of a version before D-054: the same classics under their former key. */
 const FORMER: SeedData = {
   ...BUNDLED_SEED,
+  // Its schema predates the reference source of compositions (D-061, migration 0004).
+  ingredients: BUNDLED_SEED.ingredients.map((item) =>
+    item.composition_source === 'reference'
+      ? {
+          ...item,
+          sugar_g_per_l: null,
+          acid_g_per_l: null,
+          composition_source: null,
+          composition_confidence: null,
+        }
+      : item,
+  ),
   recipes: [
     ...BUNDLED_SEED.recipes,
     ...EXTRA.map((recipe) => ({ ...recipe, seed_key: `c24.${recipe.seed_key.slice(PREFIX.length)}` })),
@@ -39,9 +51,8 @@ describe('a notebook made before D-054', () => {
     sqlite.exec(
       `CREATE TABLE ${MIGRATIONS_TABLE} (id INTEGER PRIMARY KEY AUTOINCREMENT, hash text NOT NULL, created_at numeric)`,
     )
-    const files = readMigrationFiles({ migrationsFolder: MIGRATIONS })
-    const last = files.at(-1)?.folderMillis ?? 0
-    for (const file of files.filter((entry) => entry.folderMillis < last)) {
+    // Migrations 0000 to 0002: 0003 renames the keys, 0004 follows it.
+    for (const file of readMigrationFiles({ migrationsFolder: MIGRATIONS }).slice(0, 3)) {
       for (const statement of file.sql) if (statement.trim()) sqlite.exec(statement)
       sqlite
         .prepare(`INSERT INTO ${MIGRATIONS_TABLE} (hash, created_at) VALUES (?, ?)`)

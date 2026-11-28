@@ -50,11 +50,14 @@ async function main(): Promise<void> {
       .all() as Array<{ id: string; name: string; seedKey: string }>
     let notFirst = 0
     let slowest = 0
+    // Cocktails whose sugar and acid both get a value (complete or estimated, D-061).
+    let balanced = 0
     for (const row of rows) {
       try {
         const detail = recipes.get(row.id)
         if (detail.lines.length === 0) failures.push(`${row.seedKey}: no line`)
-        computeRecipe(db, { id: detail.id, data: detail })
+        const computed = computeRecipe(db, { id: detail.id, data: detail })
+        if (computed.sugarPer100Ml.value !== null && computed.acidPer100Ml.value !== null) balanced += 1
       } catch (error) {
         failures.push(`${row.seedKey}: ${(error as Error).message}`)
         continue
@@ -69,6 +72,7 @@ async function main(): Promise<void> {
     console.log(
       `${rows.length} cocktails checked; found by name in the first ${TOP} hits: ${rows.length - failures.length}; not first (another recipe of the same name first): ${notFirst}; slowest search ${slowest.toFixed(0)} ms`,
     )
+    console.log(`${balanced} cocktails with a computed sugar and acidity`)
   } finally {
     sqlite.close()
     await rm(dir, { recursive: true, force: true })

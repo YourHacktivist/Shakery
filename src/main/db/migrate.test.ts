@@ -56,6 +56,22 @@ function memory(): Sqlite {
   return openDatabase(':memory:')
 }
 
+/** A database brought to its first `applied` migrations exactly as Drizzle would have. */
+function atVersion(applied: number): Sqlite {
+  const db = memory()
+  db.exec(
+    `CREATE TABLE ${MIGRATIONS_TABLE} (id INTEGER PRIMARY KEY AUTOINCREMENT, hash text NOT NULL, created_at numeric)`,
+  )
+  for (const file of readMigrationFiles({ migrationsFolder: FOLDER }).slice(0, applied)) {
+    for (const statement of file.sql) if (statement.trim()) db.exec(statement)
+    db.prepare(`INSERT INTO ${MIGRATIONS_TABLE} (hash, created_at) VALUES (?, ?)`).run(
+      file.hash,
+      file.folderMillis,
+    )
+  }
+  return db
+}
+
 describe('migrations', () => {
   it('create the whole schema from an empty database', () => {
     const db = memory()
@@ -126,19 +142,8 @@ describe('migrations', () => {
   })
 
   it('give the extra classics of an older notebook their new seed key, deleted ones included', () => {
-    const files = readMigrationFiles({ migrationsFolder: FOLDER })
-    const before = files.length - 1
-    const db = memory()
-    db.exec(
-      `CREATE TABLE ${MIGRATIONS_TABLE} (id INTEGER PRIMARY KEY AUTOINCREMENT, hash text NOT NULL, created_at numeric)`,
-    )
-    for (const file of files.slice(0, before)) {
-      for (const statement of file.sql) if (statement.trim()) db.exec(statement)
-      db.prepare(`INSERT INTO ${MIGRATIONS_TABLE} (hash, created_at) VALUES (?, ?)`).run(
-        file.hash,
-        file.folderMillis,
-      )
-    }
+    // Migrations 0000 to 0002 only, so that 0003 runs on the rows below.
+    const db = atVersion(3)
     const insert = db.prepare(
       'INSERT INTO recipes (id, created_at, updated_at, deleted_at, name, name_normalized, seed_key) VALUES (?, 1, 1, ?, ?, ?, ?)',
     )
@@ -154,6 +159,43 @@ describe('migrations', () => {
       { id: 'c', key: 'iba.negroni' },
       { id: 'd', key: null },
     ])
+    db.close()
+  })
+
+  it('keep every ingredient and its links when the table is rebuilt for the reference source', () => {
+    // Migrations 0000 to 0003 only, so that 0004 rebuilds a table that holds data.
+    const db = atVersion(4)
+    db.exec(`
+      INSERT INTO categories (id, created_at, updated_at, name, slug) VALUES ('c1', 1, 1, 'Gin', 'gin');
+      INSERT INTO ingredients (id, created_at, updated_at, deleted_at, name, name_normalized, category_id,
+        default_abv, sugar_g_per_l, acid_g_per_l, composition_source, composition_confidence, density_g_per_ml,
+        flavor_tags, allergens, is_staple, is_favorite, source, seed_key)
+      VALUES
+        ('i1', 1, 2, NULL, 'Gin', 'gin', 'c1', 40, 0, 0, 'ciqual', 'sourced', NULL, '["genièvre"]', '[]', 0, 1, 'seed', 'ing.gin'),
+        ('i2', 1, 1, 5, 'Gin rose', 'gin rose', 'c1', NULL, 12.5, NULL, 'user', 'estimated', 1.1, '[]', '["sulphites"]', 0, 0, 'user', NULL);
+      INSERT INTO ingredient_aliases (id, created_at, updated_at, ingredient_id, alias, alias_normalized)
+        VALUES ('a1', 1, 1, 'i1', 'London Dry', 'london dry');
+      INSERT INTO recipes (id, created_at, updated_at, name, name_normalized) VALUES ('r1', 1, 1, 'Martini', 'martini');
+      INSERT INTO recipe_lines (id, created_at, updated_at, recipe_id, ingredient_id, quantity, unit, sort_order)
+        VALUES ('l1', 1, 1, 'r1', 'i1', 60, 'ml', 0);
+    `)
+    const before = db.prepare('SELECT * FROM ingredients ORDER BY id').all()
+    runMigrations(db, FOLDER)
+    expect(db.prepare('SELECT * FROM ingredients ORDER BY id').all()).toEqual(before)
+    expect(db.pragma('foreign_key_check')).toEqual([])
+    const link = db
+      .prepare('SELECT i.name FROM recipe_lines l JOIN ingredients i ON i.id = l.ingredient_id')
+      .get() as { name: string }
+    expect(link.name).toBe('Gin')
+    // The new source is accepted, an unknown one still refused, the table keeps its name.
+    db.prepare("UPDATE ingredients SET composition_source = 'reference' WHERE id = 'i1'").run()
+    expect(() =>
+      db.prepare("UPDATE ingredients SET composition_source = 'blog' WHERE id = 'i1'").run(),
+    ).toThrow(/CHECK constraint failed/)
+    const ddl = db.prepare("SELECT sql FROM sqlite_master WHERE name = 'ingredients'").get() as {
+      sql: string
+    }
+    expect(ddl.sql).not.toContain('__new_')
     db.close()
   })
 

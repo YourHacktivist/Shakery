@@ -92,7 +92,7 @@ export const ingredientInputSchema = z
     sugarGPerL: nonNegative.max(2000).nullable().default(null),
     acidGPerL: nonNegative.max(1000).nullable().default(null),
     densityGPerMl: z.number().gt(0).max(5).nullable().default(null),
-    compositionSource: z.enum(['ciqual', 'computed', 'label', 'user']).nullable().default(null),
+    compositionSource: z.enum(['ciqual', 'computed', 'label', 'reference', 'user']).nullable().default(null),
     compositionConfidence: z.enum(['sourced', 'estimated']).nullable().default(null),
     flavorTags: z.array(z.string().trim().min(1).max(40)).max(30).default([]),
     description: optionalText(4000).default(null),
@@ -106,7 +106,7 @@ export const ingredientDetailSchema = ingredientSummarySchema
   .extend({
     sugarGPerL: z.number().nullable(),
     acidGPerL: z.number().nullable(),
-    compositionSource: z.enum(['ciqual', 'computed', 'label', 'user']).nullable(),
+    compositionSource: z.enum(['ciqual', 'computed', 'label', 'reference', 'user']).nullable(),
     compositionConfidence: z.enum(['sourced', 'estimated']).nullable(),
     flavorTags: z.array(z.string()).max(30),
     description: z.string().nullable(),

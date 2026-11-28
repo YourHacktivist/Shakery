@@ -76,7 +76,7 @@ export const ingredientSeedSchema = z
     default_abv: z.number().min(0).max(100).nullable(),
     sugar_g_per_l: z.number().min(0).max(2000).nullable(),
     acid_g_per_l: z.number().min(0).max(1000).nullable(),
-    composition_source: z.enum(['ciqual', 'computed', 'label']).nullable(),
+    composition_source: z.enum(['ciqual', 'computed', 'label', 'reference']).nullable(),
     composition_confidence: z.enum(['sourced', 'estimated']).nullable(),
     density_g_per_ml: z.number().gt(0).max(5).nullable(),
     allergens: z.array(z.enum(ALLERGEN_CODES)).max(14),
@@ -374,7 +374,7 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
     )
     for (const item of checked.ingredients) {
       if (ingredientKeys.has(item.seed_key)) {
-        fillComposition(tx, item, now)
+        fillComposition(tx, item)
         fillReference(tx, item)
         continue
       }
@@ -437,38 +437,67 @@ export function loadSeedData(db: Db, ids: Ids, data: SeedData): SeedReport {
   return report
 }
 
+/** Sources the seed writes: a row that carries one of them holds a composition of the seed. */
+const SEED_COMPOSITION_SOURCES: ReadonlySet<string> = new Set(['ciqual', 'computed', 'label', 'reference'])
+
 /**
- * Composition added to the seed after an ingredient was loaded (D-031: water, sugars, honey).
- * Written only when the row still has no composition at all, so a value the user entered is
- * never replaced.
+ * Composition added or corrected in the seed after an ingredient was loaded (D-031, D-061), in
+ * three cases only, so that a value the user entered is never replaced:
+ * - the row has no composition at all (no sugar, no acid, no source): it takes the seed's;
+ * - the row still holds a composition of the seed and nobody changed it: it takes the new one;
+ * - the row holds a composition of the seed with one half missing: only that half is added, and
+ *   the confidence becomes « estimated » if either half is.
+ * The date of the row does not move: it stays the entry of the seed for the imports. The degree
+ * is left to fillReference.
  */
 function fillComposition(
   tx: Parameters<Parameters<Db['transaction']>[0]>[0],
   item: z.output<typeof ingredientSeedSchema>,
-  now: number,
 ): void {
-  // A degree alone is for fillReference, which leaves the row untouched for the imports.
   if (item.sugar_g_per_l === null && item.acid_g_per_l === null && item.density_g_per_ml === null) return
+  const row = tx
+    .select({
+      id: ingredients.id,
+      sugar: ingredients.sugarGPerL,
+      acid: ingredients.acidGPerL,
+      source: ingredients.compositionSource,
+      confidence: ingredients.compositionConfidence,
+      density: ingredients.densityGPerMl,
+      createdAt: ingredients.createdAt,
+      updatedAt: ingredients.updatedAt,
+    })
+    .from(ingredients)
+    .where(and(eq(ingredients.seedKey, item.seed_key), isNull(ingredients.deletedAt)))
+    .get()
+  if (!row) return
+  const density = row.density ?? item.density_g_per_ml
+  const empty = row.sugar === null && row.acid === null && row.source === null
+  const fromSeed = row.source !== null && SEED_COMPOSITION_SOURCES.has(row.source)
+  if (empty || (fromSeed && row.updatedAt === row.createdAt)) {
+    tx.update(ingredients)
+      .set({
+        sugarGPerL: item.sugar_g_per_l,
+        acidGPerL: item.acid_g_per_l,
+        compositionSource: item.composition_source,
+        compositionConfidence: item.composition_confidence,
+        densityGPerMl: density,
+      })
+      .where(eq(ingredients.id, row.id))
+      .run()
+    return
+  }
+  const addsSugar = row.sugar === null && item.sugar_g_per_l !== null
+  const addsAcid = row.acid === null && item.acid_g_per_l !== null
+  if (!fromSeed || (!addsSugar && !addsAcid)) return
+  const estimated = row.confidence === 'estimated' || item.composition_confidence === 'estimated'
   tx.update(ingredients)
     .set({
-      updatedAt: now,
-      defaultAbv: item.default_abv,
-      sugarGPerL: item.sugar_g_per_l,
-      acidGPerL: item.acid_g_per_l,
-      compositionSource: item.composition_source,
-      compositionConfidence: item.composition_confidence,
-      densityGPerMl: item.density_g_per_ml,
+      sugarGPerL: row.sugar ?? item.sugar_g_per_l,
+      acidGPerL: row.acid ?? item.acid_g_per_l,
+      compositionConfidence: estimated ? 'estimated' : row.confidence,
+      densityGPerMl: density,
     })
-    .where(
-      and(
-        eq(ingredients.seedKey, item.seed_key),
-        isNull(ingredients.deletedAt),
-        isNull(ingredients.defaultAbv),
-        isNull(ingredients.sugarGPerL),
-        isNull(ingredients.acidGPerL),
-        isNull(ingredients.densityGPerMl),
-      ),
-    )
+    .where(eq(ingredients.id, row.id))
     .run()
 }
 

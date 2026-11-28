@@ -220,7 +220,7 @@ ingredients                    -- ingrédient générique
   default_abv REAL NULL         -- % vol
   sugar_g_per_l REAL NULL
   acid_g_per_l REAL NULL        -- acidité totale exprimée en acides organiques
-  composition_source ('ciqual' | 'computed' | 'label' | 'user') NULL
+  composition_source ('ciqual' | 'computed' | 'label' | 'reference' | 'user') NULL
   composition_confidence ('sourced' | 'estimated') NULL
   flavor_tags TEXT              -- JSON : profil aromatique libre (agrume, herbacé, fumé…)
   description TEXT NULL
@@ -405,7 +405,7 @@ Shakery est livré avec une base de départ générée au moment du build, jamai
 
 Vise de quelques centaines à environ deux mille ingrédients génériques propres. La qualité compte plus que le volume. L'utilisateur relit l'arbre de catégories avant l'import massif.
 
-**Composition sucre et acidité.** C'est la donnée la plus difficile à réunir, et le simulateur en dépend. Les jus et fruits viennent de Ciqual. Les sirops maison sont calculés depuis leur recette (`composition_source = 'computed'`). Les sirops et sodas du commerce peuvent être saisis depuis leur étiquette nutritionnelle (`'label'`). Les boissons de plus de 1,2 % vol. sont dispensées de déclaration nutritionnelle dans l'UE, donc la plupart des liqueurs n'indiquent pas leur teneur en sucre. Elles restent vides par défaut, et l'interface invite l'utilisateur à les compléter avec une valeur marquée `estimated`. Aucune valeur n'est inventée par l'agent.
+**Composition sucre et acidité.** C'est la donnée la plus difficile à réunir, et le simulateur en dépend. Les jus, fruits, laitages et spiritueux secs viennent de Ciqual. Les sirops maison sont calculés depuis leur recette (`composition_source = 'computed'`). Les sirops et sodas du commerce viennent de leur étiquette nutritionnelle (`'label'`). Les boissons de plus de 1,2 % vol. sont dispensées de déclaration nutritionnelle dans l'UE : leur sucre et leur acidité viennent des mesures de laboratoire que les monopoles nordiques publient pour chaque bouteille (`'reference'`, D-061). Une valeur de type, médiane de plusieurs bouteilles, ou tirée d'un aliment voisin est marquée `estimated`. Aucune valeur n'est inventée par l'agent : chacune cite sa source dans `scripts/seed/compositions.json`, et un ingrédient sans source qui permette une valeur vraie reste vide.
 
 **Intégration Open Food Facts.** Le formulaire produit propose « Rechercher par code-barres ». Une douchette USB se comporte comme un clavier, et la saisie manuelle du code fonctionne aussi. Le main interroge l'API, stocke la réponse brute dans `off_cache`, puis l'interface montre les champs trouvés (marque, nom, contenance, degré, allergènes). L'utilisateur choisit ce qu'il reprend. Les produits créés ainsi portent `source = 'off'` et la mention « © contributeurs Open Food Facts, ODbL » s'affiche partout où ces données apparaissent. Sans réseau ou avec le réglage désactivé, le bouton est masqué.
 

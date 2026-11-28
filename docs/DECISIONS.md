@@ -572,6 +572,22 @@ Format de chaque entrée : date, contexte, choix, alternatives écartées, valid
   - Le réglage « Effet de verre » quitte les paramètres : le flou ne concerne que les fenêtres flottantes depuis la refonte et son effet ne se voyait pas. Le mode performance retire toujours le flou. La clé `appearance.blur` reste dans le schéma des réglages pour relire les carnets existants, sans effet.
 - **Validation** : demandes de l'utilisateur du 26 novembre 2026.
 
+### D-061 Sucre et acidité des ingrédients de départ
+
+- **Date** : 2026-11-27
+- **Contexte** : 16 des 777 ingrédients de départ avaient leur sucre et leur acidité, si bien que le sucre, l'acidité et le rapport d'un simple Negroni restaient incomplets. L'utilisateur demande les vraies valeurs pour tous les ingrédients. Cela amende la section 9, où les liqueurs restaient vides par défaut.
+- **Choix** :
+  - Chaque valeur vient d'une source ouverte, citée dans `scripts/seed/compositions.json` telle que la source la donne (g/L, g/100 ml ou g/100 g). Les sources sont la table Ciqual 2020, les mesures de laboratoire publiées par Alko et Vinmonopolet pour chaque bouteille, des étiquettes et fiches de producteurs, et la recette type d'une préparation maison, calculée comme une préparation de Shakery.
+  - Un produit unique mesuré (Lillet blanc, Suze) est « sourcé ». Une valeur de type (Triple sec, Vermouth rouge) est la médiane de plusieurs bouteilles mesurées et reste « estimée », car la bouteille réelle varie. Un aliment voisin, une famille de liqueurs, une recette type ou des « traces » de Ciqual comptées 0 donnent aussi une valeur estimée. La bouteille choisie sur une fiche prime toujours.
+  - Une liqueur, un amer ou un spiritueux dont aucune source ne publie l'acidité compte 0, estimé : sans jus de fruit ni acidifiant, l'acidité n'est pas mesurable, comme la liqueur et l'eau-de-vie de Ciqual. Un produit qui contient un acidifiant non dosé (sirops de fruits, ginger beer, cola, falernum) garde une acidité vide plutôt qu'un chiffre inventé.
+  - Nouvelle source de composition `reference` (« Référence publiée ») pour les mesures publiées hors Ciqual et hors étiquette. La migration `0004` reconstruit la table `ingredients` sans perte, ce que vérifie son test. Une archive exportée par cette version qui contient cette source ne s'importe plus dans une version antérieure.
+  - Conversion : une valeur pour 100 g est multipliée par 10 fois la masse d'un litre du produit, calculée depuis son sucre, son acidité et son degré (`scripts/seed/compositions.ts` : eau et éthanol d'après le CRC Handbook, sucre dissous à 1,59 g/ml comme en D-031). L'écart avec les tables du saccharose reste sous 0,5 %. Les jus Ciqual de D-029, convertis jusqu'ici à 1 kg/L, gagnent ainsi 2 à 5 %.
+  - Contrôle : l'énergie qu'Alko déclare pour chaque bouteille retenue a été comparée à celle de son degré et de son sucre mesuré. 317 bouteilles concordent, trois mesures incohérentes ont été écartées. L'Angostura (81 g/L chez Alko, 100 g/L chez Systembolaget) est ainsi confirmé, et les 8 g/L de Vinmonopolet écartés.
+  - Carnet existant : un ingrédient sans aucune composition reçoit celle du seed ; une composition du seed restée intacte prend la nouvelle ; une composition du seed à moitié vide reçoit la moitié manquante. Une valeur saisie par l'utilisateur n'est jamais remplacée, et la date de la ligne ne bouge pas (`fillComposition` de `load.ts`).
+- **Résultat** : 644 ingrédients sur 777 ont leur sucre et leur acidité, 32 leur sucre seul. 101 restent vides faute de source qui permette une vraie valeur ; 30 d'entre eux ne sont jamais versés au volume dans les recettes livrées, les autres le sont rarement (sauce pimentée, extrait de vanille et sauce Worcestershire en traits, une à sept fiches pour la plupart). La liste est dans `docs/DATA_SOURCES.md`.
+- **Limite connue** : un sucre en poudre dosé à la cuillère est compté comme du sucre dissous (1 586,8 g/L), soit environ deux fois trop. Le corriger demande une masse volumique apparente pour les poudres, donc un changement de modèle.
+- **Validation** : demande de l'utilisateur du 27 novembre 2026 ; source `reference` validée par l'utilisateur le même jour.
+
 ## À valider plus tard
 
 | Sujet                  | Proposition                                                                           | Échéance        |

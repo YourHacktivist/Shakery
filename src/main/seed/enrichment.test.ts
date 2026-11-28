@@ -22,8 +22,9 @@ const classics = all.recipes.filter((recipe) => recipe.seed_key.startsWith('clas
 const today: SeedData = { ...BUNDLED_SEED, recipes: [...BUNDLED_SEED.recipes, ...classics] }
 const before: SeedData = {
   ...BUNDLED_SEED,
+  // The hand-written compositions of D-031 (water, sugars, honey) already carried their degree.
   ingredients: BUNDLED_SEED.ingredients.map((item) =>
-    item.composition_source === null ? { ...item, default_abv: null } : item,
+    item.density_g_per_ml === null ? { ...item, default_abv: null } : item,
   ),
   recipes: [
     ...BUNDLED_SEED.recipes,

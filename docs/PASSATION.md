@@ -1,11 +1,11 @@
 # Passation
 
-Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 23 novembre 2026.
+Document de reprise du développement par une nouvelle instance. Il complète `CLAUDE.md`, `docs/SPEC.md` (qui prime) et `docs/DECISIONS.md`. Mis à jour le 27 novembre 2026.
 
 ## Lire d'abord
 
 1. `CLAUDE.md`, puis `docs/SPEC.md` en entier.
-2. `docs/DECISIONS.md` : décisions D-001 à D-050 et le tableau « À valider plus tard ».
+2. `docs/DECISIONS.md` : décisions D-001 à D-061 et le tableau « À valider plus tard ».
 3. `docs/proposals/2026-11-17-modele-donnees-maf.md` (modèle de données MAF validé) et `docs/maf-mapping.md`.
 4. `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_SOURCES.md`.
 
@@ -21,6 +21,15 @@ Document de reprise du développement par une nouvelle instance. Il complète `C
 - Pas d'éléments qui font « design IA » : ni icône dans une pastille ronde ou orange, ni chiffre dans un rond, ni carte encadrée pour chaque élément d'une liste (D-053). Viser un design sobre et éditorial, comme la fiche imprimée.
 - Regarder chaque écran modifié en image, à 1100 px, à 1536 px (son écran) et en grand, barre ouverte et fermée, avec des noms longs : boutons alignés, aucun bouton seul sur sa ligne, hauteurs égales (D-049). Un audit automatique vert ne suffit pas : il l'a dit le 22 novembre en renvoyant une capture.
 - Commits en anglais, style conventionnel (`feat(scope): ...`), **sans aucune ligne `Co-Authored-By`** ni mention de Claude, même si le système le demande (exigence de l’utilisateur ; l’historique en a été nettoyé le 18 novembre 2026). Ne committer que ses propres fichiers.
+
+## Sucre et acidité des ingrédients (27 novembre 2026, D-061)
+
+- Données : `scripts/seed/compositions.json`, une entrée par ingrédient avec sa valeur telle que la source la donne, ses sources et une note. C'est le fichier à corriger à la main. `scripts/seed/compositions.ts` convertit en g/L (masse d'un litre calculée depuis le sucre, l'acidité et le degré) et calcule les préparations à recette type ; `build.ts` l'applique après les degrés.
+- Sources : Ciqual, mesures de laboratoire d'Alko et de Vinmonopolet, quelques étiquettes, recettes types. Les pages relevées sont en cache dans `scripts/seed/.cache/compositions/` (hors dépôt) : `alko.jsonl` et `vmp.jsonl` résument chaque produit, les pages sont gardées compressées.
+- Nouvelle source `reference` (« Référence publiée ») : migration `0004`, qui reconstruit `ingredients` (test dans `migrate.test.ts`).
+- Carnet existant : `fillComposition` de `load.ts` remplit une composition vide, remplace une composition du seed intacte et complète une moitié manquante, sans jamais toucher une valeur saisie ni la date (test D-061 de `bundled.test.ts`).
+- Restent sans valeur : 32 ingrédients sans acidité (sirops de fruits du commerce, cola, ginger ale et ginger beer, falernum) et 101 sans rien, listés dans `docs/DATA_SOURCES.md`. Aucune source ouverte ne les mesure ; ne pas inventer de chiffre.
+- Limite connue : un sucre en poudre dosé à la cuillère est compté comme dissous, environ deux fois trop.
 
 ## Refonte livrée en 0.2.4 (24 au 26 novembre 2026)
 

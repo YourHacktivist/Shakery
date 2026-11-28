@@ -43,7 +43,7 @@ const bool = (name: string) => integer(name, { mode: 'boolean' }).notNull().defa
 const live = (table: { deletedAt: AnySQLiteColumn }): SQL => sql`${table.deletedAt} IS NULL`
 
 export const BATCH_HINTS = ['ok', 'add_at_service', 'fresh'] as const
-export const COMPOSITION_SOURCES = ['ciqual', 'computed', 'label', 'user'] as const
+export const COMPOSITION_SOURCES = ['ciqual', 'computed', 'label', 'reference', 'user'] as const
 export const COMPOSITION_CONFIDENCES = ['sourced', 'estimated'] as const
 export const INGREDIENT_SOURCES = ['seed', 'wikidata', 'user'] as const
 export const PRODUCT_SOURCES = ['user', 'off'] as const

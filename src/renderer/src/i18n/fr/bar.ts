@@ -135,6 +135,7 @@ export const bar = {
     ciqual: 'Ciqual',
     computed: 'Calculée',
     label: 'Étiquette',
+    reference: 'Référence publiée',
     user: 'Saisie manuelle',
   } satisfies Record<Source, string>,
   confidences: { sourced: 'sourcée', estimated: 'estimée' } satisfies Record<Confidence, string>,
